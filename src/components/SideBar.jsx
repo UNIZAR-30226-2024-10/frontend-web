@@ -1,23 +1,18 @@
-import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
-import React from 'react'
+import React from 'react';
+import '../styles/Sidebar.css';
 
 function SideBar() {
   return (
-    <Sidebar  rootStyles={{
-    [`.${sidebarClasses.container}`]: {
-      backgroundColor: 'red',
-    },
-  }}>
-        <Menu>
-            <SubMenu label="Charts">
-            <MenuItem> Pie charts </MenuItem>
-            <MenuItem> Line charts </MenuItem>
-            </SubMenu>
-            <MenuItem> Documentation </MenuItem>
-            <MenuItem> Calendar </MenuItem>
-        </Menu>
-    </Sidebar>
-  )
+    <div className='Sidebar'>
+      <h2>Menú</h2>
+      <ul>
+        <li><a href="#" className="active">Inicio</a></li>
+        <li><a href="#">Perfil</a></li>
+        <li><a href="#">Configuración</a></li>
+        <li><a href="#">Ayuda</a></li>
+      </ul>
+    </div>
+  );
 }
 
-export default SideBar
+export default SideBar;
