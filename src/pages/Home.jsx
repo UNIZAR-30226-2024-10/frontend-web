@@ -6,8 +6,12 @@ import "../styles/Home.css"
 function Home() {
   return (
     <div className='Home'>
-      <Sidebar />
-      <ResponsiveAppBar/>
+      <div className='side'>
+        <Sidebar />
+      </div>
+      <div className='appbar'>
+        <ResponsiveAppBar/>
+      </div>
     </div>
   )
 }

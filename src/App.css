@@ -1,7 +1,4 @@
 .App{
     height: 100vh;
-}
-
-.css-hip9hq-MuiPaper-root-MuiAppBar-root{
-    height: 10%;
+    width: 100vw;
 }
