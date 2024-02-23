@@ -48,8 +48,9 @@
     border: 0;
     line-height: 2.5;
     padding: 0 20px;
-    font-size: 20px;
+    font-size: 24px;
     color: #fff;
+    width: 5em;
     text-shadow: 1px 1px 1px #000;
     border-radius: 10px;
     background-color: rgb(255, 142, 13);
