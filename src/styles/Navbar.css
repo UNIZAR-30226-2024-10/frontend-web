@@ -1,0 +1,23 @@
+/* Navbar.css */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
+.navbar {
+    background-color: #1F1F1F;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.navbar-title{
+    color: #FFFFFF;
+    font-family: "Oswald", sans-serif;
+    font-size: 36px;
+}
+
+.navbar-user-button {
+    background-color: transparent;
+    border: none;
+    margin-right: 100px;
+    cursor: pointer;
+}
