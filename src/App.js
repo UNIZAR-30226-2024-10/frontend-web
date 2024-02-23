@@ -4,9 +4,9 @@ import Home from "./pages/Home.jsx"
 function App() {
   return (
     <div className="App">
-            <Routes>
-              <Route path="/home" element={<Home />} />
-            </Routes>
+      <Routes>
+        <Route path="/home" element={<Home />} />
+      </Routes>
     </div>
   );
 }
