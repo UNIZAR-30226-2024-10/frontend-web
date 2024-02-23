@@ -1,7 +1,7 @@
 import React from 'react'
-import ResponsiveAppBar from '../components/NavBar'
 import Sidebar from '../components/SideBar'
 import "../styles/Home.css"
+import Navbar from '../components/NavBar'
 
 function Home() {
   return (
@@ -10,7 +10,7 @@ function Home() {
         <Sidebar />
       </div>
       <div className='appbar'>
-        <ResponsiveAppBar/>
+        <Navbar/>
       </div>
     </div>
   )

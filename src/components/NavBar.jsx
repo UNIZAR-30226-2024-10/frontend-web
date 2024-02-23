@@ -1,82 +1,64 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import Container from '@mui/material/Container';
+import React from 'react';
+import '../styles/Navbar.css';
 import Avatar from '@mui/material/Avatar';
-import Tooltip from '@mui/material/Tooltip';
+import { deepOrange } from '@mui/material/colors';
+import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import avatar from '../images/images.jpeg'
 
-const settings = ['Cuenta', 'Cerrar Sesión'];
-
-function ResponsiveAppBar() {
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
+function Navbar () {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+  const UserAvatar = () => { /* Avatar del usuario */
+    return (
+      <Avatar 
+        alt="User" /* Modificar en funcion del nombre del usuario */
+        src={avatar} 
+        sx={{ bgcolor: deepOrange[500], width: 56, height: 56 }}
+      />
+    );
+  }
 
+  const MenuUser = () => { /* Menu desplegable */
+    return (
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open} /* If true, muestra los elementos del menu */
+        onClose={handleClose}
+        MenuListProps={{'aria-labelledby': 'basic-button' }}>
+        {/* Opciones del menú desplegable*/}
+        <MenuItem onClick={handleClose}>Perfil</MenuItem>
+        <MenuItem onClick={handleClose}>Cerrar Sesión</MenuItem>
+      </Menu>
+    );
+  }
+  
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl" >
-        <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            ChessHub {/* Nombre y su tipografía */}
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}> </Box> {/* Mantener este box para que se mantenga el formato que deseamos */}
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Ajustes de la cuenta"> {/* Icono de la cuenta del usuario */}
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="User" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+    <nav className='navbar'>
+      <div className='navbar-title'>
+        ChessHub
+      </div>
+      <div>
+        <button className='navbar-user-button'
+          onClick={handleClick} 
+          aria-controls={open ? 'basic-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+        >
+          <UserAvatar />
+        </button>
+        <MenuUser />
+      </div>
+    </nav>
   );
 }
-export default ResponsiveAppBar;
+
+export default Navbar;
