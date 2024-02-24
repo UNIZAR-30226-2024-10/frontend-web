@@ -1,13 +1,16 @@
 import React from 'react';
 import '../styles/Navbar.css';
+import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import avatar from '../images/images.jpeg'
+import avatar from '../images/images.jpeg';
 
 function Navbar () {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [loggedIn, setLoggedIn] = React.useState(false); // Cambiado a camelCase según las convenciones de JavaScript
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -16,25 +19,24 @@ function Navbar () {
     setAnchorEl(null);
   };
 
-  const UserAvatar = () => { /* Avatar del usuario */
+  const UserAvatar = () => {
     return (
       <Avatar 
-        alt="User" /* Modificar en funcion del nombre del usuario */
+        alt="User"
         src={avatar} 
         sx={{ bgcolor: deepOrange[500], width: 56, height: 56 }}
       />
     );
   }
 
-  const MenuUser = () => { /* Menu desplegable */
+  const MenuUser = () => {
     return (
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
-        open={open} /* If true, muestra los elementos del menu */
+        open={open}
         onClose={handleClose}
         MenuListProps={{'aria-labelledby': 'basic-button' }}>
-        {/* Opciones del menú desplegable*/}
         <MenuItem onClick={handleClose}>Perfil</MenuItem>
         <MenuItem onClick={handleClose}>Cerrar Sesión</MenuItem>
       </Menu>
@@ -47,15 +49,24 @@ function Navbar () {
         ChessHub
       </div>
       <div>
-        <button className='navbar-user-button'
-          onClick={handleClick} 
-          aria-controls={open ? 'basic-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
-        >
-          <UserAvatar />
-        </button>
-        <MenuUser />
+        {loggedIn ? ( // Aquí comprobamos si el usuario está autenticado
+          <>
+            <button className='navbar-user-button'
+              onClick={handleClick} 
+              aria-controls={open ? 'basic-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}
+            >
+              <UserAvatar />
+            </button>
+            <MenuUser />
+          </>
+        ) : (
+          // Si el usuario no está autenticado, mostramos el botón de inicio de sesión
+          <a className='navbar-login-button' onClick={()=>{
+            navigate('/login');
+          }}>Iniciar sesión</a>
+        )}
       </div>
     </nav>
   );

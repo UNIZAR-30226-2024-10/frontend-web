@@ -1,0 +1,40 @@
+.mainContainer {
+    height: 100vh;
+    width: 100vw;
+    background-color: #312D2D;
+}
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Ajusta el ancho según sea necesario */
+    height: 60vh; /* Ajusta la altura según sea necesario */
+}
+.title {
+    /* Fuente y color para el titulo */
+    color: #FFFFFF;
+    font-family: "Oswald", sans-serif;
+    font-size: 36px;
+}
+
+.form-signup{
+    background-color: rgb(255, 142, 13);
+    width: 40vw;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.form-signup input{
+    padding: 10px;
+    border-radius: 1 solid;
+}
+h3{
+    font-size: 30px;
+}
+.registrate{
+    cursor: pointer;
+}
