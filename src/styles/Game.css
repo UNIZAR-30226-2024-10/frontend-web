@@ -1,0 +1,78 @@
+/* Game.css */
+
+/* Centra el tablero y los cuadros informativos de cada jugador */
+.game{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Centra el tablero a la mitad de la pantalla */
+.game-screen{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #312D2D;
+}
+
+/* Cuadro informativo */
+.game-box {
+    margin: 5px;
+    border: 2px solid #fff;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 42vw; /* Ajustar en función del tamaño del tablero final */
+}
+
+/* !!!!!!!! Quitar cuando este listo el tablero !!!!!!!!!!! */
+.tablero{
+    height: 60vh;
+    width: 42vw;
+    border: solid 1px #fff;
+}
+  
+/* Cuadro informativo acerca del jugador */
+.game-box-players{
+    padding: 4px;
+    width: 12vw;
+}
+
+/* Nombre del jugador */
+.game-box-players-name{
+    color: #fff;
+    padding: 4px; 
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* Color de ficha del jugador */
+.game-box-players-token{
+    color: #fff;
+    margin-top: 2px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Cuadro informativo acerca del tiempo */
+.game-box-time{
+    color: #fff;
+    width: 12vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+/* Cuadro informativo acerca de las fichas comidas */
+.game-box-tokenEaten{
+    color: #fff;
+    width: 12vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
