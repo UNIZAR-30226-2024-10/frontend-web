@@ -1,10 +1,24 @@
 .Home{
     display: flex;
     height: 100vh;
+    background-color: orange;
 }
 .appbar{
     width: 100vw;
 }
 .side{
     background-color: #f0f0f0;
+}
+.info{
+    height: 85vh;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.info-recuadros{
+    width: 80vw;
+    height: 80vh;
+    border-radius: 8px;
+    background-color: pink;
 }

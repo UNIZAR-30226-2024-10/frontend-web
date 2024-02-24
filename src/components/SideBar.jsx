@@ -10,7 +10,7 @@ function SideBar() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      navigate('/nueva-pagina'); // Reemplaza '/nueva-pagina' con la URL de la página que quieres cargar
+      navigate('/game'); // Reemplaza '/nueva-pagina' con la URL de la página que quieres cargar
     }, 5000); // 5000 milisegundos = 5 segundos
   };
   return (
