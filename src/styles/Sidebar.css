@@ -96,3 +96,7 @@
         transform: rotate(360deg);
     }
 }
+
+.logo{
+    width: 200px;
+}

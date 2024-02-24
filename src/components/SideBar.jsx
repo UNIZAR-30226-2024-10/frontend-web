@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import logo from '../images/Logo.png'
 import '../styles/Sidebar.css';
 function SideBar() {
   const navigate = useNavigate();
@@ -15,7 +15,8 @@ function SideBar() {
   };
   return (
     <div className='Sidebar'>
-      <h2>Menú</h2>
+      {/* <h2>Menú</h2> */}
+      <div><img className='logo' src={logo}/>  </div>
       <div className='listaSidebar'>
         <div className='botonJugarWrapper'> 
           <button className='botonJugar' onClick={handleClick} disabled={loading}>
