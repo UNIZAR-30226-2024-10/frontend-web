@@ -1,13 +1,12 @@
 /* Game.css */
 @import url('https://fonts.googleapis.com/css2?family=Anta&display=swap');
 
-/* Centra el tablero y los cuadros informativos de cada jugador */
+/* Alineamiento de cada uno de los componentes de la pantalla */
 .game{
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-
 .game-background{
     background-color: #312D2D;
     display: flex;
@@ -15,8 +14,6 @@
     justify-content: space-evenly;
     align-items: center;
 }
-
-/* Centra el tablero a la mitad de la pantalla */
 .game-screen{
     width: 50vw;
     height: 100vh;
@@ -28,7 +25,7 @@
 }
 
 /* Cuadro informativo del modo de juego al que se está jugando */
-.game-info {
+.game-mode-info {
     width: 15vw;
     height: 7vh;
     display: flex;
@@ -37,7 +34,8 @@
     justify-content: center;
     color: #fff;
     font-family: "Anta", sans-serif;
-    font-weight: 400;
+    font-size: 24px;
+    font-weight: 600;
     font-style: normal;
     background-color: rgb(255, 142, 13);
     border: solid 1px #fff;
@@ -52,25 +50,43 @@
     width: 25vw;
     height: 80vh;
 }
-
 .game-chat{
     background-color: whitesmoke;
     height: 60vh;
     width: 20vw;
 }
 
+/* Menu lateral (sidebar) */
 .game-menu{
     width: 25vw;
     height: 100vh;
+    /*background-color: pink;*/
+}
+.game-menu-sidebar{
+    width: 11vw;
+   /* background-color: red;*/
 }
 
-.game-menu-sidebar{
-    background-color: aquamarine;
-    width: 11vw;
+.sliding-div{
+    overflow: hidden;
+    transition: transform 0.7s ease;
+    transform: translateX(-100%);
+}
+
+.sliding-div.visible{
+    transform: translateX(0);
     height: 100vh;
 }
+
+/* Botón que abre el menu lateral */
+.game-button-menu{
+    cursor: pointer;
+    padding: 4px;
+    border: none;
+    background-color: transparent;
+}
 /* Cuadro informativo */
-.game-box {
+.game-info {
     margin: 5px;
     border: 2px solid #fff;
     display: flex;
@@ -88,13 +104,13 @@
 }
   
 /* Cuadro informativo acerca del jugador */
-.game-box-players{
+.game-info-players{
     padding: 4px;
     width: 12vw;
 }
 
 /* Nombre del jugador */
-.game-box-players-name{
+.game-info-players-name{
     color: #fff;
     padding: 4px; 
     display: flex;
@@ -103,7 +119,7 @@
 }
 
 /* Color de ficha del jugador */
-.game-box-players-token{
+.game-info-players-token{
     color: #fff;
     margin-top: 2px;
     display: flex;
@@ -111,7 +127,7 @@
 }
 
 /* Cuadro informativo acerca del tiempo */
-.game-box-time{
+.game-info-time{
     color: #fff;
     width: 12vw;
     display: flex;
@@ -121,7 +137,7 @@
 }
 
 /* Cuadro informativo acerca de las fichas comidas */
-.game-box-tokenEaten{
+.game-info-tokenEaten{
     color: #fff;
     width: 12vw;
     display: flex;

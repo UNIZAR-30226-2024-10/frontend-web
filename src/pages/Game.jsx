@@ -1,24 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import '../styles/Game.css'
 import SideBar from "../components/SideBar";
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
+
 function Game () {
+  const [IsMenuVisible, SetIsMenuVisible] = useState(false);
+
+  const ToggleMenuVisibility = () => {
+    SetIsMenuVisible(!IsMenuVisible);
+  };
 
   const InfoPlayers = ({ nombreJugador, eloJugador, colorFicha, tiempoRestante, fichasComidas}) => {
     return (
       <div>
-        <div className="game-box">
-          <div className="game-box-players">
-            <div className="game-box-players-name"> {/* Nombre del jugador y su elo */}
+        <div className="game-info">
+          <div className="game-info-players">
+            <div className="game-info-players-name"> {/* Nombre del jugador y su elo */}
               {nombreJugador} ({eloJugador})
             </div>
-            <div className="game-box-players-token"> {/* Color de la ficha del jugador */}
+            <div className="game-info-players-token"> {/* Color de la ficha del jugador */}
               {colorFicha}
             </div>
           </div>
-          <div className="game-box-time"> {/* Tiempo restante del jugador */}
+          <div className="game-info-time"> {/* Tiempo restante del jugador */}
             {tiempoRestante}
           </div>
-          <div className="game-box-tokenEaten"> {/* Cantidad de fichas comidas por el jugador */}
+          <div className="game-info-tokenEaten"> {/* Cantidad de fichas comidas por el jugador */}
             Fichas comidas: 
             {fichasComidas}
           </div> 
@@ -29,7 +37,7 @@ function Game () {
 
   const InfoGameMode = ({ GameMode }) => {
     return (
-      <div className="game-info">
+      <div className="game-mode-info">
         {GameMode} {/* Modo de juego */}
       </div>
     );
@@ -37,9 +45,19 @@ function Game () {
 
   return (
     <div className="game-background">
-      <div className="game-menu"> {/* Temporal */}
-        <div className="game-menu-sidebar">
-          <SideBar />
+      <div className="game-menu">
+        {!IsMenuVisible && <button onClick={ToggleMenuVisibility} className="game-button-menu">
+          <MenuIcon sx={{
+            color:'#fff', 
+            backgroundColor: '#312D2D', 
+            height: 52, 
+            width: 52,
+            transform: 'translate(30px,50px)'}}/>
+        </button>}
+        <div className="game-menu-sidebar"> 
+          <div className={`sliding-div ${IsMenuVisible ? 'visible' : ''}`}>
+            <SideBar />
+          </div>
         </div>
       </div>
       <div className="game-screen">
