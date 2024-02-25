@@ -5,7 +5,7 @@ import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import avatar from '../images/images.jpeg';
+import avatar from '../images/user_avatar.jpeg';
 
 function Navbar () {
   const navigate = useNavigate();

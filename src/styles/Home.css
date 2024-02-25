@@ -1,7 +1,8 @@
 .Home{
     display: flex;
     height: 100vh;
-    background-color: orange;
+   /* background-color: #ff8e0d;*/
+    background: url('../images/home_background.jpeg') no-repeat center/cover; 
 }
 .appbar{
     width: 100vw;
@@ -20,5 +21,4 @@
     width: 80vw;
     height: 80vh;
     border-radius: 8px;
-    background-color: pink;
 }
