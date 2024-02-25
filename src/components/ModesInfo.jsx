@@ -18,11 +18,10 @@ function ModesInfo() {
 	en el ajedrez rápido el reloj es un factor determinante. \El tiempo máximo que se suele utilizar en el ajedrez \
 	rápido es de 15 minutos por jugador,";
 	const QuienesSomos = "KSJ Games es una empresa creada por jóvenes estudiantes de ingeniería informática con una pasión \
-	compartida por los videojuegos y la innovación tecnológica. Aunque somos relativamente nuevos en el sector, estamos \
-	decididos a dejar nuestra marca en la industria del entretenimiento con ideas frescas y creativas."
+	compartida por los videojuegos y la innovación tecnológica."
 
 	const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  	const [loading, setLoading] = useState(false);
 
   const handleClick = () => {
     setLoading(true);
