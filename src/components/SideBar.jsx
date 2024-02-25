@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../images/Logo.png'
 import '../styles/Sidebar.css';
-function SideBar() {
+
+function SideBar({ ingame }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -19,9 +20,9 @@ function SideBar() {
       <div><img className='logo' src={logo}/>  </div>
       <div className='listaSidebar'>
         <div className='botonJugarWrapper'> 
-          <button className='botonJugar' onClick={handleClick} disabled={loading}>
+          {!ingame && <button className='botonJugar' onClick={handleClick} disabled={loading}>
             Jugar
-          </button>
+          </button>}
            {loading && <div className="overlay">
             <div className="spinner"></div>
             <h1>Buscando partida</h1>

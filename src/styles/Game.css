@@ -11,11 +11,11 @@
     background-color: #312D2D;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
 }
 .game-screen{
-    width: 50vw;
+    width: 45vw;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -45,37 +45,42 @@
 /* Chat del juego */
 .game-chat-box{
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: left;
     justify-content: center;
     width: 25vw;
-    height: 80vh;
+    height: 100vh;
+    background-color: pink;
 }
 .game-chat{
     background-color: whitesmoke;
     height: 60vh;
     width: 20vw;
 }
+.game-options{
+    background-color: red;
+    height: 10vh;
+    width: 20vw;
+}
 
 /* Menu lateral (sidebar) */
 .game-menu{
-    width: 25vw;
+    background-color: pink;
     height: 100vh;
-    /*background-color: pink;*/
-}
-.game-menu-sidebar{
-    width: 11vw;
-   /* background-color: red;*/
 }
 
 .sliding-div{
     overflow: hidden;
     transition: transform 0.7s ease;
     transform: translateX(-100%);
+    background-color: red;
+    height: 93vh;
 }
 
 .sliding-div.visible{
     transform: translateX(0);
     height: 100vh;
+    background-color: red;
 }
 
 /* Botón que abre el menu lateral */
@@ -84,7 +89,19 @@
     padding: 4px;
     border: none;
     background-color: transparent;
+    transform: translate(30px,30px);
 }
+
+.game-button-close-menu{
+    position: absolute;
+    z-index: 2;
+    cursor: pointer;
+    padding: 4px;
+    border: none;
+    background-color: transparent;
+    transform: translate(145px);
+}
+
 /* Cuadro informativo */
 .game-info {
     margin: 5px;

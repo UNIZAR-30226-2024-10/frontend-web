@@ -6,6 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 function Game () {
   const [IsMenuVisible, SetIsMenuVisible] = useState(false);
+  const playingGame = true;
 
   const ToggleMenuVisibility = () => {
     SetIsMenuVisible(!IsMenuVisible);
@@ -46,17 +47,25 @@ function Game () {
   return (
     <div className="game-background">
       <div className="game-menu">
-        {!IsMenuVisible && <button onClick={ToggleMenuVisibility} className="game-button-menu">
+        {!IsMenuVisible && <button className="game-button-menu" onClick={ToggleMenuVisibility}>
           <MenuIcon sx={{
             color:'#fff', 
-            backgroundColor: '#312D2D', 
+            backgroundColor: '#312D2D',
             height: 52, 
             width: 52,
-            transform: 'translate(30px,50px)'}}/>
+          }}/>
+        </button>}
+        {IsMenuVisible && <button className="game-button-close-menu" onClick={ToggleMenuVisibility}>
+          <CloseIcon sx={{
+            color:'#fff', 
+            backgroundColor: 'transparent',
+            height: 52, 
+            width: 52,
+          }}/>
         </button>}
         <div className="game-menu-sidebar"> 
           <div className={`sliding-div ${IsMenuVisible ? 'visible' : ''}`}>
-            <SideBar />
+            <SideBar ingame={playingGame}/>
           </div>
         </div>
       </div>
@@ -92,6 +101,9 @@ function Game () {
       <div className="game-chat-box">
         <div className="game-chat">
           CHAT
+        </div>
+        <div className="game-options">
+          AJUSTES DE LA PARTIDA O ALGO
         </div>
       </div>
     </div>
