@@ -45,7 +45,7 @@ function ModesInfo() {
 							{BulletText}
 						</div>
 						<div className='botonJugarWrapper'> 
-							<button className='botonJugar' onClick={handleClick} disabled={loading}>
+							<button className='playgames' onClick={handleClick} disabled={loading}>
 								Jugar Bullet
 							</button>
 							{loading && <div className="overlay">
@@ -64,7 +64,7 @@ function ModesInfo() {
 							{BlitzText}
 						</div>
 						<div className='botonJugarWrapper'> 
-							<button className='botonJugar' onClick={handleClick} disabled={loading}>
+							<button className='playgames' onClick={handleClick} disabled={loading}>
 								Jugar Blitz
 							</button>
 							{loading && <div className="overlay">
@@ -83,7 +83,7 @@ function ModesInfo() {
 							{RapidText}
 						</div>
 						<div className='botonJugarWrapper'> 
-							<button className='botonJugar' onClick={handleClick} disabled={loading}>
+							<button className='playgames' onClick={handleClick} disabled={loading}>
 								Jugar Rapid
 							</button>
 							{loading && <div className="overlay">
