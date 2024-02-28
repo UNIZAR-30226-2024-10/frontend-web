@@ -1,19 +1,20 @@
 /* Game.css */
 @import url('https://fonts.googleapis.com/css2?family=Anta&display=swap');
 
-/* Alineamiento de cada uno de los componentes de la pantalla */
+/* Pertenece al div que representa el juego (tablero + marcadores) */
 .game{
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 .game-background{
-    background-color: #312D2D;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    background-color: #312D2D;
 }
+/* Perteece al div que representa el juego */
 .game-screen{
     width: 45vw;
     height: 100vh;
@@ -50,13 +51,14 @@
     justify-content: center;
     width: 25vw;
     height: 100vh;
-    background-color: pink;
 }
 .game-chat{
     background-color: whitesmoke;
     height: 60vh;
     width: 20vw;
 }
+
+/* Opciones del juego */
 .game-options{
     background-color: red;
     height: 10vh;
@@ -65,26 +67,22 @@
 
 /* Menu lateral (sidebar) */
 .game-menu{
-    background-color: pink;
     height: 100vh;
 }
-
 .sliding-div{
     overflow: hidden;
     transition: transform 0.7s ease;
     transform: translateX(-100%);
-    background-color: red;
-    height: 93vh;
+    height: 100vh;
 }
-
 .sliding-div.visible{
     transform: translateX(0);
     height: 100vh;
-    background-color: red;
 }
 
 /* Botón que abre el menu lateral */
 .game-button-menu{
+    position: absolute;
     cursor: pointer;
     padding: 4px;
     border: none;
@@ -92,6 +90,7 @@
     transform: translate(30px,30px);
 }
 
+/* Botón que cierra el menu lateral */
 .game-button-close-menu{
     position: absolute;
     z-index: 2;
@@ -99,18 +98,7 @@
     padding: 4px;
     border: none;
     background-color: transparent;
-    transform: translate(145px);
-}
-
-/* Cuadro informativo */
-.game-info {
-    margin: 5px;
-    border: 2px solid #fff;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 42vw; /* Ajustar en función del tamaño del tablero final */
-    background-color: #7ca15a;
+    transform: translate(150px);
 }
 
 /* !!!!!!!! Quitar cuando este listo el tablero !!!!!!!!!!! */
@@ -120,7 +108,16 @@
     border: solid 1px #fff;
 }
   
-/* Cuadro informativo acerca del jugador */
+/* Cuadro informativo (marcador) */
+.game-info {
+    margin: 5px;
+    border: 2px solid #fff;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 42vw; /* Ajustar en función del tamaño del tablero final */
+    background-color: #7ca15a;
+}
 .game-info-players{
     padding: 4px;
     width: 12vw;

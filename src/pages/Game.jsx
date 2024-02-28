@@ -55,16 +55,16 @@ function Game () {
             width: 52,
           }}/>
         </button>}
-        {IsMenuVisible && <button className="game-button-close-menu" onClick={ToggleMenuVisibility}>
-          <CloseIcon sx={{
-            color:'#fff', 
-            backgroundColor: 'transparent',
-            height: 52, 
-            width: 52,
-          }}/>
-        </button>}
         <div className="game-menu-sidebar"> 
           <div className={`sliding-div ${IsMenuVisible ? 'visible' : ''}`}>
+            {IsMenuVisible && <button className="game-button-close-menu" onClick={ToggleMenuVisibility}>
+            <CloseIcon sx={{
+              color:'#fff', 
+              backgroundColor: 'transparent',
+              height: 48, 
+              width: 48,
+            }}/>
+            </button>}
             <SideBar ingame={playingGame}/>
           </div>
         </div>
