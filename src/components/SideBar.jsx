@@ -2,11 +2,16 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../images/Logo.png'
 import '../styles/Sidebar.css';
+import CloseIcon from '@mui/icons-material/Close';
 
 function SideBar({ ingame }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [gamesPopUp, setGamesPopUp] = useState(false);
+
+  const h1Style = {
+    color: 'white',
+  };
 
   const handleClick = () => {
     setGamesPopUp(!gamesPopUp);
@@ -24,7 +29,7 @@ function SideBar({ ingame }) {
     return (
       <div className='popUp-content-info'>
         <div className='popUp-content-info-title'>
-          MODO LOCAL
+          JUGAR EN MODO LOCAL
         </div>
         <div className='popUp-content-info-modes'>
           <button className='popUp-modes' onClick={handleClickJugar}>RAPID</button>
@@ -45,7 +50,7 @@ function SideBar({ ingame }) {
     return (
       <div className='popUp-content-info'>
         <div className='popUp-content-info-title'>
-          MODO ONLINE
+          JUGAR EN MODO ONLINE
         </div>
         <div className='popUp-content-info-modes'>
           <button className='popUp-modes' onClick={handleClickJugar}>RAPID</button>
@@ -66,6 +71,14 @@ function SideBar({ ingame }) {
     return (
       <div className='popUp'>
         <div className='popUp-content'>
+          <button className='close-button' onClick={handleClick}>
+            <CloseIcon sx={{
+              color:'#fff', 
+              backgroundColor: 'transparent',
+              height: 48, 
+              width: 48,
+            }}/>
+          </button>
           <LocalMode />
           {/*<OnlineMode />*/}
         </div>
@@ -77,7 +90,7 @@ function SideBar({ ingame }) {
     return (
       <div className="overlay">
         <div className="spinner"></div>
-        <h1>Buscando partida</h1>
+        <h1 style={h1Style}>Buscando partida</h1>
       </div>
     );
   }
@@ -94,6 +107,7 @@ function SideBar({ ingame }) {
           {loading && <LoadingScreen />}
           {gamesPopUp && <PopUpMenu />}
         </div>
+        {ingame && <div><a href="/home">Menú principal</a></div>}
         <div><a href="#">Pase de Batalla</a></div>
         <div><a href="#">Ranking</a></div>
         <div><a href="#">Historial</a></div>

@@ -2,7 +2,7 @@ import React from 'react'
 import Sidebar from '../components/SideBar'
 import "../styles/Home.css"
 import Navbar from '../components/NavBar'
-import GameModesHome from '../components/GameModesHome'
+import InfoHome from '../components/InfoHome'
 
 function Home() {
   return (
@@ -14,7 +14,7 @@ function Home() {
         <Navbar/>
         <div className='info'>
           <div className='info-recuadros'>
-            <GameModesHome />
+            <InfoHome />
           </div>
         </div>
       </div>

@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import '../styles/GameModesHome.css';
+import React from "react";
+import '../styles/InfoHome.css';
 import '../styles/Sidebar.css';
-import { useNavigate } from 'react-router-dom';
 
-function GameModesHome() {
+function InfoHome() {
 
 	const BulletInfo = "Bullet";
 	const BlitzInfo = "Blitz";
@@ -34,13 +33,6 @@ function GameModesHome() {
               {BulletText}
             </div>
             <div className='botonJugarWrapper'> 
-              {/*<button className='playgames' onClick={handleClick} disabled={loading}>
-                Jugar Bullet
-              </button>
-              {loading && <div className="overlay">
-                <div className="spinner"></div>
-                <h1>Buscando partida</h1>
-              </div>*/}
             </div>
           </div>
         </div>
@@ -53,13 +45,6 @@ function GameModesHome() {
               {BlitzText}
             </div>
             <div className='botonJugarWrapper'> 
-              {/*<button className='playgames' onClick={handleClick} disabled={loading}>
-                Jugar Blitz
-              </button>
-              {loading && <div className="overlay">
-                <div className="spinner"></div>
-                <h1>Buscando partida</h1>
-              </div>*/}
             </div>
           </div>
         </div>
@@ -72,13 +57,6 @@ function GameModesHome() {
               {RapidText}
             </div>
             <div className='botonJugarWrapper'> 
-              {/*<button className='playgames' onClick={handleClick} disabled={loading}>
-                Jugar Rapid
-              </button>
-              {loading && <div className="overlay">
-                <div className="spinner"></div>
-                <h1>Buscando partida</h1>
-              </div>*/}
             </div>
           </div>
         </div>
@@ -95,4 +73,4 @@ function GameModesHome() {
 	);
 }
 
-export default GameModesHome; 
+export default InfoHome; 
