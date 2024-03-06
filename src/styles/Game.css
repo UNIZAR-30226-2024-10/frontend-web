@@ -25,6 +25,20 @@
     flex-wrap: wrap;
 }
 
+/* Cuadro que muestra el jugador que se ha rendido */
+.game-popup{
+  background-color: green;
+  color: white;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 20vw;
+  height: 15vh;
+}
+
+
 /* Cuadro informativo del modo de juego al que se está jugando */
 .game-mode-info {
     width: 15vw;
@@ -67,6 +81,8 @@
   border: none;
   background-color: transparent;
   cursor: pointer;
+  color: #FFFFFF;
+  font-size: 20px;
 }
 
 /* Menu lateral (sidebar) */

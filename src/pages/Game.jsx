@@ -6,14 +6,28 @@ import CloseIcon from '@mui/icons-material/Close';
 import FlagIcon from '@mui/icons-material/Flag';
 import SettingsIcon from '@mui/icons-material/Settings';
 import Tooltip from '@mui/material/Tooltip';
+import PauseIcon from '@mui/icons-material/Pause';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 function Game () {
   const [IsMenuVisible, SetIsMenuVisible] = useState(false);
+  const [surrender, setSurrender] = useState(false);
+  const [showingSettings, setShowingSettings] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const playingGame = true;
 
+  const handleSurrender = () => {
+    setSurrender(true);
+  }
+  const handleSettings = () => {
+    setShowingSettings(!showingSettings);
+  }
   const ToggleMenuVisibility = () => {
     SetIsMenuVisible(!IsMenuVisible);
   };
+  const handlePause = () => {
+    setIsPlaying(!isPlaying);
+  }
 
   const InfoPlayers = ({ nombreJugador, eloJugador, colorFicha, tiempoRestante, fichasComidas}) => {
     return (
@@ -73,6 +87,20 @@ function Game () {
         </div>
       </div>
       <div className="game-screen">
+        {showingSettings && !surrender &&
+          <div className="game-popup"> 
+            <h1>Menú de ajustes de la partida</h1>
+          </div>}
+        {!isPlaying && !surrender && 
+          <div className="game-popup">
+            <h1>Se ha pausado la partida</h1>
+            <button className="game-options-button" onClick={handlePause}>Reanudar Partida</button>
+          </div>}
+        {surrender &&
+          <div className="game-popup">
+            <h1>¡Te has rendido!</h1>
+            <h3>El jugador 2 gana</h3>
+          </div>}
         <div>
           <InfoGameMode  GameMode="Rapid" /> {/* Cambiar en funcion del modo de juego  */}
         </div>
@@ -106,7 +134,7 @@ function Game () {
           CHAT
         </div>
         <div className="game-options">
-          <button className="game-options-button">
+          <button className="game-options-button" onClick={handleSurrender}>
             <Tooltip title="Rendirse">
               <FlagIcon sx={{
                 color: 'white',
@@ -115,7 +143,24 @@ function Game () {
               }}/>
             </Tooltip>
           </button>
-          <button className="game-options-button">
+          <button className="game-options-button" onClick={handlePause}>
+            {isPlaying ? 
+              (<Tooltip title="Pausar partida">
+                <PauseIcon sx={{
+                  color: 'white',
+                  width: 42,
+                  height: 42
+                }}/>
+              </Tooltip>) : 
+              (<Tooltip title="Reanudar partida">
+                <PlayArrowIcon sx={{
+                  color: 'white',
+                  width: 42,
+                  height: 42
+                }}/>
+              </Tooltip>)}
+          </button>
+          <button className="game-options-button" onClick={handleSettings}>
             <Tooltip title="Ajustes">
               <SettingsIcon sx={{
                 color: 'white',

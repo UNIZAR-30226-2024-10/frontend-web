@@ -52,7 +52,8 @@ function Login() {
               label="Nombre de usuario" 
               variant="outlined" 
               value={username}
-              color='warning' /* Cambia el color */
+              color="warning" /* Color del borde */
+              sx={{input: {color: 'white'}}} /* Color del texto */
               onChange={(e) => setUsername(e.target.value)}
             />
           </Box>
@@ -70,15 +71,19 @@ function Login() {
               type="password"
               variant="outlined" 
               value={password}
-              color='warning' /* cambia el color */
+              color="warning" /* Color del borde */
+              sx={{input: {color: 'white'}}} /* Color del texto */
               onChange={(e) => setPassword(e.target.value)}
             />
           </Box>
           <Button 
             variant="contained" 
             onClick={handleLogin} 
-            sx={{ padding: '10px 40px' ,fontSize: '16px'}} 
-            color='warning'
+            sx={{ padding: '10px 40px' ,
+            fontSize: '16px', 
+            bgcolor: '#F77F00',
+            '&:hover': {background: "#F77F00"}
+            }}
           >
             Iniciar sesión
           </Button>

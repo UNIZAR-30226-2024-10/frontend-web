@@ -1,24 +1,27 @@
-.Home{
-    display: flex;
-    height: 100vh;
-   /* background-color: #ff8e0d;*/
-    background: url('../images/background.jpg') no-repeat center/cover; 
+.Home {
+  display: flex;
+  height: 100vh;
+  background: url('../images/background.jpg') no-repeat center/cover;
 }
-.appbar{
-    width: 100vw;
+
+.appbar {
+  width: 100vw;
 }
-.side{
-    background-color: #f0f0f0;
+
+.side {
+  background-color: #f0f0f0;
 }
-.info{
-    height: 85vh;
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+.info {
+  height: 85vh;
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.info-recuadros{
-    width: 80vw;
-    height: 70vh;
-    border-radius: 8px;
+
+.info-recuadros {
+  width: 80vw;
+  height: 70vh;
+  border-radius: 8px;
 }

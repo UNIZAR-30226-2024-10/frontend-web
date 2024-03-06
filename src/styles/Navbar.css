@@ -33,3 +33,23 @@
     cursor: pointer;
     font-size: 20px;
 }
+
+.profile{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  z-index: 999;
+  width: 100vw;
+  height: 100vh;
+  background-color: #00000083;
+}
+.profile-settings {
+  background-color: blue;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 35vw;
+}
