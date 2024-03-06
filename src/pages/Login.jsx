@@ -52,6 +52,7 @@ function Login() {
               label="Nombre de usuario" 
               variant="outlined" 
               value={username}
+              color='warning' /* Cambia el color */
               onChange={(e) => setUsername(e.target.value)}
             />
           </Box>
@@ -69,6 +70,7 @@ function Login() {
               type="password"
               variant="outlined" 
               value={password}
+              color='warning' /* cambia el color */
               onChange={(e) => setPassword(e.target.value)}
             />
           </Box>
@@ -76,7 +78,7 @@ function Login() {
             variant="contained" 
             onClick={handleLogin} 
             sx={{ padding: '10px 40px' ,fontSize: '16px'}} 
-            color='primary'
+            color='warning'
           >
             Iniciar sesión
           </Button>

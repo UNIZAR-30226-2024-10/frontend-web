@@ -20,13 +20,15 @@
 }
 
 .form-login{
-    background-color: rgb(255, 142, 13);
+    /*background-color: #ff8e0d;*/
+    background-color: #506C64;
     width: 40vw;
     height: 600px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
+    color: #FFFFFF;
 }
 
 .form-login input{

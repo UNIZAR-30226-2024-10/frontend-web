@@ -52,6 +52,7 @@ function SignUp() {
               label="Nombre de usuario" 
               variant="outlined" 
               value={username}
+              color='warning' /* Cambia el color */
               onChange={(e) => setUsername(e.target.value)}
             />
           </Box>
@@ -69,6 +70,7 @@ function SignUp() {
               type="password"
               variant="outlined" 
               value={password}
+              color='warning' /* Cambia el color */
               onChange={(e) => setPassword(e.target.value)}
             />
           </Box>
@@ -86,6 +88,7 @@ function SignUp() {
               type="password"
               variant="outlined" 
               value={segundaPassword}
+              color='warning' /* Cambia el color */
               onChange={(e) => setSegundaPassword(e.target.value)}
             />
           </Box>
@@ -93,7 +96,7 @@ function SignUp() {
             variant="contained" 
             onClick={handleSignUp} 
             sx={{ padding: '10px 40px' ,fontSize: '16px'}} 
-            color='primary'
+            color='warning'
           >
             Registrarse
           </Button>

@@ -3,6 +3,9 @@ import '../styles/Game.css'
 import SideBar from "../components/SideBar";
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import FlagIcon from '@mui/icons-material/Flag';
+import SettingsIcon from '@mui/icons-material/Settings';
+import Tooltip from '@mui/material/Tooltip';
 
 function Game () {
   const [IsMenuVisible, SetIsMenuVisible] = useState(false);
@@ -103,7 +106,24 @@ function Game () {
           CHAT
         </div>
         <div className="game-options">
-          AJUSTES DE LA PARTIDA O ALGO
+          <button className="game-options-button">
+            <Tooltip title="Rendirse">
+              <FlagIcon sx={{
+                color: 'white',
+                height: 42,
+                width: 42
+              }}/>
+            </Tooltip>
+          </button>
+          <button className="game-options-button">
+            <Tooltip title="Ajustes">
+              <SettingsIcon sx={{
+                color: 'white',
+                height: 42,
+                width: 42
+              }}/>
+            </Tooltip>
+          </button>
         </div>
       </div>
     </div>

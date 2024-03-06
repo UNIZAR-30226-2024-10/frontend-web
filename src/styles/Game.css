@@ -60,9 +60,13 @@
 
 /* Opciones del juego */
 .game-options{
-    background-color: red;
     height: 10vh;
     width: 20vw;
+}
+.game-options-button{
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
 }
 
 /* Menu lateral (sidebar) */
