@@ -9,6 +9,9 @@ function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const handleClick = () => {
+    navigate('/home');
+  }
 
   const handleLogin = async () => {
     navigate('/home');
@@ -36,9 +39,12 @@ function Login() {
   return (
     <div className='mainContainer'>
       <div className='wrapper'>
-        <h1 className='title'>ChessHub</h1>
+          {/*<h1 className='title'>ChessHub</h1>*/}
+        <div>
+          <button className='title' onClick={handleClick}>ChessHub</button>
+        </div>
         <div className="form-login">
-          <h3>Login</h3>
+          <h3>Inicio de Sesión</h3>
           <Box
             component="form"
             sx={{

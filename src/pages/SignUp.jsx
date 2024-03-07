@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import '../styles/SignUp.css';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +11,13 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [segundaPassword, setSegundaPassword] = useState('');
   const navigate = useNavigate();
+
+  const borderColorStyle = {
+    borderColor: 'red',
+  };
+  const labelColorStyle = {
+    color: 'white',
+  };
 
   const handleSignUp = async () => {
     try {
@@ -38,7 +46,7 @@ function SignUp() {
       <div className='wrapper'>
         <h1 className='title'>ChessHub</h1>
         <div className="form-signup">
-          <h3>SignUp</h3>
+          <h3>Crear Cuenta</h3>
           <Box
             component="form"
             sx={{
@@ -52,7 +60,6 @@ function SignUp() {
               label="Nombre de usuario" 
               variant="outlined" 
               value={username}
-              color="warning" /* Color del borde */
               sx={{input: {color: 'white'}}} /* Color del texto */
               onChange={(e) => setUsername(e.target.value)}
             />
@@ -84,15 +91,25 @@ function SignUp() {
             noValidate
             autoComplete="off"
           >
-            <TextField 
+            {/*<TextField 
               id="password" 
               label="Introduzca la contraseña de nuevo" 
               type="password"
               variant="outlined" 
               value={segundaPassword}
-              color="warning" /* Color del borde */
-              sx={{input: {color: 'white'}}} /* Color del texto */
+              color="warning" /* Color del borde 
+              sx={{input: {color: 'white'}}} /* Color del texto 
               onChange={(e) => setSegundaPassword(e.target.value)}
+            />*/}
+            <TextField
+              label="Your Label"
+              variant="outlined"
+              InputLabelProps={{
+                style: labelColorStyle,
+              }}
+              InputProps={{
+                style: borderColorStyle,
+              }}
             />
           </Box>
           <Button 

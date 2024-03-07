@@ -9,24 +9,28 @@ import avatar from '../images/user_avatar.jpeg';
 
 function Navbar () {
   const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [loggedIn, setLoggedIn] = React.useState(true); // Cambiado a camelCase según las convenciones de JavaScript
-  const [profileVisibility, setProfileVisibility] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null); // Hook para el menú desplegable
+  const [loggedIn, setLoggedIn] = React.useState(true); // Hook para diferenciar si un usuario esta identificado o no
+  const [profileVisibility, setProfileVisibility] = React.useState(false); // Hook para el menú de opciones
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
+    /* Cierra la sesión del usuario */
+    setLoggedIn(false);
     setAnchorEl(null);
   };
 
   const handleProfile = () => {
+    /* Abre el menú de opciones para el usuario */
     setProfileVisibility(true);
     setAnchorEl(null);
   };
 
   const UserAvatar = () => {
     return (
+      /* Avatar del usuario */
       <Avatar 
         alt="User"
         src={avatar} 
@@ -37,13 +41,14 @@ function Navbar () {
 
   const MenuUser = () => {
     return (
+      /* Menú desplegable al hacer click sobre la imagen del perfil*/
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
         MenuListProps={{'aria-labelledby': 'basic-button' }}>
-        <MenuItem onClick={handleProfile}>Perfil</MenuItem>
+        <MenuItem onClick={handleProfile}>Perfil</MenuItem> {/* Opciones del menu desplegable */}
         <MenuItem onClick={handleClose}>Cerrar Sesión</MenuItem>
       </Menu>
     );
@@ -51,10 +56,11 @@ function Navbar () {
 
   const ProfilePopup = () => {
     return(
+      /* Devuelve un menú de opciones para el usuario */
       <div className='profile'>
         <div className='profile-settings'>
           <h1>Perfil de usuario</h1>
-          <hr style={{width: '90%', }}/>
+          <hr style={{width: '90%'}}/>
           <div>
             Mostrar diferentes ajustes para el usuario ...
           </div>

@@ -15,6 +15,7 @@ function Game () {
   const [showingSettings, setShowingSettings] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
   const playingGame = true;
+  const gameMode = "Rapid";
 
   const handleSurrender = () => {
     setSurrender(true);
@@ -31,6 +32,7 @@ function Game () {
 
   const InfoPlayers = ({ nombreJugador, eloJugador, colorFicha, tiempoRestante, fichasComidas}) => {
     return (
+      /* Devuelve un cuadro informativo para cada uno de los jugadores */
       <div>
         <div className="game-info">
           <div className="game-info-players">
@@ -55,6 +57,7 @@ function Game () {
 
   const InfoGameMode = ({ GameMode }) => {
     return (
+      /* Devuelve el modo de juego al que se esta jugando */
       <div className="game-mode-info">
         {GameMode} {/* Modo de juego */}
       </div>
@@ -64,6 +67,7 @@ function Game () {
   return (
     <div className="game-background">
       <div className="game-menu">
+        {/* Botón para desplegar el sidebar */}
         {!IsMenuVisible && <button className="game-button-menu" onClick={ToggleMenuVisibility}>
           <MenuIcon sx={{
             color:'#fff', 
@@ -72,6 +76,7 @@ function Game () {
             width: 52,
           }}/>
         </button>}
+        {/* Div que contiene el sidebar */}
         <div className="game-menu-sidebar"> 
           <div className={`sliding-div ${IsMenuVisible ? 'visible' : ''}`}>
             {IsMenuVisible && <button className="game-button-close-menu" onClick={ToggleMenuVisibility}>
@@ -87,22 +92,23 @@ function Game () {
         </div>
       </div>
       <div className="game-screen">
-        {showingSettings && !surrender &&
-          <div className="game-popup"> 
-            <h1>Menú de ajustes de la partida</h1>
-          </div>}
+        {/* Diferentes popUps con mensajes */}
         {!isPlaying && !surrender && 
           <div className="game-popup">
             <h1>Se ha pausado la partida</h1>
-            <button className="game-options-button" onClick={handlePause}>Reanudar Partida</button>
+            <button className="game-popup-button" onClick={handlePause}>Reanudar Partida</button>
+          </div>}
+        {showingSettings && !surrender &&
+          <div className="game-popup"> 
+            <h1>Menú de ajustes de la partida</h1>
           </div>}
         {surrender &&
           <div className="game-popup">
             <h1>¡Te has rendido!</h1>
             <h3>El jugador 2 gana</h3>
           </div>}
-        <div>
-          <InfoGameMode  GameMode="Rapid" /> {/* Cambiar en funcion del modo de juego  */}
+        <div> {/* Indicador del modo de juego al que se esta jugando */}
+          <InfoGameMode  GameMode={gameMode} /> 
         </div>
         <div className="game">
           <div>
@@ -130,10 +136,13 @@ function Game () {
         </div>
       </div>
       <div className="game-chat-box">
+        {/* Chat de la partida */}
         <div className="game-chat">
           CHAT
         </div>
+        {/* Botones de opciones para la partida */}
         <div className="game-options">
+          {/* Botón de rendición */}
           <button className="game-options-button" onClick={handleSurrender}>
             <Tooltip title="Rendirse">
               <FlagIcon sx={{
@@ -143,6 +152,7 @@ function Game () {
               }}/>
             </Tooltip>
           </button>
+          {/* Botón para parar o reanudar la partida */}
           <button className="game-options-button" onClick={handlePause}>
             {isPlaying ? 
               (<Tooltip title="Pausar partida">
@@ -160,6 +170,7 @@ function Game () {
                 }}/>
               </Tooltip>)}
           </button>
+          {/* Botón de ajustes de la partida */}
           <button className="game-options-button" onClick={handleSettings}>
             <Tooltip title="Ajustes">
               <SettingsIcon sx={{

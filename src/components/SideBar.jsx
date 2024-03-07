@@ -6,17 +6,15 @@ import CloseIcon from '@mui/icons-material/Close';
 
 function SideBar({ ingame }) {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [gamesPopUp, setGamesPopUp] = useState(false);
+  const [loading, setLoading] = useState(false); // Hook para simular la pantalla de carga
+  const [gamesPopUp, setGamesPopUp] = useState(false); // Hook para mostrar los modos de juego
 
   const h1Style = {
     color: 'white',
   };
-
   const handleClick = () => {
     setGamesPopUp(!gamesPopUp);
   };
-
   const handleClickJugar = () => {
     setLoading(true);
     setTimeout(() => {
@@ -27,6 +25,7 @@ function SideBar({ ingame }) {
 
   const LocalMode = () => {
     return (
+      /* Modos de juego para partidas en local */
       <div className='popUp-content-info'>
         <div className='popUp-content-info-title'>
           JUGAR EN MODO LOCAL
@@ -48,6 +47,7 @@ function SideBar({ ingame }) {
 
   const OnlineMode = () => {
     return (
+      /* Modos de juego para partidas online */
       <div className='popUp-content-info'>
         <div className='popUp-content-info-title'>
           JUGAR EN MODO ONLINE
@@ -69,6 +69,7 @@ function SideBar({ ingame }) {
 
   const PopUpMenu = () => {
     return (
+      /* Menú PopUp para escoger el modo de juego */
       <div className='popUp'>
         <div className='popUp-content'>
           <button className='close-button' onClick={handleClick}>
@@ -96,17 +97,20 @@ function SideBar({ ingame }) {
   }
 
   return (
+    /* Devulve un sidebar con diferentes opciones */
     <div className='Sidebar'>
       {/* <h2>Menú</h2> */}
       <div><img className='logo' src={logo}/>  </div>
       <div className='listaSidebar'>
         <div className='botonJugarWrapper'> 
+          {/* El boton de jugar solo aparece cuando se está en la pantalla "home" */}
           {!ingame && <button className='botonJugar' onClick={handleClick} /*disabled={loading}*/>
             Jugar
           </button>}
-          {loading && <LoadingScreen />}
-          {gamesPopUp && <PopUpMenu />}
+          {loading && <LoadingScreen />} {/* Pantalla de carga */}
+          {gamesPopUp && <PopUpMenu />} {/* PopUp para escoger el modo de juego */}
         </div>
+        {/* Opciones del sidebar*/}
         {ingame && <div><a href="/home">Menú principal</a></div>}
         <div><a href="#">Pase de Batalla</a></div>
         <div><a href="#">Ranking</a></div>

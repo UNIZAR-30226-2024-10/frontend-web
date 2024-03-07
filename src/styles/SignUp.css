@@ -10,13 +10,13 @@
     justify-content: center;
     align-items: center;
     width: 100%; /* Ajusta el ancho según sea necesario */
-    height: 60vh; /* Ajusta la altura según sea necesario */
+    height: 65vh; /* Ajusta la altura según sea necesario */
 }
 .title {
     /* Fuente y color para el titulo */
     color: #FFFFFF;
     font-family: "Oswald", sans-serif;
-    font-size: 36px;
+    font-size: 50px;
 }
 
 .form-signup{

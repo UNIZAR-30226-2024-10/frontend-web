@@ -19,6 +19,7 @@ function InfoHome() {
 	compartida por los videojuegos y la innovación tecnológica."
 
 	return (
+    /* Devuelve un cuadro informativo acerca de los diferentes modos de juego */
     <div className="background">
       <div className="game-modes-info">
         MODOS DE JUEGO

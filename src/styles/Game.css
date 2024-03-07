@@ -38,6 +38,15 @@
   height: 15vh;
 }
 
+/* Boton de reanudar partida del popup */
+.game-popup-button{
+  border: solid 1px black;
+  background-color: pink;
+  cursor: pointer;
+  color: #FFFFFF;
+  font-size: 20px;
+}
+
 
 /* Cuadro informativo del modo de juego al que se está jugando */
 .game-mode-info {
