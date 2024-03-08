@@ -6,22 +6,32 @@
 
 .appbar {
   width: 100vw;
+  height: 100vh;
 }
 
 .side {
   background-color: #f0f0f0;
 }
 
-.info {
-  height: 85vh;
-  margin-top: 10px;
+.middle {
+  height: 90vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.info-recuadros {
+.middle-recuadros {
   width: 80vw;
   height: 70vh;
   border-radius: 8px;
+}
+
+.profile-home{
+  background-color: pink;
+  position: fixed;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  width: 50vw;
+  height: 80vh;
 }

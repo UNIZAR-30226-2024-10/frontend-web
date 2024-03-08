@@ -1,0 +1,35 @@
+
+.profile-settings {
+  background-color: blue;
+  color: white;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 35vw;
+}
+
+.profile-close-button{
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+}
+
+.settings{
+  background-color: green;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar-selector{
+  display: flex;
+  flex-direction: row;
+}
+
+.avatar-button{
+  background-color: transparent;
+  border: none; 
+  cursor: pointer;
+}

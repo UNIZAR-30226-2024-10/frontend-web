@@ -5,14 +5,19 @@ import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import avatar from '../images/user_avatar.jpeg';
+import king from '../images/king.jpeg';
+import queen from '../images/queen.jpeg';
+import pawn from '../images/pawn.jpeg';
+import bishop from '../images/bishop.png';
+import tower from '../images/tower.png';
 
-function Navbar () {
+
+function Navbar ({ updateValue, avatar }) {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null); // Hook para el menú desplegable
   const [loggedIn, setLoggedIn] = React.useState(true); // Hook para diferenciar si un usuario esta identificado o no
-  const [profileVisibility, setProfileVisibility] = React.useState(false); // Hook para el menú de opciones
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -21,19 +26,30 @@ function Navbar () {
     setLoggedIn(false);
     setAnchorEl(null);
   };
-
   const handleProfile = () => {
-    /* Abre el menú de opciones para el usuario */
-    setProfileVisibility(true);
+    updateValue();
     setAnchorEl(null);
-  };
+  }
 
   const UserAvatar = () => {
+    let avt = king;
+    if(avatar == 'queen'){
+      avt = queen;
+    }
+    else if(avatar == 'bishop'){
+      avt = bishop; 
+    }
+    else if(avatar == 'tower'){
+      avt = tower;
+    }
+    else if(avatar == 'pawn'){
+      avt = pawn;
+    }
     return (
       /* Avatar del usuario */
       <Avatar 
         alt="User"
-        src={avatar} 
+        src={avt} 
         sx={{ bgcolor: deepOrange[500], width: 48, height: 48 }}
       />
     );
@@ -51,21 +67,6 @@ function Navbar () {
         <MenuItem onClick={handleProfile}>Perfil</MenuItem> {/* Opciones del menu desplegable */}
         <MenuItem onClick={handleClose}>Cerrar Sesión</MenuItem>
       </Menu>
-    );
-  }
-
-  const ProfilePopup = () => {
-    return(
-      /* Devuelve un menú de opciones para el usuario */
-      <div className='profile'>
-        <div className='profile-settings'>
-          <h1>Perfil de usuario</h1>
-          <hr style={{width: '90%'}}/>
-          <div>
-            Mostrar diferentes ajustes para el usuario ...
-          </div>
-        </div>
-      </div>
     );
   }
   
@@ -96,7 +97,6 @@ function Navbar () {
           )}
         </div>
       </nav>
-      {profileVisibility && <ProfilePopup />}
     </div>
   );
 }
