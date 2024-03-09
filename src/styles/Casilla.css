@@ -1,0 +1,17 @@
+/* Casilla.css */
+.casilla-base {
+    display: flex;
+    align-items: flex-end;
+    /* Center vertically */
+    justify-content: center;
+    /* Center horizontally */
+    height: 100px;
+    width: 100px;
+    border: none;
+    transition: background-color 0.3s;
+    /* Agregamos una transición suave */
+}
+
+.casilla-base:hover{
+    background-color: aqua;
+}

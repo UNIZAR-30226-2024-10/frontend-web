@@ -8,6 +8,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import Tooltip from '@mui/material/Tooltip';
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import Tablero from "../components/Tablero";
 
 function Game () {
   const [IsMenuVisible, SetIsMenuVisible] = useState(false);
@@ -122,7 +123,7 @@ function Game () {
           </div>
           {/* Tablero */}
           <div className="tablero"> {/*Introducir cuando este el tablero hecho */} 
-            Tablero
+            <Tablero />
           </div>
           <div>
             {/* Jugador 2 */}
