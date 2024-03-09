@@ -8,14 +8,13 @@
     align-items: center;
     /* width: 90%; */
     /* height: 90%; */
-    background-color: aqua;
 }
 .game-background{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    /* background-color: #312D2D; */
+    background-color: #312D2D;
 }
 /* Perteece al div que representa el juego */
 .game-screen{
@@ -26,7 +25,6 @@
     align-items: center;
     justify-content: space-evenly;
     flex-wrap: wrap;
-        background-color: yellow;
 }
 
 /* Cuadro que muestra el jugador que se ha rendido */
@@ -135,11 +133,7 @@
 }
 
 /* !!!!!!!! Quitar cuando este listo el tablero !!!!!!!!!!! */
-.tablero{
-    height: 60vh;
-    width: 42vw;
-    border: solid 1px #fff;
-}
+
   
 /* Cuadro informativo (marcador) */
 .game-info {

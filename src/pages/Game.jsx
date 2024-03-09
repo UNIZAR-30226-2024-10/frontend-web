@@ -122,7 +122,7 @@ function Game () {
             fichasComidas='0' />
           </div>
           {/* Tablero */}
-          <div className="tablero"> {/*Introducir cuando este el tablero hecho */} 
+          <div className="tablero-wr"> {/*Introducir cuando este el tablero hecho */} 
             <Tablero />
           </div>
           <div>

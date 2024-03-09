@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Casilla from './Casilla';
-
+import '../styles/Tablero.css'
 const Tablero = () => {
 
     const gridStyle = {
@@ -188,9 +188,9 @@ const Tablero = () => {
     }, [movimiento])
     return (
         <>
-        <div style={gridStyle}>
+        <div style={gridStyle} className='tablero'>
             {[...Array(8)].map((_, rowIndex) => (
-                <div key={rowIndex} style={{ display: 'flex' }}>
+                <div key={rowIndex}  className="filatab" style={{ display: 'flex' }}>
                     {[...Array(8)].map((_, colIndex) => (
                         <Casilla 
                             key={`${rowIndex}-${colIndex}`} // Add unique key prop here

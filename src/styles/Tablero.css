@@ -1,0 +1,11 @@
+.tablero {
+  height: 70vh;
+  width: 42vw;
+  border: solid 1px #fff;
+  margin-bottom: 25px;
+}
+
+.filatab {
+  display: flex;
+  /* Ajusta la altura para que todas las filas ocupen el mismo espacio */
+}
