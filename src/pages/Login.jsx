@@ -13,6 +13,10 @@ function Login() {
     navigate('/home');
   }
 
+  const labelColorStyle = {
+    color: 'white',
+  };
+
   const handleLogin = async () => {
     navigate('/home');
     try {
@@ -39,9 +43,10 @@ function Login() {
   return (
     <div className='mainContainer'>
       <div className='wrapper'>
-          {/*<h1 className='title'>ChessHub</h1>*/}
         <div>
-          <button className='title' onClick={handleClick}>ChessHub</button>
+          <button className='title-button' onClick={handleClick}>
+            <h1 className='title'>ChessHub</h1>
+          </button>
         </div>
         <div className="form-login">
           <h3>Inicio de Sesión</h3>
@@ -59,7 +64,9 @@ function Login() {
               variant="outlined" 
               value={username}
               color="warning" /* Color del borde */
-              sx={{input: {color: 'white'}}} /* Color del texto */
+              InputLabelProps={{
+                style: labelColorStyle,
+              }}
               onChange={(e) => setUsername(e.target.value)}
             />
           </Box>
@@ -78,7 +85,9 @@ function Login() {
               variant="outlined" 
               value={password}
               color="warning" /* Color del borde */
-              sx={{input: {color: 'white'}}} /* Color del texto */
+              InputLabelProps={{
+                style: labelColorStyle,
+              }}
               onChange={(e) => setPassword(e.target.value)}
             />
           </Box>

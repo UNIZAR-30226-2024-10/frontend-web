@@ -11,10 +11,10 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [segundaPassword, setSegundaPassword] = useState('');
   const navigate = useNavigate();
+  const handleClick = () => {
+    navigate('/home');
+  }
 
-  const borderColorStyle = {
-    borderColor: 'red',
-  };
   const labelColorStyle = {
     color: 'white',
   };
@@ -44,7 +44,11 @@ function SignUp() {
   return (
     <div className='mainContainer'>
       <div className='wrapper'>
-        <h1 className='title'>ChessHub</h1>
+        <div>
+          <button className='title-button' onClick={handleClick}>
+            <h1 className='title'>ChessHub</h1>
+          </button>
+        </div>
         <div className="form-signup">
           <h3>Crear Cuenta</h3>
           <Box
@@ -60,7 +64,10 @@ function SignUp() {
               label="Nombre de usuario" 
               variant="outlined" 
               value={username}
-              sx={{input: {color: 'white'}}} /* Color del texto */
+              color="warning" /* Color del borde */
+              InputLabelProps={{
+                style: labelColorStyle,
+              }}
               onChange={(e) => setUsername(e.target.value)}
             />
           </Box>
@@ -79,7 +86,9 @@ function SignUp() {
               variant="outlined" 
               value={password}
               color="warning" /* Color del borde */
-              sx={{input: {color: 'white'}}} /* Color del texto */
+              InputLabelProps={{
+                style: labelColorStyle,
+              }}
               onChange={(e) => setPassword(e.target.value)}
             />
           </Box>
@@ -91,25 +100,17 @@ function SignUp() {
             noValidate
             autoComplete="off"
           >
-            {/*<TextField 
+            <TextField 
               id="password" 
               label="Introduzca la contraseña de nuevo" 
               type="password"
               variant="outlined" 
               value={segundaPassword}
-              color="warning" /* Color del borde 
-              sx={{input: {color: 'white'}}} /* Color del texto 
-              onChange={(e) => setSegundaPassword(e.target.value)}
-            />*/}
-            <TextField
-              label="Your Label"
-              variant="outlined"
+              color="warning" /* Color del borde */
               InputLabelProps={{
                 style: labelColorStyle,
               }}
-              InputProps={{
-                style: borderColorStyle,
-              }}
+              onChange={(e) => setSegundaPassword(e.target.value)}
             />
           </Box>
           <Button 
