@@ -4,7 +4,7 @@ import logo from '../images/Logo.png'
 import '../styles/Sidebar.css';
 import CloseIcon from '@mui/icons-material/Close';
 
-function SideBar({ ingame }) {
+function SideBar({ ingame, updateMode }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false); // Hook para simular la pantalla de carga
   const [gamesPopUp, setGamesPopUp] = useState(false); // Hook para mostrar los modos de juego
@@ -15,13 +15,39 @@ function SideBar({ ingame }) {
   const handleClick = () => {
     setGamesPopUp(!gamesPopUp);
   };
-  const handleClickJugar = () => {
+  /*const handleClickJugar = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      /*navigate('/game'); // Reemplaza '/nueva-pagina' con la URL de la página que quieres cargar
+    }, 5000); // 5000 milisegundos = 5 segundos
+  }*/
+
+  const handleClickJugarRA = () => {
+    updateMode('Rapid');
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
       navigate('/game'); // Reemplaza '/nueva-pagina' con la URL de la página que quieres cargar
-    }, 5000); // 5000 milisegundos = 5 segundos*/
+    }, 5000); // 5000 milisegundos = 5 segundos
   }
+  const handleClickJugarBU = () => {
+    updateMode('Bullet');
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      navigate('/game'); // Reemplaza '/nueva-pagina' con la URL de la página que quieres cargar
+    }, 5000); // 5000 milisegundos = 5 segundos
+  }
+  const handleClickJugarBL = () => {
+    updateMode('Blitz');
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      navigate('/game'); // Reemplaza '/nueva-pagina' con la URL de la página que quieres cargar
+    }, 5000); // 5000 milisegundos = 5 segundos
+  }
+
 
   const LocalMode = () => {
     return (
@@ -31,15 +57,15 @@ function SideBar({ ingame }) {
           JUGAR EN MODO LOCAL
         </div>
         <div className='popUp-content-info-modes'>
-          <button className='popUp-modes' onClick={handleClickJugar}>RAPID</button>
+          <button className='popUp-modes' onClick={handleClickJugarRA}>RAPID</button>
           <div>
             |
           </div>
-          <button className='popUp-modes' onClick={handleClickJugar}>BULLET</button>
+          <button className='popUp-modes' onClick={handleClickJugarBU}>BULLET</button>
           <div>
             |
           </div>
-          <button className='popUp-modes' onClick={handleClickJugar}>BLITZ</button>
+          <button className='popUp-modes' onClick={handleClickJugarBL}>BLITZ</button>
         </div>
       </div>
     );
@@ -53,15 +79,15 @@ function SideBar({ ingame }) {
           JUGAR EN MODO ONLINE
         </div>
         <div className='popUp-content-info-modes'>
-          <button className='popUp-modes' onClick={handleClickJugar}>RAPID</button>
+          <button className='popUp-modes' onClick={handleClickJugarRA}>RAPID</button>
           <div>
             |
           </div>
-          <button className='popUp-modes' onClick={handleClickJugar}>BULLET</button>
+          <button className='popUp-modes' onClick={handleClickJugarBU}>BULLET</button>
           <div>
             |
           </div>
-          <button className='popUp-modes' onClick={handleClickJugar}>BLITZ</button>
+          <button className='popUp-modes' onClick={handleClickJugarBL}>BLITZ</button>
         </div>
       </div>
     );

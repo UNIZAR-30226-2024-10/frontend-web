@@ -4,16 +4,16 @@ import "../styles/Home.css"
 import Navbar from '../components/NavBar'
 import InfoHome from '../components/InfoHome'
 import Profile from '../components/Profile'
-import useSharedValue from '../components/useModifiableValue'
-import AvatarSelector from '../components/AvatarSelector'
+import { AvatarSelector, useSharedValue } from '../components/CustomHooks'
 
-function Home() {
-  const {value, updateValue} = useSharedValue(); /* Hook compartido por módulos */
-  const {avatar, modifyAvatar} = AvatarSelector();
+function Home({ updateMode }) {
+  const {value, updateValue} = useSharedValue(); /* Hook para mostrar el perfil del usuario */
+  const {avatar, modifyAvatar} = AvatarSelector(); /* Hook para permitir el cambio de avatar del usuario */
+  const home = false;
   return (
     <div className='Home'>
       <div className='side'>
-        <Sidebar />
+        <Sidebar ingame={home} updateMode={updateMode} />
       </div>
       <div className='appbar'>
         <Navbar updateValue={updateValue} avatar={avatar}/> {/* Modifica el valor del hook para mostrar el perfil */}

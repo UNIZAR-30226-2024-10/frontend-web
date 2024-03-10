@@ -2,93 +2,164 @@
 @import url('https://fonts.googleapis.com/css2?family=Anta&display=swap');
 
 /* Pertenece al div que representa el juego (tablero + marcadores) */
-.game{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* width: 90%; */
-    /* height: 90%; */
-}
-.game-background{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #312D2D;
-}
-/* Perteece al div que representa el juego */
-.game-screen{
-    width: 60vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
+.game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* width: 90%; */
+  /* height: 90%; */
 }
 
-/* Cuadro que muestra el jugador que se ha rendido */
-.game-popup{
-  background-color: green;
+.game-background {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #312D2D;
+}
+
+/* Perteece al div que representa el juego */
+.game-screen {
+  width: 60vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.game-mode {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* PopUps */
+.game-popup-pause {
+  background-color: red;
   color: white;
-  position: fixed;
+  position: absolute;
+  top: 43%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  width: 20vw;
-  height: 15vh;
+  width: 28vw;
+  height: 22vh;
+  border: solid 1px black;
+  border-radius: 4px;
+}
+
+.game-popup-surrender {
+  background-color: red;
+  color: white;
+  position: absolute;
+  top: 43%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: auto;
+  height: auto;
+  border: solid 1px black;
+  border-radius: 4px;
+}
+
+.game-popup-settings {
+  background-color: red;
+  color: white;
+  position: absolute;
+  top: 43%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 28vw;
+  height: 22vh;
+  border: solid 1px black;
+  border-radius: 4px;
+}
+
+.popup-background {
+  background-color: transparent;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Boton de reanudar partida del popup */
-.game-popup-button{
-  border: solid 1px black;
-  background-color: pink;
-  cursor: pointer;
+.game-popup-button {
+  background-color: green;
   color: #FFFFFF;
-  font-size: 20px;
+  border: solid 1px black;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  width: auto;
+  padding: 4px;
+}
+.game-popup-button:hover {
+  background-color: rgb(48, 152, 243);
+  color: #000000;
+}
+.game-popup-button-surrender {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 50%;
+}
+.game-popup-button:hover {
+  background-color: rgb(48, 152, 243);
+  color: #000000;
 }
 
 
 /* Cuadro informativo del modo de juego al que se está jugando */
 .game-mode-info {
-    width: 15vw;
-    height: 7vh;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-family: "Anta", sans-serif;
-    font-size: 24px;
-    font-weight: 600;
-    font-style: normal;
-    background-color: rgb(255, 142, 13);
-    border: solid 1px #fff;
-    border-radius: 8px;
+  width: 15vw;
+  height: 7vh;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-family: "Anta", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  font-style: normal;
+  background-color: rgb(255, 142, 13);
+  border: solid 1px #fff;
+  border-radius: 8px;
 }
 
 /* Chat del juego */
-.game-chat-box{
-    display: flex;
-    flex-direction: column;
-    justify-content: left;
-    justify-content: center;
-    width: 25vw;
-    height: 100vh;
+.game-chat-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  justify-content: center;
+  width: 25vw;
+  height: 100vh;
 }
-.game-chat{
-    background-color: whitesmoke;
-    height: 60vh;
-    width: 20vw;
+
+.game-chat {
+  background-color: whitesmoke;
+  height: 60vh;
+  width: 20vw;
 }
 
 /* Opciones del juego */
-.game-options{
-    height: 10vh;
-    width: 20vw;
+.game-options {
+  height: 10vh;
+  width: 20vw;
 }
-.game-options-button{
+
+.game-options-button {
   border: none;
   background-color: transparent;
   cursor: pointer;
@@ -97,92 +168,93 @@
 }
 
 /* Menu lateral (sidebar) */
-.game-menu{
-    height: 100vh;
+.game-menu {
+  height: 100vh;
 }
-.sliding-div{
-    overflow: hidden;
-    transition: transform 0.7s ease;
-    transform: translateX(-100%);
-    height: 100vh;
+
+.sliding-div {
+  overflow: hidden;
+  transition: transform 0.7s ease;
+  transform: translateX(-100%);
+  height: 100vh;
 }
-.sliding-div.visible{
-    transform: translateX(0);
-    height: 100vh;
+
+.sliding-div.visible {
+  transform: translateX(0);
+  height: 100vh;
 }
 
 /* Botón que abre el menu lateral */
-.game-button-menu{
-    position: absolute;
-    cursor: pointer;
-    padding: 4px;
-    border: none;
-    background-color: transparent;
-    transform: translate(30px,30px);
+.game-button-menu {
+  position: absolute;
+  cursor: pointer;
+  padding: 4px;
+  border: none;
+  background-color: transparent;
+  transform: translate(30px, 30px);
 }
 
 /* Botón que cierra el menu lateral */
-.game-button-close-menu{
-    position: absolute;
-    z-index: 2;
-    cursor: pointer;
-    padding: 4px;
-    border: none;
-    background-color: transparent;
-    transform: translate(150px);
+.game-button-close-menu {
+  position: absolute;
+  z-index: 2;
+  cursor: pointer;
+  padding: 4px;
+  border: none;
+  background-color: transparent;
+  transform: translate(150px);
 }
 
-/* !!!!!!!! Quitar cuando este listo el tablero !!!!!!!!!!! */
-
-  
 /* Cuadro informativo (marcador) */
 .game-info {
-    margin: 5px;
-    border: 2px solid #fff;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 42vw; /* Ajustar en función del tamaño del tablero final */
-    background-color: #7ca15a;
+  margin: 5px;
+  border: 2px solid #fff;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 42vw;
+  /* Ajustar en función del tamaño del tablero final */
+  background-color: #7ca15a;
 }
-.game-info-players{
-    padding: 4px;
-    width: 12vw;
+
+.game-info-players {
+  padding: 4px;
+  width: 12vw;
 }
 
 /* Nombre del jugador */
-.game-info-players-name{
-    color: #fff;
-    padding: 4px; 
-    display: flex;
-    justify-content: center;
-    font-weight: bold;
+.game-info-players-name {
+  color: #fff;
+  padding: 4px;
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
 }
 
 /* Color de ficha del jugador */
-.game-info-players-token{
-    color: #fff;
-    margin-top: 2px;
-    display: flex;
-    justify-content: center;
+.game-info-players-token {
+  color: #fff;
+  margin-top: 2px;
+  display: flex;
+  justify-content: center;
 }
 
 /* Cuadro informativo acerca del tiempo */
-.game-info-time{
-    color: #fff;
-    width: 12vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
+.game-info-time {
+  color: #fff;
+  width: 12vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
 }
 
 /* Cuadro informativo acerca de las fichas comidas */
-.game-info-tokenEaten{
-    color: #fff;
-    width: 12vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
+.game-info-tokenEaten {
+  color: #fff;
+  width: 12vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
 }
