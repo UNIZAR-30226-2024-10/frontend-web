@@ -50,7 +50,7 @@ function SignUp() {
           </button>
         </div>
         <div className="form-signup">
-          <h3>Crear Cuenta</h3>
+          <h3><u>Crear Cuenta</u></h3>
           <Box
             component="form"
             sx={{

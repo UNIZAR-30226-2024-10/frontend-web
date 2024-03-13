@@ -49,7 +49,7 @@ function Login() {
           </button>
         </div>
         <div className="form-login">
-          <h3>Inicio de Sesión</h3>
+          <h3><u>Inicio de Sesión</u></h3>
           <Box
             component="form"
             sx={{
@@ -58,10 +58,10 @@ function Login() {
             noValidate
             autoComplete="off"
           >
-            <TextField 
-              id="username" 
-              label="Nombre de usuario" 
-              variant="outlined" 
+            <TextField
+              id="username"
+              label="Nombre de usuario"
+              variant="outlined"
               value={username}
               color="warning" /* Color del borde */
               InputLabelProps={{
@@ -78,11 +78,11 @@ function Login() {
             noValidate
             autoComplete="off"
           >
-            <TextField 
-              id="password" 
-              label="Contraseña" 
+            <TextField
+              id="password"
+              label="Contraseña"
               type="password"
-              variant="outlined" 
+              variant="outlined"
               value={password}
               color="warning" /* Color del borde */
               InputLabelProps={{
@@ -91,21 +91,22 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </Box>
-          <Button 
-            variant="contained" 
-            onClick={handleLogin} 
-            sx={{ padding: '10px 40px' ,
-            fontSize: '16px', 
-            bgcolor: '#F77F00',
-            '&:hover': {background: "#F77F00"}
+          <Button
+            variant="contained"
+            onClick={handleLogin}
+            sx={{
+              padding: '10px 40px',
+              fontSize: '16px',
+              bgcolor: '#F77F00',
+              '&:hover': { background: "#F77F00" }
             }}
           >
             Iniciar sesión
           </Button>
-          <a className='registrate' onClick={()=>{navigate('/signup')}}>¿No tienes cuenta? Regístrate</a>
+          <a className='registrate' onClick={() => { navigate('/signup') }}>¿No tienes cuenta? Regístrate</a>
         </div>
       </div>
-    </div> 
+    </div>
   );
 }
 

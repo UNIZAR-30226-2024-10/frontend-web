@@ -1,12 +1,20 @@
 .Home {
   display: flex;
   height: 100vh;
+  width: 100vw;
   background: url('../images/background.jpg') no-repeat center/cover;
 }
 
 .appbar {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 10%;
+}
+
+.cuerpo-home{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: green;
 }
 
 .side {
@@ -14,16 +22,18 @@
 }
 
 .middle {
-  height: 90vh;
+  height: 100%;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: aqua;
 }
 
 .middle-recuadros {
-  width: 80vw;
-  height: 70vh;
-  border-radius: 8px;
+  background-color: yellow;
+  display: flex;
+  justify-content: center;
 }
 
 .profile-home{
