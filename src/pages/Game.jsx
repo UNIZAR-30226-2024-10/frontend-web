@@ -36,6 +36,34 @@ function Game({ gameMode }) {
     setIsPlaying(!isPlaying);
   }
 
+  const TextInputWithButton = () => {
+    const [text, setText] = useState('');
+    const [submittedText, setSubmittedText] = useState('');
+  
+    const handleChange = (event) => {
+      setText(event.target.value);
+    };
+  
+    const handleSubmit = () => {
+      setSubmittedText(text);
+      setText('');
+    };
+  
+    return (
+      <div>
+        <label htmlFor="textInput">Enter Text: </label>
+        <input
+          type="text"
+          id="textInput"
+          value={text}
+          onChange={handleChange}
+        />
+        <button onClick={handleSubmit}>Submit</button>
+        {submittedText && <p>You submitted: {submittedText}</p>}
+      </div>
+    );
+  };
+
   const InfoPlayers = ({ nombreJugador, eloJugador, colorFicha, tiempoRestante, fichasComidas }) => {
     return (
       /* Devuelve un cuadro informativo para cada uno de los jugadores */
@@ -173,7 +201,12 @@ function Game({ gameMode }) {
       <div className="game-chat-box">
         {/* Chat de la partida */}
         <div className="game-chat">
-          CHAT
+          <div className="game-chat-text">
+            Textos
+          </div>
+          <div className="game-chat-input"> 
+            <TextInputWithButton />
+          </div>
         </div>
         {/* Botones de opciones para la partida */}
         <div className="game-options">

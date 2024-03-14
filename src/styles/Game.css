@@ -2,6 +2,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Anta&display=swap');
 
 /* Pertenece al div que representa el juego (tablero + marcadores) */
+.game-background {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #312D2D;
+}
+
 .game {
   display: flex;
   flex-direction: column;
@@ -10,23 +17,16 @@
   /* height: 90%; */
 }
 
-.game-background {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #312D2D;
-}
-
 /* Perteece al div que representa el juego */
 .game-screen {
-  width: 60vw;
+  width: 70%;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   flex-wrap: wrap;
   position: relative;
+  background-color: aqua;
 }
 
 .game-mode {
@@ -143,14 +143,32 @@
   flex-direction: column;
   justify-content: left;
   justify-content: center;
-  width: 25vw;
+  width: 25%;
   height: 100vh;
+  background-color: orange;
 }
-
 .game-chat {
   background-color: whitesmoke;
-  height: 60vh;
-  width: 20vw;
+  height: 60%;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+
+  border: solid 4px black;
+  border-radius: 8px;
+  padding: 8px;
+}
+.game-chat-text{
+  border: solid 2px red;
+  height: 90%;
+}
+.game-chat-input{
+ border: solid 2px green;
+ border-radius: 20px;
+ display: flex;
+ flex-direction: row;
+
+ height: 10%;
 }
 
 /* Opciones del juego */
@@ -170,6 +188,7 @@
 /* Menu lateral (sidebar) */
 .game-menu {
   height: 100vh;
+  background-color: pink;
 }
 
 .sliding-div {
