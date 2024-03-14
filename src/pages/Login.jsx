@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { Tooltip } from '@mui/material';
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -45,11 +46,13 @@ function Login() {
       <div className='wrapper'>
         <div>
           <button className='title-button' onClick={handleClick}>
-            <h1 className='title'>ChessHub</h1>
+            <Tooltip title="Volver al menú principal">
+              <h1 className='title'>ChessHub</h1>
+            </Tooltip>
           </button>
         </div>
         <div className="form-login">
-          <h3><u>Inicio de Sesión</u></h3>
+          <h3 className='form-title'><u>Inicio de Sesión</u></h3>
           <Box
             component="form"
             sx={{
@@ -66,6 +69,9 @@ function Login() {
               color="warning" /* Color del borde */
               InputLabelProps={{
                 style: labelColorStyle,
+              }}
+              InputProps={{
+                style: { color: 'white' } // Change text color to white
               }}
               onChange={(e) => setUsername(e.target.value)}
             />
@@ -87,6 +93,9 @@ function Login() {
               color="warning" /* Color del borde */
               InputLabelProps={{
                 style: labelColorStyle,
+              }}
+              InputProps={{
+                style: { color: 'white' } // Change text color to white
               }}
               onChange={(e) => setPassword(e.target.value)}
             />

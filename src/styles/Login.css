@@ -25,6 +25,7 @@
   margin-bottom: 25px;
 }
 
+/* Estilo para el boton "ChessHub" */
 .title-button {
   cursor: pointer;
   background-color: transparent;
@@ -32,11 +33,10 @@
 }
 
 .form-login {
-  /*background-color: #ff8e0d;*/
   background-color: #506C64;
   width: 40%;
   height: 80%;
-  border-radius: 8px;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -44,13 +44,13 @@
   color: #FFFFFF;
 }
 
-.form-login input {
-  padding: 10px;
-  border-radius: 1 solid;
+.form-title{
+  font-size: 30px;
 }
 
-h3 {
-  font-size: 30px;
+.form-login input {
+  padding: 15px;
+  border-radius: 1 solid;
 }
 
 .registrate {

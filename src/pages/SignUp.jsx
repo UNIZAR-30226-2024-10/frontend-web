@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { Tooltip, Typography } from '@mui/material';
 
 function SignUp() {
   const [username, setUsername] = useState('');
@@ -46,11 +47,13 @@ function SignUp() {
       <div className='wrapper'>
         <div>
           <button className='title-button' onClick={handleClick}>
-            <h1 className='title'>ChessHub</h1>
+            <Tooltip title="Volver al menú principal">
+              <h1 className='title'>ChessHub</h1>
+            </Tooltip>
           </button>
         </div>
         <div className="form-signup">
-          <h3><u>Crear Cuenta</u></h3>
+          <h3 className='form-title'><u>Crear Cuenta</u></h3>
           <Box
             component="form"
             sx={{
@@ -67,6 +70,9 @@ function SignUp() {
               color="warning" /* Color del borde */
               InputLabelProps={{
                 style: labelColorStyle,
+              }}
+              InputProps={{
+                style: { color: 'white' } // Change text color to white
               }}
               onChange={(e) => setUsername(e.target.value)}
             />
@@ -89,6 +95,9 @@ function SignUp() {
               InputLabelProps={{
                 style: labelColorStyle,
               }}
+              InputProps={{
+                style: { color: 'white' } // Change text color to white
+              }}
               onChange={(e) => setPassword(e.target.value)}
             />
           </Box>
@@ -109,6 +118,9 @@ function SignUp() {
               color="warning" /* Color del borde */
               InputLabelProps={{
                 style: labelColorStyle,
+              }}
+              InputProps={{
+                style: { color: 'white' } // Change text color to white
               }}
               onChange={(e) => setSegundaPassword(e.target.value)}
             />

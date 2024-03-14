@@ -14,7 +14,6 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: green;
 }
 
 .side {
@@ -27,13 +26,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: aqua;
 }
 
 .middle-recuadros {
-  background-color: yellow;
   display: flex;
   justify-content: center;
+  
 }
 
 .profile-home{

@@ -1,6 +1,5 @@
 import React from "react";
 import '../styles/InfoHome.css';
-import '../styles/Sidebar.css';
 
 function InfoHome() {
 
@@ -42,9 +41,7 @@ function InfoHome() {
         <div className="infoHome-bottomTitle">
           ¿Quienes somos?
         </div>
-        <div className="infoHome-bottomText">
-          {QuienesSomos}
-        </div>
+        <div className="infoHome-bottomText">{QuienesSomos}</div>
       </div>
     </div>
   );
