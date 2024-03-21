@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import '../styles/Game.css'
 import SideBar from "../components/SideBar";
@@ -11,6 +11,7 @@ import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import Tablero from "../components/Tablero";
 
+
 function Game({ gameMode }) {
   const navigate = useNavigate();
   const [IsMenuVisible, SetIsMenuVisible] = useState(false);
@@ -19,7 +20,6 @@ function Game({ gameMode }) {
   const [showingSettings, setShowingSettings] = useState(false); // Hook para mostrar el menú de ajustes
   const [isPlaying, setIsPlaying] = useState(true); // Hook para pausar la partida
   const playingGame = true; // Const para indicar que el Sidebar se esta usando en la pantalla de game
-
   const handleSurrender = () => {
     setSurrender(!surrender);
   }
@@ -39,16 +39,16 @@ function Game({ gameMode }) {
   const TextInputWithButton = () => {
     const [text, setText] = useState('');
     const [submittedText, setSubmittedText] = useState('');
-  
+
     const handleChange = (event) => {
       setText(event.target.value);
     };
-  
+
     const handleSubmit = () => {
       setSubmittedText(text);
       setText('');
     };
-  
+
     return (
       <div>
         <label htmlFor="textInput">Enter Text: </label>
@@ -63,8 +63,53 @@ function Game({ gameMode }) {
       </div>
     );
   };
-
-  const InfoPlayers = ({ nombreJugador, eloJugador, colorFicha, tiempoRestante, fichasComidas }) => {
+  const tiempo = gameMode === 'Rapid' ? 10 : (gameMode === 'Blitz' ? 5 : 3);
+  
+  const [minutes1, setMinutes1] = useState(tiempo);
+  const [seconds1, setSeconds1] = useState(0);
+  const [minutes2, setMinutes2] = useState(tiempo);
+  const [seconds2, setSeconds2] = useState(0);
+  const [isRunning1, setIsRunning1] = useState(false);
+  const [isRunning2, setIsRunning2] = useState(true);
+  useEffect(()=>{
+    let interval;
+    if(isRunning1){
+      interval =setInterval(()=>{
+        if(seconds1 > 0){
+          setSeconds1((seconds1)=>seconds1-1)
+        }else if(minutes1 > 0){
+          setMinutes1((minutes1)=>minutes1-1);
+          setSeconds1(59);
+        }
+      }, 1000)
+    }
+    return () => clearInterval(interval)
+  }, [seconds1, minutes1, isRunning1])
+  useEffect(()=>{
+    let interval;
+    if(isRunning2){
+      interval =setInterval(()=>{
+        if(seconds2 > 0){
+          setSeconds2((seconds2)=>seconds2-1)
+        }else if(minutes2 > 0){
+          setMinutes2((minutes2)=>minutes2-1);
+          setSeconds2(59);
+        }
+      }, 1000)
+    }
+    return () => clearInterval(interval)
+  }, [seconds2, minutes2, isRunning2])
+  function pauseTimer1(){
+      setIsRunning1(false);
+      setIsRunning2(true)
+  }
+  function pauseTimer2(){
+      setIsRunning2(false);
+      setIsRunning1(true);
+  }
+  const InfoPlayers = ({numJugador, nombreJugador, eloJugador, colorFicha, tiempoRestante, fichasComidas }) => {
+    const minutes = parseInt(numJugador,10) ===1?minutes1:minutes2;
+    const seconds = parseInt(numJugador,10) ===1?seconds1:seconds2;
     return (
       /* Devuelve un cuadro informativo para cada uno de los jugadores */
       <div>
@@ -77,17 +122,17 @@ function Game({ gameMode }) {
               {colorFicha}
             </div>
           </div>
-          <div className="game-info-time"> {/* Tiempo restante del jugador */}
-            {tiempoRestante}
+          <div className="timer">
+            {minutes} : {seconds}
           </div>
           <div className="game-info-tokenEaten"> {/* Cantidad de fichas comidas por el jugador */}
-            Fichas comidas:
-            {fichasComidas}
+            Fichas comidas: {fichasComidas}
           </div>
         </div>
       </div>
     );
   };
+
 
   const InfoGameMode = ({ GameMode }) => {
     return (
@@ -149,7 +194,7 @@ function Game({ gameMode }) {
           </div>}
         {surrender &&
           <div className="popup-background">
-            {surrender && !confirmSurrender && 
+            {surrender && !confirmSurrender &&
               <div className="game-popup-surrender">
                 <h1><u>¿Estas seguro de que deseas rendirte?</u></h1>
                 <div className="game-popup-button-surrender">
@@ -161,14 +206,14 @@ function Game({ gameMode }) {
                   </button>
                 </div>
               </div>}
-              {confirmSurrender &&
-                <div className="game-popup-surrender">
-                  <h1><u>¡Te has rendido!</u></h1>
-                  <h3>El jugador X gana</h3>
-                  <button className="game-popup-button" onClick={() => navigate('/home')}>
-                    Abandonar partida
-                  </button>
-                </div>}
+            {confirmSurrender &&
+              <div className="game-popup-surrender">
+                <h1><u>¡Te has rendido!</u></h1>
+                <h3>El jugador X gana</h3>
+                <button className="game-popup-button" onClick={() => navigate('/home')}>
+                  Abandonar partida
+                </button>
+              </div>}
           </div>}
         <div className="game-mode"> {/* Indicador del modo de juego al que se esta jugando */}
           <InfoGameMode GameMode={gameMode} />
@@ -177,6 +222,7 @@ function Game({ gameMode }) {
           <div>
             {/* Jugador 1 */}
             <InfoPlayers
+              numJugador='1'
               nombreJugador='Jugador 1'
               eloJugador='200'
               colorFicha='Negras'
@@ -190,6 +236,7 @@ function Game({ gameMode }) {
           <div>
             {/* Jugador 2 */}
             <InfoPlayers
+            numJugador='2'
               nombreJugador='Jugador 2'
               eloJugador='200'
               colorFicha='Blancas'
@@ -204,7 +251,7 @@ function Game({ gameMode }) {
           <div className="game-chat-text">
             Textos
           </div>
-          <div className="game-chat-input"> 
+          <div className="game-chat-input">
             <TextInputWithButton />
           </div>
         </div>
