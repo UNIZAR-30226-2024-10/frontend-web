@@ -122,7 +122,7 @@ function Game({ gameMode }) {
               {colorFicha}
             </div>
           </div>
-          <div className="timer">
+          <div className="game-info-players-timer">
             {minutes} : {seconds}
           </div>
           <div className="game-info-tokenEaten"> {/* Cantidad de fichas comidas por el jugador */}
