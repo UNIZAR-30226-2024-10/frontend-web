@@ -128,7 +128,7 @@ const Tablero = () => {
     const [tablero, setTablero] = useState(matrizIni)
 
 
-    // //Coordenadas de la pieza seleccionada
+    //Coordenadas de la pieza seleccionada
     const [piezaSel, setPiezaSel] = useState(null)
 
     //movimiento es:
@@ -190,7 +190,7 @@ const Tablero = () => {
         <>
         <div style={gridStyle} className='tablero'>
             {[...Array(8)].map((_, rowIndex) => (
-                <div key={rowIndex}  className="filatab" style={{ display: 'flex' }}>
+                <div key={rowIndex}  className="filatab">
                     {[...Array(8)].map((_, colIndex) => (
                         <Casilla 
                             key={`${rowIndex}-${colIndex}`} // Add unique key prop here

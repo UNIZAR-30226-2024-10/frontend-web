@@ -1,7 +1,6 @@
 /* Casilla.css */
 .casilla-base {
-    /* Center horizontally */
-    height: 90px;
+    height: 100%;
     width: 100%;
 
     border: none;

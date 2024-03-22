@@ -84,11 +84,6 @@ const Casilla = (args) => {
 
     
     return (
-        // <button onClick={handleClick} style={estiloCasilla(mFila, mCol)}onMouseEnter={handleMouseIn} 
-        //     onMouseLeave={handleMouseOut}>
-        //     {/* <img style={imagen} src={char2Src(args.tablero[fila][col])} alt="Descripción de la pieza" /> */}
-        //     {char2Src(args.tablero[mFila][mCol])}
-        // </button >
         <button 
             onClick={handleClick} 
             onMouseEnter={handleMouseIn} 
