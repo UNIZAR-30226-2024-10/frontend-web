@@ -7,5 +7,6 @@
 
 .filatab {
   display: flex;
+  height: 100%;
   /* Ajusta la altura para que todas las filas ocupen el mismo espacio */
 }
