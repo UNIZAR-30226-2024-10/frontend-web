@@ -257,7 +257,12 @@
   display: flex;
   justify-content: center;
 }
-
+.game-info-players-timer{
+    color: #fff; 
+    padding: 20px;
+    font-size: 20px;
+    font-weight: 600;
+}
 /* Cuadro informativo acerca del tiempo */
 .game-info-time {
   color: #fff;
