@@ -138,12 +138,13 @@ const Tablero = () => {
     // Que color esta jugando. 0: blancas, 1: negras
     const [turno, setTurno] = useState(0) 
     
-    // Funcion que envia el tablero al servidor y recibe el json con los movimientos posibles dado dicho tablero
-    const submitMov = async()=>{
+    // Funcion que envia tablero al servidor
+    // Si el movimiento es legal: actualiza los movimientos posibles dado el nuevo tablero y devuelve true
+    // Si el movimiento no es legal: devuelve false y no actualiza los movimientos posibles
+    const submitMov = async(nuevoTablero)=>{
         try {
-            const jsonMatriz = traducirTableroAJSON(tablero); // Convertir el objeto en una cadena JSON
-            console.log('tablero a mandar:');
-            console.log(jsonMatriz);
+            const jsonMatriz = traducirTableroAJSON(nuevoTablero); // Convertir el nuevo tablero en una cadena JSON
+            // Se envia el tablero al back para que valide si el movimiento es legal y devuelva los movimientos posibles
             const response = await fetch("http://localhost:3001/play/", {
                 method: "POST",
                 headers: {
@@ -153,22 +154,30 @@ const Tablero = () => {
             });
             const parseRes = await response.json(); // parseRes es el objeto JSON que se recibe
 
-            console.log('movimientos posibles:');
-            console.log(parseRes);
-            // console.log(transformarMovimientos(parseRes));
-            setMovsPosibles(transformarMovimientos(parseRes))
+            if (parseRes.jugadaLegal === true) { // Si la jugada es legal (campo jugadaLegal) se cambian los movimientos posibles
+              console.log('movimientos posibles:');
+              console.log(parseRes.allMovements);
+              setMovsPosibles(transformarMovimientos(parseRes));
+              return true;
+            }
+            else { //La jugada no es legal
+              console.log('ERROR: Jugada no legal. Deja al rey en mate.');
+              return false;
+            }
 
             
         } catch (err) {
             console.error('pillao un error en submitMov:');
             console.error(err.message);
+            return false;
         }
     }
 
     //Ocurre un movimiento
     useEffect(() => {
         if(piezaSel && movimiento !== 0){ //Si ha ocurrido un movimiento
-            //Se obtienen las coordenadas de la casilla origen
+            
+          //Se obtienen las coordenadas de la casilla origen
             const oldX = piezaSel.fila
             const oldY = piezaSel.col
             //Se obtienen las coordenadas de la casilla destino
@@ -179,11 +188,13 @@ const Tablero = () => {
             const newTablero = [...tablero] //asi se hace una copia
             newTablero[newX][newY] = tablero[oldX][oldY]
             newTablero[oldX][oldY] = ''
-            setTablero(newTablero)
-            submitMov(); //Se envia el tablero al servidor y se actualiza movsPosibles
+
+            if (submitMov(newTablero)){ // Si el movimiento es legal (no deja al rey en mate)
+              setTablero(newTablero) //Se cambia el tablero
+              setTurno((turno === 0)? 1:0) //Cambia el color que tiene el turno
+            }
 
             setPiezaSel(null) //No hay piezas seleccionadas
-            setTurno((turno === 0)? 1:0) //Cambia el color que tiene el turno
         }
     }, [movimiento])
     return (
