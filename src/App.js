@@ -1,10 +1,11 @@
+import React from 'react';
+
 import './App.css';
-import { Routes, Route } from "react-router-dom";
-import Home from "./pages/Home.jsx"
+import { Routes, Route } from 'react-router-dom';
+import Home from './pages/Home.jsx'
 import Login from './pages/Login.jsx';
 import SignUp from './pages/SignUp.jsx';
 import Game from './pages/Game.jsx'
-import Tablero from './components/Tablero.jsx'
 import { GameMode } from './components/CustomHooks.jsx';
 
 function App() {

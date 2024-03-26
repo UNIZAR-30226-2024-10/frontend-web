@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 
 test('renders the correct number of Casilla components', async ({ page }) => {
   // Go to your app's page
-  await page.goto('http://localhost:3000');
+  await page.goto('http://localhost:3000/game');
 
   // Count the number of Casilla components
   const casillaCount = await page.$$eval('.casilla-base', casillas => casillas.length);
