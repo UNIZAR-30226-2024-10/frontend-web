@@ -16,12 +16,12 @@ jobs:
 
       - name: Instalar dependencias
         run: npm ci
-      
-    - name: Instalar ESLint
-      run: npm install eslint --save-dev
 
-    - name: Instalar dependencias
-      run: npm install
+      - name: Instalar ESLint
+        run: npm install eslint --save-dev
 
-    - name: Ejecutar ESLint
-      run: npx eslint .
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Ejecutar ESLint
+        run: npx eslint .
