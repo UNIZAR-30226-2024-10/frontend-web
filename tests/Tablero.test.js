@@ -1,5 +1,4 @@
-import React from 'react';
-const { test, expect } = require('@playwright/test');
+import { test, expect } from '@playwright/test';
 
 test('renders the correct number of Casilla components', async ({ page }) => {
   // Go to your app's page
