@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+
 import '../styles/Casilla.css'
 
 const Casilla = (args) => {
@@ -20,31 +21,31 @@ const Casilla = (args) => {
     function char2Src(char) {
         switch (char) {
             case 'p':
-                return <img style={imagen} src={require('../images/pieces/pawn-b.svg').default} alt="Descripción de la pieza" />
+                return <img style={imagen} src={require('../images/pieces/pawn-b.svg').default} alt='Descripción de la pieza' />
             case 'P':
-                return <img style={imagen} src={require('../images/pieces/pawn-w.svg').default} alt="Descripción de la pieza" />
+                return <img style={imagen} src={require('../images/pieces/pawn-w.svg').default} alt='Descripción de la pieza' />
             case 'r':
-                return <img style={imagen} src={require('../images/pieces/rook-b.svg').default} alt="Descripción de la pieza" />
+                return <img style={imagen} src={require('../images/pieces/rook-b.svg').default} alt='Descripción de la pieza' />
             case 'R':
-                return <img style={imagen} src={require('../images/pieces/rook-w.svg').default} alt="Descripción de la pieza" />
+                return <img style={imagen} src={require('../images/pieces/rook-w.svg').default} alt='Descripción de la pieza' />
             case 'n':
-                return <img style={imagen} src={require('../images/pieces/knight-b.svg').default} alt="Descripción de la pieza" />
+                return <img style={imagen} src={require('../images/pieces/knight-b.svg').default} alt='Descripción de la pieza' />
             case 'N':
-                return <img style={imagen} src={require('../images/pieces/knight-w.svg').default} alt="Descripción de la pieza" />
+                return <img style={imagen} src={require('../images/pieces/knight-w.svg').default} alt='Descripción de la pieza' />
             case 'b':
-                return <img style={imagen} src={require('../images/pieces/bishop-b.svg').default} alt="Descripción de la pieza" />
+                return <img style={imagen} src={require('../images/pieces/bishop-b.svg').default} alt='Descripción de la pieza' />
             case 'B':
-                return <img style={imagen} src={require('../images/pieces/bishop-w.svg').default} alt="Descripción de la pieza" />
+                return <img style={imagen} src={require('../images/pieces/bishop-w.svg').default} alt='Descripción de la pieza' />
             case 'q':
-                return <img style={imagen} src={require('../images/pieces/queen-b.svg').default} alt="Descripción de la pieza" />
+                return <img style={imagen} src={require('../images/pieces/queen-b.svg').default} alt='Descripción de la pieza' />
             case 'Q':
-                return <img style={imagen} src={require('../images/pieces/queen-w.svg').default} alt="Descripción de la pieza" />
+                return <img style={imagen} src={require('../images/pieces/queen-w.svg').default} alt='Descripción de la pieza' />
             case 'k':
-                return <img style={imagen} src={require('../images/pieces/king-b.svg').default} alt="Descripción de la pieza" />
+                return <img style={imagen} src={require('../images/pieces/king-b.svg').default} alt='Descripción de la pieza' />
             case 'K':
-                return <img style={imagen} src={require('../images/pieces/king-w.svg').default} alt="Descripción de la pieza" />
+                return <img style={imagen} src={require('../images/pieces/king-w.svg').default} alt='Descripción de la pieza' />
             default:
-                return <img style={imagen} src={require('../images/pieces/Empty.svg').default} alt="Descripción de la pieza" />
+                return <img style={imagen} src={require('../images/pieces/Empty.svg').default} alt='Descripción de la pieza' />
 
         }   
     }
@@ -64,7 +65,7 @@ const Casilla = (args) => {
         
         //Si soy una casilla con una pieza seleccionable y me seleccionan cambio piezaSel
         if (args.tablero[mFila][mCol] !== '' && '['+mFila+'-'+mCol+']' in args.movsPosibles) {
-            console.log("piezaSel: ", mFila, ",", mCol)
+            console.log('piezaSel: ', mFila, ',', mCol)
             args.setPiezaSel({fila: mFila, col: mCol})
 
         } else {

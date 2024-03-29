@@ -9,22 +9,21 @@ const Tablero = () => {
 
     function traducirTableroAJSON(matrizAux) {
         const piezas = {
-            'p': 'peones',
-            'n': 'caballos',
-            'b': 'alfiles',
-            'r': 'torres',
-            'q': 'damas',
-            'k': 'reyes',
+            'p': 'peon',
+            'n': 'caballo',
+            'b': 'alfil',
+            'r': 'torre',
+            'q': 'dama',
+            'k': 'rey',
         };
-
         const json = {
             turno: turno === 0 ? 'blancas' : 'negras', // Añadir el turno al principio del JSON
-            peones: [],
-            alfiles: [],
-            caballos: [],
-            torres: [],
-            damas: [],
-            reyes: []
+            peon: [],
+            alfil: [],
+            caballo: [],
+            torre: [],
+            dama: [],
+            rey: []
         };
         const matrizReorganizada = matrizAux.slice().reverse();
 
@@ -41,7 +40,7 @@ const Tablero = () => {
                 }
             });
         });
-
+        console.log(json)
         return json;
     }
 
@@ -49,7 +48,7 @@ const Tablero = () => {
         const movsPosiblesIni = {};
 
         Object.keys(json.allMovements).forEach(pieza => {
-            json.allMovements[pieza].forEach((movimientos, index) => {
+            json.allMovements[pieza].forEach((movimientos) => {
                 let newX=0;
                 let newY=0;
                 let key=0;
@@ -136,24 +135,24 @@ const Tablero = () => {
     const [movimiento, setNewMov] = useState(0)
 
     // Que color esta jugando. 0: blancas, 1: negras
-    const [turno, setTurno] = useState(0) 
+    const [turno, setTurno] = useState(1) 
     
     // Funcion que envia tablero al servidor
     // Si el movimiento es legal: actualiza los movimientos posibles dado el nuevo tablero y devuelve true
     // Si el movimiento no es legal: devuelve false y no actualiza los movimientos posibles
     const submitMov = async(nuevoTablero)=>{
-        try {
-            const jsonMatriz = traducirTableroAJSON(nuevoTablero); // Convertir el nuevo tablero en una cadena JSON
+      try {
+        const jsonMatriz = traducirTableroAJSON(nuevoTablero); // Convertir el nuevo tablero en una cadena JSON
             // Se envia el tablero al back para que valide si el movimiento es legal y devuelva los movimientos posibles
-            const response = await fetch("http://localhost:3001/play/", {
-                method: "POST",
+            const response = await fetch('http://localhost:3001/play', {
+                method: 'POST',
                 headers: {
-                    "Content-type": "application/json",
+                    'Content-type':'application/json',
                 },
                 body: JSON.stringify(jsonMatriz),
             });
             const parseRes = await response.json(); // parseRes es el objeto JSON que se recibe
-
+            console.log(parseRes)
             if (parseRes.jugadaLegal === true) { // Si la jugada es legal (campo jugadaLegal) se cambian los movimientos posibles
               console.log('movimientos posibles:');
               console.log(parseRes.allMovements);
@@ -164,8 +163,6 @@ const Tablero = () => {
               console.log('ERROR: Jugada no legal. Deja al rey en mate.');
               return false;
             }
-
-            
         } catch (err) {
             console.error('pillao un error en submitMov:');
             console.error(err.message);
@@ -184,6 +181,8 @@ const Tablero = () => {
             const newX = movimiento.fila
             const newY = movimiento.col
             
+            const originalTablero = [...tablero]
+
             // Se intercambian los contenidos de las casillas
             const newTablero = [...tablero] //asi se hace una copia
             newTablero[newX][newY] = tablero[oldX][oldY]
@@ -192,6 +191,9 @@ const Tablero = () => {
             if (submitMov(newTablero)){ // Si el movimiento es legal (no deja al rey en mate)
               setTablero(newTablero) //Se cambia el tablero
               setTurno((turno === 0)? 1:0) //Cambia el color que tiene el turno
+            }else {
+            // Si el movimiento no es legal, se restaura el tablero original
+              setTablero(originalTablero)
             }
 
             setPiezaSel(null) //No hay piezas seleccionadas
