@@ -4,7 +4,7 @@ import logo from '../images/Logo.png'
 import '../styles/Sidebar.css';
 import CloseIcon from '@mui/icons-material/Close';
 
-function SideBar({ ingame, updateMode }) {
+function SideBar(args) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false); // Hook para simular la pantalla de carga
   const [gamesPopUp, setGamesPopUp] = useState(false); // Hook para mostrar los modos de juego
@@ -24,7 +24,7 @@ function SideBar({ ingame, updateMode }) {
   }*/
 
   const handleClickJugarRA = () => {
-    updateMode('Rapid');
+    args.updateMode('Rapid');
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -32,7 +32,7 @@ function SideBar({ ingame, updateMode }) {
     }, 5000); // 5000 milisegundos = 5 segundos
   }
   const handleClickJugarBU = () => {
-    updateMode('Bullet');
+    args.updateMode('Bullet');
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -40,7 +40,7 @@ function SideBar({ ingame, updateMode }) {
     }, 5000); // 5000 milisegundos = 5 segundos
   }
   const handleClickJugarBL = () => {
-    updateMode('Blitz');
+    args.updateMode('Blitz');
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -70,7 +70,30 @@ function SideBar({ ingame, updateMode }) {
       </div>
     );
   }
-
+const handleClickJugarRAOnline = () => {
+    args.updateMode('Rapid');
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      navigate('/gameOnline'); // Reemplaza '/nueva-pagina' con la URL de la página que quieres cargar
+    }, 5000); // 5000 milisegundos = 5 segundos
+  }
+  const handleClickJugarBUOnline = () => {
+    args.updateMode('Bullet');
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      navigate('/game'); // Reemplaza '/nueva-pagina' con la URL de la página que quieres cargar
+    }, 5000); // 5000 milisegundos = 5 segundos
+  }
+  const handleClickJugarBLOnline = () => {
+    args.updateMode('Blitz');
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      navigate('/game'); // Reemplaza '/nueva-pagina' con la URL de la página que quieres cargar
+    }, 5000); // 5000 milisegundos = 5 segundos
+  }
   const OnlineMode = () => {
     return (
       /* Modos de juego para partidas online */
@@ -79,15 +102,15 @@ function SideBar({ ingame, updateMode }) {
           JUGAR EN MODO ONLINE
         </div>
         <div className='popUp-content-info-modes'>
-          <button className='popUp-modes' onClick={handleClickJugarRA}>RAPID</button>
+          <button className='popUp-modes' onClick={handleClickJugarRAOnline}>RAPID</button>
           <div>
             |
           </div>
-          <button className='popUp-modes' onClick={handleClickJugarBU}>BULLET</button>
+          <button className='popUp-modes' onClick={handleClickJugarBUOnline}>BULLET</button>
           <div>
             |
           </div>
-          <button className='popUp-modes' onClick={handleClickJugarBL}>BLITZ</button>
+          <button className='popUp-modes' onClick={handleClickJugarBLOnline}>BLITZ</button>
         </div>
       </div>
     );
@@ -107,7 +130,7 @@ function SideBar({ ingame, updateMode }) {
             }}/>
           </button>
           <LocalMode />
-          {/*<OnlineMode />*/}
+          <OnlineMode />
         </div>
       </div>
     );
@@ -130,14 +153,14 @@ function SideBar({ ingame, updateMode }) {
       <div className='listaSidebar'>
         <div className='botonJugarWrapper'> 
           {/* El boton de jugar solo aparece cuando se está en la pantalla "home" */}
-          {!ingame && <button className='botonJugar' onClick={handleClick} /*disabled={loading}*/>
+          {!args.ingame && <button className='botonJugar' onClick={handleClick} /*disabled={loading}*/>
             Jugar
           </button>}
           {loading && <LoadingScreen />} {/* Pantalla de carga */}
           {gamesPopUp && <PopUpMenu />} {/* PopUp para escoger el modo de juego */}
         </div>
         {/* Opciones del sidebar*/}
-        {ingame && <div><a href="/home">Menú principal</a></div>}
+        {args.ingame && <div><a href="/home">Menú principal</a></div>}
         <div><a href="#">Pase de Batalla</a></div>
         <div><a href="#">Ranking</a></div>
         <div><a href="#">Historial</a></div>

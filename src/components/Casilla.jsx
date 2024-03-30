@@ -70,9 +70,7 @@ const Casilla = (args) => {
             console.log('piezaSel: ', mFila, ',', mCol)
             args.setPiezaSel({fila: mFila, col: mCol})
         } else {
-          console.log('HOLA2')
           if (args.piezaSel!==null){ //Si piezaSel esta definida (hay una pieza seleccionada)
-            console.log('HOLA3')
                 const filaSel = args.piezaSel.fila
                 const colSel = args.piezaSel.col
                 //Se comprueba si esta casilla esta entre movs posibles de la pieza seleccionada

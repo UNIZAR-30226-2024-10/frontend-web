@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Game.css'
-import SideBar from "../components/SideBar";
+import SideBar from '../components/SideBar';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import FlagIcon from '@mui/icons-material/Flag';
@@ -9,7 +9,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import Tooltip from '@mui/material/Tooltip';
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import Tablero from "../components/Tablero";
+import Tablero from '../components/Tablero';
 
 
 function Game({ gameMode }) {
@@ -99,14 +99,14 @@ function Game({ gameMode }) {
     }
     return () => clearInterval(interval)
   }, [seconds2, minutes2, isRunning2])
-  function pauseTimer1(){
-      setIsRunning1(false);
-      setIsRunning2(true)
-  }
-  function pauseTimer2(){
-      setIsRunning2(false);
-      setIsRunning1(true);
-  }
+  // function pauseTimer1(){
+  //     setIsRunning1(false);
+  //     setIsRunning2(true)
+  // }
+  // function pauseTimer2(){
+  //     setIsRunning2(false);
+  //     setIsRunning1(true);
+  // }
   const InfoPlayers = ({numJugador, nombreJugador, eloJugador, colorFicha, tiempoRestante, fichasComidas }) => {
     const minutes = parseInt(numJugador,10) ===1?minutes1:minutes2;
     const seconds = parseInt(numJugador,10) ===1?seconds1:seconds2;

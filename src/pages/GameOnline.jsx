@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Game.css'
-import SideBar from "../components/SideBar";
+import SideBar from '../components/SideBar';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import FlagIcon from '@mui/icons-material/Flag';
@@ -9,10 +9,11 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import Tooltip from '@mui/material/Tooltip';
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import Tablero from "../components/Tablero";
+import Tablero from '../components/Tablero';
+import io from 'socket.io-client';
 
 
-function Game({ gameMode }) {
+function GameOnline({ gameMode }) {
   const navigate = useNavigate();
   const [IsMenuVisible, SetIsMenuVisible] = useState(false);
   const [surrender, setSurrender] = useState(false); // Hook para comprobar si el jugador se ha rendido
@@ -142,7 +143,14 @@ function Game({ gameMode }) {
       </div>
     );
   }
-
+  const i =0;
+ useEffect(() => {
+    const socket = io.connect("http://localhost:3001");
+    return () => {
+      // Cerrar la conexión cuando el componente se desmonta
+      socket.disconnect();
+    };
+  }, []);
   return (
     <div className="game-background">
       <div className="game-menu">
@@ -301,4 +309,4 @@ function Game({ gameMode }) {
   );
 }
 
-export default Game;
+export default GameOnline;

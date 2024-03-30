@@ -107,11 +107,11 @@ const Tablero = () => {
     // minúsculas: negras
     // mayúsculas: blancas
     const matrizIni = [
-        ['r', 'n', 'b', 'q', '', 'b', 'n', 'r'],
+        ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
         ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
         ['' , '' , '' , '' ,'' , '' , '' , '' ],
         ['' , '' , '' , '' ,'' , '' , '' , '' ],
-        ['' , '' , '' , '' ,'k' , '' , '' , '' ],
+        ['' , '' , '' , '' ,'' , '' , '' , '' ],
         ['' , '' , '' , '' ,'' , '' , '' , '' ],
         ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
         ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
@@ -136,13 +136,14 @@ const Tablero = () => {
       try {
         const jsonMatriz = traducirTableroAJSON(nuevoTablero); // Convertir el nuevo tablero en una cadena JSON
             // Se envia el tablero al back para que valide si el movimiento es legal y devuelva los movimientos posibles
-            const response = await fetch('http://localhost:3001/play', {
+            const response = await fetch('http://13.51.136.199:3001/play', {
                 method: 'POST',
                 headers: {
-                    'Content-type':'application/json',
+                    'Content-type': 'application/json',
                 },
                 body: JSON.stringify(jsonMatriz),
             });
+
             const parseRes = await response.json(); // parseRes es el objeto JSON que se recibe
             console.log(parseRes)
             if (parseRes.jugadaLegal === true) { // Si la jugada es legal (campo jugadaLegal) se cambian los movimientos posibles
