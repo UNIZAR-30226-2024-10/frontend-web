@@ -17,7 +17,7 @@ const Tablero = () => {
             'k': 'rey',
         };
         const json = {
-            turno: turno === 0 ? 'blancas' : 'negras', // Añadir el turno al principio del JSON
+            turno: turno === 1 ? 'blancas' : 'negras', // Añadir el turno al principio del JSON
             peon: [],
             alfil: [],
             caballo: [],
@@ -48,36 +48,28 @@ const Tablero = () => {
         const movsPosiblesIni = {};
 
         Object.keys(json.allMovements).forEach(pieza => {
-            json.allMovements[pieza].forEach((movimientos) => {
-                let newX=0;
-                let newY=0;
-                let key=0;
-                if (Array.isArray(movimientos)) {
-                    movimientos.forEach((movimiento, i) => {
-                        if(i===0){
-                            newX = movimiento.fromColor === 'blancas' ? 7 - movimiento.fromY : 7 - movimiento.fromY;
-                            newY = movimiento.fromX;
-                            key = `[${newX}-${newY}]`;
-                        }
-                        if (!movsPosiblesIni[key]) {
-                            movsPosiblesIni[key] = [];  
-                        }else{
-                            movsPosiblesIni[key].push([7 - movimiento.y, movimiento.x]);
-                        }
-                    });
-                } /* else {
-                    console.log(pieza)
-                    // console.log(movimiento.fromColor)
-                    const newX = movimientos.fromColor === 'blancas' ? 7 - movimientos.fromY : 7-movimientos.fromY;
-                    const newY = movimientos.fromColor === 'blancas' ? movimientos.fromX : movimientos.fromX;
-                    const key = `[${newX}-${newY}]`;
-                    if (!movsPosiblesIni[key]) {
-                        movsPosiblesIni[key] = [];
-                    }
-                    // movsPosiblesIni[key].push([movimientos.y, movimientos.x]);
-                } */
-            });
-        });
+
+              json.allMovements[pieza].forEach((movimientos) => {
+                  let newX=0;
+                  let newY=0;
+                  let key=0;
+                  if (Array.isArray(movimientos)) {
+                      movimientos.forEach((movimiento, i) => {
+                          if(i===0){
+                              newX = movimiento.fromColor === 'blancas' ? 7 - movimiento.fromY : 7 - movimiento.fromY;
+                              newY = movimiento.fromX;
+                              key = `[${newX}-${newY}]`;
+                          }
+                          if (!movsPosiblesIni[key]) {
+                              movsPosiblesIni[key] = [];  
+                          }else{
+                              movsPosiblesIni[key].push([7 - movimiento.y, movimiento.x]);
+                          }
+                      });
+                  }
+              });
+            }
+        );
 
         return movsPosiblesIni;
     }
@@ -115,11 +107,11 @@ const Tablero = () => {
     // minúsculas: negras
     // mayúsculas: blancas
     const matrizIni = [
-        ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
+        ['r', 'n', 'b', 'q', '', 'b', 'n', 'r'],
         ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
         ['' , '' , '' , '' ,'' , '' , '' , '' ],
         ['' , '' , '' , '' ,'' , '' , '' , '' ],
-        ['' , '' , '' , '' ,'' , '' , '' , '' ],
+        ['' , '' , '' , '' ,'k' , '' , '' , '' ],
         ['' , '' , '' , '' ,'' , '' , '' , '' ],
         ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
         ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
@@ -135,7 +127,7 @@ const Tablero = () => {
     const [movimiento, setNewMov] = useState(0)
 
     // Que color esta jugando. 0: blancas, 1: negras
-    const [turno, setTurno] = useState(1) 
+    const [turno, setTurno] = useState(0) 
     
     // Funcion que envia tablero al servidor
     // Si el movimiento es legal: actualiza los movimientos posibles dado el nuevo tablero y devuelve true
@@ -173,7 +165,6 @@ const Tablero = () => {
     //Ocurre un movimiento
     useEffect(() => {
         if(piezaSel && movimiento !== 0){ //Si ha ocurrido un movimiento
-            
           //Se obtienen las coordenadas de la casilla origen
             const oldX = piezaSel.fila
             const oldY = piezaSel.col
@@ -221,12 +212,6 @@ const Tablero = () => {
                 </div>
             ))}
         </div>
-        {/* <button >
-            pisel:  
-            {piezaSel? tablero[piezaSel.fila][piezaSel.col]:'napues'}
-            {piezaSel? piezaSel.fila : 'na'} {piezaSel? piezaSel.col : 'na'}
-        </button> */}
-        {/* <div>turno: {turno}</div> */}
         </>
     );
 };

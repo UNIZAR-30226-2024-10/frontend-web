@@ -64,12 +64,15 @@ const Casilla = (args) => {
         // console.log("soy "+mFila + " col "+ mCol );
         
         //Si soy una casilla con una pieza seleccionable y me seleccionan cambio piezaSel
-        if (args.tablero[mFila][mCol] !== '' && '['+mFila+'-'+mCol+']' in args.movsPosibles) {
+        if (args.tablero[mFila][mCol] !== '' && '['+mFila+'-'+mCol+']' in args.movsPosibles && args.piezaSel===null
+        && ((args.tablero[mFila][mCol] === args.tablero[mFila][mCol].toUpperCase() && args.turno === 0) ||
+        args.tablero[mFila][mCol] === args.tablero[mFila][mCol].toLowerCase() && args.turno === 1)) {
             console.log('piezaSel: ', mFila, ',', mCol)
             args.setPiezaSel({fila: mFila, col: mCol})
-
         } else {
-            if (args.piezaSel){ //Si piezaSel esta definida (hay una pieza seleccionada)
+          console.log('HOLA2')
+          if (args.piezaSel!==null){ //Si piezaSel esta definida (hay una pieza seleccionada)
+            console.log('HOLA3')
                 const filaSel = args.piezaSel.fila
                 const colSel = args.piezaSel.col
                 //Se comprueba si esta casilla esta entre movs posibles de la pieza seleccionada
