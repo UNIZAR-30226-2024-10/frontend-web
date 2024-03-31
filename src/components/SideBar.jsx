@@ -10,25 +10,25 @@ function SideBar(args) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false); // Hook para simular la pantalla de carga
   const [gamesPopUp, setGamesPopUp] = useState(false); // Hook para mostrar los modos de juego
-    const [socket, setSocket] = useState(null);
-
+  const [socket, setSocket] = useState(null);
+  
   useEffect(() => {
     // Conexión al servidor de Socket.io
-    const newSocket = io('http://localhost:3001'); // Reemplaza 'http://localhost:3000' con la URL de tu servidor Socket.io
-    console.log("hola")
-    setSocket(newSocket);
+    // const newSocket = io('http://localhost:3001'); // Reemplaza 'http://localhost:3000' con la URL de tu servidor Socket.io
+    // console.log("hola")
+    // setSocket(newSocket);
+    // localStorage.setItem('socketId', socket.id);
 
     // Limpieza del efecto
-    return () => newSocket.close();
+    // return () => newSocket.close();
   }, []);
 
   useEffect(() => {
     if (socket) {
       // Escuchar el evento 'game_ready' del servidor
       socket.on('game_ready', (data) => {
-        console.log(data)
         setLoading(false);
-        const colorSuffix = data.color === 'white' ? '1' : '2';
+        const colorSuffix = data.color === 'white' ? '0' : '1';
         // Cifrar los parámetros y agregarlos a la URL
         navigate(`/gameOnline/${data.roomId}/${colorSuffix}`);
       });
@@ -40,6 +40,8 @@ function SideBar(args) {
   };
   const handleClick = () => {
     setGamesPopUp(!gamesPopUp);
+    const newSocket = io('http://localhost:3001'); // Reemplaza 'http://localhost:3000' con la URL de tu servidor Socket.ios
+    setSocket(newSocket)
   };
   /*const handleClickJugar = () => {
     setLoading(true);

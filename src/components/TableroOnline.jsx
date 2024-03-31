@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Casilla from './Casilla';
 import '../styles/Tablero.css'
-const Tablero = () => {
+import { tab } from '@testing-library/user-event/dist/tab';
+const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar}) => {
     const gridStyle = {
         display: 'grid',
     };
@@ -116,7 +117,14 @@ const Tablero = () => {
         ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
     ]
     const [tablero, setTablero] = useState(matrizIni)
+    useEffect(()=>{
+      if(tableroUpdate){
+        setTablero(tableroUpdate)
+        setTurno((turno === 0)? 1:0) //Cambia el color que tiene el turno
+        submitMov(tableroUpdate)
 
+      }
+    },[tableroUpdate])
 
     //Coordenadas de la pieza seleccionada
     const [piezaSel, setPiezaSel] = useState(null)
@@ -165,7 +173,7 @@ const Tablero = () => {
 
     //Ocurre un movimiento
     useEffect(() => {
-        if(piezaSel && movimiento !== 0){ //Si ha ocurrido un movimiento
+        if(piezaSel && movimiento !== 0  && ((turno===0 && blancasAbajo===true) || (turno===1 && blancasAbajo===false))){ //Si ha ocurrido un movimiento
           //Se obtienen las coordenadas de la casilla origen
             const oldX = piezaSel.fila
             const oldY = piezaSel.col
@@ -183,6 +191,7 @@ const Tablero = () => {
             if (submitMov(newTablero)){ // Si el movimiento es legal (no deja al rey en mate)
               setTablero(newTablero) //Se cambia el tablero
               setTurno((turno === 0)? 1:0) //Cambia el color que tiene el turno
+              setTableroEnviar(tablero)
             }else {
             // Si el movimiento no es legal, se restaura el tablero original
               setTablero(originalTablero)
@@ -193,7 +202,7 @@ const Tablero = () => {
     }, [movimiento])
     return (
         <>
-        <div style={gridStyle} className={`tablero`}>
+        <div style={gridStyle} className={`tablero ${!blancasAbajo ? 'rotated' : ''}`}>
             {[...Array(8)].map((_, rowIndex) => (
                 <div key={rowIndex}  className="filatab">
                     {[...Array(8)].map((_, colIndex) => (
@@ -208,7 +217,7 @@ const Tablero = () => {
                             mov={movimiento} 
                             setNewMov={setNewMov}
                             turno={turno}
-                            blancasAbajo={true}
+                            blancasAbajo={blancasAbajo}
                         />
                     ))}
                 </div>
@@ -218,4 +227,4 @@ const Tablero = () => {
     );
 };
 
-export default Tablero;
+export default TableroOnline;

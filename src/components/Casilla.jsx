@@ -93,7 +93,7 @@ const Casilla = (args) => {
             className="casilla-base" // Aplicar la clase CSS para los estilos base
            style={{
                 backgroundColor: hovered ? '#D3FFDE' : colorCasilla,
-                transform: args.blancasAbajo ? 'rotate(180deg)' : 'none' // Aplica rotación si blancasAbajo es true
+                transform: !args.blancasAbajo ? 'rotate(180deg)' : 'none' // Aplica rotación si blancasAbajo es true
             }} // Aplicar dinámicamente el color de la casilla
         >       {char2Src(args.tablero[mFila][mCol])}
         </button>

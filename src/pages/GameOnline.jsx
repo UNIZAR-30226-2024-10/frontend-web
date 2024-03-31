@@ -9,8 +9,9 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import Tooltip from '@mui/material/Tooltip';
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import Tablero from '../components/Tablero';
+import TableroOnline from '../components/TableroOnline';
 import { useParams } from 'react-router-dom';
+import io from 'socket.io-client';
 
 function GameOnline({ gameMode }) {
   const navigate = useNavigate();
@@ -21,6 +22,41 @@ function GameOnline({ gameMode }) {
   const [isPlaying, setIsPlaying] = useState(true); // Hook para pausar la partida
   const playingGame = true; // Const para indicar que el Sidebar se esta usando en la pantalla de game
   const { roomId, colorSuffix } = useParams();
+  const [socket, setSocket] = useState(null);
+
+  useEffect(() => {
+    // Conexión al servidor de Socket.io
+    const newSocket = io('http://localhost:3001'); // Reemplaza 'http://localhost:3000' con la URL de tu servidor Socket.io
+    setSocket(newSocket)
+    // Limpieza del efecto
+    return () => newSocket.close();
+  }, []);
+
+  useEffect(() => {
+    if (socket) {
+      // Emitir el evento 'jugar' cuando el socket esté disponible
+      // console.log("jugar")
+      socket.emit('jugar', roomId);
+      socket.on("movido", (data)=>{
+        console.log("el rival ha movido")
+        console.log(data)
+        setTableroUpdate(data);
+      })
+    }
+  }, [socket]);
+
+  const [tableroEnviar, setTableroEnviar] = useState(null)
+  const [tableroUpdate, setTableroUpdate] = useState(null)
+
+  useEffect(() => {
+    if (socket && tableroEnviar) {
+      console.log(tableroEnviar)
+      socket.emit("move", { tableroEnviar, roomId});
+      console.log("muevo");
+    }
+  }, [socket, tableroEnviar]);
+
+
 
   const handleSurrender = () => {
     setSurrender(!surrender);
@@ -232,7 +268,7 @@ function GameOnline({ gameMode }) {
           </div>
           {/* Tablero */}
           <div className="tablero-wr">
-            <Tablero blancasAbajo={colorSuffix==='1' ? true : false} />
+            <TableroOnline blancasAbajo={colorSuffix.toString()==='0'} tableroUpdate={tableroUpdate} setTableroEnviar={setTableroEnviar}  />
           </div>
           <div>
             {/* Jugador 2 */}
