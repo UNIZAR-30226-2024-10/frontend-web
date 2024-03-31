@@ -18,7 +18,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/game' element={<Game gameMode={gameMode} />} />
-        <Route path='/gameOnline' element={<GameOnline gameMode={gameMode} />} />
+        <Route path='/gameOnline/:roomId/:colorSuffix' element={<GameOnline />} />
         {/*<Route path='/tablero' element={<Tablero />} /> */}
       </Routes>
     </div>

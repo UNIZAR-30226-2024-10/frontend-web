@@ -1,13 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect,useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../images/Logo.png'
 import '../styles/Sidebar.css';
 import CloseIcon from '@mui/icons-material/Close';
+import io from 'socket.io-client';
+
 
 function SideBar(args) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false); // Hook para simular la pantalla de carga
   const [gamesPopUp, setGamesPopUp] = useState(false); // Hook para mostrar los modos de juego
+    const [socket, setSocket] = useState(null);
+
+  useEffect(() => {
+    // Conexión al servidor de Socket.io
+    const newSocket = io('http://localhost:3001'); // Reemplaza 'http://localhost:3000' con la URL de tu servidor Socket.io
+    console.log("hola")
+    setSocket(newSocket);
+
+    // Limpieza del efecto
+    return () => newSocket.close();
+  }, []);
+
+  useEffect(() => {
+    if (socket) {
+      // Escuchar el evento 'game_ready' del servidor
+      socket.on('game_ready', (data) => {
+        console.log(data)
+        setLoading(false);
+        const colorSuffix = data.color === 'white' ? '1' : '2';
+        // Cifrar los parámetros y agregarlos a la URL
+        navigate(`/gameOnline/${data.roomId}/${colorSuffix}`);
+      });
+    }
+  }, [socket, navigate]);
 
   const h1Style = {
     color: 'white',
@@ -73,26 +99,20 @@ function SideBar(args) {
 const handleClickJugarRAOnline = () => {
     args.updateMode('Rapid');
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      navigate('/gameOnline'); // Reemplaza '/nueva-pagina' con la URL de la página que quieres cargar
-    }, 5000); // 5000 milisegundos = 5 segundos
-  }
+    console.log("emito")
+    socket.emit('join_room', { mode: 'Rapid' }); // Envía un evento al servidor para unirse al juego en modo Rapid
+  };
   const handleClickJugarBUOnline = () => {
     args.updateMode('Bullet');
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      navigate('/game'); // Reemplaza '/nueva-pagina' con la URL de la página que quieres cargar
-    }, 5000); // 5000 milisegundos = 5 segundos
+    console.log("emito")
+    socket.emit('join_room', { mode: 'Bullet' });
   }
   const handleClickJugarBLOnline = () => {
-    args.updateMode('Blitz');
+    args.updateMode('Rapid');
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      navigate('/game'); // Reemplaza '/nueva-pagina' con la URL de la página que quieres cargar
-    }, 5000); // 5000 milisegundos = 5 segundos
+    console.log("emito")
+    socket.emit('join_room', { mode: 'Blitz' });
   }
   const OnlineMode = () => {
     return (

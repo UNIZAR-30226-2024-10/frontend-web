@@ -10,8 +10,7 @@ import Tooltip from '@mui/material/Tooltip';
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import Tablero from '../components/Tablero';
-import io from 'socket.io-client';
-
+import { useParams } from 'react-router-dom';
 
 function GameOnline({ gameMode }) {
   const navigate = useNavigate();
@@ -21,6 +20,8 @@ function GameOnline({ gameMode }) {
   const [showingSettings, setShowingSettings] = useState(false); // Hook para mostrar el menú de ajustes
   const [isPlaying, setIsPlaying] = useState(true); // Hook para pausar la partida
   const playingGame = true; // Const para indicar que el Sidebar se esta usando en la pantalla de game
+  const { roomId, colorSuffix } = useParams();
+
   const handleSurrender = () => {
     setSurrender(!surrender);
   }
@@ -143,14 +144,6 @@ function GameOnline({ gameMode }) {
       </div>
     );
   }
-  const i =0;
- useEffect(() => {
-    const socket = io.connect("http://localhost:3001");
-    return () => {
-      // Cerrar la conexión cuando el componente se desmonta
-      socket.disconnect();
-    };
-  }, []);
   return (
     <div className="game-background">
       <div className="game-menu">
@@ -239,7 +232,7 @@ function GameOnline({ gameMode }) {
           </div>
           {/* Tablero */}
           <div className="tablero-wr">
-            <Tablero />
+            <Tablero blancasAbajo={colorSuffix==='1' ? true : false} />
           </div>
           <div>
             {/* Jugador 2 */}

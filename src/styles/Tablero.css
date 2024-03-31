@@ -4,7 +4,9 @@
   border: solid 1px #fff;
   margin-bottom: 25px;
 }
-
+.tablero.rotated{
+  transform: rotate(180deg);
+}
 .filatab {
   display: flex;
   height: 100%;
