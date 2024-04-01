@@ -53,27 +53,15 @@ function SideBar(args) {
 
   const handleClickJugarRA = () => {
     args.updateMode('Rapid');
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      navigate('/game'); // Reemplaza '/nueva-pagina' con la URL de la página que quieres cargar
-    }, 5000); // 5000 milisegundos = 5 segundos
+    navigate('/game'); // Reemplaza '/nueva-pagina' con la URL de la página que quieres cargar
   }
   const handleClickJugarBU = () => {
     args.updateMode('Bullet');
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      navigate('/game'); // Reemplaza '/nueva-pagina' con la URL de la página que quieres cargar
-    }, 5000); // 5000 milisegundos = 5 segundos
+    navigate('/game'); // Reemplaza '/nueva-pagina' con la URL de la página que quieres cargar
   }
   const handleClickJugarBL = () => {
     args.updateMode('Blitz');
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      navigate('/game'); // Reemplaza '/nueva-pagina' con la URL de la página que quieres cargar
-    }, 5000); // 5000 milisegundos = 5 segundos
+    navigate('/game'); // Reemplaza '/nueva-pagina' con la URL de la página que quieres cargar
   }
 
 
