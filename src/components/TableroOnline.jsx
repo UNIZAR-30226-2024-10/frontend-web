@@ -186,7 +186,7 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
           console.log(oldX, oldY)
           console.log(newX, newY)
             // Se intercambian los contenidos de las casillas
-            const newTablero = [...tablero] //asi se hace una copia
+            const newTablero = JSON.parse(JSON.stringify(tablero)) //asi se hace una copia
             newTablero[newX][newY] = tablero[oldX][oldY]
             newTablero[oldX][oldY] = ''
             console.log(newTablero[newX][newY])
@@ -209,7 +209,7 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
             setTableroEnviar(tablero)
             }else {
             // Si el movimiento no es legal, se restaura el tablero original
-              setTablero(originalTablero)
+              // setTablero(originalTablero)
             }
 
             setPiezaSel(null) //No hay piezas seleccionadas

@@ -39,7 +39,7 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
                 }
             });
         });
-        console.log(json)
+        // console.log(json)
         return json;
     }
 
@@ -107,13 +107,13 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
     // mayúsculas: blancas
     const matrizIni = [
         ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
-        ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
+        ['p', 'p', 'p', 'p', '', 'p', 'p', 'p'],
         ['' , '' , '' , '' ,'' , '' , '' , '' ],
+        ['' , '' , '' , '' ,'p' , '' , '' , 'Q' ],
+        ['' , '' , 'B' , '' ,'P' , '' , '' , '' ],
         ['' , '' , '' , '' ,'' , '' , '' , '' ],
-        ['' , '' , '' , '' ,'' , '' , '' , '' ],
-        ['' , '' , '' , '' ,'' , '' , '' , '' ],
-        ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
-        ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
+        ['P', 'P', 'P', 'P', '', 'P', 'P', 'P'],
+        ['R', 'N', 'B', '', '', '', 'N', 'R'],
     ]
     const [tablero, setTablero] = useState(matrizIni)
 
@@ -145,16 +145,16 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
             });
 
             const parseRes = await response.json(); // parseRes es el objeto JSON que se recibe
-            // console.log(parseRes)
+            console.log(parseRes)
             if (parseRes.jugadaLegal === true) { // Si la jugada es legal (campo jugadaLegal) se cambian los movimientos posibles
               console.log('movimientos posibles:');
               // console.log(parseRes.allMovements);
               setMovsPosibles(transformarMovimientos(parseRes));
-              console.log(movsPosibles)
+              // console.log(movsPosibles)
               return true;
-            }
-            else { //La jugada no es legal
+            }else { //La jugada no es legal
               console.log('ERROR: Jugada no legal. Deja al rey en mate.');
+
               return false;
             }
         } catch (err) {
@@ -173,14 +173,13 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
             //Se obtienen las coordenadas de la casilla destino
             const newX = movimiento.fila
             const newY = movimiento.col
-            const originalTablero = [...tablero]
-          // console.log(oldX, oldY)
-          // console.log(newX, newY)
+            // const originalTablero = [...tablero]
+            // console.log(newX, newY)
             // Se intercambian los contenidos de las casillas
-            const newTablero = [...tablero] //asi se hace una copia
+            const newTablero = JSON.parse(JSON.stringify(tablero)) //asi se hace una copia  
             newTablero[newX][newY] = tablero[oldX][oldY]
             newTablero[oldX][oldY] = ''
-            console.log(newTablero[newX][newY])
+            // console.log(tablero[oldX][oldY]);
             if((newTablero[newX][newY]==='K' || newTablero[newX][newY]==='k')&&(Math.abs(oldY-newY))===2){
               if(newY===6){
                 newTablero[newX][5] = newTablero[newX][newY+1]
@@ -191,16 +190,20 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
                 newTablero[newX][0]=''
               }
             }
-            if (submitMov(newTablero)){ // Si el movimiento es legal (no deja al rey en mate)
-              setTablero(newTablero) //Se cambia el tablero
-              turno === 0 ? pauseTimer2() : pauseTimer1()
-              setTurno((turno === 0)? 1:0) //Cambia el color que tiene el turno
-            }else {
-            // Si el movimiento no es legal, se restaura el tablero original
-              setTablero(originalTablero)
-            }
+            submitMov(newTablero)
+            .then(isLegal => {
+              if (isLegal) {
+                setTablero(newTablero); // Se cambia el tablero
+                turno === 0 ? pauseTimer2() : pauseTimer1();
+                setTurno(turno === 0 ? 1 : 0); // Cambia el color que tiene el turno
+              }
+              setPiezaSel(null); // No hay piezas seleccionadas
+            })
+            .catch(error => {
+              // Manejar el error aquí si es necesario
+              console.error("Error al procesar el movimiento:", error);
+            });
 
-            setPiezaSel(null) //No hay piezas seleccionadas
         }
     }, [movimiento])
     return (

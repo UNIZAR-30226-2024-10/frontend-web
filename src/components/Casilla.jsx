@@ -60,7 +60,7 @@ const Casilla = (args) => {
      * Maneja el evento de clic para la casilla.
      */
     const handleClick = () => {
-        console.log( args.tablero[mFila][mCol]);
+        // console.log( args.tablero[mFila][mCol]);
         // console.log("soy "+mFila + " col "+ mCol );
         
         //Si soy una casilla con una pieza seleccionable y me seleccionan cambio piezaSel
@@ -73,8 +73,8 @@ const Casilla = (args) => {
           if (args.piezaSel!==null ){ //Si piezaSel esta definida (hay una pieza seleccionada)
             if(args.tablero[mFila][mCol] !== '' && ((args.tablero[mFila][mCol] === args.tablero[mFila][mCol].toUpperCase() && args.turno === 0)
             || (args.tablero[mFila][mCol] === args.tablero[mFila][mCol].toLowerCase() && args.turno === 1))){
-              console.log('nuevopiezaSel: ', mFila, ',', mCol)
-              console.log("turno y emas, ", args.tablero[mFila][mCol], "   ", args.turno)
+              // console.log('nuevopiezaSel: ', mFila, ',', mCol)
+              // console.log("turno y emas, ", args.tablero[mFila][mCol], "   ", args.turno)
               args.setPiezaSel({fila:mFila, col:mCol});
             }else{
               const filaSel = args.piezaSel.fila

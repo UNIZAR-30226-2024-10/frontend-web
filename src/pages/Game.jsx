@@ -104,7 +104,6 @@ function Game({ gameMode }) {
     setIsRunning2(true)
   }
   const pauseTimer2 = () => {
-    console.log("hola")
       setIsRunning2(false);
       setIsRunning1(true);
   }
