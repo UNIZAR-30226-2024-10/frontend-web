@@ -99,14 +99,15 @@ function Game({ gameMode }) {
     }
     return () => clearInterval(interval)
   }, [seconds2, minutes2, isRunning2])
-  // function pauseTimer1(){
-  //     setIsRunning1(false);
-  //     setIsRunning2(true)
-  // }
-  // function pauseTimer2(){
-  //     setIsRunning2(false);
-  //     setIsRunning1(true);
-  // }
+  const pauseTimer1 = () => {
+    setIsRunning1(false);
+    setIsRunning2(true)
+  }
+  const pauseTimer2 = () => {
+    console.log("hola")
+      setIsRunning2(false);
+      setIsRunning1(true);
+  }
   const InfoPlayers = ({numJugador, nombreJugador, eloJugador, colorFicha, tiempoRestante, fichasComidas }) => {
     const minutes = parseInt(numJugador,10) ===1?minutes1:minutes2;
     const seconds = parseInt(numJugador,10) ===1?seconds1:seconds2;
@@ -231,7 +232,7 @@ function Game({ gameMode }) {
           </div>
           {/* Tablero */}
           <div className="tablero-wr">
-            <Tablero />
+            <Tablero pauseTimer1={pauseTimer1} pauseTimer2={pauseTimer2} />
           </div>
           <div>
             {/* Jugador 2 */}

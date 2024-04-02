@@ -137,11 +137,13 @@ function GameOnline({ gameMode }) {
     }
     return () => clearInterval(interval)
   }, [seconds2, minutes2, isRunning2])
-  function pauseTimer1(){
+  const pauseTimer1 = ()=>{
+    console.log("hola")
       setIsRunning1(false);
       setIsRunning2(true)
   }
-  function pauseTimer2(){
+  const pauseTimer2 = ()=>{
+    console.log("hola2")
       setIsRunning2(false);
       setIsRunning1(true);
   }
@@ -268,7 +270,7 @@ function GameOnline({ gameMode }) {
           </div>
           {/* Tablero */}
           <div className="tablero-wr">
-            <TableroOnline blancasAbajo={colorSuffix.toString()==='0'} tableroUpdate={tableroUpdate} setTableroEnviar={setTableroEnviar}  />
+            <TableroOnline blancasAbajo={colorSuffix.toString()==='0'} tableroUpdate={tableroUpdate} setTableroEnviar={setTableroEnviar} pauseTimer1={pauseTimer1} pauseTimer2={pauseTimer2} />
           </div>
           <div>
             {/* Jugador 2 */}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Casilla from './Casilla';
 import '../styles/Tablero.css'
-const Tablero = () => {
+const Tablero = ({pauseTimer1, pauseTimer2}) => {
     const gridStyle = {
         display: 'grid',
     };
@@ -174,8 +174,8 @@ const Tablero = () => {
             const newX = movimiento.fila
             const newY = movimiento.col
             const originalTablero = [...tablero]
-          console.log(oldX, oldY)
-          console.log(newX, newY)
+          // console.log(oldX, oldY)
+          // console.log(newX, newY)
             // Se intercambian los contenidos de las casillas
             const newTablero = [...tablero] //asi se hace una copia
             newTablero[newX][newY] = tablero[oldX][oldY]
@@ -183,18 +183,17 @@ const Tablero = () => {
             console.log(newTablero[newX][newY])
             if((newTablero[newX][newY]==='K' || newTablero[newX][newY]==='k')&&(Math.abs(oldY-newY))===2){
               if(newY===6){
-                console.log("si");
                 newTablero[newX][5] = newTablero[newX][newY+1]
                 newTablero[newX][7]=''
               }
               if(newY===2){
-                console.log("si2");
                 newTablero[newX][3] = newTablero[newX][newY-2]
                 newTablero[newX][0]=''
               }
             }
             if (submitMov(newTablero)){ // Si el movimiento es legal (no deja al rey en mate)
               setTablero(newTablero) //Se cambia el tablero
+              turno === 0 ? pauseTimer2() : pauseTimer1()
               setTurno((turno === 0)? 1:0) //Cambia el color que tiene el turno
             }else {
             // Si el movimiento no es legal, se restaura el tablero original

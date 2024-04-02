@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Casilla from './Casilla';
 import '../styles/Tablero.css'
 import { tab } from '@testing-library/user-event/dist/tab';
-const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar}) => {
+const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer1, pauseTimer2}) => {
     const gridStyle = {
         display: 'grid',
     };
@@ -121,7 +121,9 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar}) => {
       if(tableroUpdate){
         setTablero(tableroUpdate)
         setTurno((turno === 0)? 1:0) //Cambia el color que tiene el turno
+        pauseTimer1()
         submitMov(tableroUpdate)
+        console.log("movio")
 
       }
     },[tableroUpdate])
@@ -180,18 +182,31 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar}) => {
             //Se obtienen las coordenadas de la casilla destino
             const newX = movimiento.fila
             const newY = movimiento.col
-            
             const originalTablero = [...tablero]
-
+          console.log(oldX, oldY)
+          console.log(newX, newY)
             // Se intercambian los contenidos de las casillas
             const newTablero = [...tablero] //asi se hace una copia
             newTablero[newX][newY] = tablero[oldX][oldY]
             newTablero[oldX][oldY] = ''
-
+            console.log(newTablero[newX][newY])
+            if((newTablero[newX][newY]==='K' || newTablero[newX][newY]==='k')&&(Math.abs(oldY-newY))===2){
+              if(newY===6){
+                console.log("si");
+                newTablero[newX][5] = newTablero[newX][newY+1]
+                newTablero[newX][7]=''
+              }
+              if(newY===2){
+                console.log("si2");
+                newTablero[newX][3] = newTablero[newX][newY-2]
+                newTablero[newX][0]=''
+              }
+            }
             if (submitMov(newTablero)){ // Si el movimiento es legal (no deja al rey en mate)
               setTablero(newTablero) //Se cambia el tablero
-              setTurno((turno === 0)? 1:0) //Cambia el color que tiene el turno
-              setTableroEnviar(tablero)
+            setTurno((turno === 0)? 1:0) //Cambia el color que tiene el turno
+            pauseTimer2()
+            setTableroEnviar(tablero)
             }else {
             // Si el movimiento no es legal, se restaura el tablero original
               setTablero(originalTablero)
@@ -200,6 +215,9 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar}) => {
             setPiezaSel(null) //No hay piezas seleccionadas
         }
     }, [movimiento])
+    useEffect(()=>{
+      !blancasAbajo ? pauseTimer2() : null;
+    }, [])
     return (
         <>
         <div style={gridStyle} className={`tablero ${!blancasAbajo ? 'rotated' : ''}`}>
