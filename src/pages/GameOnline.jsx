@@ -13,6 +13,7 @@ import TableroOnline from '../components/TableroOnline';
 import { useParams } from 'react-router-dom';
 import Chat from '../components/Chat.jsx';
 import {SocketContext} from './../context/socket';
+import Game from './Game.jsx';
 
 function GameOnline({ gameMode }) {
   const socket = useContext(SocketContext);

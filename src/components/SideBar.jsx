@@ -85,7 +85,7 @@ const handleClickJugarRAOnline = () => {
     socket.emit('join_room', { mode: 'Bullet' });
   }
   const handleClickJugarBLOnline = () => {
-    args.updateMode('Rapid');
+    args.updateMode('Blitz');
     setLoading(true);
     console.log("emito")
     socket.emit('join_room', { mode: 'Blitz' });

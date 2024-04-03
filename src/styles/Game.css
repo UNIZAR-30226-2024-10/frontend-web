@@ -170,6 +170,9 @@
 /* Opciones del juego */
 .game-options {
   width: 20vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .game-options-button {
