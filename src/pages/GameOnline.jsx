@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState , useContext, useCallback} from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Game.css'
 import SideBar from '../components/SideBar';
@@ -11,9 +11,12 @@ import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import TableroOnline from '../components/TableroOnline';
 import { useParams } from 'react-router-dom';
-import io from 'socket.io-client';
+import Chat from '../components/Chat.jsx';
+import {SocketContext} from './../context/socket';
 
 function GameOnline({ gameMode }) {
+  const socket = useContext(SocketContext);
+
   const navigate = useNavigate();
   const [IsMenuVisible, SetIsMenuVisible] = useState(false);
   const [surrender, setSurrender] = useState(false); // Hook para comprobar si el jugador se ha rendido
@@ -22,27 +25,11 @@ function GameOnline({ gameMode }) {
   const [isPlaying, setIsPlaying] = useState(true); // Hook para pausar la partida
   const playingGame = true; // Const para indicar que el Sidebar se esta usando en la pantalla de game
   const { roomId, colorSuffix } = useParams();
-  const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    // Conexión al servidor de Socket.io
-    const newSocket = io('http://localhost:3001'); // Reemplaza 'http://localhost:3000' con la URL de tu servidor Socket.io
-    setSocket(newSocket)
-    // Limpieza del efecto
-    return () => newSocket.close();
-  }, []);
-
-  useEffect(() => {
-    if (socket) {
-      // Emitir el evento 'jugar' cuando el socket esté disponible
-      // console.log("jugar")
-      socket.emit('jugar', roomId);
       socket.on("movido", (data)=>{
-        console.log("el rival ha movido")
-        console.log(data)
         setTableroUpdate(data);
       })
-    }
   }, [socket]);
 
   const [tableroEnviar, setTableroEnviar] = useState(null)
@@ -73,34 +60,6 @@ function GameOnline({ gameMode }) {
   const handlePause = () => {
     setIsPlaying(!isPlaying);
   }
-
-  const TextInputWithButton = () => {
-    const [text, setText] = useState('');
-    const [submittedText, setSubmittedText] = useState('');
-
-    const handleChange = (event) => {
-      setText(event.target.value);
-    };
-
-    const handleSubmit = () => {
-      setSubmittedText(text);
-      setText('');
-    };
-
-    return (
-      <div>
-        <label htmlFor="textInput">Enter Text: </label>
-        <input
-          type="text"
-          id="textInput"
-          value={text}
-          onChange={handleChange}
-        />
-        <button onClick={handleSubmit}>Submit</button>
-        {submittedText && <p>You submitted: {submittedText}</p>}
-      </div>
-    );
-  };
   const tiempo = gameMode === 'Rapid' ? 10 : (gameMode === 'Blitz' ? 5 : 3);
   
   const [minutes1, setMinutes1] = useState(tiempo);
@@ -138,12 +97,10 @@ function GameOnline({ gameMode }) {
     return () => clearInterval(interval)
   }, [seconds2, minutes2, isRunning2])
   const pauseTimer1 = ()=>{
-    console.log("hola")
       setIsRunning1(false);
       setIsRunning2(true)
   }
   const pauseTimer2 = ()=>{
-    console.log("hola2")
       setIsRunning2(false);
       setIsRunning1(true);
   }
@@ -287,12 +244,7 @@ function GameOnline({ gameMode }) {
       <div className="game-chat-box">
         {/* Chat de la partida */}
         <div className="game-chat">
-          <div className="game-chat-text">
-            Textos
-          </div>
-          <div className="game-chat-input">
-            <TextInputWithButton />
-          </div>
+          <Chat socket={socket} roomId={roomId}/>
         </div>
         {/* Botones de opciones para la partida */}
         <div className="game-options">

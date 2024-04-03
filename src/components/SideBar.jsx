@@ -1,27 +1,15 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect,useState, useContext, useCallback} from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../images/Logo.png'
 import '../styles/Sidebar.css';
 import CloseIcon from '@mui/icons-material/Close';
-import io from 'socket.io-client';
-
+import {SocketContext} from './../context/socket';
 
 function SideBar(args) {
+  const socket = useContext(SocketContext);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false); // Hook para simular la pantalla de carga
   const [gamesPopUp, setGamesPopUp] = useState(false); // Hook para mostrar los modos de juego
-  const [socket, setSocket] = useState(null);
-  
-  useEffect(() => {
-    // Conexión al servidor de Socket.io
-    // const newSocket = io('http://localhost:3001'); // Reemplaza 'http://localhost:3000' con la URL de tu servidor Socket.io
-    // console.log("hola")
-    // setSocket(newSocket);
-    // localStorage.setItem('socketId', socket.id);
-
-    // Limpieza del efecto
-    // return () => newSocket.close();
-  }, []);
 
   useEffect(() => {
     if (socket) {
@@ -40,8 +28,6 @@ function SideBar(args) {
   };
   const handleClick = () => {
     setGamesPopUp(!gamesPopUp);
-    const newSocket = io('http://localhost:3001'); // Reemplaza 'http://localhost:3000' con la URL de tu servidor Socket.ios
-    setSocket(newSocket)
   };
   /*const handleClickJugar = () => {
     setLoading(true);

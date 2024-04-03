@@ -1,0 +1,106 @@
+ /* Fichero de estilos para el chat */
+.chat{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.form{
+  background: rgba(156, 22, 22, 0.15); 
+  padding: 0.25rem; 
+  display: flex;
+  height: 5%; 
+  box-sizing: border-box; 
+  backdrop-filter: blur(10px);
+}
+.form > button {
+  background:  #ff8e0d;
+  border: none; 
+  padding: 0 1rem; 
+  margin: 0.25rem; 
+  border-radius: 3px; 
+  outline: none; 
+  color: #fff;
+}
+
+.input {
+  border: none; 
+  padding: 0 1rem; 
+  flex-grow: 1; 
+  border-radius: 2rem; 
+  margin: 0.25rem;
+}
+.input:focus {
+  outline: auto;
+}
+
+#messages{
+  list-style-type: none; 
+  height: 100%;
+  margin: 0; 
+  padding: 0;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column-reverse;  
+}
+
+#messages > li{
+  margin-left: 3%;
+  margin-right: 3%;
+  max-width: 70%;
+  word-wrap: break-word;
+  margin-bottom: 12px;
+  line-height: 24px;
+  position: relative;
+	padding: 10px 20px;
+  border-radius: 25px;
+  
+  &:before, &:after {
+    content: "";
+		position: absolute;
+    bottom: 0;
+    height: 20px;
+  }
+}
+
+.me {
+	color: white; 
+	background: #0B93F6;
+	align-self: flex-end;
+		
+	&:before {
+		right: -7px;
+    width: 20px;
+    background-color: #0B93F6;
+		border-bottom-left-radius: 16px 14px;
+	}
+
+	&:after {
+		right: -26px;
+    width: 26px;
+    background-color: white;
+		border-bottom-left-radius: 10px;
+	}
+}
+.them {
+	background: #E5E5EA;
+	color: black;
+  align-self: flex-start;
+		
+	&:before {
+		left: -7px;
+    width: 20px;
+    background-color: #E5E5EA;
+		border-bottom-right-radius: 16px;
+	}
+
+	&:after {
+		left: -26px;
+    width: 26px;
+    background-color: white;
+		border-bottom-right-radius: 10px;
+	}
+}

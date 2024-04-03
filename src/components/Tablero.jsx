@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Casilla from './Casilla';
 import '../styles/Tablero.css'
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const Tablero = ({pauseTimer1, pauseTimer2}) => {
     const gridStyle = {
         display: 'grid',
@@ -136,7 +138,7 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
         const jsonMatriz = traducirTableroAJSON(nuevoTablero); // Convertir el nuevo tablero en una cadena JSON
             // Se envia el tablero al back para que valide si el movimiento es legal y devuelva los movimientos posibles
             // const response = await fetch('http://13.51.136.199:3001/play', {
-            const response = await fetch('http://localhost:3001/play', {
+            const response = await fetch(`${apiUrl}/play`, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',

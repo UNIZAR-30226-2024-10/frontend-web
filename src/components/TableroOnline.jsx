@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Casilla from './Casilla';
 import '../styles/Tablero.css'
 import { tab } from '@testing-library/user-event/dist/tab';
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer1, pauseTimer2}) => {
     const gridStyle = {
         display: 'grid',
@@ -146,7 +148,7 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
         const jsonMatriz = traducirTableroAJSON(nuevoTablero); // Convertir el nuevo tablero en una cadena JSON
             // Se envia el tablero al back para que valide si el movimiento es legal y devuelva los movimientos posibles
             // const response = await fetch('http://13.51.136.199:3001/play', {
-            const response = await fetch('http://localhost:3001/play', {
+            const response = await fetch(`${apiUrl}/play`, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
@@ -182,9 +184,9 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
             //Se obtienen las coordenadas de la casilla destino
             const newX = movimiento.fila
             const newY = movimiento.col
-            const originalTablero = [...tablero]
-          console.log(oldX, oldY)
-          console.log(newX, newY)
+            // const originalTablero = [...tablero]
+          // console.log(oldX, oldY)
+          // console.log(newX, newY)
             // Se intercambian los contenidos de las casillas
             const newTablero = JSON.parse(JSON.stringify(tablero)) //asi se hace una copia
             newTablero[newX][newY] = tablero[oldX][oldY]
@@ -202,19 +204,29 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
                 newTablero[newX][0]=''
               }
             }
-            if (submitMov(newTablero)){ // Si el movimiento es legal (no deja al rey en mate)
-              setTablero(newTablero) //Se cambia el tablero
-            setTurno((turno === 0)? 1:0) //Cambia el color que tiene el turno
-            pauseTimer2()
-            setTableroEnviar(tablero)
-            }else {
-            // Si el movimiento no es legal, se restaura el tablero original
-              // setTablero(originalTablero)
-            }
+            submitMov(newTablero)
+            .then(isLegal => {
+              if (isLegal) {
+                console.log("ta",newTablero)
+                setTablero(newTablero) //Se cambia el tablero
+                console.log("nuevo", tablero)
+                setTurno((turno === 0)? 1:0) //Cambia el color que tiene el turno
+                pauseTimer2()
+                setTableroEnviar(newTablero)
+              }
+              setPiezaSel(null); // No hay piezas seleccionadas
+            })
+            .catch(error => {
+              // Manejar el error aquí si es necesario
+              console.error("Error al procesar el movimiento:", error);
+            });
 
             setPiezaSel(null) //No hay piezas seleccionadas
         }
     }, [movimiento])
+    useEffect(()=>{
+
+    }, tablero)
     useEffect(()=>{
       !blancasAbajo ? pauseTimer2() : null;
     }, [])

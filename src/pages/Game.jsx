@@ -245,58 +245,6 @@ function Game({ gameMode }) {
           </div>
         </div>
       </div>
-      <div className="game-chat-box">
-        {/* Chat de la partida */}
-        <div className="game-chat">
-          <div className="game-chat-text">
-            Textos
-          </div>
-          <div className="game-chat-input">
-            <TextInputWithButton />
-          </div>
-        </div>
-        {/* Botones de opciones para la partida */}
-        <div className="game-options">
-          {/* Botón de rendición */}
-          <button className="game-options-button" onClick={handleSurrender} disabled={confirmSurrender}>
-            <Tooltip title="Rendirse">
-              <FlagIcon sx={{
-                color: 'white',
-                height: 42,
-                width: 42
-              }} />
-            </Tooltip>
-          </button>
-          {/* Botón para parar o reanudar la partida */}
-          <button className="game-options-button" onClick={handlePause} disabled={surrender || confirmSurrender}>
-            {isPlaying ?
-              (<Tooltip title="Pausar partida">
-                <PauseIcon sx={{
-                  color: 'white',
-                  width: 42,
-                  height: 42
-                }} />
-              </Tooltip>) :
-              (<Tooltip title="Reanudar partida">
-                <PlayArrowIcon sx={{
-                  color: 'white',
-                  width: 42,
-                  height: 42
-                }} />
-              </Tooltip>)}
-          </button>
-          {/* Botón de ajustes de la partida */}
-          <button className="game-options-button" onClick={handleSettings} disabled={surrender || confirmSurrender}>
-            <Tooltip title="Ajustes">
-              <SettingsIcon sx={{
-                color: 'white',
-                height: 42,
-                width: 42
-              }} />
-            </Tooltip>
-          </button>
-        </div>
-      </div>
     </div>
   );
 }
