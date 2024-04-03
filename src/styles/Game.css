@@ -19,14 +19,14 @@
 
 /* Perteece al div que representa el juego */
 .game-screen {
-  width: 70%;
+  width: 63%;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   flex-wrap: wrap;
   position: relative;
-  background-color: aqua;
+  /* background-color: aqua; */
 }
 
 .game-mode {
@@ -141,22 +141,18 @@
 .game-chat-box {
   display: flex;
   flex-direction: column;
-  justify-content: left;
   justify-content: center;
   width: 25%;
   height: 100vh;
-  background-color: orange;
+  /* background-color: purple; */
 }
 .game-chat {
-  background-color: whitesmoke;
-  height: 60%;
-  width: 90%;
+  height: 75%;
+  width: 80%;
   display: flex;
   flex-direction: column;
-
   border: solid 4px black;
   border-radius: 8px;
-  padding: 8px;
 }
 /* .game-chat-text{
   border: solid 2px red;
@@ -173,7 +169,6 @@
 
 /* Opciones del juego */
 .game-options {
-  height: 10vh;
   width: 20vw;
 }
 
@@ -188,7 +183,7 @@
 /* Menu lateral (sidebar) */
 .game-menu {
   height: 100vh;
-  background-color: pink;
+  /* background-color: pink; */
 }
 
 .sliding-div {
