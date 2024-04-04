@@ -170,7 +170,7 @@ function Game({ gameMode }) {
           </div>
         </div>
       </div>
-      <div className="game-screen">
+      <div style={{width: '80%'}} className="game-screen">
         {/* Diferentes popUps con mensajes */}
         {showingSettings && !surrender &&
           <div className="popup-background">

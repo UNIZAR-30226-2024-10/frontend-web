@@ -262,14 +262,15 @@
     font-weight: 600;
 }
 /* Cuadro informativo acerca del tiempo */
-.game-info-time {
+/*.game-info-time {
   color: #fff;
   width: 12vw;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: bold;
-}
+  background-color: blue;
+} */
 
 /* Cuadro informativo acerca de las fichas comidas */
 .game-info-tokenEaten {

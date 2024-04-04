@@ -28,6 +28,17 @@ function GameOnline({ gameMode }) {
   const { roomId, colorSuffix } = useParams();
 
   useEffect(() => {
+    console.log("entra");
+    socket.on("player_disconnected", () => { // Avisa al jugador de que su contrincante se ha desconectado de la partida
+      alert("Has ganado la partida, tu contrincante se ha desconectado");
+    });
+
+    return () => {
+      socket.off("player_disconnected");
+    };
+  },[]);
+
+  useEffect(() => {
       socket.on("movido", (data)=>{
         setTableroUpdate(data);
       })
@@ -223,21 +234,17 @@ function GameOnline({ gameMode }) {
               nombreJugador='Jugador 1'
               eloJugador='200'
               colorFicha='Negras'
-              tiempoRestante='10 mins'
               fichasComidas='0' />
           </div>
           {/* Tablero */}
-          <div className="tablero-wr">
-            <TableroOnline blancasAbajo={colorSuffix.toString()==='0'} tableroUpdate={tableroUpdate} setTableroEnviar={setTableroEnviar} pauseTimer1={pauseTimer1} pauseTimer2={pauseTimer2} />
-          </div>
+          <TableroOnline blancasAbajo={colorSuffix.toString()==='0'} tableroUpdate={tableroUpdate} setTableroEnviar={setTableroEnviar} pauseTimer1={pauseTimer1} pauseTimer2={pauseTimer2} />
           <div>
             {/* Jugador 2 */}
             <InfoPlayers
-            numJugador='2'
+              numJugador='2'
               nombreJugador='Jugador 2'
               eloJugador='200'
               colorFicha='Blancas'
-              tiempoRestante='10 mins'
               fichasComidas='0' />
           </div>
         </div>

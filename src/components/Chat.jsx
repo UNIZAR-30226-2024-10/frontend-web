@@ -33,7 +33,7 @@ function Chat({ roomId }) {
     
     if (value) {
       setMessage([...message, newMessage]); // Añade el nuevo mensaje a la lista de mensajes
-      socket.emit('chat message', { roomId: roomId, body: value, me: socket.id }); // Envía el mensaje creado a través del socket con un evento de tipo 'chat message' 
+      socket.emit('chat message', { roomId: roomId, body: value, from: socket.id }); // Envía el mensaje creado a través del socket con un evento de tipo 'chat message' 
       inputRef.current.value = ''; // Vacía el input
       setValue('');
     }

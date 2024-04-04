@@ -188,3 +188,20 @@
   background-color: transparent;
   transform: translate(255px,-20px);
 }
+
+/* Estilo para el botón de cancelar la búsqueda de partida */
+.cancelButton{
+  background-color: #faaf40;
+  font-weight: bold;
+  font-size: large;
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.1s ease;
+}
+
+.cancelButton:hover {
+  background-color: #ee4336;
+  color: #000;
+}

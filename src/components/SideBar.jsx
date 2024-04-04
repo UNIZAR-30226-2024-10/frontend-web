@@ -74,6 +74,7 @@ function SideBar(args) {
   }
 const handleClickJugarRAOnline = () => {
     args.updateMode('Rapid');
+    console.log(args.gameMode);
     setLoading(true);
     console.log("emito")
     socket.emit('join_room', { mode: 'Rapid' }); // Envía un evento al servidor para unirse al juego en modo Rapid
@@ -132,11 +133,18 @@ const handleClickJugarRAOnline = () => {
     );
   }
 
+  const handleCancelarBusqueda = () => {
+    setLoading(false);
+    console.log(args.gameMode);
+    socket.emit('cancel_search', { mode: args.gameMode });
+  }
+
   const LoadingScreen = () => {
     return (
       <div className="overlay">
         <div className="spinner"></div>
         <h1 style={h1Style}>Buscando partida</h1>
+        <button className='cancelButton' onClick={handleCancelarBusqueda}>Cancelar búsqueda</button>
       </div>
     );
   }

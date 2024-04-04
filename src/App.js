@@ -16,12 +16,11 @@ function App() {
     <SocketContext.Provider value={socket}>
       <div className="App">
         <Routes>
-          <Route path="/home" element={<Home updateMode={updateMode} />} />
+          <Route path="/home" element={<Home updateMode={updateMode} gameMode={gameMode} />} />
           <Route path="/login" element={<Login />} />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/game' element={<Game gameMode={gameMode} />} />
           <Route path='/gameOnline/:roomId/:colorSuffix' element={<GameOnline gameMode={gameMode}/>} />
-          {/*<Route path='/tablero' element={<Tablero />} /> */}
         </Routes>
       </div>
     </SocketContext.Provider>
