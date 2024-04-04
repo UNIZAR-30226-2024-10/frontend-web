@@ -5,6 +5,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  height: 70%;
   width: 35vw;
 }
 

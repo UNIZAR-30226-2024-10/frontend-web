@@ -15,14 +15,14 @@ function Home({ updateMode, gameMode }) {
       <div className='side'>
         <Sidebar ingame={home} updateMode={updateMode} gameMode={gameMode} />
       </div>
+      {value && <div className='profile-home'> {/* Perfil del usuario */}
+        <Profile updateValue={updateValue} modifyAvatar={modifyAvatar} /> 
+      </div>}
       <div className='cuerpo-home'>
         <div className='appbar'>
           <Navbar updateValue={updateValue} avatar={avatar}/> {/* Modifica el valor del hook para mostrar el perfil */}
         </div>
         <div className='middle'>
-            {/*value && <div className='profile-home'> {/* Perfil del usuario }
-              <Profile updateValue={updateValue} modifyAvatar={modifyAvatar} /> 
-             </div>*/}
             <div className='middle-recuadros'>
               <InfoHome />
             </div>

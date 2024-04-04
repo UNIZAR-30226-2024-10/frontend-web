@@ -22,12 +22,14 @@ function Navbar ({ updateValue, avatar }) {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
-    /* Cierra la sesión del usuario */
-    setLoggedIn(false);
     setAnchorEl(null);
   };
   const handleProfile = () => {
     updateValue();
+    setAnchorEl(null);
+  }
+  const handleCloseSesion = () => {
+    setLoggedIn(false);
     setAnchorEl(null);
   }
 
@@ -65,7 +67,7 @@ function Navbar ({ updateValue, avatar }) {
         onClose={handleClose}
         MenuListProps={{'aria-labelledby': 'basic-button' }}>
         <MenuItem onClick={handleProfile}>Perfil</MenuItem> {/* Opciones del menu desplegable */}
-        <MenuItem onClick={handleClose}>Cerrar Sesión</MenuItem>
+        <MenuItem onClick={handleCloseSesion}>Cerrar Sesión</MenuItem>
       </Menu>
     );
   }

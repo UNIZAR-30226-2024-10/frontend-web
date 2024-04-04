@@ -35,11 +35,11 @@
 }
 
 .profile-home{
-  background-color: pink;
   position: fixed;
   z-index: 999;
   display: flex;
   justify-content: center;
-  width: 50vw;
-  height: 80vh;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 }

@@ -12,7 +12,7 @@ import { Tooltip } from "@mui/material";
 function Profile({ updateValue, modifyAvatar }) {
   return (
     /* Devuelve un menú de opciones para el usuario */
-    <div className='profile-settings'>
+    <div className='profile-settings' >
       <Tooltip title="Cerrar Perfil">
         <button onClick={() => updateValue()} className="profile-close-button">
           <CloseIcon sx={{width: 42, height: 42, color: "white"}}/>
