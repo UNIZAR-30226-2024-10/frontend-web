@@ -47,9 +47,33 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
 
     function transformarMovimientos(json) {
         const movsPosiblesIni = {};
-
         Object.keys(json.allMovements).forEach(pieza => {
-
+               if (pieza === 'comer' || pieza === 'bloquear') {
+                  // Obtener la sección de movimientos correspondiente
+                  let movimientos = json.allMovements[pieza][0];
+                  
+                  // Recorrer cada tipo de pieza dentro de la sección de movimientos
+                  for (let pieza2 in movimientos) {
+                      // Obtener los movimientos de la pieza
+                      let movimientosPieza = movimientos[pieza2];
+                      
+                      // Procesar cada movimiento de la pieza
+                      movimientosPieza.forEach((movimiento) => {
+                        let newX = 0;
+                        let newY = 0;
+                        let key = 0;
+                        console.log("movimiento", movimiento)
+                              newX = movimiento.fromColor === 'blancas' ? 7 - movimiento.fromY : 7 - movimiento.fromY;
+                              newY = movimiento.fromX;
+                              key = `[${newX}-${newY}]`;
+                          if (!movsPosiblesIni[key]) {
+                              movsPosiblesIni[key] = [];  
+                          }
+                          // Agregar los movimientos posibles al objeto
+                          movsPosiblesIni[key].push([7 - movimiento.y, movimiento.x]);
+                      });
+                  }
+              }else{
               json.allMovements[pieza].forEach((movimientos) => {
                   let newX=0;
                   let newY=0;
@@ -57,7 +81,8 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
                   if (Array.isArray(movimientos)) {
                       movimientos.forEach((movimiento, i) => {
                           if(i===0){
-                              newX = movimiento.fromColor === 'blancas' ? 7 - movimiento.fromY : 7 - movimiento.fromY;
+                              // newX = movimiento.fromColor === 'blancas' ? 7 - movimiento.fromY : 7 - movimiento.fromY;
+                              let newX = 7 - movimiento.fromY;
                               newY = movimiento.fromX;
                               key = `[${newX}-${newY}]`;
                           }
@@ -69,6 +94,7 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
                       });
                   }
               });
+            }
             }
         );
 
@@ -110,8 +136,8 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
     const matrizIni = [
         ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
         ['p', 'p', 'p', 'p', '', 'p', 'p', 'p'],
-        ['' , '' , '' , '' ,'' , '' , '' , '' ],
-        ['' , '' , '' , '' ,'p' , '' , '' , 'Q' ],
+        ['' , '' , '' , 'p' ,'' , '' , '' , '' ],
+        ['' , '' , '' , '' ,'Q' , '' , '' , '' ],
         ['' , '' , 'B' , '' ,'P' , '' , '' , '' ],
         ['' , '' , '' , '' ,'' , '' , '' , '' ],
         ['P', 'P', 'P', 'P', '', 'P', 'P', 'P'],
@@ -152,6 +178,7 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
               console.log('movimientos posibles:');
               // console.log(parseRes.allMovements);
               setMovsPosibles(transformarMovimientos(parseRes));
+              console.log(movsPosibles)
               // console.log(movsPosibles)
               return true;
             }else { //La jugada no es legal
