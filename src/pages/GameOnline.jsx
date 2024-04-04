@@ -28,7 +28,6 @@ function GameOnline({ gameMode }) {
   const { roomId, colorSuffix } = useParams();
 
   useEffect(() => {
-    console.log("entra");
     socket.on("player_disconnected", () => { // Avisa al jugador de que su contrincante se ha desconectado de la partida
       alert("Has ganado la partida, tu contrincante se ha desconectado");
     });
