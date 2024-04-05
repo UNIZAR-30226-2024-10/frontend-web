@@ -37,52 +37,25 @@
 }
 
 /* PopUps */
-.game-popup-pause {
-  background-color: red;
-  color: white;
-  position: absolute;
-  top: 43%;
+.game-popup {
+  background-color: #ff8e0d;
+  color: #000;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
-  width: 28vw;
-  height: 22vh;
-  border: solid 1px black;
-  border-radius: 4px;
+  justify-content: space-around;
+  transform: translateY(8%);
+  height: 250px;
+  width: 550px;
+  padding: 14px;
+  border-radius: 8px;
+  border: solid 1px white;
+  text-align: center;
 }
-
-.game-popup-surrender {
-  background-color: red;
-  color: white;
-  position: absolute;
-  top: 43%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: auto;
-  height: auto;
-  border: solid 1px black;
-  border-radius: 4px;
-}
-
-.game-popup-settings {
-  background-color: red;
-  color: white;
-  position: absolute;
-  top: 43%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 28vw;
-  height: 22vh;
-  border: solid 1px black;
-  border-radius: 4px;
-}
-
 .popup-background {
   background-color: transparent;
   position: absolute;
+  z-index: 999;
   width: 100%;
   height: 100%;
   display: flex;
@@ -92,7 +65,7 @@
 
 /* Boton de reanudar partida del popup */
 .game-popup-button {
-  background-color: green;
+   background-color: green;
   color: #FFFFFF;
   border: solid 1px black;
   border-radius: 6px;
@@ -101,7 +74,8 @@
   display: flex;
   align-items: center;
   width: auto;
-  padding: 4px;
+  padding: 6px;
+  transition: 0.3s ease;
 }
 .game-popup-button:hover {
   background-color: rgb(48, 152, 243);
@@ -113,11 +87,6 @@
   justify-content: space-evenly;
   width: 50%;
 }
-.game-popup-button:hover {
-  background-color: rgb(48, 152, 243);
-  color: #000000;
-}
-
 
 /* Cuadro informativo del modo de juego al que se está jugando */
 .game-mode-info {
@@ -132,7 +101,7 @@
   font-size: 24px;
   font-weight: 600;
   font-style: normal;
-  background-color: rgb(255, 142, 13);
+  background-color: #ff8e0d;
   border: solid 1px #fff;
   border-radius: 8px;
 }

@@ -19,17 +19,25 @@ function GameOnline({ gameMode }) {
   const socket = useContext(SocketContext);
 
   const navigate = useNavigate();
-  const [IsMenuVisible, SetIsMenuVisible] = useState(false);
-  const [surrender, setSurrender] = useState(false); // Hook para comprobar si el jugador se ha rendido
-  const [confirmSurrender, setConfirmSurrender] = useState(false); // Hook para confirmar que se ha rendido
-  const [showingSettings, setShowingSettings] = useState(false); // Hook para mostrar el menú de ajustes
-  const [isPlaying, setIsPlaying] = useState(true); // Hook para pausar la partida
-  const playingGame = true; // Const para indicar que el Sidebar se esta usando en la pantalla de game
+  const [gameState, setGameState] = useState({
+    victory : false,
+    victoryCause : '',
+    surrender : false,
+    confirmSurrender: false,
+    showingSettings: false,
+    isPlaying : true,
+    isMenuVisible : false,
+  });
+  const playingGame = true; // Constante para indicar que el Sidebar se esta usando en la pantalla de game
   const { roomId, colorSuffix } = useParams();
 
   useEffect(() => {
     socket.on("player_disconnected", () => { // Avisa al jugador de que su contrincante se ha desconectado de la partida
-      alert("Has ganado la partida, tu contrincante se ha desconectado");
+      setGameState(prevState => ({
+        ...prevState,
+        victory : true, 
+        victoryCause : 'disconnect',
+      }));
     });
 
     return () => {
@@ -54,22 +62,53 @@ function GameOnline({ gameMode }) {
     }
   }, [socket, tableroEnviar]);
 
-
+  useEffect(() => { 
+    if (socket){
+      socket.on("oponent_surrendered", () =>{
+        setGameState(prevState => ({
+          ...prevState,
+          victory : true, 
+          victoryCause : 'surrender',
+        }));
+      });
+    }
+    return() => {
+      socket.off("oponent_surrendered");
+    }
+  });
 
   const handleSurrender = () => {
-    setSurrender(!surrender);
+    setGameState(prevState => ({
+      ...prevState,
+      surrender : !gameState.surrender
+    }));
   }
   const handleConfirmSurrender = () => {
-    setConfirmSurrender(true);
+    setGameState(prevState => ({
+      ...prevState,
+      confirmSurrender : true
+    }));
+    socket.emit("I_surrender", {roomId}); // Avisar al servidor de que nos hemos rendido
   }
   const handleSettings = () => {
-    setShowingSettings(!showingSettings);
+    setGameState(prevState => ({
+      ...prevState,
+      showingSettings : !gameState.showingSettings
+    }));
   }
   const ToggleMenuVisibility = () => {
-    SetIsMenuVisible(!IsMenuVisible);
+    setGameState(prevState => ({
+      ...prevState,
+      isMenuVisible : !gameState.isMenuVisible
+    }));
   };
   const handlePause = () => {
-    setIsPlaying(!isPlaying);
+    setGameState(prevState => ({
+      ...prevState,
+      isPlaying : !gameState.isPlaying
+    }));
+    //setIsPlaying(!isPlaying);
+    // Parar los timers
   }
   const tiempo = gameMode === 'Rapid' ? 10 : (gameMode === 'Blitz' ? 5 : 3);
   
@@ -141,7 +180,6 @@ function GameOnline({ gameMode }) {
     );
   };
 
-
   const InfoGameMode = ({ GameMode }) => {
     return (
       /* Devuelve el modo de juego al que se esta jugando */
@@ -150,11 +188,83 @@ function GameOnline({ gameMode }) {
       </div>
     );
   }
+
+  const GamePopup = () => {
+    return(
+      <>
+        {/* Ajustes de partida */}
+        {gameState.showingSettings && 
+          <div className="popup-background">
+            <div className="game-popup">
+              <h1><u>Menú de ajustes de la partida</u></h1>
+            </div>
+          </div>}
+
+        {/* Partida pausada */}
+        {!gameState.isPlaying && !gameState.surrender &&
+          <div className="popup-background">
+            <div className="game-popup">
+              <h1><u>Se ha pausado la partida</u></h1>
+              <button className="game-popup-button" onClick={handlePause}>
+                Reanudar Partida
+                <PlayArrowIcon sx={{
+                  color: 'white',
+                  width: 32,
+                  height: 32
+                }} />
+              </button>
+            </div>
+          </div>}
+
+        {/* Surrender de jugador */}
+        {gameState.surrender &&
+          <div className="popup-background">
+            {gameState.surrender && !gameState.confirmSurrender &&
+              <div className="game-popup">
+                <h1><u>¿Estas seguro de que deseas rendirte?</u></h1>
+                <div className="game-popup-button-surrender">
+                  <button className="game-popup-button" onClick={handleConfirmSurrender}>
+                    Sí
+                  </button>
+                  <button className="game-popup-button" onClick={handleSurrender}>
+                    No
+                  </button>
+                </div>
+              </div>}
+            {gameState.confirmSurrender &&
+              <div className="game-popup">
+                <h1><u>¡Te has rendido!</u></h1>
+                <h3>El jugador x gana</h3>
+                <button className="game-popup-button" onClick={() => navigate('/home')}>
+                  Abandonar partida
+                </button>
+              </div>}
+          </div>}
+
+        {/* Jugador se sale de la partida */}
+        {gameState.victory && 
+          <div className='popup-background'>
+            <div className='game-popup'>
+              <h1>¡Has ganado!</h1>
+              {gameState.victoryCause === 'disconnect' ? 
+              (<h1>El otro jugador se ha desconectado</h1>) : 
+              (<h1>El otro jugador se ha rendido</h1>)}
+              <button className="game-popup-button" onClick={() => navigate('/home')}>
+                Abandonar partida
+              </button>
+            </div>
+          </div>}
+
+        {/* Uno de los jugadores Gana por cualquier otra cosa (jaque mate ...) */}
+      </>
+    );
+  }
+
   return (
     <div className="game-background">
       <div className="game-menu">
         {/* Botón para desplegar el sidebar */}
-        {!IsMenuVisible && <button className="game-button-menu" onClick={ToggleMenuVisibility}>
+        {!gameState.isMenuVisible && <button className="game-button-menu" onClick={ToggleMenuVisibility}>
           <MenuIcon sx={{
             color: '#fff',
             backgroundColor: '#312D2D',
@@ -164,8 +274,8 @@ function GameOnline({ gameMode }) {
         </button>}
         {/* Div que contiene el sidebar */}
         <div className="game-menu-sidebar">
-          <div className={`sliding-div ${IsMenuVisible ? 'visible' : ''}`}>
-            {IsMenuVisible && <button className="game-button-close-menu" onClick={ToggleMenuVisibility}>
+          <div className={`sliding-div ${gameState.isMenuVisible ? 'visible' : ''}`}>
+            {gameState.isMenuVisible && <button className="game-button-close-menu" onClick={ToggleMenuVisibility}>
               <CloseIcon sx={{
                 color: '#fff',
                 backgroundColor: 'transparent',
@@ -178,50 +288,7 @@ function GameOnline({ gameMode }) {
         </div>
       </div>
       <div className="game-screen">
-        {/* Diferentes popUps con mensajes */}
-        {showingSettings && !surrender &&
-          <div className="popup-background">
-            <div className="game-popup-settings">
-              <h1><u>Menú de ajustes de la partida</u></h1>
-            </div>
-          </div>}
-        {!isPlaying && !surrender &&
-          <div className="popup-background">
-            <div className="game-popup-pause">
-              <h1><u>Se ha pausado la partida</u></h1>
-              <button className="game-popup-button" onClick={handlePause}>
-                Reanudar Partida
-                <PlayArrowIcon sx={{
-                  color: 'white',
-                  width: 32,
-                  height: 32
-                }} />
-              </button>
-            </div>
-          </div>}
-        {surrender &&
-          <div className="popup-background">
-            {surrender && !confirmSurrender &&
-              <div className="game-popup-surrender">
-                <h1><u>¿Estas seguro de que deseas rendirte?</u></h1>
-                <div className="game-popup-button-surrender">
-                  <button className="game-popup-button" onClick={handleConfirmSurrender}>
-                    Sí
-                  </button>
-                  <button className="game-popup-button" onClick={handleSurrender}>
-                    No
-                  </button>
-                </div>
-              </div>}
-            {confirmSurrender &&
-              <div className="game-popup-surrender">
-                <h1><u>¡Te has rendido!</u></h1>
-                <h3>El jugador X gana</h3>
-                <button className="game-popup-button" onClick={() => navigate('/home')}>
-                  Abandonar partida
-                </button>
-              </div>}
-          </div>}
+        <GamePopup /> {/* Muestra diferentes mensajes por pantalla, dependiendo de la situación de la partida  */}
         <div className="game-mode"> {/* Indicador del modo de juego al que se esta jugando */}
           <InfoGameMode GameMode={gameMode} />
         </div>
@@ -256,7 +323,7 @@ function GameOnline({ gameMode }) {
         {/* Botones de opciones para la partida */}
         <div className="game-options">
           {/* Botón de rendición */}
-          <button className="game-options-button" onClick={handleSurrender} disabled={confirmSurrender}>
+          <button className="game-options-button" onClick={handleSurrender} disabled={gameState.confirmSurrender}>
             <Tooltip title="Rendirse">
               <FlagIcon sx={{
                 color: 'white',
@@ -266,15 +333,15 @@ function GameOnline({ gameMode }) {
             </Tooltip>
           </button>
           {/* Botón para parar o reanudar la partida */}
-          <button className="game-options-button" onClick={handlePause} disabled={surrender || confirmSurrender}>
-            {isPlaying ?
+          <button className="game-options-button" onClick={handlePause} disabled={gameState.surrender || gameState.confirmSurrender}>
+            {gameState.isPlaying ? 
               (<Tooltip title="Pausar partida">
                 <PauseIcon sx={{
                   color: 'white',
                   width: 42,
                   height: 42
                 }} />
-              </Tooltip>) :
+              </Tooltip> )  : 
               (<Tooltip title="Reanudar partida">
                 <PlayArrowIcon sx={{
                   color: 'white',
@@ -284,7 +351,7 @@ function GameOnline({ gameMode }) {
               </Tooltip>)}
           </button>
           {/* Botón de ajustes de la partida */}
-          <button className="game-options-button" onClick={handleSettings} disabled={surrender || confirmSurrender}>
+          <button className="game-options-button"  onClick={handleSettings}  disabled={gameState.surrender || gameState.confirmSurrender}>
             <Tooltip title="Ajustes">
               <SettingsIcon sx={{
                 color: 'white',

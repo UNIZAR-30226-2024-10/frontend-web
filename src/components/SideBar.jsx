@@ -27,7 +27,7 @@ function SideBar(args) {
     };
   }, [socket/*, navigate*/]); // Descomentar el navigate si hace falta, pero creo que con la llamada anterior sobra
 
-  useEffect(() => {
+  useEffect(() => { // Gestión de eventos a la hora de buscar/comenzar una partida
     if (socket){
       socket.on('match_found', () => {
         setLoading(false);
