@@ -9,6 +9,7 @@ import Game from './pages/Game.jsx'
 import { GameMode } from './components/CustomHooks.jsx';
 import GameOnline from './pages/GameOnline.jsx';
 import {SocketContext, socket} from './context/socket';
+import BattlePass from './pages/BattlePass.jsx';
 
 function App() {
   const {gameMode, updateMode} = GameMode();
@@ -19,6 +20,7 @@ function App() {
           <Route path="/home" element={<Home updateMode={updateMode} gameMode={gameMode} />} />
           <Route path="/login" element={<Login />} />
           <Route path='/signup' element={<SignUp />} />
+          <Route path='/battlePass' element={<BattlePass />} />
           <Route path='/game' element={<Game gameMode={gameMode} />} />
           <Route path='/gameOnline/:roomId/:colorSuffix' element={<GameOnline gameMode={gameMode}/>} />
         </Routes>

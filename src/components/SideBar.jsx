@@ -1,4 +1,4 @@
-import React, { useEffect,useState, useContext, useCallback} from 'react';
+import React, { useEffect,useState, useContext, useRef, useCallback} from 'react';
 import { UNSAFE_useScrollRestoration, useNavigate } from 'react-router-dom';
 import logo from '../images/Logo.png'
 import '../styles/Sidebar.css';
@@ -10,7 +10,7 @@ function SideBar(args) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false); // Hook para simular la pantalla de carga
   const [gamesPopUp, setGamesPopUp] = useState(false); // Hook para mostrar los modos de juego
-  const [matchFound, setMatchFound] = useState(false); 
+  const [matchFound, setMatchFound] = useState(false); // Hook para indicador de que se ha encontrado partida
 
   useEffect(() => {
     if (socket) {
@@ -135,10 +135,28 @@ const handleClickJugarRAOnline = () => {
   }
 
   const PopUpMenu = () => {
+    const popupRef = useRef(null);
+
+    useEffect(() => {
+      // Function to close popup when clicked outside
+      function handleClickOutside(event) {
+        if (popupRef.current && !popupRef.current.contains(event.target)) {
+          setGamesPopUp(false);
+        }
+      }
+  
+      // Add event listener to detect clicks outside the popup
+      document.addEventListener('mousedown', handleClickOutside);
+  
+      // Cleanup function to remove event listener
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, []);
     return (
       /* Menú PopUp para escoger el modo de juego */
       <div className='popUp'>
-        <div className='popUp-content'>
+        <div className='popUp-content' ref={popupRef}>
           <button className='close-button' onClick={handleClick}>
             <CloseIcon sx={{
               color:'#fff', 
@@ -215,7 +233,7 @@ const handleClickJugarRAOnline = () => {
         </div>
         {/* Opciones del sidebar*/}
         {args.ingame && <div><a href="/home">Menú principal</a></div>}
-        <div><a href="#">Pase de Batalla</a></div>
+        <div><a href="/battlePass">Pase de Batalla</a></div>
         <div><a href="#">Ranking</a></div>
         <div><a href="#">Historial</a></div>
         <div><a href="#">Arenas</a></div>

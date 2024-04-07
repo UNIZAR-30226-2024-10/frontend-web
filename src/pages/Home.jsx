@@ -8,7 +8,7 @@ import { AvatarSelector, useSharedValue } from '../components/CustomHooks'
 
 function Home({ updateMode, gameMode }) {
   const {value, updateValue} = useSharedValue(); /* Hook para mostrar el perfil del usuario */
-  const {avatar, modifyAvatar} = AvatarSelector(); /* Hook para permitir el cambio de avatar del usuario */
+  const {avatar, modifyAvatarImage, modifyAvatarColor} = AvatarSelector(); /* Hook para permitir el cambio de avatar del usuario */
   const home = false;
   return (
     <div className='Home'>
@@ -16,7 +16,7 @@ function Home({ updateMode, gameMode }) {
         <Sidebar ingame={home} updateMode={updateMode} gameMode={gameMode} />
       </div>
       {value && <div className='profile-home'> {/* Perfil del usuario */}
-        <Profile updateValue={updateValue} modifyAvatar={modifyAvatar} /> 
+        <Profile updateValue={updateValue} modifyAvatarImage={modifyAvatarImage} modifyAvatarColor={modifyAvatarColor} /> 
       </div>}
       <div className='cuerpo-home'>
         <div className='appbar'>

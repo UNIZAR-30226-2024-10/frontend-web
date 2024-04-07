@@ -156,7 +156,7 @@ function Game({ gameMode }) {
           }} />
         </button>}
         {/* Div que contiene el sidebar */}
-        <div className="game-menu-sidebar">
+        <div>
           <div className={`sliding-div ${IsMenuVisible ? 'visible' : ''}`}>
             {IsMenuVisible && <button className="game-button-close-menu" onClick={ToggleMenuVisibility}>
               <CloseIcon sx={{

@@ -1,15 +1,46 @@
 import React from "react";
 import '../styles/Profile.css';
-import CloseIcon from '@mui/icons-material/Close';
-import king from '../images/king.jpeg';
-import queen from '../images/queen.jpeg';
-import pawn from '../images/pawn.jpeg';
-import bishop from '../images/bishop.png';
-import tower from '../images/tower.png';
 import Avatar from '@mui/material/Avatar';
+import CloseIcon from '@mui/icons-material/Close';
+import blackKing from '../images/blackKing.png'
+import whiteKing from '../images/whiteKing.png'
+import blackBishop from '../images/blackBishop.png'
+import whiteBishop from'../images/whiteBishop.png'
+import blackKnight from '../images/blackKnight.png'
+import whiteKnight from '../images/whiteKnight.png'
+import blackPawn from '../images/blackPawn.png'
+import whitePawn from '../images/whitePawn.png'
+import blackQueen from '../images/blackQueen.png'
+import whiteQueen from '../images/whiteQueen.png'
+import blackRook from '../images/blackRook.png'
+import whiteRook from '../images/whiteRook.png'
 import { Tooltip } from "@mui/material";
+import { useRef, useEffect } from "react";
 
-function Profile({ updateValue, modifyAvatar }) {
+function Profile({ updateValue, modifyAvatarImage, modifyAvatarColor }) {
+  const popupRef = useRef(null);
+
+  useEffect(() => {
+    // Function to close popup when clicked outside
+    function handleClickOutside(event) {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        updateValue(false);
+      }
+    }
+
+    // Add event listener to detect clicks outside the popup
+    document.addEventListener('mousedown', handleClickOutside);
+
+    // Cleanup function to remove event listener
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const whiteImages = [whiteKing,whiteQueen,whiteBishop,whiteKnight,whiteRook,whitePawn]
+  const blackImages = [blackKing,blackQueen,blackBishop,blackKnight,blackRook,blackPawn]
+  const colors = ['blue','grey','green','yellow','orange','pink','purple','red']
+
   return (
     /* Devuelve un menú de opciones para el usuario */
     <div className='profile-settings' >
@@ -18,45 +49,42 @@ function Profile({ updateValue, modifyAvatar }) {
           <CloseIcon sx={{width: 42, height: 42, color: "white"}}/>
         </button>
       </Tooltip>
-      <div className="settings">
+      <div className="settings" ref={popupRef}>
         <h1>Perfil de usuario</h1>
         <hr style={{width: "90%"}}/>
         <div className="avatar-selector">
-         <button className="avatar-button" onClick={() => modifyAvatar('king')}>
-            <Avatar 
-            alt="User"
-            src={king} 
-            sx={{ margin: "10px", width: 48, height: 48 }}
-            />
-          </button>
-          <button className="avatar-button" onClick={() => modifyAvatar('queen')}>
-            <Avatar 
-              alt="User"
-              src={queen} 
-              sx={{ margin: "10px", width: 48, height: 48 }}
-            />
-          </button>
-          <button className="avatar-button" onClick={() => modifyAvatar('bishop')}>
-            <Avatar 
-              alt="User"
-              src={bishop} 
-              sx={{ margin: "10px", width: 48, height: 48 }}
-            />
-          </button>
-          <button className="avatar-button" onClick={() => modifyAvatar('tower')}>
-            <Avatar 
-              alt="User"
-              src={tower} 
-              sx={{ margin: "10px", width: 48, height: 48 }}
-            />
-          </button>
-          <button className="avatar-button" onClick={() => modifyAvatar('pawn')}>
-            <Avatar 
-              alt="User"
-              src={pawn} 
-              sx={{ margin: "10px", width: 48, height: 48 }}
-            />
-          </button>
+          {whiteImages.map((image,index) => (
+            <button onClick={() => modifyAvatarImage(image)} className="avatar-button" key={index}>
+              <Avatar 
+                alt={`Image ${index + 1}`}
+                src={image} 
+                sx={{ width: 48, height: 48, margin: 0, padding: 0 }}
+              />
+            </button>
+          ))}
+        </div>
+        <div className="avatar-selector">
+          {blackImages.map((image,index) => (
+            <button onClick={() => modifyAvatarImage(image)} className="avatar-button" key={index}>
+              <Avatar 
+                alt={`Image ${index + 1}`}
+                src={image} 
+                sx={{ width: 48, height: 48, margin: 0, padding: 0 }}
+              />
+            </button>
+          ))}
+        </div>
+        <hr style={{width: "90%"}}/>
+        <div className="avatar-selector">
+          {colors.map((color,index) => (
+            <button onClick={() => modifyAvatarColor(color)} className="avatar-button" key={index}>
+              <Avatar 
+                alt=""
+                src="" 
+                sx={{ bgcolor: color, width: 48, height: 48, margin: 0, padding: 0 }}
+              />
+            </button>
+          ))}
         </div>
       </div>
     </div>

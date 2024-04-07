@@ -1,4 +1,5 @@
 import { useState } from "react";
+import whiteKing from '../images/whiteKing.png'
 
 export const GameMode = () => {
   const [gameMode, setGameMode] = useState('Rapid');
@@ -12,13 +13,26 @@ export const GameMode = () => {
 }
 
 export const AvatarSelector = () => { /* Hook para seleccionar el avatar del usario */
-  const [avatar, setAvatar] = useState('king');
-  const modifyAvatar = (newAvatar) => {
-    setAvatar(newAvatar);
+  const [avatar, setAvatar] = useState({
+    image : whiteKing, 
+    bgcolor: 'orange',
+  });
+  const modifyAvatarImage = (newAvatar) => {
+    setAvatar(prevState => ({
+      ...prevState,
+      image : newAvatar,
+    }));
   };
+  const modifyAvatarColor = (color) => {
+    setAvatar(prevState => ({
+      ...prevState,
+      bgcolor : color,
+    }));
+  }
   return {
     avatar,
-    modifyAvatar,
+    modifyAvatarImage,
+    modifyAvatarColor,
   };
 }
 

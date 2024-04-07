@@ -4,6 +4,7 @@
   color: white;
   position: relative;
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
   height: 70%;
   width: 35vw;
@@ -22,15 +23,23 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .avatar-selector{
   display: flex;
   flex-direction: row;
+  padding: 4px;
 }
 
 .avatar-button{
   background-color: transparent;
   border: none; 
   cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.avatar-button:hover{
+  background-color: antiquewhite;
+  border-radius: 999px;
 }

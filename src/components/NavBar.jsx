@@ -2,15 +2,8 @@ import React from 'react';
 import '../styles/Navbar.css';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
-import { deepOrange } from '@mui/material/colors';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import king from '../images/king.jpeg';
-import queen from '../images/queen.jpeg';
-import pawn from '../images/pawn.jpeg';
-import bishop from '../images/bishop.png';
-import tower from '../images/tower.png';
-
 
 function Navbar ({ updateValue, avatar }) {
   const navigate = useNavigate();
@@ -34,25 +27,12 @@ function Navbar ({ updateValue, avatar }) {
   }
 
   const UserAvatar = () => {
-    let avt = king;
-    if(avatar == 'queen'){
-      avt = queen;
-    }
-    else if(avatar == 'bishop'){
-      avt = bishop; 
-    }
-    else if(avatar == 'tower'){
-      avt = tower;
-    }
-    else if(avatar == 'pawn'){
-      avt = pawn;
-    }
     return (
       /* Avatar del usuario */
       <Avatar 
         alt="User"
-        src={avt} 
-        sx={{ bgcolor: deepOrange[500], width: 48, height: 48 }}
+        src={avatar.image}
+        sx={{ bgcolor: avatar.bgcolor, width: 48, height: 48 }}
       />
     );
   }
