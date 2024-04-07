@@ -4,6 +4,7 @@ import logo from '../images/Logo.png'
 import '../styles/Sidebar.css';
 import CloseIcon from '@mui/icons-material/Close';
 import {SocketContext} from './../context/socket';
+import { Tooltip } from "@mui/material";
 
 function SideBar(args) {
   const socket = useContext(SocketContext);
@@ -157,14 +158,16 @@ const handleClickJugarRAOnline = () => {
       /* Menú PopUp para escoger el modo de juego */
       <div className='popUp'>
         <div className='popUp-content' ref={popupRef}>
-          <button className='close-button' onClick={handleClick}>
-            <CloseIcon sx={{
-              color:'#fff', 
-              backgroundColor: 'transparent',
-              height: 48, 
-              width: 48,
-            }}/>
+          <Tooltip title = "Cerrar">
+            <button className='close-button' onClick={handleClick}>
+              <CloseIcon sx={{
+                color:'#fff', 
+                backgroundColor: 'transparent',
+                height: 48, 
+                width: 48,
+              }}/>
           </button>
+          </Tooltip>
           <LocalMode />
           <OnlineMode />
         </div>

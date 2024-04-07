@@ -186,7 +186,7 @@
   border: none;
   cursor: pointer;
   background-color: transparent;
-  transform: translate(255px,-20px);
+  transform: translate(255px,-20px); 
 }
 
 /* Estilo para el botón de cancelar la búsqueda de partida */

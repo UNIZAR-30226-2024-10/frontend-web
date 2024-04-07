@@ -1,45 +1,43 @@
-
 .profile-settings {
-  background-color: blue;
+  height: 70%;
   color: white;
-  position: relative;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  height: 70%;
-  width: 35vw;
+  position: relative;
+  background-color: blue;
 }
 
 .profile-close-button{
-  background-color: transparent;
   border: none;
   cursor: pointer;
   position: absolute;
   right: 0;
+  background-color: transparent;
 }
 
 .settings{
-  background-color: green;
+  padding: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex-wrap: wrap;
+  background-color: #987858;
 }
 
 .avatar-selector{
+  padding: 4px;
   display: flex;
   flex-direction: row;
-  padding: 4px;
 }
 
 .avatar-button{
-  background-color: transparent;
   border: none; 
   cursor: pointer;
+  border-radius: 999px;
   transition: 0.2s ease;
+  background-color: transparent;
 }
 
 .avatar-button:hover{
-  background-color: antiquewhite;
-  border-radius: 999px;
+  background-color: rgb(214, 213, 212);
 }
