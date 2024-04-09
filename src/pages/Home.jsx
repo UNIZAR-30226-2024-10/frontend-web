@@ -6,14 +6,14 @@ import InfoHome from '../components/InfoHome'
 import Profile from '../components/Profile'
 import { AvatarSelector, useSharedValue } from '../components/CustomHooks'
 
-function Home({ updateMode, gameMode }) {
+function Home({ updateMode, gameMode, updatePlayersInGame  }) {
   const {value, updateValue} = useSharedValue(); /* Hook para mostrar el perfil del usuario */
   const {avatar, modifyAvatarImage, modifyAvatarColor} = AvatarSelector(); /* Hook para permitir el cambio de avatar del usuario */
-  const home = false;
+  const home = true;
   return (
     <div className='Home'>
       <div className='side'>
-        <Sidebar ingame={home} updateMode={updateMode} gameMode={gameMode} />
+        <Sidebar inhome={home} updateMode={updateMode} gameMode={gameMode} updatePlayersInGame={() => updatePlayersInGame} />
       </div>
       {value && <div className='profile-home'> {/* Perfil del usuario */}
         <Profile updateValue={updateValue} modifyAvatarImage={modifyAvatarImage} modifyAvatarColor={modifyAvatarColor} /> 

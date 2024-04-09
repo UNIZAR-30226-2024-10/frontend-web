@@ -46,11 +46,17 @@ function Profile({ updateValue, modifyAvatarImage, modifyAvatarColor }) {
     <div className='profile-settings' >
       <Tooltip title="Cerrar Perfil">
         <button onClick={() => updateValue()} className="profile-close-button">
-          <CloseIcon sx={{width: 42, height: 42, color: "white"}}/>
+          <CloseIcon sx={{
+            width: 42, 
+            height: 42, 
+            color: "white"
+          }}/>
         </button>
       </Tooltip>
       <div className="settings" ref={popupRef}>
         <h1>Perfil de usuario</h1>
+        <hr style={{width: "90%"}}/>
+        <h2>Selecciona un avatar</h2>
         <hr style={{width: "90%"}}/>
         <div className="avatar-selector">
           {whiteImages.map((image,index) => (
@@ -74,6 +80,8 @@ function Profile({ updateValue, modifyAvatarImage, modifyAvatarColor }) {
             </button>
           ))}
         </div>
+        <hr style={{width: "90%"}}/>
+        <h2>Selecciona un fondo para tu avatar</h2>
         <hr style={{width: "90%"}}/>
         <div className="avatar-selector">
           {colors.map((color,index) => (

@@ -45,4 +45,23 @@ export const useSharedValue = () => { /* Hook para mostrar el perfil del usuario
     value,
     updateValue,
   };
-};
+}
+
+export const PlayersInGame = () => { /* Hook para seleccionar el avatar del usario */
+  const [playersInfo, setPlayersInfo] = useState({
+    me : '', 
+    opponent: '',
+  });
+  const updatePlayersInGame = (players) => {
+    console.log("updateplayers, me : ",players.me);
+    console.log("updateplayers, opponent : ",players.opponent);
+    setPlayersInfo({
+      me : players.me,
+      opponent : players.opponent,
+    });
+  };
+  return {
+    playersInfo,
+    updatePlayersInGame,
+  };
+}

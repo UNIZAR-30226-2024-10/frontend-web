@@ -1,10 +1,12 @@
-import React, { useEffect,useState, useContext, useRef, useCallback} from 'react';
+import React, { useEffect,useState, useContext, useCallback} from 'react';
 import { UNSAFE_useScrollRestoration, useNavigate } from 'react-router-dom';
 import logo from '../images/Logo.png'
 import '../styles/Sidebar.css';
 import CloseIcon from '@mui/icons-material/Close';
 import {SocketContext} from './../context/socket';
 import { Tooltip } from "@mui/material";
+import { AppRegistrationSharp } from '@mui/icons-material';
+import { PlayersInGame } from '../components/CustomHooks'
 
 function SideBar(args) {
   const socket = useContext(SocketContext);
@@ -19,6 +21,7 @@ function SideBar(args) {
       socket.on('game_ready', (data) => {
         setMatchFound(false);
         const colorSuffix = data.color === 'white' ? '0' : '1';
+        args.updatePlayersInGame({me: data.me, opponent: data.opponent}); // Guarda la información de los jugadores de la partida
         // Cifrar los parámetros y agregarlos a la URL
         navigate(`/gameOnline/${data.roomId}/${colorSuffix}`);
       });
@@ -136,37 +139,18 @@ const handleClickJugarRAOnline = () => {
   }
 
   const PopUpMenu = () => {
-    const popupRef = useRef(null);
-
-    useEffect(() => {
-      // Function to close popup when clicked outside
-      function handleClickOutside(event) {
-        if (popupRef.current && !popupRef.current.contains(event.target)) {
-          setGamesPopUp(false);
-        }
-      }
-  
-      // Add event listener to detect clicks outside the popup
-      document.addEventListener('mousedown', handleClickOutside);
-  
-      // Cleanup function to remove event listener
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-      };
-    }, []);
     return (
       /* Menú PopUp para escoger el modo de juego */
       <div className='popUp'>
-        <div className='popUp-content' ref={popupRef}>
+        <div className='popUp-content'>
           <Tooltip title = "Cerrar">
             <button className='close-button' onClick={handleClick}>
               <CloseIcon sx={{
                 color:'#fff', 
-                backgroundColor: 'transparent',
                 height: 48, 
                 width: 48,
               }}/>
-          </button>
+            </button>
           </Tooltip>
           <LocalMode />
           <OnlineMode />
@@ -227,7 +211,7 @@ const handleClickJugarRAOnline = () => {
       <div className='listaSidebar'>
         <div className='botonJugarWrapper'> 
           {/* El boton de jugar solo aparece cuando se está en la pantalla "home" */}
-          {!args.ingame && <button className='botonJugar' onClick={handleClick} /*disabled={loading}*/>
+          {args.inhome && <button className='botonJugar' onClick={handleClick} /*disabled={loading}*/>
             Jugar
           </button>}
           {loading && <LoadingScreen />} {/* Pantalla de carga */}
@@ -235,7 +219,8 @@ const handleClickJugarRAOnline = () => {
           {gamesPopUp && <PopUpMenu />} {/* PopUp para escoger el modo de juego */}
         </div>
         {/* Opciones del sidebar*/}
-        {args.ingame && <div><a href="/home">Menú principal</a></div>}
+        {!args.inhome && args.ingame && <div><a style={{cursor: 'pointer'}} onClick={() => args.setWantToQuit(true)}>Menú principal</a></div>}
+        {!args.inhome && !args.ingame && <div><a href="/home">Menú principal</a></div>}
         <div><a href="/battlePass">Pase de Batalla</a></div>
         <div><a href="#">Ranking</a></div>
         <div><a href="#">Historial</a></div>

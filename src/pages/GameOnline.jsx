@@ -14,11 +14,13 @@ import { useParams } from 'react-router-dom';
 import Chat from '../components/Chat.jsx';
 import {SocketContext} from './../context/socket';
 import Game from './Game.jsx';
+import { PaletteRounded } from '@mui/icons-material';
 
-function GameOnline({ gameMode }) {
+function GameOnline({ gameMode, playersInfo }) {
   const socket = useContext(SocketContext);
 
   const navigate = useNavigate();
+  const [wantToQuit, setWantToQuit] = useState(false);
   const [gameState, setGameState] = useState({
     victory : false,
     victoryCause : '',
@@ -28,7 +30,7 @@ function GameOnline({ gameMode }) {
     isPlaying : true,
     isMenuVisible : false,
   });
-  const playingGame = true; // Constante para indicar que el Sidebar se esta usando en la pantalla de game
+  var playingGame = true; // Constante para indicar que el Sidebar se esta usando en la pantalla de game
   const { roomId, colorSuffix } = useParams();
 
   useEffect(() => {
@@ -38,6 +40,7 @@ function GameOnline({ gameMode }) {
         victory : true, 
         victoryCause : 'disconnect',
       }));
+      playingGame = false; 
     });
 
     return () => {
@@ -71,6 +74,7 @@ function GameOnline({ gameMode }) {
           victoryCause : 'surrender',
         }));
       });
+      playingGame = false;
     }
     return() => {
       socket.off("oponent_surrendered");
@@ -217,7 +221,7 @@ function GameOnline({ gameMode }) {
           </div>}
 
         {/* Surrender de jugador */}
-        {gameState.surrender &&
+        {gameState.surrender && 
           <div className="popup-background">
             {gameState.surrender && !gameState.confirmSurrender &&
               <div className="game-popup">
@@ -234,7 +238,7 @@ function GameOnline({ gameMode }) {
             {gameState.confirmSurrender &&
               <div className="game-popup">
                 <h1><u>¡Te has rendido!</u></h1>
-                <h3>El jugador x gana</h3>
+                <h3>El jugador {playersInfo.opponent} gana</h3>
                 <button className="game-popup-button" onClick={() => navigate('/home')}>
                   Abandonar partida
                 </button>
@@ -255,6 +259,21 @@ function GameOnline({ gameMode }) {
             </div>
           </div>}
 
+        {/* El jugador quiere abandonar la partida (mediante el botón del sideBar) */}
+        {wantToQuit && playingGame &&
+        <div className="popup-background">
+          <div className="game-popup">
+            <h1><u>¿Seguro que quieres abandonar la partida? </u></h1>
+            <div className="game-popup-button-surrender">
+                <button className="game-popup-button" onClick={() => {handleConfirmSurrender();  navigate('/home')}}>
+                  Sí
+                </button>
+                <button className="game-popup-button" onClick={() => setWantToQuit(false)}>
+                  No
+                </button>
+            </div>
+          </div>
+        </div>}
         {/* Uno de los jugadores Gana por cualquier otra cosa (jaque mate ...) */}
       </>
     );
@@ -283,7 +302,7 @@ function GameOnline({ gameMode }) {
                 width: 48,
               }} />
             </button>}
-            <SideBar ingame={playingGame} />
+            <SideBar ingame={playingGame} setWantToQuit={setWantToQuit}/>
           </div>
         </div>
       </div>
@@ -297,7 +316,7 @@ function GameOnline({ gameMode }) {
             {/* Jugador 1 */}
             <InfoPlayers
               numJugador='1'
-              nombreJugador='Jugador 1'
+              nombreJugador={playersInfo.opponent}
               eloJugador='200'
               colorFicha='Negras'
               fichasComidas='0' />
@@ -308,7 +327,7 @@ function GameOnline({ gameMode }) {
             {/* Jugador 2 */}
             <InfoPlayers
               numJugador='2'
-              nombreJugador='Jugador 2'
+              nombreJugador={playersInfo.me}
               eloJugador='200'
               colorFicha='Blancas'
               fichasComidas='0' />
