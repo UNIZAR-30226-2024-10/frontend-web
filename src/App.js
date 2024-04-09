@@ -13,8 +13,8 @@ import { PlayersInGame } from './components/CustomHooks.jsx';
 
 
 function App() {
-  const {gameMode, updateMode} = GameMode(); // Modo de juego
-  const {playersInfo, updatePlayersInGame} = PlayersInGame(); // Jugadores de una partida
+  const {gameMode, updateMode} = GameMode(); /* Hook para modificar el modo de juego */
+  const {playersInfo, updatePlayersInGame} = PlayersInGame(); /* Hook para almacenar los jugadores de una partida */
   return (
     <SocketContext.Provider value={socket}>
       <div className="App">

@@ -17,14 +17,14 @@ import whiteRook from '../images/whiteRook.png'
 import { Tooltip } from "@mui/material";
 import { useRef, useEffect } from "react";
 
-function Profile({ updateValue, modifyAvatarImage, modifyAvatarColor }) {
+function Profile({ updateUserProfileVisibility, modifyAvatarImage, modifyAvatarColor }) {
   const popupRef = useRef(null);
 
   useEffect(() => {
     // Function to close popup when clicked outside
     function handleClickOutside(event) {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
-        updateValue(false);
+        updateUserProfileVisibility(false);
       }
     }
 
@@ -44,12 +44,26 @@ function Profile({ updateValue, modifyAvatarImage, modifyAvatarColor }) {
   return (
     /* Devuelve un menú de opciones para el usuario */
     <div className='profile-settings' >
-      <Tooltip title="Cerrar Perfil">
-        <button onClick={() => updateValue()} className="profile-close-button">
+      <Tooltip
+        title="Cerrar perfil"
+        slotProps={{
+          popper: {
+            modifiers: [
+              {
+                name: 'offset',
+                options: {
+                  offset: [0, -14],
+                },
+              },
+            ],
+          },
+        }}
+      >
+        <button onClick={updateUserProfileVisibility} className="profile-close-button">
           <CloseIcon sx={{
             width: 42, 
             height: 42, 
-            color: "white"
+            color: "white",
           }}/>
         </button>
       </Tooltip>

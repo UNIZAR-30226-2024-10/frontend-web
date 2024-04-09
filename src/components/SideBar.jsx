@@ -6,7 +6,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import {SocketContext} from './../context/socket';
 import { Tooltip } from "@mui/material";
 import { AppRegistrationSharp } from '@mui/icons-material';
-import { PlayersInGame } from '../components/CustomHooks'
 
 function SideBar(args) {
   const socket = useContext(SocketContext);
@@ -124,7 +123,7 @@ const handleClickJugarRAOnline = () => {
           JUGAR EN MODO ONLINE
         </div>
         <div className='popUp-content-info-modes'>
-          <button className='popUp-modes' onClick={handleClickJugarRAOnline}>RAPID</button>
+          <button className='popUp-modes' onClick={handleClickJugarRAOnline}>RAPID</button> 
           <div>
             |
           </div>
@@ -143,15 +142,31 @@ const handleClickJugarRAOnline = () => {
       /* Menú PopUp para escoger el modo de juego */
       <div className='popUp'>
         <div className='popUp-content'>
-          <Tooltip title = "Cerrar">
+          <div className='close-button'>
             <button className='close-button' onClick={handleClick}>
-              <CloseIcon sx={{
-                color:'#fff', 
-                height: 48, 
-                width: 48,
-              }}/>
+              <Tooltip
+                title="Cerrar"
+                slotProps={{
+                  popper: {
+                    modifiers: [
+                      {
+                        name: 'offset',
+                        options: {
+                          offset: [0, -25],
+                        },
+                      },
+                    ],
+                  },
+                }}
+              >
+                <CloseIcon sx={{
+                  color:'#fff', 
+                  height: 42, 
+                  width: 42,
+                }}/>
+              </Tooltip>
             </button>
-          </Tooltip>
+          </div>
           <LocalMode />
           <OnlineMode />
         </div>
@@ -207,7 +222,15 @@ const handleClickJugarRAOnline = () => {
     /* Devulve un sidebar con diferentes opciones */
     <div className='Sidebar'>
       {/* <h2>Menú</h2> */}
-      <div><img className='logo' src={logo}/>  </div>
+      {!args.inhome && <button className='hideSidebarButton' onClick={() => args.setShowSidebar(false)}>
+        <CloseIcon sx={{
+          color: '#fff',
+          backgroundColor: 'transparent',
+          height: 52,
+          width: 52,
+        }} />
+      </button>}
+      <div><img className='logo' src={logo}/></div>
       <div className='listaSidebar'>
         <div className='botonJugarWrapper'> 
           {/* El boton de jugar solo aparece cuando se está en la pantalla "home" */}

@@ -5,7 +5,7 @@ import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
-function Navbar ({ updateValue, avatar }) {
+function Navbar ({ updateUserProfileVisibility, avatar }) {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null); // Hook para el menú desplegable
   const [loggedIn, setLoggedIn] = React.useState(true); // Hook para diferenciar si un usuario esta identificado o no
@@ -18,7 +18,7 @@ function Navbar ({ updateValue, avatar }) {
     setAnchorEl(null);
   };
   const handleProfile = () => {
-    updateValue();
+    updateUserProfileVisibility();
     setAnchorEl(null);
   }
   const handleCloseSesion = () => {

@@ -100,10 +100,10 @@ function GameOnline({ gameMode, playersInfo }) {
       showingSettings : !gameState.showingSettings
     }));
   }
-  const ToggleMenuVisibility = () => {
+  const ToggleMenuVisibility = (value) => {
     setGameState(prevState => ({
       ...prevState,
-      isMenuVisible : !gameState.isMenuVisible
+      isMenuVisible : value,
     }));
   };
   const handlePause = () => {
@@ -283,27 +283,17 @@ function GameOnline({ gameMode, playersInfo }) {
     <div className="game-background">
       <div className="game-menu">
         {/* Botón para desplegar el sidebar */}
-        {!gameState.isMenuVisible && <button className="game-button-menu" onClick={ToggleMenuVisibility}>
+        <button className={!gameState.isMenuVisible ? "game-button-menu" : "game-button-menu hidden"} onClick={() => ToggleMenuVisibility(true)}>
           <MenuIcon sx={{
             color: '#fff',
             backgroundColor: '#312D2D',
             height: 52,
             width: 52,
           }} />
-        </button>}
-        {/* Div que contiene el sidebar */}
-        <div className="game-menu-sidebar">
-          <div className={`sliding-div ${gameState.isMenuVisible ? 'visible' : ''}`}>
-            {gameState.isMenuVisible && <button className="game-button-close-menu" onClick={ToggleMenuVisibility}>
-              <CloseIcon sx={{
-                color: '#fff',
-                backgroundColor: 'transparent',
-                height: 48,
-                width: 48,
-              }} />
-            </button>}
-            <SideBar ingame={playingGame} setWantToQuit={setWantToQuit}/>
-          </div>
+        </button>
+        {/* Sidebar */}
+        <div className={`sliding-div ${gameState.isMenuVisible ? 'visible' : ''}`}>
+          <SideBar ingame={playingGame} setWantToQuit={setWantToQuit} setShowSidebar={ToggleMenuVisibility}/>
         </div>
       </div>
       <div className="game-screen">

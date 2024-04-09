@@ -2,8 +2,11 @@ import React from "react";
 import { useState } from "react";
 import '../styles/BattlePass.css';
 import SideBar from '../components/SideBar';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 
 function BattlePass() {
+  const [showSidebar, setShowSidebar] = useState(false);
 
   const [userBattlePass, setUserBattlePass] = useState({
     level: 3,
@@ -53,10 +56,19 @@ function BattlePass() {
 
   return (
     <div className="background-battlePass">
-      <div className="side">
-        <SideBar />
+      {console.log("showing sidebar",showSidebar)}
+      <div className={showSidebar ? "sideBattlepass open" : "sideBattlepass"}>
+        <SideBar setShowSidebar={setShowSidebar}/>
       </div>
       <div className="battlePass-container">
+        <button className={!showSidebar ? "sideMenuButton" : "sideMenuButton hidden"} onClick={() => setShowSidebar(true)}>
+          <MenuIcon sx={{
+            color: '#fff',
+            backgroundColor: 'transparent',
+            height: 52,
+            width: 52,
+          }} />
+        </button>
         <div className="battlePass-user">
           <h2>Tus Puntos: {userBattlePass.points}</h2>
         </div>

@@ -36,14 +36,14 @@ export const AvatarSelector = () => { /* Hook para seleccionar el avatar del usa
   };
 }
 
-export const useSharedValue = () => { /* Hook para mostrar el perfil del usuario en el home */
-  const [value, setValue] = useState(false);
-  const updateValue = () => {
-    setValue(!value);
+export const ShowUserProfile = () => { /* Hook para mostrar el perfil del usuario en el home */
+  const [userProfileVisibility, setUserProfileVisibility] = useState(false);
+  const updateUserProfileVisibility = () => {
+    setUserProfileVisibility(!userProfileVisibility);
   };
   return {
-    value,
-    updateValue,
+    userProfileVisibility,
+    updateUserProfileVisibility,
   };
 }
 
@@ -53,8 +53,6 @@ export const PlayersInGame = () => { /* Hook para almacenar el nombre de los jug
     opponent: '',
   });
   const updatePlayersInGame = (players) => {
-    console.log("updateplayers, me : ",players.me);
-    console.log("updateplayers, opponent : ",players.opponent);
     setPlayersInfo({
       me : players.me,
       opponent : players.opponent,

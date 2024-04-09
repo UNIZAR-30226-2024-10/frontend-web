@@ -112,17 +112,16 @@
   z-index: 100;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; 
 }
 
 .popUp-content{
-  background: linear-gradient(to bottom left, #494849, #161616);
+  width: 55vh;
   display: flex;
-  flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
-  position: relative;
   border-radius: 4px;
+  background: linear-gradient(to bottom left, #494849, #161616);
 }
 
 .popUp-content-info{
@@ -178,16 +177,23 @@
 }
 
 .close-button{
-  padding: 1px;
-  height: 60px;
-  width: 60px;
+  padding: 0;
+  width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.close-button > button{
+  padding: 0;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: flex-start;
   border: none;
   cursor: pointer;
   background-color: transparent;
-  transform: translate(225px,-20px); 
 }
 
 /* Estilo para el botón de cancelar la búsqueda de partida */
@@ -205,4 +211,13 @@
 .cancelButton:hover {
   background-color: #ee4336;
   color: #000;
+}
+
+.hideSidebarButton{
+  position: fixed;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  transform: translateX(150%);
+  background-color: transparent;
 }

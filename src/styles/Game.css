@@ -178,6 +178,17 @@
   border: none;
   background-color: transparent;
   transform: translate(30px, 30px);
+  opacity: 1;
+  transition: opacity 0.7s ease;
+}
+.game-button-menu.hidden {
+  position: absolute;
+  cursor: pointer;
+  padding: 4px;
+  border: none;
+  background-color: transparent;
+  transform: translate(30px, 30px);
+  opacity: 0;
 }
 
 /* Botón que cierra el menu lateral */

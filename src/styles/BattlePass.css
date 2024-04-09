@@ -7,9 +7,46 @@
   background: url('../images/background.jpg') no-repeat center/cover;
 }
 
-.side{
-  display: flex;
-  height: 100vh;
+/* Formato del sidebar cuando está cerrado */
+.sideBattlepass {
+  position: fixed;
+  top: 0;
+  left: -300px;
+  bottom: 0;
+  background-color: #fff;
+  transition: left 0.7s ease;
+}
+/* Formato del sidebar cuando está abierto */
+.sideBattlepass.open {
+  left: 0;
+}
+
+/* Formato del botón de apertura del sidebar cuando este no se está mostrando */
+.sideMenuButton {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  visibility: visible;
+  transform: translate(30px, 30px);
+  background-color: transparent;
+  opacity: 1;
+  transition: opacity 0.7s ease; 
+}
+/* Formato del botón de apertura del sidebar cuando este se está mostrando */
+.sideMenuButton.hidden {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  visibility: visible;
+  transform: translate(30px, 30px);
+  background-color: transparent;
+  opacity: 0; /* Opacity when hidden */
 }
 
 /*  */
