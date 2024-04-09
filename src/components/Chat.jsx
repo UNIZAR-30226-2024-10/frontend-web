@@ -40,7 +40,6 @@ function Chat({ roomId }) {
   };
 
   function receiveMessage(msg) {
-    console.log(msg);
     setMessage(state => [...state, msg]);
   }
 

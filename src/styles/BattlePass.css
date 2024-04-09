@@ -10,6 +10,7 @@
 /* Formato del sidebar cuando está cerrado */
 .sideBattlepass {
   position: fixed;
+  z-index: 999;
   top: 0;
   left: -300px;
   bottom: 0;
@@ -57,7 +58,6 @@
   align-items: center;
   justify-content: center;
 }
-
 .battlePass-user {
   margin-bottom: 20px;
 }
@@ -69,6 +69,7 @@
   box-sizing: border-box;
   overflow: hidden;
   white-space: nowrap;
+  position: relative;
 }
 
 .list {
@@ -97,6 +98,7 @@
   justify-content: space-around;
   align-items: center;
   background-color: red;
+  transition: background-color 1s ease;
 }
 .list > li .itemUnlocked {
   height: 100%;
@@ -105,6 +107,7 @@
   justify-content: space-around;
   align-items: center;
   background-color: blue;
+  transition: background-color 1s ease;
 }
 .list > li .itemClaimed {
   height: 100%;
@@ -113,39 +116,52 @@
   justify-content: space-around;
   align-items: center;
   background-color: limegreen;
+  transition: background-color 1s ease;
 }
 
 .claim-button {
-  padding: 4px;
+  background-color: #ff8e0d; 
+  border: none;
+  color: #fff;
+  padding: 10px 10px; 
+  font-size: 12px; 
   cursor: pointer;
-  color: black;
-  font-size: large;
-  border-radius: 8px;
-  border: solid 1px black;
-  transition: 0.2s ease;
-  background-color: #ff8e0d;
+  outline: none;
+  border-radius: 8px; 
+  box-shadow: 0 0 15px #ff8e0d; /* Initial box-shadow */
+  transition: box-shadow 0.3s ease; /* Smooth transition for box-shadow */
 }
-
+.claim-button:hover {
+  box-shadow: 0 0 30px #ff8e0d; /* Box-shadow when hovered */
+}
+.claim-button:active,
+.claim-button:focus {
+  outline: none;
+  box-shadow: 0 0 30px #ff8e0d; /* Box-shadow when active/focused */
+}
 .claim-button:disabled:hover {
   cursor: not-allowed;
 }
 
-.claim-button:hover {
-  color: white;
-  background-color: chocolate;
-}
-
 .claim-all-button{
   position: fixed;
+  bottom: 0;
   cursor: pointer;
-  padding: 4px;
-  font-size: 28px;
-  border: solid 1px black;
+  border: none;
+  color: white;
   border-radius: 8px;
-  transform: translateY(700%);
-  background-color: aqua;
+  padding: 10px 10px;
+  font-size: 16px; 
+  transform: translateY(-300%);
+  background-color: #506C64;
+  box-shadow: 0 0 15px #01a073; /* Initial box-shadow */
+  transition: box-shadow 0.3s ease; /* Smooth transition for box-shadow */
 }
-
 .claim-all-button:hover {
-  background-color: #ff8e0d;
+  box-shadow: 0 0 30px #01a073; /* Box-shadow when hovered */
+}
+.claim-all-button:active,
+.claim-all-button:focus {
+  outline: none;
+  box-shadow: 0 0 30px #01a073; /* Box-shadow when active/focused */
 }

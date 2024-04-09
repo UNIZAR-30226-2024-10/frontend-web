@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/Game.css'
 import SideBar from '../components/SideBar';
 import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
 import FlagIcon from '@mui/icons-material/Flag';
 import SettingsIcon from '@mui/icons-material/Settings';
 import Tooltip from '@mui/material/Tooltip';

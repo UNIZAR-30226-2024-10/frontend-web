@@ -3,14 +3,16 @@ import { useState } from "react";
 import '../styles/BattlePass.css';
 import SideBar from '../components/SideBar';
 import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
+import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import CheckIcon from '@mui/icons-material/Check';
 
 function BattlePass() {
   const [showSidebar, setShowSidebar] = useState(false);
 
   const [userBattlePass, setUserBattlePass] = useState({
     level: 3,
-    points: 374,
+    points: 474,
     rewards: [{ name: '500 coins', claimed: true }], 
     rewardsClaimed: 1,
   });
@@ -33,7 +35,6 @@ function BattlePass() {
   const updateLevel = () => {
     const newLevel = userBattlePass.points / 100;
     parseInt(newLevel);
-    console.log(newLevel);
     setUserBattlePass(prevState => ({
       ...prevState,
       level: newLevel,
@@ -56,7 +57,6 @@ function BattlePass() {
 
   return (
     <div className="background-battlePass">
-      {console.log("showing sidebar",showSidebar)}
       <div className={showSidebar ? "sideBattlepass open" : "sideBattlepass"}>
         <SideBar setShowSidebar={setShowSidebar}/>
       </div>
@@ -71,6 +71,7 @@ function BattlePass() {
         </button>
         <div className="battlePass-user">
           <h2>Tus Puntos: {userBattlePass.points}</h2>
+          <button onClick={updateLevel}>actualizar</button> {/* Temporal para hacer pruebas*/}
         </div>
         <div className="recompensas">
           <ul className="list">
@@ -79,6 +80,7 @@ function BattlePass() {
                 <div className={userBattlePass.level >= tier.level ?
                   (userBattlePass.rewards.find(rewards => rewards.name === tier.reward && rewards.claimed) ?
                     "itemClaimed" : "itemUnlocked") : ("itemLocked")}>
+                      
                   <div>
                     Recompensa {tier.level} :
                     <div>
@@ -88,17 +90,22 @@ function BattlePass() {
                   <div style={{ textDecoration: 'underline' }}>
                     {tier.reward}
                   </div>
+                   <div>
+                    {userBattlePass.level >= tier.level ?
+                    (userBattlePass.rewards.find(rewards => rewards.name === tier.reward && rewards.claimed) ?
+                    <CheckIcon /> : <LockOpenIcon />) : <LockIcon />}
+                  </div>
                   <button disabled={userBattlePass.rewards.find(rewards => rewards.name === tier.reward && rewards.claimed) || userBattlePass.level < tier.level}
                     onClick={() => claimRewards(tier.reward)}
                     className="claim-button">
-                    Reclamar recompensa
+                    RECLAMAR RECOMPENSA
                   </button>
                 </div>
               </li>
             ))}
           </ul>
         </div>
-        <button onClick={claimAllRewards} className="claim-all-button">Claim All</button>
+        <button onClick={claimAllRewards} className="claim-all-button">RECLAMAR TODAS</button>
       </div>
     </div>
   );
