@@ -19,7 +19,7 @@ function App() {
     <SocketContext.Provider value={socket}>
       <div className="App">
         <Routes>
-          <Route path="/home" element={<Home updateMode={updateMode} gameMode={gameMode} updatePlayersInGame={() => updatePlayersInGame}/>} />
+          <Route path="/home" element={<Home updateMode={updateMode} gameMode={gameMode} updatePlayersInGame={updatePlayersInGame}/>} />
           <Route path="/login" element={<Login />} />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/battlePass' element={<BattlePass />} />

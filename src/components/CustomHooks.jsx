@@ -47,7 +47,7 @@ export const useSharedValue = () => { /* Hook para mostrar el perfil del usuario
   };
 }
 
-export const PlayersInGame = () => { /* Hook para seleccionar el avatar del usario */
+export const PlayersInGame = () => { /* Hook para almacenar el nombre de los jugadores en partida */
   const [playersInfo, setPlayersInfo] = useState({
     me : '', 
     opponent: '',

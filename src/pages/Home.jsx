@@ -13,7 +13,7 @@ function Home({ updateMode, gameMode, updatePlayersInGame  }) {
   return (
     <div className='Home'>
       <div className='side'>
-        <Sidebar inhome={home} updateMode={updateMode} gameMode={gameMode} updatePlayersInGame={() => updatePlayersInGame} />
+        <Sidebar inhome={home} updateMode={updateMode} gameMode={gameMode} updatePlayersInGame={updatePlayersInGame} />
       </div>
       {value && <div className='profile-home'> {/* Perfil del usuario */}
         <Profile updateValue={updateValue} modifyAvatarImage={modifyAvatarImage} modifyAvatarColor={modifyAvatarColor} /> 
