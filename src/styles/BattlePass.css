@@ -80,6 +80,19 @@
   position: relative;
 }
 
+.infoPuntos {
+  padding: 6px 10px;
+  border-radius: 4pc;
+  border: solid 2px white;
+  background-color: transparent;
+}
+.infoRecompensa{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .list {
   padding: 0;
   margin: 0;
@@ -89,7 +102,8 @@
   padding-left: 5px;
   overflow-x: scroll;
   scroll-behavior: smooth;
-  background-color: rgb(56, 55, 55);
+  /* background-color: rgb(56, 55, 55); */
+  background-color: #2e294e;
 }
 
 .list > li{
@@ -115,13 +129,16 @@
   transition: background-color 1s ease;
 }
 .items.itemLocked {
-  background-color: rgb(219, 69, 69);
+  /* background-color: rgb(219, 69, 69); */
+  background-color: #E71D36;
 }
 .items.itemUnlocked {
-  background-color: rgb(47, 47, 175);
+  /* background-color: rgb(47, 47, 175); */
+  background-color: #007cbe;
 }
 .items.itemClaimed {
-  background-color: rgb(40, 195, 50);
+  /* background-color: rgb(40, 195, 50); */
+  background-color: #429e69;
 }
 
 .claim-button {

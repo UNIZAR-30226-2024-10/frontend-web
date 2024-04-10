@@ -13,23 +13,24 @@ function BattlePass() {
   const [userBattlePass, setUserBattlePass] = useState({
     level: 4,
     points: 474,
-    rewards: [{ name: '', claimed: true }], 
+    rewards: [{ name: '😀️', claimed: true }], 
     rewardsClaimed: 1,
   });
 
+
   const tiers = [ // Conjunto de recompensas que ofrece el juego
     { level: 1, reward: '😀️', requiredPoints: '100' },
-    { level: 2, reward: '😀️', requiredPoints: '200' },
-    { level: 3, reward: '😀️', requiredPoints: '300' },
-    { level: 4, reward: '😀️', requiredPoints: '400' },
-    { level: 5, reward: '😀️', requiredPoints: '500' },
-    { level: 6, reward: '😀️', requiredPoints: '600' },
-    { level: 7, reward: '😀️', requiredPoints: '700' },
-    { level: 8, reward: '😀️', requiredPoints: '800' },
-    { level: 9, reward: '😀️', requiredPoints: '900' },
-    { level: 10, reward: '😀️', requiredPoints: '1000' },
-    { level: 11, reward: '😀️', requiredPoints: '1100' },
-    { level: 12, reward: '😀️', requiredPoints: '1200' },
+    { level: 2, reward: '😂️', requiredPoints: '200' },
+    { level: 3, reward: '😁️', requiredPoints: '300' },
+    { level: 4, reward: '🫠️', requiredPoints: '400' },
+    { level: 5, reward: '😅️', requiredPoints: '500' },
+    { level: 6, reward: '🤑️', requiredPoints: '600' },
+    { level: 7, reward: '🤗️', requiredPoints: '700' },
+    { level: 8, reward: '🤗️', requiredPoints: '800' },
+    { level: 9, reward: '🤗️', requiredPoints: '900' },
+    { level: 10, reward: '🤗️', requiredPoints: '1000' },
+    { level: 11, reward: '🤗️', requiredPoints: '1100' },
+    { level: 12, reward: '🤗️', requiredPoints: '1200' },
   ];
 
   const updateLevel = () => {
@@ -71,7 +72,7 @@ function BattlePass() {
         </button>
         <div className="battlePass-container center">
           <div className="battlePass-user">
-            <h2 style={{textDecoration: 'underline'}}>Puntos disponibles: {userBattlePass.points}</h2>
+            <h2 className="infoPuntos">Puntos disponibles: {userBattlePass.points}</h2>
           </div>
           <div className="recompensas">
             <ul className="list">
@@ -80,11 +81,11 @@ function BattlePass() {
                   <div className={userBattlePass.level >= tier.level ?
                     (userBattlePass.rewards.find(rewards => rewards.name === tier.reward && rewards.claimed) ?
                       "items itemClaimed" : "items itemUnlocked") : ("items itemLocked")}>
-                    <div>
+                    <div className="infoRecompensa">
                       Recompensa {tier.level}
-                      <div>Puntos requeridos : {tier.requiredPoints}</div>
+                      <p>Puntos requeridos : {tier.requiredPoints}</p>
                     </div>
-                    <div style={{ textDecoration: 'underline' }}>
+                    <div style={{ fontSize: '24px' }}>
                       {tier.reward}
                     </div>
                     <div>
