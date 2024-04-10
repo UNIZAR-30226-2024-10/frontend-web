@@ -245,7 +245,7 @@ const handleClickJugarRAOnline = () => {
         {!args.inhome && args.ingame && <div><a style={{cursor: 'pointer'}} onClick={() => args.setWantToQuit(true)}>Menú principal</a></div>}
         {!args.inhome && !args.ingame && <div><a href="/home">Menú principal</a></div>}
         <div><a href="/battlePass">Pase de Batalla</a></div>
-        <div><a href="#">Ranking</a></div>
+        <div><a href="/ranking">Ranking</a></div>
         <div><a href="#">Historial</a></div>
         <div><a href="#">Arenas</a></div>
         <div><a href="#">Personalización</a></div>

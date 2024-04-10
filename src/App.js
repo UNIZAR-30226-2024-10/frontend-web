@@ -5,11 +5,13 @@ import Home from './pages/Home.jsx'
 import Login from './pages/Login.jsx';
 import SignUp from './pages/SignUp.jsx';
 import Game from './pages/Game.jsx'
+import Ranking from './pages/Ranking.jsx';
 import { GameMode } from './components/CustomHooks.jsx';
 import GameOnline from './pages/GameOnline.jsx';
 import {SocketContext, socket} from './context/socket';
 import BattlePass from './pages/BattlePass.jsx';
 import { PlayersInGame } from './components/CustomHooks.jsx';
+
 
 
 function App() {
@@ -23,6 +25,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/battlePass' element={<BattlePass />} />
+          <Route path='/ranking' element={<Ranking />} />
           <Route path='/game' element={<Game gameMode={gameMode} />} />
           <Route path='/gameOnline/:roomId/:colorSuffix' element={<GameOnline gameMode={gameMode} playersInfo={playersInfo} />} />
         </Routes>

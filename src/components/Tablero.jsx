@@ -235,6 +235,7 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
 
         }
     }, [movimiento])
+    
     return (
         <>
         <div style={gridStyle} className={`tablero`}>
