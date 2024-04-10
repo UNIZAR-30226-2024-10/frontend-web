@@ -247,7 +247,7 @@ const handleClickJugarRAOnline = () => {
         <div><a href="/battlePass">Pase de Batalla</a></div>
         <div><a href="#">Ranking</a></div>
         <div><a href="#">Historial</a></div>
-        <div><a href="#">Arenas</a></div>
+        <div><a href="/arenas">Arenas</a></div>
         <div><a href="#">Personalización</a></div>
       </div>
     </div>

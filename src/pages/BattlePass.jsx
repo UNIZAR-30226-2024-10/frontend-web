@@ -71,6 +71,7 @@ function BattlePass() {
             width: 52,
           }} />
         </button>
+        <h1 className="pageTitle">PASE DE BATALLA</h1>
         <div className="battlePass-container center">
           <div className="battlePass-user">
             <h2 className="infoPuntos">Puntos disponibles: {userBattlePass.points}</h2>

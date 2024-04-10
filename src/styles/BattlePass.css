@@ -58,6 +58,23 @@
   justify-content: center;
 }
 
+.pageTitle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-family: "Anta", sans-serif;
+  font-size: 24px;
+  padding: 25px 30px;
+  font-weight: 600;
+  font-style: normal;
+  background-color: #ff8e0d;
+  border: solid 1px #fff;
+  border-radius: 8px;
+  transform: translateY(-80%);
+}
+
 /* Recuadro en verde que contiene el battlepass*/
 .battlePass-container.center{
   width: 80%;
