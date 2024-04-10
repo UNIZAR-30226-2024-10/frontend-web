@@ -85,13 +85,14 @@ function Game({ gameMode }) {
     }
     return () => clearInterval(interval)
   }, [seconds1, minutes1, isRunning1])
+
   useEffect(()=>{
     let interval;
     if(isRunning2){
       interval =setInterval(()=>{
         if(seconds2 > 0){
           setSeconds2((seconds2)=>seconds2-1)
-        }else if(minutes2 > 0){
+        } else if(minutes2 > 0){
           setMinutes2((minutes2)=>minutes2-1);
           setSeconds2(59);
         }
@@ -99,14 +100,17 @@ function Game({ gameMode }) {
     }
     return () => clearInterval(interval)
   }, [seconds2, minutes2, isRunning2])
+
   const pauseTimer1 = () => {
     setIsRunning1(false);
     setIsRunning2(true)
   }
+
   const pauseTimer2 = () => {
       setIsRunning2(false);
       setIsRunning1(true);
   }
+
   const InfoPlayers = ({numJugador, nombreJugador, eloJugador, colorFicha, tiempoRestante, fichasComidas }) => {
     const minutes = parseInt(numJugador,10) ===1?minutes1:minutes2;
     const seconds = parseInt(numJugador,10) ===1?seconds1:seconds2;
