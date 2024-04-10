@@ -62,11 +62,10 @@
 }
 /* Recuadro en verde que contiene el battlepass*/
 .arenas-container.center{
-  width: 80%;
-  height: 60%;
+  width: 65%;
+  height: 68%;
   color: white;
   display: flex;
-  justify-content: space-around;
   border-radius: 10px;
   background-color: #506C64;
 }
@@ -85,5 +84,22 @@
   background-color: #ff8e0d;
   border: solid 1px #fff;
   border-radius: 8px;
-  transform: translateY(-80%);
+  transform: translateY(-40%);
+}
+
+.arenasList {
+  height: 90%;
+  width: 66%;
+  border: solid 1px white;
+  padding: 0;
+  margin: 0;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+
+.arena {
+  height: 700px;
+  margin-bottom: 20px;
+  border: solid 2px white;
+  background-color: purple;
 }
