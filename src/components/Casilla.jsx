@@ -4,8 +4,18 @@ import '../styles/Casilla.css'
 
 const Casilla = (args) => {
 
-    const BLANCO = '#ADF597'
-    const NEGRO = '#2E960F'  
+    /* const BLANCO = '#ADF597'
+    const NEGRO = '#2E960F' */ 
+    /* const BLANCO = '#8B4513' // Madera
+    const NEGRO = '#D2B48C' */  
+    /* const BLANCO = '#f5f5f5' // Mármol
+    const NEGRO = '#B8B8B8' */
+    /* const BLANCO = '#FFEA70' // Oro
+    const NEGRO = '#F5D000' */ 
+    /* const BLANCO = '#50C878' // Esmeralda
+    const NEGRO = '#38A869'  */
+    const BLANCO = '#F0F0F0' // Diamante
+    const NEGRO = '#B0E0E6' 
 
     const mFila = args.rowIndex
     const mCol = args.colIndex

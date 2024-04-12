@@ -58,7 +58,7 @@
   justify-content: center;
 }
 
-.pageTitle {
+.pageTitleBattlepass {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -72,7 +72,7 @@
   background-color: #ff8e0d;
   border: solid 1px #fff;
   border-radius: 8px;
-  transform: translateY(-80%);
+  transform: translateY(-90%);
 }
 
 /* Recuadro en verde que contiene el battlepass*/
@@ -113,7 +113,7 @@
   justify-content: center;
 }
 
-.list {
+.battlePasslist {
   padding: 0;
   margin: 0;
   height: 100%;
@@ -125,7 +125,7 @@
   background-color: #2e294e;
 }
 
-.list > li{
+.battlePasslist > li{
   width: 200px;
   height: 100%;
   margin-right: 5px;

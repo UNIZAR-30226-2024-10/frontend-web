@@ -17,7 +17,6 @@
   background-color: #fff;
   transition: left 0.7s ease;
 }
-
 /* Formato del sidebar cuando está abierto */
 .sideArenas.open {
   left: 0;
@@ -37,7 +36,6 @@
   opacity: 1;
   transition: opacity 0.7s ease;
 }
-
 /* Formato del botón de apertura del sidebar cuando este se está mostrando */
 .sideMenuButton.hidden {
   position: absolute;
@@ -50,7 +48,6 @@
   transform: translate(30px, 30px);
   background-color: transparent;
   opacity: 0;
-  /* Opacity when hidden */
 }
 
 .arenas-container {
@@ -60,17 +57,31 @@
   align-items: center;
   justify-content: center;
 }
-/* Recuadro en verde que contiene el battlepass*/
+/* Recuadro en verde que contiene el listado de arenas*/
 .arenas-container.center{
   width: 65%;
-  height: 68%;
+  height: 50%;
   color: white;
   display: flex;
+  flex-direction: row;
   border-radius: 10px;
   background-color: #506C64;
 }
 
-.pageTitle {
+/* Recuadro en verde cuando se hace focus a uno de los tableros */
+.arenas-container-popUp{
+  width: 65%;
+  height: 70%;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 10px;
+  background-color: #506C64;
+}
+
+/* Título de la página */
+.pageTitleArenas {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -87,19 +98,91 @@
   transform: translateY(-40%);
 }
 
-.arenasList {
-  height: 90%;
-  width: 66%;
-  border: solid 1px white;
-  padding: 0;
-  margin: 0;
-  overflow-y: scroll;
-  scroll-behavior: smooth;
+/* Mensaje que aparece encima de los tableros */
+.message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  pointer-events: none; /* Ensures the message doesn't interfere with mouse events */
 }
 
-.arena {
-  height: 700px;
-  margin-bottom: 20px;
-  border: solid 2px white;
-  background-color: purple;
+/* Listado de las arenas */
+.lista-arenas {
+  position: relative;
+  display: inline-block;
+  margin: 10px;
+}
+.imagenArena {
+  width: 200px; /* Adjust width as needed */
+  height: auto; /* Maintain aspect ratio */
+  transition: transform 0.3s ease;
+}
+.imagenArena:hover {
+  transform: scale(1.1);
+}
+.boton-arenas {
+  padding: 0;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+
+/* Botón de atrás */
+.atras {
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+.atras-boton{
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  margin-top: 15px;
+  background-color: transparent;
+}
+
+/* Información acerca de la arena */
+.arenaInfo {
+  height: 90%;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.arenaInfo.text{
+  height: 60%;
+  width: 80%;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: solid 1px white;
+}
+
+.arenaInfo.list {
+  list-style: circle;
+  width: 80%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+/* Display de la arena en grande */
+.arenaPopUp {
+  height: 90%;
+  width: 55%;
+  background-color: green;
+}
+.imagenPopUp {
+  width: 100%;
+  height: 100%;
 }
