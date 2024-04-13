@@ -3,7 +3,7 @@
   height: 100vh;
   width: 100vw;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   background: url('../images/background.jpg') no-repeat center/cover;
 }
 
@@ -20,6 +20,15 @@
 /* Formato del sidebar cuando está abierto */
 .sideArenas.open {
   left: 0;
+}
+
+.titleArenas {
+  width: 100%;
+  height: 15%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Formato del botón de apertura del sidebar cuando este no se está mostrando */
@@ -51,31 +60,20 @@
 }
 
 .arenas-container {
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 /* Recuadro en verde que contiene el listado de arenas*/
 .arenas-container.center{
-  width: 65%;
-  height: 50%;
-  color: white;
-  display: flex;
-  flex-direction: row;
-  border-radius: 10px;
-  background-color: #506C64;
-}
-
-/* Recuadro en verde cuando se hace focus a uno de los tableros */
-.arenas-container-popUp{
-  width: 65%;
+  width: 70%;
   height: 70%;
   color: white;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  flex-wrap: wrap;
   border-radius: 10px;
   background-color: #506C64;
 }
@@ -95,7 +93,6 @@
   background-color: #ff8e0d;
   border: solid 1px #fff;
   border-radius: 8px;
-  transform: translateY(-40%);
 }
 
 /* Mensaje que aparece encima de los tableros */
@@ -167,7 +164,6 @@
   justify-content: center;
   border: solid 1px white;
 }
-
 .arenaInfo.list {
   list-style: circle;
   width: 80%;

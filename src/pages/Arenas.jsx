@@ -34,7 +34,7 @@ function Arenas() {
       <div className={showSidebar ? "sideArenas open" : "sideArenas"}>
         <SideBar setShowSidebar={setShowSidebar}/>
       </div>
-      <div className="arenas-container">
+      <div className="titleArenas">
         {/* Botón para desplegar el sidebar */}
         <button className={!showSidebar ? "sideMenuButton" : "sideMenuButton hidden"} onClick={() => setShowSidebar(true)}>
           <MenuIcon sx={{
@@ -45,6 +45,8 @@ function Arenas() {
           }} />
         </button>
         <h1 className="pageTitleArenas">ARENAS DE JUEGO</h1>
+      </div>
+      <div className="arenas-container">
         {!arenaPopUp.showPopUp && 
           <div className="arenas-container center">
             {arenas.map((arena, index) => (
@@ -62,7 +64,7 @@ function Arenas() {
           </div>
         }
         {arenaPopUp.showPopUp && 
-          <div className="arenas-container-popUp">
+          <div className="arenas-container center">
             {/* Botón para volver hacia atrás */}
             <div className="atras">
               <button className="atras-boton" onClick={() => setArenaPopUp({ showArena : '', showArenaStr : '', showArenaElo : '', showPopUp : false })}>

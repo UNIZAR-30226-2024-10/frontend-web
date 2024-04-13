@@ -22,6 +22,15 @@
   left: 0;
 }
 
+.titleBattlePass {
+  width: 100%;
+  height: 15%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Formato del botón de apertura del sidebar cuando este no se está mostrando */
 .sideMenuButton {
   position: absolute;
