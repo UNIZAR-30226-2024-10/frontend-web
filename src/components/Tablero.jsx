@@ -7,6 +7,15 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
     const gridStyle = {
         display: 'grid',
     };
+  const [showModal, setShowModal] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const openModal = () => {
+      setShowModal(true);
+  };
+
+  const closeModal = () => {
+      setShowModal(false);
+  };
 
     function traducirTableroAJSON(matrizAux) {
         const piezas = {
@@ -142,13 +151,13 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
         ['' , '' , '' , '' ,'' , '' , '' , '' ],
         ['P', 'P', 'P', 'P', '', 'P', 'P', 'P'],
         ['R', 'N', 'B', '', '', '', 'N', 'R'], */
-        ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
-        ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
+        ['r', 'n', 'b', 'q', 'k', 'b', 'n', ''],
+        ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'P'],
+        ['' , '' , '' , '' ,'' , '' , '' , '' ],
+        ['' , '' , '' , '' ,'' , '' , 'r' , 'p' ],
         ['' , '' , '' , '' ,'' , '' , '' , '' ],
         ['' , '' , '' , '' ,'' , '' , '' , '' ],
-        ['' , '' , '' , '' ,'' , '' , '' , '' ],
-        ['' , '' , '' , '' ,'' , '' , '' , '' ],
-        ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
+        ['P', 'P', 'P', 'P', 'P', 'P', 'P', ''],
         ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
     ]
     const [tablero, setTablero] = useState(matrizIni)
@@ -200,6 +209,8 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
             return false;
         }
     }
+  const [X, setX] = useState(null);
+  const [Y, setY] = useState(null);
 
     //Ocurre un movimiento
     useEffect(() => {
@@ -227,6 +238,12 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
                 newTablero[newX][0]=''
               }
             }
+            else if((newTablero[newX][newY]==='P' && newX==0 )||  (newTablero[newX][newY]==='p' && newX==7)){
+                setX(prevX => newX);
+                setY(prevY => newY);
+                openModal();
+                return
+            }
             submitMov(newTablero)
             .then(isLegal => {
               if (isLegal) {
@@ -243,6 +260,27 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
 
         }
     }, [movimiento])
+    useEffect(() =>{
+      if(!showModal && selectedOption){
+        console.log("Se lia")
+         const newTablero = JSON.parse(JSON.stringify(tablero)) //asi se hace una copia 
+           newTablero[X][Y]= selectedOption;
+          newTablero[turno === 0 ? X+1 : X-1][Y] = ''
+         submitMov(newTablero)
+            .then(isLegal => {
+              if (isLegal) {
+                setTablero(newTablero); // Se cambia el tablero
+                turno === 0 ? pauseTimer2() : pauseTimer1();
+                setTurno(turno === 0 ? 1 : 0); // Cambia el color que tiene el turno
+              }
+              setPiezaSel(null); // No hay piezas seleccionadas
+            })
+            .catch(error => {
+              // Manejar el error aquí si es necesario
+              console.error("Error al procesar el movimiento:", error);
+            });
+      }
+    },[showModal])
     return (
         <>
         <div style={gridStyle} className={`tablero`}>
@@ -266,6 +304,21 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
                 </div>
             ))}
         </div>
+        {showModal && (
+            <div className="modal">
+                <div className="modal-content">
+                    <span className="close" onClick={closeModal}>&times;</span>
+                    <p>Selecciona una opción:</p>
+                    <div className='opciones-modal-tablero'> 
+                      <button onClick={() => { setSelectedOption(prevTurno => turno === 0 ? 'Q' : 'q'); closeModal(); }}>Dama</button>
+                      <button onClick={() => { setSelectedOption(prevTurno => turno === 0 ? 'B' : 'b'); closeModal(); }}>Alfil</button>
+                      <button onClick={() => { setSelectedOption(prevTurno => turno === 0 ? 'N' : 'n'); closeModal(); }}>Caballo</button>
+                      <button onClick={() => { setSelectedOption(prevTurno => turno === 0 ? 'R' : 'r'); closeModal(); }}>Torre</button>
+
+                    </div>
+                </div>
+            </div>
+        )}
         </>
     );
 };

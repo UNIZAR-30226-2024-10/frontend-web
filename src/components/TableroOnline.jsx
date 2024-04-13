@@ -8,7 +8,15 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
     const gridStyle = {
         display: 'grid',
     };
+  const [showModal, setShowModal] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const openModal = () => {
+      setShowModal(true);
+  };
 
+  const closeModal = () => {
+      setShowModal(false);
+  };
     function traducirTableroAJSON(matrizAux) {
         const piezas = {
             'p': 'peon',
@@ -48,9 +56,33 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
 
     function transformarMovimientos(json) {
         const movsPosiblesIni = {};
-
         Object.keys(json.allMovements).forEach(pieza => {
-
+               if (pieza === 'comer' || pieza === 'bloquear') {
+                  // Obtener la sección de movimientos correspondiente
+                  let movimientos = json.allMovements[pieza][0];
+                  
+                  // Recorrer cada tipo de pieza dentro de la sección de movimientos
+                  for (let pieza2 in movimientos) {
+                      // Obtener los movimientos de la pieza
+                      let movimientosPieza = movimientos[pieza2];
+                      
+                      // Procesar cada movimiento de la pieza
+                      movimientosPieza.forEach((movimiento) => {
+                        let newX = 0;
+                        let newY = 0;
+                        let key = 0;
+                        console.log("movimiento", movimiento)
+                              newX = movimiento.fromColor === 'blancas' ? 7 - movimiento.fromY : 7 - movimiento.fromY;
+                              newY = movimiento.fromX;
+                              key = `[${newX}-${newY}]`;
+                          if (!movsPosiblesIni[key]) {
+                              movsPosiblesIni[key] = [];  
+                          }
+                          // Agregar los movimientos posibles al objeto
+                          movsPosiblesIni[key].push([7 - movimiento.y, movimiento.x]);
+                      });
+                  }
+              }else{
               json.allMovements[pieza].forEach((movimientos) => {
                   let newX=0;
                   let newY=0;
@@ -58,7 +90,8 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
                   if (Array.isArray(movimientos)) {
                       movimientos.forEach((movimiento, i) => {
                           if(i===0){
-                              newX = movimiento.fromColor === 'blancas' ? 7 - movimiento.fromY : 7 - movimiento.fromY;
+                              // newX = movimiento.fromColor === 'blancas' ? 7 - movimiento.fromY : 7 - movimiento.fromY;
+                              let newX = 7 - movimiento.fromY;
                               newY = movimiento.fromX;
                               key = `[${newX}-${newY}]`;
                           }
@@ -70,6 +103,7 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
                       });
                   }
               });
+            }
             }
         );
 
@@ -139,7 +173,8 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
 
     // Que color esta jugando. 0: blancas, 1: negras
     const [turno, setTurno] = useState(0) 
-    
+      const [X, setX] = useState(null);
+  const [Y, setY] = useState(null);
     // Funcion que envia tablero al servidor
     // Si el movimiento es legal: actualiza los movimientos posibles dado el nuevo tablero y devuelve true
     // Si el movimiento no es legal: devuelve false y no actualiza los movimientos posibles
@@ -194,22 +229,23 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
             console.log(newTablero[newX][newY])
             if((newTablero[newX][newY]==='K' || newTablero[newX][newY]==='k')&&(Math.abs(oldY-newY))===2){
               if(newY===6){
-                console.log("si");
                 newTablero[newX][5] = newTablero[newX][newY+1]
                 newTablero[newX][7]=''
               }
               if(newY===2){
-                console.log("si2");
                 newTablero[newX][3] = newTablero[newX][newY-2]
                 newTablero[newX][0]=''
               }
+            } else if((newTablero[newX][newY]==='P' && newX==0 )||  (newTablero[newX][newY]==='p' && newX==7)){
+                setX(prevX => newX);
+                setY(prevY => newY);
+                openModal();
+                return
             }
             submitMov(newTablero)
             .then(isLegal => {
               if (isLegal) {
-                console.log("ta",newTablero)
                 setTablero(newTablero) //Se cambia el tablero
-                console.log("nuevo", tablero)
                 setTurno((turno === 0)? 1:0) //Cambia el color que tiene el turno
                 pauseTimer2()
                 setTableroEnviar(newTablero)
@@ -230,6 +266,28 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
     useEffect(()=>{
       !blancasAbajo ? pauseTimer2() : null;
     }, [])
+        useEffect(() =>{
+      if(!showModal && selectedOption){
+        console.log("Se lia")
+         const newTablero = JSON.parse(JSON.stringify(tablero)) //asi se hace una copia 
+           newTablero[X][Y]= selectedOption;
+          newTablero[turno === 0 ? X+1 : X-1][Y] = ''
+         submitMov(newTablero)
+            .then(isLegal => {
+              if (isLegal) {
+                setTablero(newTablero); // Se cambia el tablero
+                // turno === 0 ? pauseTimer2() : pauseTimer1();
+                pauseTimer2()
+                setTurno(turno === 0 ? 1 : 0); // Cambia el color que tiene el turno
+              }
+              setPiezaSel(null); // No hay piezas seleccionadas
+            })
+            .catch(error => {
+              // Manejar el error aquí si es necesario
+              console.error("Error al procesar el movimiento:", error);
+            });
+      }
+    },[showModal])
     return (
         <>
         <div style={gridStyle} className={`tablero ${!blancasAbajo ? 'rotated' : ''}`}>
@@ -253,6 +311,21 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
                 </div>
             ))}
         </div>
+        {showModal && (
+            <div className="modal">
+                <div className="modal-content">
+                    <span className="close" onClick={closeModal}>&times;</span>
+                    <p>Selecciona una opción:</p>
+                    <div className='opciones-modal-tablero'> 
+                      <button onClick={() => { setSelectedOption(prevTurno => turno === 0 ? 'Q' : 'q'); closeModal(); }}>Dama</button>
+                      <button onClick={() => { setSelectedOption(prevTurno => turno === 0 ? 'B' : 'b'); closeModal(); }}>Alfil</button>
+                      <button onClick={() => { setSelectedOption(prevTurno => turno === 0 ? 'N' : 'n'); closeModal(); }}>Caballo</button>
+                      <button onClick={() => { setSelectedOption(prevTurno => turno === 0 ? 'R' : 'r'); closeModal(); }}>Torre</button>
+
+                    </div>
+                </div>
+            </div>
+        )}
         </>
     );
 };
