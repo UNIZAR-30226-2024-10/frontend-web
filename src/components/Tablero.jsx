@@ -2,6 +2,15 @@ import React, { useEffect, useState } from 'react';
 import Casilla from './Casilla';
 import '../styles/Tablero.css'
 const apiUrl = process.env.REACT_APP_API_URL;
+import damaNegra from '../images/pieces/queen-b.svg'
+import damaBlanca from '../images/pieces/queen-w.svg'
+import caballoNegra from '../images/pieces/knight-b.svg'
+import caballoBlanca from '../images/pieces/knight-w.svg'
+import alfilNegra from '../images/pieces/bishop-b.svg'
+import alfilBlanca from '../images/pieces/bishop-w.svg'
+import torreNegra from '../images/pieces/rook-b.svg'
+import torreBlanca from '../images/pieces/rook-w.svg'
+
 
 const Tablero = ({pauseTimer1, pauseTimer2}) => {
     const gridStyle = {
@@ -16,7 +25,12 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
   const closeModal = () => {
       setShowModal(false);
   };
-
+  const [torreBlancaIzdaMovida, setTorreBlancaIzdaMovida] = useState(false);
+  const [torreBlancaDchaMovida, setTorreBlancaDchaMovida] = useState(false);
+  const [torreNegraIzdaMovida, setTorreNegraIzdaMovida] = useState(false);
+  const [torreNegraDchaMovida, setTorreNegraDchaMovida] = useState(false);
+  const [reyBlancoMovido, setReyBlancoMovido] = useState(false);
+  const [reyNegroMovido, setReyNegroMovido] = useState(false);
     function traducirTableroAJSON(matrizAux) {
         const piezas = {
             'p': 'peon',
@@ -28,6 +42,12 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
         };
         const json = {
             turno: turno === 1 ? 'blancas' : 'negras', // Añadir el turno al principio del JSON
+            ha_movido_rey_blanco: reyBlancoMovido,
+            ha_movido_rey_negro: reyNegroMovido,
+            ha_movido_torre_blanca_dcha: torreBlancaDchaMovida,
+            ha_movido_torre_blanca_izqda: torreBlancaIzdaMovida,
+            ha_movido_torre_negra_dcha: torreNegraDchaMovida,
+            ha_movido_torre_negra_izqda: torreNegraIzdaMovida,
             peon: [],
             alfil: [],
             caballo: [],
@@ -151,14 +171,14 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
         ['' , '' , '' , '' ,'' , '' , '' , '' ],
         ['P', 'P', 'P', 'P', '', 'P', 'P', 'P'],
         ['R', 'N', 'B', '', '', '', 'N', 'R'], */
-        ['r', 'n', 'b', 'q', 'k', 'b', 'n', ''],
-        ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'P'],
+        ['r', '', '', '', 'k', '', '', 'r'],
+        ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
+        ['' , 'n' , 'b' , 'q' ,'' , 'b' , 'n' , '' ],
         ['' , '' , '' , '' ,'' , '' , '' , '' ],
-        ['' , '' , '' , '' ,'' , '' , 'r' , 'p' ],
         ['' , '' , '' , '' ,'' , '' , '' , '' ],
-        ['' , '' , '' , '' ,'' , '' , '' , '' ],
-        ['P', 'P', 'P', 'P', 'P', 'P', 'P', ''],
-        ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
+        ['' , 'N' , 'B' , 'Q' ,'' , 'B' , 'N' , '' ],
+        ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
+        ['R', '', '', '', 'K', '', '', 'R'],
     ]
     const [tablero, setTablero] = useState(matrizIni)
 
@@ -221,6 +241,23 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
             //Se obtienen las coordenadas de la casilla destino
             const newX = movimiento.fila
             const newY = movimiento.col
+            if(tablero[oldX][oldY]==='k'){
+              setReyNegroMovido(true);
+            }else if(tablero[oldX][oldY]==='K'){
+              setReyBlancoMovido(true);
+            }else if(tablero[oldX][oldY]==='r'){
+              if(oldY===0){
+                setTorreNegraIzdaMovida(true)
+              }else{
+                setTorreNegraDchaMovida(true)
+              }
+            }else if (tablero[oldX][oldY]==='R'){
+              if(oldY===0){
+                setTorreBlancaIzdaMovida(true)
+              }else{
+                setTorreBlancaDchaMovida(true)
+              }
+            }
             // const originalTablero = [...tablero]
             // console.log(newX, newY)
             // Se intercambian los contenidos de las casillas
@@ -310,12 +347,12 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
                     <span className="close" onClick={closeModal}>&times;</span>
                     <p>Selecciona una opción:</p>
                     <div className='opciones-modal-tablero'> 
-                      <button onClick={() => { setSelectedOption(prevTurno => turno === 0 ? 'Q' : 'q'); closeModal(); }}>Dama</button>
-                      <button onClick={() => { setSelectedOption(prevTurno => turno === 0 ? 'B' : 'b'); closeModal(); }}>Alfil</button>
-                      <button onClick={() => { setSelectedOption(prevTurno => turno === 0 ? 'N' : 'n'); closeModal(); }}>Caballo</button>
-                      <button onClick={() => { setSelectedOption(prevTurno => turno === 0 ? 'R' : 'r'); closeModal(); }}>Torre</button>
-
+                        <img style={{ width: '50px', height: '50px' }} src={turno === 0 ? `${damaBlanca}` : `${damaNegra}`} onClick={() => { setSelectedOption(turno === 0 ? 'Q' : 'q'); closeModal(); }} alt="Dama" />
+                        <img style={{ width: '50px', height: '50px' }} src={turno === 0 ? `${alfilBlanca}` : `${alfilNegra}`} onClick={() => { setSelectedOption(turno === 0 ? 'B' : 'b'); closeModal(); }} alt="Alfil" />
+                        <img style={{ width: '50px', height: '50px' }} src={turno === 0 ? `${caballoBlanca}` : `${caballoNegra}`} onClick={() => { setSelectedOption(turno === 0 ? 'N' : 'n'); closeModal(); }} alt="Caballo" />
+                        <img style={{ width: '50px', height: '50px' }} src={turno === 0 ? `${torreBlanca}` : `${torreNegra}`} onClick={() => { setSelectedOption(turno === 0 ? 'R' : 'r'); closeModal(); }} alt="Torre" />
                     </div>
+
                 </div>
             </div>
         )}

@@ -3,6 +3,14 @@ import Casilla from './Casilla';
 import '../styles/Tablero.css'
 import { tab } from '@testing-library/user-event/dist/tab';
 const apiUrl = process.env.REACT_APP_API_URL;
+import damaNegra from '../images/pieces/queen-b.svg'
+import damaBlanca from '../images/pieces/queen-w.svg'
+import caballoNegra from '../images/pieces/knight-b.svg'
+import caballoBlanca from '../images/pieces/knight-w.svg'
+import alfilNegra from '../images/pieces/bishop-b.svg'
+import alfilBlanca from '../images/pieces/bishop-w.svg'
+import torreNegra from '../images/pieces/rook-b.svg'
+import torreBlanca from '../images/pieces/rook-w.svg'
 
 const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer1, pauseTimer2}) => {
     const gridStyle = {
@@ -317,11 +325,10 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
                     <span className="close" onClick={closeModal}>&times;</span>
                     <p>Selecciona una opción:</p>
                     <div className='opciones-modal-tablero'> 
-                      <button onClick={() => { setSelectedOption(prevTurno => turno === 0 ? 'Q' : 'q'); closeModal(); }}>Dama</button>
-                      <button onClick={() => { setSelectedOption(prevTurno => turno === 0 ? 'B' : 'b'); closeModal(); }}>Alfil</button>
-                      <button onClick={() => { setSelectedOption(prevTurno => turno === 0 ? 'N' : 'n'); closeModal(); }}>Caballo</button>
-                      <button onClick={() => { setSelectedOption(prevTurno => turno === 0 ? 'R' : 'r'); closeModal(); }}>Torre</button>
-
+                        <img style={{ width: '50px', height: '50px' }} src={turno === 0 ? `${damaBlanca}` : `${damaNegra}`} onClick={() => { setSelectedOption(turno === 0 ? 'Q' : 'q'); closeModal(); }} alt="Dama" />
+                        <img style={{ width: '50px', height: '50px' }} src={turno === 0 ? `${alfilBlanca}` : `${alfilNegra}`} onClick={() => { setSelectedOption(turno === 0 ? 'B' : 'b'); closeModal(); }} alt="Alfil" />
+                        <img style={{ width: '50px', height: '50px' }} src={turno === 0 ? `${caballoBlanca}` : `${caballoNegra}`} onClick={() => { setSelectedOption(turno === 0 ? 'N' : 'n'); closeModal(); }} alt="Caballo" />
+                        <img style={{ width: '50px', height: '50px' }} src={turno === 0 ? `${torreBlanca}` : `${torreNegra}`} onClick={() => { setSelectedOption(turno === 0 ? 'R' : 'r'); closeModal(); }} alt="Torre" />
                     </div>
                 </div>
             </div>

@@ -46,11 +46,15 @@
 }
 .opciones-modal-tablero{
   display: flex;
-  flex-direction: column;
 }
 .opciones-modal-tablero > *{
 font-size: 20px;
   margin-bottom: 10px;
+  margin: 10px;
+  padding: 10px;
+}
+.opciones-modal-tablero>*:hover {
+  background-color: #e2dddd;
 }
 .modal{
   padding: 40px; 
