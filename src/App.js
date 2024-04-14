@@ -5,12 +5,12 @@ import Home from './pages/Home.jsx'
 import Login from './pages/Login.jsx';
 import SignUp from './pages/SignUp.jsx';
 import Game from './pages/Game.jsx'
-import { GameMode, PlayersInGame } from './components/CustomHooks.jsx';
 import GameOnline from './pages/GameOnline.jsx';
-import {SocketContext, socket} from './context/socket';
 import BattlePass from './pages/BattlePass.jsx';
 import Arenas from './pages/Arenas.jsx';
-
+import Historial from './pages/Historial.jsx';
+import { GameMode, PlayersInGame } from './components/CustomHooks.jsx';
+import {SocketContext, socket} from './context/socket';
 
 function App() {
   const {gameMode, updateMode} = GameMode(); /* Hook para modificar el modo de juego */
@@ -24,6 +24,7 @@ function App() {
           <Route path='/signup' element={<SignUp />} />
           <Route path='/battlePass' element={<BattlePass />} />
           <Route path='/arenas' element={<Arenas />} />
+          <Route path='/historial' element={<Historial />} />
           <Route path='/game' element={<Game gameMode={gameMode} />} />
           <Route path='/gameOnline/:roomId/:colorSuffix' element={<GameOnline gameMode={gameMode} playersInfo={playersInfo} />} />
         </Routes>
