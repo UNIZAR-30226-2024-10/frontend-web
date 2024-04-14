@@ -61,7 +61,7 @@ function BattlePass() {
       <div className={showSidebar ? "sideBattlepass open" : "sideBattlepass"}>
         <SideBar setShowSidebar={setShowSidebar}/>
       </div>
-      <div className="battlePass-container">
+      <div className="titleBattlePass">
         {/* Botón para desplegar el sidebar */}
         <button className={!showSidebar ? "sideMenuButton" : "sideMenuButton hidden"} onClick={() => setShowSidebar(true)}>
           <MenuIcon sx={{
@@ -72,6 +72,8 @@ function BattlePass() {
           }} />
         </button>
         <h1 className="pageTitleBattlepass">PASE DE BATALLA</h1>
+      </div>
+      <div className="battlePass-container">
         <div className="battlePass-container center">
           <div className="battlePass-user">
             <h2 className="infoPuntos">Puntos disponibles: {userBattlePass.points}</h2>

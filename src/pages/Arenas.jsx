@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import '../styles/Arenas.css'
 import SideBar from "../components/SideBar";
 import MenuIcon from '@mui/icons-material/Menu';
@@ -12,8 +12,9 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Tooltip } from "@mui/material";
 
 function Arenas() {
-  const [showSidebar, setShowSidebar] = useState(false);
-  const [hoveredArena, setHoveredArena] = useState(null);
+  const [showSidebar, setShowSidebar] = useState(false); /* Hook para mostrar o esconder el sideBar */
+  const [hoveredArena, setHoveredArena] = useState(null); 
+  /* Hook para guardar info de la arena a mostrar */
   const [arenaPopUp, setArenaPopUp] = useState({
     showArena: '',
     showArenaStr : '',
@@ -21,14 +22,60 @@ function Arenas() {
     showPopUp : false,
   });
   
+  /* Arenas del juego y su contenido */
   const arenas = [
-    {img : Madera, str : 'MADERA', elo : '0 - 199'}, 
-    {img : Marmol, str : 'MARMOL', elo : '200 - 399'}, 
-    {img : Oro, str : 'ORO',  elo : '400 - 599'}, 
-    {img : Esmeralda, str : 'ESMERALDA', elo : '600 - 799'}, 
-    {img : Diamante, str : 'DIAMANTE', elo : '800 - 1000'},
+    {img : Madera, str : 'MADERA', elo : '0 - 199', 
+      des : 'Este tablero de ajedrez se encuentra tallado en la madera más antigua\
+      y noble que jamás hayas visto. Cada cuadro está meticulosamente pulido, revelando\
+      la rica tonalidad de la madera que parece respirar vida propia. Este tablero de \
+      ajedrez de madera no es solo un juego, es un artefacto encantado que despierta la \
+      imaginación y desafía la mente. Es un testigo silencioso de innumerables batallas y \
+      estrategias, y un recordatorio de que, en el juego del ajedrez, como en la vida misma, \
+      cada movimiento cuenta.'}, 
+    {img : Marmol, str : 'MARMOL', elo : '200 - 399',
+      des : 'Tallado con precisión divina por manos expertas de un antiguo artesano,\
+      este tablero de mármol es una obra maestra que desafía la imaginación.Cuando \
+      un jugador se sienta frente a este tablero de maravillas, siente una conexión\
+      con lo divino, como si estuviera tocando un fragmento del mismísimo cosmos. \
+      Cada movimiento en este tablero es una danza cósmica, un ballet de estrategia y destino.\
+      Quienes se aventuran a jugar en este tablero de mármol no solo participan en un juego,\
+      sino que se sumergen en una experiencia trascendental, donde los límites entre la realidad\
+      y la fantasía se desdibujan y el alma misma se eleva hacia las estrellas.'}, 
+    {img : Oro, str : 'ORO',  elo : '400 - 599',
+      des : 'Este tablero de ajedrez de oro no solo es una obra maestra de artesanía, sino\
+      también un símbolo de poder y prestigio. Cada vez que se mueve una pieza en este \
+      tablero dorado, resuena un eco melodioso que llena el aire con una sensación de grandeza\
+      y solemnidad. Los jugadores que se aventuran a desafiarlo saben que estan entrando en \
+      un reino de majestuosidad y desafío, donde cada movimiento es una danza entre la gloria y la derrota.'}, 
+    {img : Esmeralda, str : 'ESMERALDA', elo : '600 - 799', 
+      des : 'Quienes se aventuran a jugar en este tablero de esmeralda no solo se enfrentan\
+      a un desafío de habilidad, sino que también se sumergen en un viaje de descubrimiento\
+      personal y crecimiento espiritual.Cada partida en este tablero es una experiencia única,\
+      es una danza de luz y sombra, donde los jugadores se sumergen en un mundo de estrategia\
+      y astucia, donde los movimientos resonan como susurros antiguos entre las montañas, y el destino\
+      mismo parece tejerse en cada jugada.'}, 
+    {img : Diamante, str : 'DIAMANTE', elo : '800 - 1000', 
+      des : 'Tallado con habilidad divina este tablero de diamante es una obra maestra de la belleza\
+      y la magia. Cuando los jugadores tocan las piezas, sienten una energía mágica que fluye a través\
+      de ellas, una conexión con la esencia misma del juego. Los espectadores que tienen el privilegio\
+      de presenciar una partida en este tablero quedan maravillados por su belleza deslumbrante y su\
+      aura de misterio. El tablero de ajedrez de diamante permanece como un símbolo de poder y elegancia,\
+      una joya en la corona de la creación misma, esperando a que aquellos lo suficientemente valientes\
+      para desafiarlo se atrevan a jugar el juego de los dioses.'},
   ];
 
+  /* Descripción de la arena a mostrar */
+  const [descripcion, setDescripcion] = useState('');
+  useEffect(() => {
+    // Find the corresponding description for the current showArena value
+    const selectedArena = arenas.find(arena => arena.img === arenaPopUp.showArena);
+    if (selectedArena) {
+      setDescripcion(selectedArena.des);
+    } else {
+      setDescripcion('');
+    }
+  }, [arenaPopUp.showArena]);
+  
   return (
     <div className="background-arenas">
       <div className={showSidebar ? "sideArenas open" : "sideArenas"}>
@@ -53,7 +100,7 @@ function Arenas() {
               <div key={index} className="lista-arenas" onMouseEnter={() => setHoveredArena(index)} onMouseLeave={() => setHoveredArena(null)}>
                 <button className="boton-arenas" 
                   onClick={() => setArenaPopUp({ showArena : arena.img, showArenaStr : arena.str, showArenaElo : arena.elo, showPopUp : true })}>
-                  <img className="imagenArena" src={arena.img} alt={`Tablero ${index}`} />
+                  <img className="imagenArena glowing-background" src={arena.img} alt={`Tablero ${index}`} />
                 </button>
                 {hoveredArena === index && 
                   <div className="message">
@@ -64,7 +111,7 @@ function Arenas() {
           </div>
         }
         {arenaPopUp.showPopUp && 
-          <div className="arenas-container center">
+          <div className="arenas-container focusArena">
             {/* Botón para volver hacia atrás */}
             <div className="atras">
               <button className="atras-boton" onClick={() => setArenaPopUp({ showArena : '', showArenaStr : '', showArenaElo : '', showPopUp : false })}>
@@ -77,18 +124,24 @@ function Arenas() {
                 </Tooltip>
               </button>
             </div>
-            {/* Información acerca de la arena */}
-            <div className="arenaInfo">
-              <div className="arenaInfo text">
-                <h2>ARENA DE {arenaPopUp.showArenaStr}</h2>
-                <ul className="arenaInfo list">
-                  <li>Elo requerido: {arenaPopUp.showArenaElo}</li>
-                </ul>
+            <div className="infoYarena">
+              {/* Información acerca de la arena */}
+              <div className="arenaInfo">
+                <div className={`arenaInfo text`}>
+                  <h2>ARENA DE {arenaPopUp.showArenaStr}</h2>
+                  <div className="arenaInfo list">
+                    {/* <li>Elo requerido : <b style={{fontWeight: 'bolder'}}>{arenaPopUp.showArenaElo}</b></li>
+                    <li>Descripción : {descripcion}</li> */}
+                    <p className="arenaInfo elo">Elo requerido : {arenaPopUp.showArenaElo}</p>
+                    <hr style={{width: '80%', padding: '0'}}></hr>
+                    <p className="arenaInfo descripcion">{descripcion}</p>
+                  </div>
+                </div>
               </div>
-            </div>
-            {/* Arena en grande */}
-            <div className="arenaPopUp">
-              <img className="imagenPopUp" src={arenaPopUp.showArena} alt='arena' />
+              {/* Arena en grande */}
+              <div className="arenaPopUp">
+                <img className="imagenPopUp" src={arenaPopUp.showArena} alt='arena' />
+              </div>
             </div>
           </div>
         }

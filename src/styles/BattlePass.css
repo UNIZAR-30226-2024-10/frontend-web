@@ -3,7 +3,7 @@
   height: 100vh;
   width: 100vw;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   background: url('../images/background.jpg') no-repeat center/cover;
 }
 
@@ -59,14 +59,6 @@
   opacity: 0; /* Opacity when hidden */
 }
 
-.battlePass-container{
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
 .pageTitleBattlepass {
   display: flex;
   flex-wrap: wrap;
@@ -81,9 +73,17 @@
   background-color: #ff8e0d;
   border: solid 1px #fff;
   border-radius: 8px;
-  transform: translateY(-90%);
+  /* transform: translateY(-90%); */
 }
 
+.battlePass-container{
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 /* Recuadro en verde que contiene el battlepass*/
 .battlePass-container.center{
   width: 80%;
@@ -210,4 +210,25 @@
 .claim-all-button:focus {
   outline: none;
   box-shadow: 0 0 30px #ff8e0d; /* Box-shadow when active/focused */
+}
+
+@media only screen and (max-width: 450px) {
+  .battlePass-container {
+    display: none;
+  }
+  .pageTitleBattlepass {
+    display: none;
+  }
+}
+
+@media only screen and (max-height: 620px){
+  .battlePass-container {
+    display: none;
+  }
+}
+
+@media only screen and (max-height: 570px){
+  .pageTitleBattlepass {
+    display: none;
+  }
 }
