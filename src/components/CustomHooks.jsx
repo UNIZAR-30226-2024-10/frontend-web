@@ -1,6 +1,7 @@
 import { useState } from "react";
 import whiteKing from '../images/whiteKing.png'
 
+/* Establece el modo de juego al que se está jugando */
 export const GameMode = () => {
   const [gameMode, setGameMode] = useState('Rapid');
   const updateMode = (newMode) => {
@@ -12,7 +13,8 @@ export const GameMode = () => {
   };
 }
 
-export const AvatarSelector = () => { /* Hook para seleccionar el avatar del usario */
+/* Establece el avatar y el fondo de avatar del usuario */
+export const AvatarSelector = () => {
   const [avatar, setAvatar] = useState({
     image : whiteKing, 
     bgcolor: 'orange',
@@ -36,7 +38,8 @@ export const AvatarSelector = () => { /* Hook para seleccionar el avatar del usa
   };
 }
 
-export const ShowUserProfile = () => { /* Hook para mostrar el perfil del usuario en el home */
+/* Hook para mostrar el perfil del usuario en el home */
+export const ShowUserProfile = () => { 
   const [userProfileVisibility, setUserProfileVisibility] = useState(false);
   const updateUserProfileVisibility = () => {
     setUserProfileVisibility(!userProfileVisibility);
@@ -47,7 +50,8 @@ export const ShowUserProfile = () => { /* Hook para mostrar el perfil del usuari
   };
 }
 
-export const PlayersInGame = () => { /* Hook para almacenar el nombre de los jugadores en partida */
+/* Hook para almacenar el nombre de los jugadores en partida */
+export const PlayersInGame = () => { 
   const [playersInfo, setPlayersInfo] = useState({
     me : '', 
     opponent: '',

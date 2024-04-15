@@ -12,8 +12,8 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Tooltip } from "@mui/material";
 
 function Arenas() {
-  const [showSidebar, setShowSidebar] = useState(false); /* Hook para mostrar o esconder el sideBar */
-  const [hoveredArena, setHoveredArena] = useState(null); 
+  const [showSidebar, setShowSidebar] = useState(false); /* Mostrar o esconder el sideBar */
+  const [hoveredArena, setHoveredArena] = useState(null);  /* Arena sobre la que se pasa el ratón */
   /* Hook para guardar info de la arena a mostrar */
   const [arenaPopUp, setArenaPopUp] = useState({
     showArena: '',
@@ -67,7 +67,6 @@ function Arenas() {
   /* Descripción de la arena a mostrar */
   const [descripcion, setDescripcion] = useState('');
   useEffect(() => {
-    // Find the corresponding description for the current showArena value
     const selectedArena = arenas.find(arena => arena.img === arenaPopUp.showArena);
     if (selectedArena) {
       setDescripcion(selectedArena.des);
@@ -76,9 +75,11 @@ function Arenas() {
     }
   }, [arenaPopUp.showArena]);
   
+  /* Arenas de juego */
   return (
     <div className="background-arenas">
       <div className={showSidebar ? "sideArenas open" : "sideArenas"}>
+        {/* sideBar */}
         <SideBar setShowSidebar={setShowSidebar}/>
       </div>
       <div className="titleArenas">
@@ -91,19 +92,23 @@ function Arenas() {
             width: 52,
           }} />
         </button>
+        {/* Título de la página */}
         <h1 className="pageTitleArenas">ARENAS DE JUEGO</h1>
       </div>
       <div className="arenas-container">
         {!arenaPopUp.showPopUp && 
           <div className="arenas-container center">
+            {/* Listado de las arenas */}
             {arenas.map((arena, index) => (
               <div key={index} className="lista-arenas" onMouseEnter={() => setHoveredArena(index)} onMouseLeave={() => setHoveredArena(null)}>
                 <button className="boton-arenas" 
                   onClick={() => setArenaPopUp({ showArena : arena.img, showArenaStr : arena.str, showArenaElo : arena.elo, showPopUp : true })}>
+                  {/* Imagen de la arena */}
                   <img className="imagenArena glowing-background" src={arena.img} alt={`Tablero ${index}`} />
                 </button>
                 {hoveredArena === index && 
                   <div className="message">
+                    {/* Información "on hover" */}
                     Arena {index + 1}
                   </div>}
               </div>
@@ -112,7 +117,7 @@ function Arenas() {
         }
         {arenaPopUp.showPopUp && 
           <div className="arenas-container focusArena">
-            {/* Botón para volver hacia atrás */}
+            {/* Botón para volver hacia atrás (al listado de arenas) */}
             <div className="atras">
               <button className="atras-boton" onClick={() => setArenaPopUp({ showArena : '', showArenaStr : '', showArenaElo : '', showPopUp : false })}>
                 <Tooltip title="Atrás">
@@ -130,15 +135,14 @@ function Arenas() {
                 <div className={`arenaInfo text`}>
                   <h2>ARENA DE {arenaPopUp.showArenaStr}</h2>
                   <div className="arenaInfo list">
-                    {/* <li>Elo requerido : <b style={{fontWeight: 'bolder'}}>{arenaPopUp.showArenaElo}</b></li>
-                    <li>Descripción : {descripcion}</li> */}
                     <p className="arenaInfo elo">Elo requerido : {arenaPopUp.showArenaElo}</p>
                     <hr style={{width: '80%', padding: '0'}}></hr>
+                    {/* Descripción de la arena */}
                     <p className="arenaInfo descripcion">{descripcion}</p>
                   </div>
                 </div>
               </div>
-              {/* Arena en grande */}
+              {/* Imagen de la arena cuando se ha desplegado su información */}
               <div className="arenaPopUp">
                 <img className="imagenPopUp" src={arenaPopUp.showArena} alt='arena' />
               </div>

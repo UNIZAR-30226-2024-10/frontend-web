@@ -5,7 +5,6 @@ import '../styles/Sidebar.css';
 import CloseIcon from '@mui/icons-material/Close';
 import {SocketContext} from './../context/socket';
 import { Tooltip } from "@mui/material";
-import { AppRegistrationSharp } from '@mui/icons-material';
 
 function SideBar(args) {
   const socket = useContext(SocketContext);
@@ -57,23 +56,22 @@ function SideBar(args) {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      /*navigate('/game'); // Reemplaza '/nueva-pagina' con la URL de la página que quieres cargar
+      /*navigate('/game'); 
     }, 5000); // 5000 milisegundos = 5 segundos
   }*/
 
   const handleClickJugarRA = () => {
     args.updateMode('Rapid');
-    navigate('/game'); // Reemplaza '/nueva-pagina' con la URL de la página que quieres cargar
+    navigate('/game'); 
   }
   const handleClickJugarBU = () => {
     args.updateMode('Bullet');
-    navigate('/game'); // Reemplaza '/nueva-pagina' con la URL de la página que quieres cargar
+    navigate('/game');
   }
   const handleClickJugarBL = () => {
     args.updateMode('Blitz');
-    navigate('/game'); // Reemplaza '/nueva-pagina' con la URL de la página que quieres cargar
+    navigate('/game');
   }
-
 
   const LocalMode = () => {
     return (
@@ -100,20 +98,17 @@ const handleClickJugarRAOnline = () => {
     args.updateMode('Rapid');
     console.log(args.gameMode);
     setLoading(true);
-    console.log("emito")
     socket.emit('join_room', { mode: 'Rapid' }); // Envía un evento al servidor para unirse al juego en modo Rapid
   };
   const handleClickJugarBUOnline = () => {
     args.updateMode('Bullet');
     setLoading(true);
-    console.log("emito")
-    socket.emit('join_room', { mode: 'Bullet' });
+    socket.emit('join_room', { mode: 'Bullet' }); // Envía un evento al servidor para unirse al juego en modo Bullet
   }
   const handleClickJugarBLOnline = () => {
     args.updateMode('Blitz');
     setLoading(true);
-    console.log("emito")
-    socket.emit('join_room', { mode: 'Blitz' });
+    socket.emit('join_room', { mode: 'Blitz' }); // Envía un evento al servidor para unirse al juego en modo Blitz
   }
   const OnlineMode = () => {
     return (
@@ -143,7 +138,9 @@ const handleClickJugarRAOnline = () => {
       <div className='popUp'>
         <div className='popUp-content'>
           <div className='close-button'>
+            {/* Botón para cerrar el menú de selección de modo */}
             <button className='close-button' onClick={handleClick}>
+              {/* Hint para el botón de cerrar el menú */}
               <Tooltip
                 title="Cerrar"
                 slotProps={{
@@ -167,6 +164,7 @@ const handleClickJugarRAOnline = () => {
               </Tooltip>
             </button>
           </div>
+          {/* Modos de juego */}
           <LocalMode />
           <OnlineMode />
         </div>
@@ -174,16 +172,19 @@ const handleClickJugarRAOnline = () => {
     );
   }
 
+  /* Cancelar la búsqueda de partida */
   const handleCancelarBusqueda = () => {
     setLoading(false);
     socket.emit('cancel_search', { mode: args.gameMode }); // Avisar al servidor de la cancelación de búsqueda
   }
 
+  /* Cancelar partida (ya se ha encontrado oponente) */
   const handleCancelarMatch = () => {
     setMatchFound(false); 
     socket.emit('cancel_match'); // Avisar al contrincante de la cancelación
   }
 
+  /* Pantalla de carga */
   const LoadingScreen = () => {
     return (
       <div className="overlay">
@@ -194,20 +195,21 @@ const handleClickJugarRAOnline = () => {
     );
   }
 
+  /* Partida encontrada */
   const MatchFound = () => {
     const [countdown, setCountdown] = useState(5);
-
+    /* Cuenta atrás antes de que empiece la partida */
     useEffect(() => {
-    const interval = setInterval(() => {
-      // Decrease the countdown value by 1 every second
-      if(countdown > 0){
-        setCountdown((prevCountdown) => prevCountdown - 1);
-      }
-    }, 1000);
+      const interval = setInterval(() => {
+        if(countdown > 0){
+          setCountdown((prevCountdown) => prevCountdown - 1);
+        }
+      }, 1000);
 
-    // Clean up the interval when the component unmounts or when countdown reaches 0
       return () => clearInterval(interval);
-    }, []); // Empty dependency array ensures that this effect runs only once
+    }, []);
+
+    /* Mensaje de partida encontrada + contador */
     return(
       <div className="overlay">
         <h1 style={h1Style}>PARTIDA ENCONTRADA</h1>
@@ -221,7 +223,7 @@ const handleClickJugarRAOnline = () => {
   return (
     /* Devulve un sidebar con diferentes opciones */
     <div className='Sidebar'>
-      {/* <h2>Menú</h2> */}
+      {/* Botón para esconder el sideBar en aquellas pantallas donde no está fijo (solo desplegado) */}
       {!args.inhome && <button className='hideSidebarButton' onClick={() => args.setShowSidebar(false)}>
         <CloseIcon sx={{
           color: '#fff',
@@ -230,6 +232,7 @@ const handleClickJugarRAOnline = () => {
           width: 52,
         }} />
       </button>}
+      {/* Logo de la organización */}
       <div><img className='logo' src={logo}/></div>
       <div className='listaSidebar'>
         <div className='botonJugarWrapper'> 
@@ -238,7 +241,7 @@ const handleClickJugarRAOnline = () => {
             Jugar
           </button>}
           {loading && <LoadingScreen />} {/* Pantalla de carga */}
-          {matchFound && <MatchFound />}
+          {matchFound && <MatchFound />} {/* Pantalla de partida encontrada */}
           {gamesPopUp && <PopUpMenu />} {/* PopUp para escoger el modo de juego */}
         </div>
         {/* Opciones del sidebar*/}
@@ -246,7 +249,6 @@ const handleClickJugarRAOnline = () => {
         {!args.inhome && !args.ingame && <div><a href="/home">Menú principal</a></div>}
         <div><a href="/battlePass">Pase de Batalla</a></div>
         <div><a href="#">Ranking</a></div>
-        <div><a href="/historial">Historial</a></div>
         <div><a href="/arenas">Arenas</a></div>
         <div><a href="#">Personalización</a></div>
       </div>

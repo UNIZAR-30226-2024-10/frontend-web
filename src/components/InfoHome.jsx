@@ -2,10 +2,11 @@ import React from "react";
 import '../styles/InfoHome.css';
 
 function InfoHome() {
-
+  /* Modos de juego */
   const BulletInfo = "Bullet";
   const BlitzInfo = "Blitz";
   const RapidInfo = "Rapid";
+  /* Información acerca de cada modo de juego */
   const BulletText = "Esta variante del juego se caracteriza por partidas extremadamente rápidas, \
 	en las que cada jugador cuenta con un tiempo muy limitado para realizar sus movimientos."
   const BlitzText = "En el ajedrez Blitz, cada jugador tiene un tiempo máximo para realizar todos \
@@ -14,11 +15,12 @@ function InfoHome() {
   const RapidText = "En el ajedrez Rapid, los jugadores tienen un tiempo limitado para realizar sus movimientos.\
 	A diferencia de las partidas clásicas, donde se cuenta con varias horas para pensar y planificar cada jugada, \
 	en el ajedrez rápido el reloj es un factor determinante.";
+  /* Información acerca de la organización */
   const QuienesSomos = "KSJ Games es una empresa creada por jóvenes estudiantes de ingeniería informática con una pasión \
 	compartida por los videojuegos y la innovación tecnológica."
 
+  /* Cuadro informativo acerca de los diferentes modos de juego */
   return (
-    /* Devuelve un cuadro informativo acerca de los diferentes modos de juego */
     <div className="infoHome-background">
       <div className="infoHome-title">
         MODOS DE JUEGO

@@ -12,15 +12,13 @@ import TableroOnline from '../components/TableroOnline';
 import { useParams } from 'react-router-dom';
 import Chat from '../components/Chat.jsx';
 import {SocketContext} from './../context/socket';
-import Game from './Game.jsx';
-import { PaletteRounded } from '@mui/icons-material';
 
 function GameOnline({ gameMode, playersInfo }) {
   const socket = useContext(SocketContext);
 
   const navigate = useNavigate();
-  const [wantToQuit, setWantToQuit] = useState(false);
-  const [gameState, setGameState] = useState({
+  const [wantToQuit, setWantToQuit] = useState(false); /* Indica que un jugador quiere abandonar la partida */
+  const [gameState, setGameState] = useState({ /* Contiene los diferentes estados de la partida */
     victory : false,
     victoryCause : '',
     surrender : false,
@@ -29,11 +27,12 @@ function GameOnline({ gameMode, playersInfo }) {
     isPlaying : true,
     isMenuVisible : false,
   });
-  var playingGame = true; // Constante para indicar que el Sidebar se esta usando en la pantalla de game
+  var playingGame = true; /* Indica al sideBar de que este componente se está usando en partida */
   const { roomId, colorSuffix } = useParams();
 
   useEffect(() => {
-    socket.on("player_disconnected", () => { // Avisa al jugador de que su contrincante se ha desconectado de la partida
+    /* El servidor inforda de que el oponente se ha desconectado de la partida */
+    socket.on("player_disconnected", () => { 
       setGameState(prevState => ({
         ...prevState,
         victory : true, 
@@ -48,15 +47,17 @@ function GameOnline({ gameMode, playersInfo }) {
   },[]);
 
   useEffect(() => {
-      socket.on("movido", (data)=>{
-        setTableroUpdate(data);
-      })
+    /* El oponente ha movido pieza */
+    socket.on("movido", (data)=>{
+      setTableroUpdate(data);
+    })
   }, [socket]);
 
   const [tableroEnviar, setTableroEnviar] = useState(null)
   const [tableroUpdate, setTableroUpdate] = useState(null)
 
   useEffect(() => {
+    /* Movimiento de pieza,  se envía dicho movimiento al servidor */
     if (socket && tableroEnviar) {
       console.log(tableroEnviar)
       socket.emit("move", { tableroEnviar, roomId});
@@ -65,6 +66,7 @@ function GameOnline({ gameMode, playersInfo }) {
   }, [socket, tableroEnviar]);
 
   useEffect(() => { 
+    /* El servidor informa de que el oponente se ha rendido */
     if (socket){
       socket.on("oponent_surrendered", () =>{
         setGameState(prevState => ({
@@ -80,31 +82,37 @@ function GameOnline({ gameMode, playersInfo }) {
     }
   });
 
+  /* El usuario quiere rendirse */
   const handleSurrender = () => {
     setGameState(prevState => ({
       ...prevState,
       surrender : !gameState.surrender
     }));
   }
+  /* Confirmar que el usuario quiere rendirse y abandonar la partida */
   const handleConfirmSurrender = () => {
     setGameState(prevState => ({
       ...prevState,
       confirmSurrender : true
     }));
-    socket.emit("I_surrender", {roomId}); // Avisar al servidor de que nos hemos rendido
+    /* Aviso al servidor de que el usuario se ha rendido */
+    socket.emit("I_surrender", {roomId}); 
   }
+  /* Mostrar o esconder los ajustes de partida */
   const handleSettings = () => {
     setGameState(prevState => ({
       ...prevState,
       showingSettings : !gameState.showingSettings
     }));
   }
+  /* Mostrar o esconder el sideBar */
   const ToggleMenuVisibility = (value) => {
     setGameState(prevState => ({
       ...prevState,
       isMenuVisible : value,
     }));
   };
+  /* Pausar o reanudar la partida */
   const handlePause = () => {
     setGameState(prevState => ({
       ...prevState,
@@ -113,8 +121,11 @@ function GameOnline({ gameMode, playersInfo }) {
     //setIsPlaying(!isPlaying);
     // Parar los timers
   }
+
+  /* Establecer el tiempo de partida dependiendo del modo de juego  */
   const tiempo = gameMode === 'Rapid' ? 10 : (gameMode === 'Blitz' ? 5 : 3);
   
+  /* Gestión de los contadores de partida para cada uno de los jugadores */
   const [minutes1, setMinutes1] = useState(tiempo);
   const [seconds1, setSeconds1] = useState(0);
   const [minutes2, setMinutes2] = useState(tiempo);
@@ -157,6 +168,8 @@ function GameOnline({ gameMode, playersInfo }) {
       setIsRunning2(false);
       setIsRunning1(true);
   }
+
+  /* Cuadros informativos para cada uno de los jugadores */
   const InfoPlayers = ({numJugador, nombreJugador, eloJugador, colorFicha, tiempoRestante, fichasComidas }) => {
     const minutes = parseInt(numJugador,10) ===1?minutes1:minutes2;
     const seconds = parseInt(numJugador,10) ===1?seconds1:seconds2;
@@ -172,7 +185,7 @@ function GameOnline({ gameMode, playersInfo }) {
               {colorFicha}
             </div>
           </div>
-          <div className="game-info-players-timer">
+          <div className="game-info-players-timer"> {/* Tiempo restante del jugador */}
             {minutes} : {seconds}
           </div>
           <div className="game-info-tokenEaten"> {/* Cantidad de fichas comidas por el jugador */}
@@ -183,15 +196,16 @@ function GameOnline({ gameMode, playersInfo }) {
     );
   };
 
+  /* Cuadro informativo del modo de juego al que se está jugando */
   const InfoGameMode = ({ GameMode }) => {
     return (
-      /* Devuelve el modo de juego al que se esta jugando */
       <div className="game-mode-info">
         {GameMode} {/* Modo de juego */}
       </div>
     );
   }
 
+  /* Mensajes informativos (en forma de PopUp) que surgen en función del estado de la partida */
   const GamePopup = () => {
     return(
       <>
@@ -278,6 +292,7 @@ function GameOnline({ gameMode, playersInfo }) {
     );
   }
 
+  /* Juego Online */
   return (
     <div className="game-background">
       <div className="game-menu">
@@ -296,8 +311,10 @@ function GameOnline({ gameMode, playersInfo }) {
         </div>
       </div>
       <div className="game-screen">
-        <GamePopup /> {/* Muestra diferentes mensajes por pantalla, dependiendo de la situación de la partida  */}
-        <div className="game-mode"> {/* Indicador del modo de juego al que se esta jugando */}
+        {/* Mensajes en forma de PopUp */}
+        <GamePopup /> 
+        <div className="game-mode"> 
+          {/* Indicador del modo de juego al que se esta jugando */}
           <InfoGameMode GameMode={gameMode} />
         </div>
         <div className="game">

@@ -7,20 +7,24 @@ import MenuItem from '@mui/material/MenuItem';
 
 function Navbar ({ updateUserProfileVisibility, avatar }) {
   const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = React.useState(null); // Hook para el menú desplegable
-  const [loggedIn, setLoggedIn] = React.useState(true); // Hook para diferenciar si un usuario esta identificado o no
+  const [anchorEl, setAnchorEl] = React.useState(null); /* Hook para controlar si el menu es visible o no */
+  const [loggedIn, setLoggedIn] = React.useState(true); /* Hook para controlar si el usuario ha iniciado sesión o no */
   const open = Boolean(anchorEl);
 
+  /* Abrir el menú */
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  /* Cerrar el menú */
   const handleClose = () => {
     setAnchorEl(null);
   };
+  /* Mostrar el perfil de usuario */
   const handleProfile = () => {
     updateUserProfileVisibility();
     setAnchorEl(null);
   }
+  /* Cerrar sesión */
   const handleCloseSesion = () => {
     setLoggedIn(false);
     setAnchorEl(null);
@@ -46,7 +50,8 @@ function Navbar ({ updateUserProfileVisibility, avatar }) {
         open={open}
         onClose={handleClose}
         MenuListProps={{'aria-labelledby': 'basic-button' }}>
-        <MenuItem onClick={handleProfile}>Perfil</MenuItem> {/* Opciones del menu desplegable */}
+        {/* Opciones del menu desplegable */}
+        <MenuItem onClick={handleProfile}>Perfil</MenuItem> 
         <MenuItem onClick={handleCloseSesion}>Cerrar Sesión</MenuItem>
       </Menu>
     );

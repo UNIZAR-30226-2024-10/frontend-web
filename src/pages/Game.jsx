@@ -3,68 +3,39 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/Game.css'
 import SideBar from '../components/SideBar';
 import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
-import FlagIcon from '@mui/icons-material/Flag';
-import SettingsIcon from '@mui/icons-material/Settings';
-import Tooltip from '@mui/material/Tooltip';
-import PauseIcon from '@mui/icons-material/Pause';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import Tablero from '../components/Tablero';
 
 
 function Game({ gameMode }) {
+
   const navigate = useNavigate();
-  const [IsMenuVisible, SetIsMenuVisible] = useState(false);
-  const [surrender, setSurrender] = useState(false); // Hook para comprobar si el jugador se ha rendido
-  const [confirmSurrender, setConfirmSurrender] = useState(false); // Hook para confirmar que se ha rendido
-  const [showingSettings, setShowingSettings] = useState(false); // Hook para mostrar el menú de ajustes
-  const [isPlaying, setIsPlaying] = useState(true); // Hook para pausar la partida
-  const playingGame = true; // Const para indicar que el Sidebar se esta usando en la pantalla de game
-  const handleSurrender = () => {
-    setSurrender(!surrender);
-  }
+
+  const playingGame = true; /* Indica al sideBar de que este componente se está usando en partida */
+  const [wantToQuit, setWantToQuit] = useState(false); /* Indica que un jugador quiere abandonar la partida */
+  const [gameState, setGameState] = useState({ /* Contiene los diferentes estados de la partida */
+    confirmSurrender: false,
+    isMenuVisible : false,
+  });
+
+  /* Confirmar que un usuario quiere rendirse y abandonar la partida */
   const handleConfirmSurrender = () => {
-    setConfirmSurrender(true);
+    setGameState(prevState => ({
+      ...prevState,
+      confirmSurrender : true
+    }));
   }
-  const handleSettings = () => {
-    setShowingSettings(!showingSettings);
-  }
-  const ToggleMenuVisibility = () => {
-    SetIsMenuVisible(!IsMenuVisible);
+  /* Mostrar o esconder el sideBar */
+  const ToggleMenuVisibility = (value) => {
+    setGameState(prevState => ({
+      ...prevState,
+      isMenuVisible : value,
+    }));
   };
-  const handlePause = () => {
-    setIsPlaying(!isPlaying);
-  }
 
-  const TextInputWithButton = () => {
-    const [text, setText] = useState('');
-    const [submittedText, setSubmittedText] = useState('');
-
-    const handleChange = (event) => {
-      setText(event.target.value);
-    };
-
-    const handleSubmit = () => {
-      setSubmittedText(text);
-      setText('');
-    };
-
-    return (
-      <div>
-        <label htmlFor="textInput">Enter Text: </label>
-        <input
-          type="text"
-          id="textInput"
-          value={text}
-          onChange={handleChange}
-        />
-        <button onClick={handleSubmit}>Submit</button>
-        {submittedText && <p>You submitted: {submittedText}</p>}
-      </div>
-    );
-  };
+  /* Establecer el tiempo de partida dependiendo del modo de juego  */
   const tiempo = gameMode === 'Rapid' ? 10 : (gameMode === 'Blitz' ? 5 : 3);
   
+  /* Gestión de los contadores de partida para cada uno de los jugadores */
   const [minutes1, setMinutes1] = useState(tiempo);
   const [seconds1, setSeconds1] = useState(0);
   const [minutes2, setMinutes2] = useState(tiempo);
@@ -107,15 +78,15 @@ function Game({ gameMode }) {
   }
 
   const pauseTimer2 = () => {
-      setIsRunning2(false);
-      setIsRunning1(true);
+    setIsRunning2(false);
+    setIsRunning1(true);
   }
 
+  /* Cuadros informativos para cada uno de los jugadores */
   const InfoPlayers = ({numJugador, nombreJugador, eloJugador, colorFicha, tiempoRestante, fichasComidas }) => {
     const minutes = parseInt(numJugador,10) ===1?minutes1:minutes2;
     const seconds = parseInt(numJugador,10) ===1?seconds1:seconds2;
     return (
-      /* Devuelve un cuadro informativo para cada uno de los jugadores */
       <div>
         <div className="game-info">
           <div className="game-info-players">
@@ -126,7 +97,7 @@ function Game({ gameMode }) {
               {colorFicha}
             </div>
           </div>
-          <div className="game-info-players-timer">
+          <div className="game-info-players-timer"> {/* Tiempo restante del jugador */}
             {minutes} : {seconds}
           </div>
           <div className="game-info-tokenEaten"> {/* Cantidad de fichas comidas por el jugador */}
@@ -137,89 +108,61 @@ function Game({ gameMode }) {
     );
   };
 
-
+  /* Cuadro informativo del modo de juego al que se está jugando */
   const InfoGameMode = ({ GameMode }) => {
     return (
-      /* Devuelve el modo de juego al que se esta jugando */
       <div className="game-mode-info">
         {GameMode} {/* Modo de juego */}
       </div>
     );
   }
 
+  /* Mensajes informativos (en forma de PopUp) que surgen en función del estado de la partida */
+  const GamePopup = () => {
+    return(
+      <>
+        {/* El jugador quiere abandonar la partida (mediante el botón del sideBar) */}
+        {wantToQuit && playingGame &&
+        <div className="popup-background">
+          <div className="game-popup">
+            <h1><u>¿Seguro que quieres abandonar la partida? </u></h1>
+            <div className="game-popup-button-surrender">
+                <button className="game-popup-button" onClick={() => {handleConfirmSurrender();  navigate('/home')}}>
+                  Sí
+                </button>
+                <button className="game-popup-button" onClick={() => setWantToQuit(false)}>
+                  No
+                </button>
+            </div>
+          </div>
+        </div>}
+      </>
+    );
+  }
+
+  /* Juego Local */
   return (
     <div className="game-background">
       <div className="game-menu">
         {/* Botón para desplegar el sidebar */}
-        {!IsMenuVisible && <button className="game-button-menu" onClick={ToggleMenuVisibility}>
+        <button className={!gameState.isMenuVisible ? "game-button-menu" : "game-button-menu hidden"} onClick={() => ToggleMenuVisibility(true)}>
           <MenuIcon sx={{
             color: '#fff',
             backgroundColor: '#312D2D',
             height: 52,
             width: 52,
           }} />
-        </button>}
-        {/* Div que contiene el sidebar */}
-        <div>
-          <div className={`sliding-div ${IsMenuVisible ? 'visible' : ''}`}>
-            {IsMenuVisible && <button className="game-button-close-menu" onClick={ToggleMenuVisibility}>
-              <CloseIcon sx={{
-                color: '#fff',
-                backgroundColor: 'transparent',
-                height: 48,
-                width: 48,
-              }} />
-            </button>}
-            <SideBar ingame={playingGame} />
-          </div>
+        </button>
+        {/* Sidebar */}
+        <div className={`sliding-div ${gameState.isMenuVisible ? 'visible' : ''}`}>
+          <SideBar ingame={playingGame} setWantToQuit={setWantToQuit} setShowSidebar={ToggleMenuVisibility}/>
         </div>
       </div>
-      <div style={{width: '80%'}} className="game-screen">
-        {/* Diferentes popUps con mensajes */}
-        {showingSettings && !surrender &&
-          <div className="popup-background">
-            <div className="game-popup-settings">
-              <h1><u>Menú de ajustes de la partida</u></h1>
-            </div>
-          </div>}
-        {!isPlaying && !surrender &&
-          <div className="popup-background">
-            <div className="game-popup-pause">
-              <h1><u>Se ha pausado la partida</u></h1>
-              <button className="game-popup-button" onClick={handlePause}>
-                Reanudar Partida
-                <PlayArrowIcon sx={{
-                  color: 'white',
-                  width: 32,
-                  height: 32
-                }} />
-              </button>
-            </div>
-          </div>}
-        {surrender &&
-          <div className="popup-background">
-            {surrender && !confirmSurrender &&
-              <div className="game-popup-surrender">
-                <h1><u>¿Estas seguro de que deseas rendirte?</u></h1>
-                <div className="game-popup-button-surrender">
-                  <button className="game-popup-button" onClick={handleConfirmSurrender}>
-                    Sí
-                  </button>
-                  <button className="game-popup-button" onClick={handleSurrender}>
-                    No
-                  </button>
-                </div>
-              </div>}
-            {confirmSurrender &&
-              <div className="game-popup-surrender">
-                <h1><u>¡Te has rendido!</u></h1>
-                <h3>El jugador X gana</h3>
-                <button className="game-popup-button" onClick={() => navigate('/home')}>
-                  Abandonar partida
-                </button>
-              </div>}
-          </div>}
-        <div className="game-mode"> {/* Indicador del modo de juego al que se esta jugando */}
+      <div style={{width: '75%'}} className="game-screen">
+        {/* Mensajes en forma de PopUp */}
+        <GamePopup />
+        <div className="game-mode"> 
+          {/* Indicador del modo de juego al que se esta jugando */}
           <InfoGameMode GameMode={gameMode} />
         </div>
         <div className="game">

@@ -8,7 +8,7 @@ import Game from './pages/Game.jsx'
 import GameOnline from './pages/GameOnline.jsx';
 import BattlePass from './pages/BattlePass.jsx';
 import Arenas from './pages/Arenas.jsx';
-import Historial from './pages/Historial.jsx';
+import Personalizacion from './pages/Personalizacion.jsx';
 import { GameMode, PlayersInGame } from './components/CustomHooks.jsx';
 import {SocketContext, socket} from './context/socket';
 
@@ -24,7 +24,7 @@ function App() {
           <Route path='/signup' element={<SignUp />} />
           <Route path='/battlePass' element={<BattlePass />} />
           <Route path='/arenas' element={<Arenas />} />
-          <Route path='/historial' element={<Historial />} />
+          <Route path='/personalizacion' element={<Personalizacion />} />
           <Route path='/game' element={<Game gameMode={gameMode} />} />
           <Route path='/gameOnline/:roomId/:colorSuffix' element={<GameOnline gameMode={gameMode} playersInfo={playersInfo} />} />
         </Routes>

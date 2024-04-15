@@ -45,7 +45,9 @@ function Login() {
     <div className='mainContainer'>
       <div className='wrapper'>
         <div>
+          {/* Botón para volver al menú principal */}
           <button className='title-button' onClick={handleClick}>
+            {/* Hint para el botón */}
             <Tooltip title="Volver al menú principal">
               <h1 className='title'>ChessHub</h1>
             </Tooltip>
@@ -53,6 +55,7 @@ function Login() {
         </div>
         <div className="form-login">
           <h3 className='form-title'><u>Inicio de Sesión</u></h3>
+          {/* Input para el nombre de usuario */}
           <Box
             component="form"
             sx={{
@@ -76,6 +79,7 @@ function Login() {
               onChange={(e) => setUsername(e.target.value)}
             />
           </Box>
+          {/* Input para la contraseña */}
           <Box
             component="form"
             sx={{
@@ -100,6 +104,7 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </Box>
+          {/* Botón para proceder al login */}
           <Button
             variant="contained"
             onClick={handleLogin}
@@ -112,6 +117,7 @@ function Login() {
           >
             Iniciar sesión
           </Button>
+          {/* Botón para acceder a signup */}
           <a className='registrate' onClick={() => { navigate('/signup') }}>¿No tienes cuenta? Regístrate</a>
         </div>
       </div>

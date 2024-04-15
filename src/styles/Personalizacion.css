@@ -1,0 +1,80 @@
+/* Fichero de estilos para Personalizacion.jsx */
+
+.fondoPersonalizacion {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  background: url('../images/background.jpg') no-repeat center/cover;
+}
+
+/* Formato del sidebar cuando está cerrado */
+.sidePersonalizacion {
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: -300px;
+  bottom: 0;
+  background-color: #fff;
+  transition: left 0.7s ease;
+}
+/* Formato del sidebar cuando está abierto */
+.sidePersonalizacion.open {
+  left: 0;
+}
+
+/* Div superior que contiene el título y el botón de sideBar */
+.titlePersonalizacion {
+  width: 100%;
+  height: 15vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Título de la página */
+.pageTitlePersonalizacion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-family: "Anta", sans-serif;
+  font-size: 24px;
+  padding: 25px 30px;
+  font-weight: 600;
+  font-style: normal;
+  background-color: #ff8e0d;
+  border: solid 1px #fff;
+  border-radius: 8px;
+}
+
+/* Formato del botón de apertura del sidebar cuando este no se está mostrando */
+.SideMenuButtonPersonalizacion {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  visibility: visible;
+  transform: translate(30px, 30px);
+  background-color: transparent;
+  opacity: 1;
+  transition: opacity 0.7s ease;
+}
+
+/* Formato del botón de apertura del sidebar cuando este se está mostrando */
+.sideMenuButtonPersonalizacion.hidden {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  visibility: visible;
+  transform: translate(30px, 30px);
+  background-color: transparent;
+  opacity: 0;
+}

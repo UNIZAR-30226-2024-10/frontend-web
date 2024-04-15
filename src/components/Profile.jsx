@@ -18,32 +18,33 @@ import { Tooltip } from "@mui/material";
 import { useRef, useEffect } from "react";
 
 function Profile({ updateUserProfileVisibility, modifyAvatarImage, modifyAvatarColor }) {
-  const popupRef = useRef(null);
+  const popupRef = useRef(null); /* Referencia para el popUp */
 
   useEffect(() => {
-    // Function to close popup when clicked outside
+    /* Cierra el PopUp cuando se hace click fuera de este */
     function handleClickOutside(event) {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
         updateUserProfileVisibility(false);
       }
     }
-
-    // Add event listener to detect clicks outside the popup
+    /* Event listener to detect clicks outside the popup */
     document.addEventListener('mousedown', handleClickOutside);
 
-    // Cleanup function to remove event listener
+    /* Cleanup function to remove event listener */
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
+  /* Avatares y colores de fondo disponibles */
   const whiteImages = [whiteKing,whiteQueen,whiteBishop,whiteKnight,whiteRook,whitePawn]
   const blackImages = [blackKing,blackQueen,blackBishop,blackKnight,blackRook,blackPawn]
   const colors = ['blue','grey','green','yellow','orange','pink','purple','red']
 
+   /* Perfil de usuario */
   return (
-    /* Devuelve un menú de opciones para el usuario */
     <div className='profile-settings' >
+      {/* Hint del botón de cerrar perfil */}
       <Tooltip
         title="Cerrar perfil"
         slotProps={{
@@ -59,6 +60,7 @@ function Profile({ updateUserProfileVisibility, modifyAvatarImage, modifyAvatarC
           },
         }}
       >
+        {/* Botón para cerrar el perfil */}
         <button onClick={updateUserProfileVisibility} className="profile-close-button">
           <CloseIcon sx={{
             width: 42, 
@@ -67,12 +69,14 @@ function Profile({ updateUserProfileVisibility, modifyAvatarImage, modifyAvatarC
           }}/>
         </button>
       </Tooltip>
+      {/* Opciones del perfil */}
       <div className="settings" ref={popupRef}>
         <h1>Perfil de usuario</h1>
         <hr style={{width: "90%"}}/>
         <h2>Selecciona un avatar</h2>
         <hr style={{width: "90%"}}/>
         <div className="avatar-selector">
+          {/* Listado de los avatares blancos */}
           {whiteImages.map((image,index) => (
             <button onClick={() => modifyAvatarImage(image)} className="avatar-button" key={index}>
               <Avatar 
@@ -84,6 +88,7 @@ function Profile({ updateUserProfileVisibility, modifyAvatarImage, modifyAvatarC
           ))}
         </div>
         <div className="avatar-selector">
+          {/* Listado de los avateres negros */}
           {blackImages.map((image,index) => (
             <button onClick={() => modifyAvatarImage(image)} className="avatar-button" key={index}>
               <Avatar 
@@ -98,6 +103,7 @@ function Profile({ updateUserProfileVisibility, modifyAvatarImage, modifyAvatarC
         <h2>Selecciona un fondo para tu avatar</h2>
         <hr style={{width: "90%"}}/>
         <div className="avatar-selector">
+          {/* Listado de los colores de fondo para el avatar */}
           {colors.map((color,index) => (
             <button onClick={() => modifyAvatarColor(color)} className="avatar-button" key={index}>
               <Avatar 

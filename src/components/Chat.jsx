@@ -4,20 +4,24 @@ import { SocketContext } from './../context/socket';
 
 function Chat({ roomId }) {
   const socket = useContext(SocketContext);
-  const [value, setValue] = useState(''); // Mensaje a enviar
-  const [message, setMessage] = useState([]);
-  const inputRef = useRef(null);
-  const chatContainerRef = useRef(null);
+  const [value, setValue] = useState(''); /* Contenido del mensaje que se va a enviar */
+  const [message, setMessage] = useState([]); /* Lista de mensajes enviados y recibidos */
+  const inputRef = useRef(null); /* Referencia sobre el input*/
+  const chatContainerRef = useRef(null); /* Referencia sobre los mensajes enviados y recibidos */
 
   useEffect(() => {
+    /* Se recibe un mensaje del servidor */
     const handleChatMessage = (data) => {
       receiveMessage(data);
     };
 
     if (socket) {
+      /* Si se ha recibido mensaje del otro usuario, se añade a la lista de mensajes */
       socket.on('chat message', handleChatMessage);
+      /* Desplaza los mensajes del chat hacia arriba conforme se envian/reciben mensajes */
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
 
+      /* Previene de que se reciban mensajes 2 veces */
       return () => {
         socket.off('chat message', handleChatMessage);
       };
@@ -26,32 +30,38 @@ function Chat({ roomId }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newMessage = { // Construcción del mensaje a enviar
+    /* Se construye el mensaje que se quiere enviar */
+    const newMessage = {
       body: value,  // Contenido del mensaje
       from: 'Me' // Emisor del mensaje
     };
     
+    /* Envio del mensaje al servidor */
     if (value) {
       setMessage([...message, newMessage]); // Añade el nuevo mensaje a la lista de mensajes
       socket.emit('chat message', { roomId: roomId, body: value, from: socket.id }); // Envía el mensaje creado a través del socket con un evento de tipo 'chat message' 
       inputRef.current.value = ''; // Vacía el input
-      setValue('');
+      setValue(''); // Vacia el buffer de mensajes escritos
     }
   };
 
+  /* Añade el mensaje recibido a la lista de mensajes */
   function receiveMessage(msg) {
     setMessage(state => [...state, msg]);
   }
 
+  /* Chat */
   return (
     <div className="chat">
-      <ul id="messages" ref={chatContainerRef}>  { /* Muestra los mensajes en forma de lista */ }
+      <ul id="messages" ref={chatContainerRef}> 
+        { /* Muestra los mensajes en forma de lista */ }
         {message && message.slice().reverse().map((msg, i) => (
           <li key={i} className={msg.from === "Me" ? "me" : "them"}>
             {msg.body}
           </li>
         ))}
       </ul>
+      {/* Input para escribir mensajes */}
       <form onSubmit={handleSubmit} className="form">
         <input className="input"
           type="text" 
@@ -60,6 +70,7 @@ function Chat({ roomId }) {
           ref={inputRef}
           onChange={(e) => setValue(e.target.value)} /* Se construye el mensaje a enviar */
         />
+        {/* Botón para enviar mensajes */}
         <button type="submit">Enviar</button>
       </form>
     </div>

@@ -8,8 +8,8 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 import CheckIcon from '@mui/icons-material/Check';
 
 function BattlePass() {
-  const [showSidebar, setShowSidebar] = useState(false);
-
+  const [showSidebar, setShowSidebar] = useState(false); /* Mostrar o esconder el sideBar */
+  /* Informacion del usuario relacionada con el battlePass */
   const [userBattlePass, setUserBattlePass] = useState({
     level: 4,
     points: 474,
@@ -17,8 +17,8 @@ function BattlePass() {
     rewardsClaimed: 1,
   });
 
-
-  const tiers = [ // Conjunto de recompensas que ofrece el juego
+  /* Recompensas que ofrece el juego */
+  const tiers = [
     { level: 1, reward: '😀️', requiredPoints: '100' },
     { level: 2, reward: '😂️', requiredPoints: '200' },
     { level: 3, reward: '😁️', requiredPoints: '300' },
@@ -33,15 +33,17 @@ function BattlePass() {
     { level: 12, reward: '🤗️', requiredPoints: '1200' },
   ];
 
-  const updateLevel = () => {
+  /* ¡¡¡¡¡¡ Temporal !!!!! */
+/*   const updateLevel = () => {
     const newLevel = userBattlePass.points / 100;
     parseInt(newLevel);
     setUserBattlePass(prevState => ({
       ...prevState,
       level: newLevel,
     }));
-  }
+  } */
 
+  /* Reclamar recompensa seleccionada */
   const claimRewards = (tier) => {
     setUserBattlePass(prevState => ({
       ...prevState,
@@ -50,15 +52,18 @@ function BattlePass() {
     }));
   };
 
+  /* Reclamar todas las recompensas disponibles */
   const claimAllRewards = () => {
     for(let i = userBattlePass.rewardsClaimed; i < userBattlePass.level; i++){
       claimRewards(tiers[i].reward);
     }
   }
 
+  /* BattlePass */
   return (
     <div className="background-battlePass">
       <div className={showSidebar ? "sideBattlepass open" : "sideBattlepass"}>
+        {/* sideBar */}
         <SideBar setShowSidebar={setShowSidebar}/>
       </div>
       <div className="titleBattlePass">
@@ -71,22 +76,26 @@ function BattlePass() {
             width: 52,
           }} />
         </button>
+        {/* Título de la página */}
         <h1 className="pageTitleBattlepass">PASE DE BATALLA</h1>
       </div>
       <div className="battlePass-container">
         <div className="battlePass-container center">
+          {/* Puntos disponibles del usuario */}
           <div className="battlePass-user">
             <h2 className="infoPuntos">Puntos disponibles: {userBattlePass.points}</h2>
           </div>
+          {/* Recompensas */}
           <div className="recompensas">
             <ul className="battlePasslist">
-              {/* Recompensas */}
+              {/* Listado de las recompensas */}
               {tiers.map((tier, index) => (
                 <li key={index}>
                   {/* Consultar si la recompensa está disponible o no, y si es el caso si ya ha sido reclamada o no */}
                   <div className={userBattlePass.level >= tier.level ?
                     (userBattlePass.rewards.find(rewards => rewards.name === tier.reward && rewards.claimed) ?
                       "items itemClaimed" : "items itemUnlocked") : ("items itemLocked")}>
+                    {/* Información de la recompensa */}
                     <div className="infoRecompensa">
                       Recompensa {tier.level}
                       <p>Puntos requeridos : {tier.requiredPoints}</p>
@@ -95,10 +104,12 @@ function BattlePass() {
                       {tier.reward}
                     </div>
                     <div>
+                      {/* Indicadores de si la recompensa está reclamada, disponible para reclamar o no disponible */}
                       {userBattlePass.level >= tier.level ?
                       (userBattlePass.rewards.find(rewards => rewards.name === tier.reward && rewards.claimed) ?
                       <CheckIcon /> : <LockOpenIcon />) : <LockIcon />}
                     </div>
+                    {/* Botón asociado a la recompensa, para poder reclamarla */}
                     <button disabled={userBattlePass.rewards.find(rewards => rewards.name === tier.reward && rewards.claimed) || userBattlePass.level < tier.level}
                       onClick={() => claimRewards(tier.reward)}
                       className="claim-button">
@@ -109,6 +120,7 @@ function BattlePass() {
               ))}
             </ul>
           </div>
+          {/* Botón para reclamar todas las recompensas disponibles */}
           <button onClick={claimAllRewards} className="claim-all-button">RECLAMAR TODAS</button>
         </div>
       </div>
