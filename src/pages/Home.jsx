@@ -16,7 +16,7 @@ function Home({ updateMode, gameMode, updatePlayersInGame  }) {
         <Sidebar inhome={home} updateMode={updateMode} gameMode={gameMode} updatePlayersInGame={updatePlayersInGame} />
       </div>
       {userProfileVisibility && <div className='profile-home'> {/* Perfil del usuario */}
-        <Profile updateUserProfileVisibility={updateUserProfileVisibility} modifyAvatarImage={modifyAvatarImage} modifyAvatarColor={modifyAvatarColor} /> 
+        <Profile updateUserProfileVisibility={updateUserProfileVisibility} modifyAvatarImage={modifyAvatarImage} modifyAvatarColor={modifyAvatarColor} avatar={avatar}/> 
       </div>}
       <div className='cuerpo-home'>
         <div className='appbar'>

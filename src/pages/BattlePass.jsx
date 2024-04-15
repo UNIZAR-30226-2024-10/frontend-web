@@ -151,7 +151,7 @@ function BattlePass() {
                       Recompensa {tier.level}
                       <p>Puntos requeridos : {tier.requiredPoints}</p>
                     </div>
-                    {tier.rewardType == 'emoticono' && <div style={{ fontSize: '24px' }}>
+                    {tier.rewardType == 'emoticono' && <div style={{ fontSize: '65px' }}>
                       {tier.reward}
                     </div>}
                     {tier.rewardType == 'pieza' && <div>

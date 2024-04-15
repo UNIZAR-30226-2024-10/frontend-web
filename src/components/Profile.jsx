@@ -17,7 +17,7 @@ import whiteRook from '../images/pieces/cburnett/wR.svg'
 import { Tooltip } from "@mui/material";
 import { useRef, useEffect } from "react";
 
-function Profile({ updateUserProfileVisibility, modifyAvatarImage, modifyAvatarColor }) {
+function Profile({ updateUserProfileVisibility, modifyAvatarImage, modifyAvatarColor, avatar }) {
   const popupRef = useRef(null); /* Referencia para el popUp */
 
   useEffect(() => {
@@ -78,7 +78,7 @@ function Profile({ updateUserProfileVisibility, modifyAvatarImage, modifyAvatarC
         <div className="avatar-selector">
           {/* Listado de los avatares blancos */}
           {whiteImages.map((image,index) => (
-            <button onClick={() => modifyAvatarImage(image)} className="avatar-button" key={index}>
+            <button onClick={() => modifyAvatarImage(image)} className={image === avatar.image ? "avatar-button selected" : "avatar-button"} key={index}>
               <Avatar 
                 alt={`Image ${index + 1}`}
                 src={image} 
@@ -90,7 +90,7 @@ function Profile({ updateUserProfileVisibility, modifyAvatarImage, modifyAvatarC
         <div className="avatar-selector">
           {/* Listado de los avateres negros */}
           {blackImages.map((image,index) => (
-            <button onClick={() => modifyAvatarImage(image)} className="avatar-button" key={index}>
+            <button onClick={() => modifyAvatarImage(image)} className={image === avatar.image ? "avatar-button selected" : "avatar-button"} key={index}>
               <Avatar 
                 alt={`Image ${index + 1}`}
                 src={image} 
@@ -105,7 +105,7 @@ function Profile({ updateUserProfileVisibility, modifyAvatarImage, modifyAvatarC
         <div className="avatar-selector">
           {/* Listado de los colores de fondo para el avatar */}
           {colors.map((color,index) => (
-            <button onClick={() => modifyAvatarColor(color)} className="avatar-button" key={index}>
+            <button onClick={() => modifyAvatarColor(color)} className={color === avatar.bgcolor ? "avatar-button selected" : "avatar-button"} key={index}>
               <Avatar 
                 alt=""
                 src="" 
