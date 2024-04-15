@@ -7,48 +7,81 @@ import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import CheckIcon from '@mui/icons-material/Check';
 
+/* Imagenes de piezas */
+import alphaK from '../images/pieces/alpha/bK.svg';
+import cardinalK from '../images/pieces/cardinal/bK.svg';
+import celticK from '../images/pieces/celtic/bK.svg';
+import chess7K from '../images/pieces/chess7/bK.svg';
+import chessnutK from '../images/pieces/chessnut/bK.svg';
+import companionK from '../images/pieces/companion/bK.svg';
+import fantasyK from '../images/pieces/fantasy/bK.svg';
+import frescaK from '../images/pieces/fresca/bK.svg';
+import governorK from '../images/pieces/governor/bK.svg';
+import kosalK from '../images/pieces/kosal/bK.svg';
+import leipzigK from '../images/pieces/leipzig/bK.svg';
+import mpchessK from '../images/pieces/mpchess/bK.svg';
+import pixelK from '../images/pieces/pixel/bK.svg';
+import maestroK from '../images/pieces/maestro/bK.svg';
+import anarcandyK from '../images/pieces/anarcandy/bK.svg';
+
+import alphaQ from '../images/pieces/alpha/wQ.svg';
+import cardinalQ from '../images/pieces/cardinal/wQ.svg';
+import celticQ from '../images/pieces/celtic/wQ.svg';
+import chess7Q from '../images/pieces/chess7/wQ.svg';
+import chessnutQ from '../images/pieces/chessnut/wQ.svg';
+import companionQ from '../images/pieces/companion/wQ.svg';
+import fantasyQ from '../images/pieces/fantasy/wQ.svg';
+import frescaQ from '../images/pieces/fresca/wQ.svg';
+import governorQ from '../images/pieces/governor/wQ.svg';
+import kosalQ from '../images/pieces/kosal/wQ.svg';
+import leipzigQ from '../images/pieces/leipzig/wQ.svg';
+import mpchessQ from '../images/pieces/mpchess/wQ.svg';
+import pixelQ from '../images/pieces/pixel/wQ.svg';
+import maestroQ from '../images/pieces/maestro/wQ.svg';
+import anarcandyQ from '../images/pieces/anarcandy/wQ.svg';
+
 function BattlePass() {
   const [showSidebar, setShowSidebar] = useState(false); /* Mostrar o esconder el sideBar */
   /* Informacion del usuario relacionada con el battlePass */
   const [userBattlePass, setUserBattlePass] = useState({
-    level: 4,
-    points: 474,
+    level: 0,
+    points: 0,
     rewards: [{ name: '😀️', claimed: true }], 
     rewardsClaimed: 1,
   });
 
   /* Recompensas que ofrece el juego */
   const tiers = [
-    { level: 1, reward: '', requiredPoints: '100' },
-    { level: 2, reward: '', requiredPoints: '200' },
-    { level: 3, reward: '', requiredPoints: '300' },
-    { level: 4, reward: '', requiredPoints: '400' },
-    { level: 5, reward: '', requiredPoints: '500' },
-    { level: 6, reward: '', requiredPoints: '600' },
-    { level: 7, reward: '', requiredPoints: '700' },
-    { level: 8, reward: '', requiredPoints: '800' },
-    { level: 9, reward: '', requiredPoints: '900' },
-    { level: 10, reward: '', requiredPoints: '1000' },
-    { level: 11, reward: '', requiredPoints: '1100' },
-    { level: 12, reward: '', requiredPoints: '1200' },
-    { level: 13, reward: '', requiredPoints: '1300' },
-    { level: 14, reward: '', requiredPoints: '1400' },
-    { level: 15, reward: '', requiredPoints: '1500' },
-    { level: 16, reward: '', requiredPoints: '1600' },
-    { level: 17, reward: '', requiredPoints: '1700' },
-    { level: 18, reward: '', requiredPoints: '1800' },
-    { level: 19, reward: '', requiredPoints: '1900' },
-    { level: 20, reward: '', requiredPoints: '2000' },
-    { level: 21, reward: '', requiredPoints: '2100' },
-    { level: 22, reward: '', requiredPoints: '2200' },
-    { level: 23, reward: '', requiredPoints: '2300' },
-    { level: 24, reward: '', requiredPoints: '2400' },
-    { level: 25, reward: '', requiredPoints: '2500' },
-    { level: 26, reward: '', requiredPoints: '2600' },
-    { level: 27, reward: '', requiredPoints: '2700' },
-    { level: 28, reward: '', requiredPoints: '2800' },
-    { level: 29, reward: '', requiredPoints: '2900' },
-    { level: 30, reward: '', requiredPoints: '3000' },
+    { level: 1, reward: '😁️', rewardType : 'emoticono', requiredPoints: '10' },
+    { level: 2, reward: {K : alphaK, Q : alphaQ}, rewardType : 'pieza', requiredPoints: '20' },
+    { level: 3, reward: '😂️', rewardType : 'emoticono', requiredPoints: '30' },
+    { level: 4, reward: {K : cardinalK, Q : cardinalQ}, rewardType : 'pieza', requiredPoints: '40' },
+    { level: 5, reward: '👍️', rewardType : 'emoticono', requiredPoints: '50' },
+    { level: 6, reward: {K : celticK, Q : celticQ}, rewardType : 'pieza', requiredPoints: '60' },
+    { level: 7, reward: '😎️', rewardType : 'emoticono', requiredPoints: '70' },
+    { level: 8, reward: {K : chess7K, Q : chess7Q}, rewardType : 'pieza', requiredPoints: '80' },
+    { level: 9, reward: '😭️', rewardType : 'emoticono', requiredPoints: '90' },
+    { level: 10, reward: {K : chessnutK, Q : chessnutQ}, rewardType : 'pieza', requiredPoints: '100' },
+    { level: 11, reward: '😅️', rewardType : 'emoticono', requiredPoints: '110' },
+    { level: 12, reward: {K : companionK, Q : companionQ}, rewardType : 'pieza', requiredPoints: '120' },
+    { level: 13, reward: '👊️', rewardType : 'emoticono', requiredPoints: '130' },
+    { level: 14, reward: {K : fantasyK, Q : fantasyQ}, rewardType : 'pieza', requiredPoints: '140' },
+    { level: 15, reward: '🤩️', rewardType : 'emoticono', requiredPoints: '150' },
+    { level: 16, reward: {K : frescaK, Q : frescaQ}, rewardType : 'pieza', requiredPoints: '160' },
+    { level: 17, reward: '🤯️', rewardType : 'emoticono', requiredPoints: '170' },
+    { level: 18, reward: {K : governorK, Q : governorQ}, rewardType : 'pieza', requiredPoints: '180' },
+    { level: 19, reward: '😜️', rewardType : 'emoticono', requiredPoints: '190' },
+    { level: 20, reward: {K : kosalK, Q : kosalQ}, rewardType : 'pieza', requiredPoints: '200' },
+    { level: 21, reward: '🫠️', rewardType : 'emoticono', requiredPoints: '210' },
+    { level: 22, reward: {K : leipzigK, Q : leipzigQ}, rewardType : 'pieza', requiredPoints: '220' },
+    { level: 23, reward: '😎️', rewardType : 'emoticono', requiredPoints: '230' },
+    { level: 24, reward: {K : mpchessK, Q : mpchessQ}, rewardType : 'pieza', requiredPoints: '240' },
+    { level: 25, reward: '😡️', rewardType : 'emoticono', requiredPoints: '250' },
+    { level: 26, reward: {K : pixelK, Q : pixelQ}, rewardType : 'pieza', requiredPoints: '260' },
+    { level: 27, reward: '😈️', rewardType : 'emoticono', requiredPoints: '270' },
+    { level: 28, reward: {K : maestroK, Q : maestroQ}, rewardType : 'pieza', requiredPoints: '280' },
+    { level: 29, reward: '👻️', rewardType : 'emoticono', requiredPoints: '290' },
+    { level: 30, reward: {K : anarcandyK, Q : anarcandyQ}, rewardType : 'pieza', requiredPoints: '300' },
   ];
 
   /* ¡¡¡¡¡¡ Temporal !!!!! */
@@ -118,9 +151,13 @@ function BattlePass() {
                       Recompensa {tier.level}
                       <p>Puntos requeridos : {tier.requiredPoints}</p>
                     </div>
-                    <div style={{ fontSize: '24px' }}>
+                    {tier.rewardType == 'emoticono' && <div style={{ fontSize: '24px' }}>
                       {tier.reward}
-                    </div>
+                    </div>}
+                    {tier.rewardType == 'pieza' && <div>
+                      <img className = "imagenBattlePass" src={tier.reward.K} alt='Pieza' />
+                      <img className = "imagenBattlePass" src={tier.reward.Q} alt='Pieza' />
+                    </div>}
                     <div>
                       {/* Indicadores de si la recompensa está reclamada, disponible para reclamar o no disponible */}
                       {userBattlePass.level >= tier.level ?
