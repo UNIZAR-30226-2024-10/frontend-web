@@ -2,18 +2,18 @@ import React from "react";
 import '../styles/Profile.css';
 import Avatar from '@mui/material/Avatar';
 import CloseIcon from '@mui/icons-material/Close';
-import blackKing from '../images/blackKing.png'
-import whiteKing from '../images/whiteKing.png'
-import blackBishop from '../images/blackBishop.png'
-import whiteBishop from'../images/whiteBishop.png'
-import blackKnight from '../images/blackKnight.png'
-import whiteKnight from '../images/whiteKnight.png'
-import blackPawn from '../images/blackPawn.png'
-import whitePawn from '../images/whitePawn.png'
-import blackQueen from '../images/blackQueen.png'
-import whiteQueen from '../images/whiteQueen.png'
-import blackRook from '../images/blackRook.png'
-import whiteRook from '../images/whiteRook.png'
+import blackKing from '../images/pieces/cburnett/bK.svg'
+import whiteKing from '../images/pieces/cburnett/wK.svg'
+import blackBishop from '../images/pieces/cburnett/bB.svg'
+import whiteBishop from '../images/pieces/cburnett/wB.svg'
+import blackKnight from '../images/pieces/cburnett/bN.svg'
+import whiteKnight from '../images/pieces/cburnett/wN.svg'
+import blackPawn from '../images/pieces/cburnett/bP.svg'
+import whitePawn from '../images/pieces/cburnett/wP.svg'
+import blackQueen from '../images/pieces/cburnett/bQ.svg'
+import whiteQueen from '../images/pieces/cburnett/wQ.svg'
+import blackRook from '../images/pieces/cburnett/bR.svg'
+import whiteRook from '../images/pieces/cburnett/wR.svg'
 import { Tooltip } from "@mui/material";
 import { useRef, useEffect } from "react";
 

@@ -31,29 +31,29 @@ const Casilla = (args) => {
     function char2Src(char) {
         switch (char) {
             case 'p':
-                return <img style={imagen} src={require('../images/pieces/pawn-b.svg').default} alt='Descripción de la pieza' />
+                return <img style={imagen} src={require('../images/pieces/cburnett/bP.svg').default} alt='Descripción de la pieza' />
             case 'P':
-                return <img style={imagen} src={require('../images/pieces/pawn-w.svg').default} alt='Descripción de la pieza' />
+                return <img style={imagen} src={require('../images/pieces/cburnett/wP.svg').default} alt='Descripción de la pieza' />
             case 'r':
-                return <img style={imagen} src={require('../images/pieces/rook-b.svg').default} alt='Descripción de la pieza' />
+                return <img style={imagen} src={require('../images/pieces/cburnett/bR.svg').default} alt='Descripción de la pieza' />
             case 'R':
-                return <img style={imagen} src={require('../images/pieces/rook-w.svg').default} alt='Descripción de la pieza' />
+                return <img style={imagen} src={require('../images/pieces/cburnett/wR.svg').default} alt='Descripción de la pieza' />
             case 'n':
-                return <img style={imagen} src={require('../images/pieces/knight-b.svg').default} alt='Descripción de la pieza' />
+                return <img style={imagen} src={require('../images/pieces/cburnett/bN.svg').default} alt='Descripción de la pieza' />
             case 'N':
-                return <img style={imagen} src={require('../images/pieces/knight-w.svg').default} alt='Descripción de la pieza' />
+                return <img style={imagen} src={require('../images/pieces/cburnett/wN.svg').default} alt='Descripción de la pieza' />
             case 'b':
-                return <img style={imagen} src={require('../images/pieces/bishop-b.svg').default} alt='Descripción de la pieza' />
+                return <img style={imagen} src={require('../images/pieces/cburnett/bB.svg').default} alt='Descripción de la pieza' />
             case 'B':
-                return <img style={imagen} src={require('../images/pieces/bishop-w.svg').default} alt='Descripción de la pieza' />
+                return <img style={imagen} src={require('../images/pieces/cburnett/wB.svg').default} alt='Descripción de la pieza' />
             case 'q':
-                return <img style={imagen} src={require('../images/pieces/queen-b.svg').default} alt='Descripción de la pieza' />
+                return <img style={imagen} src={require('../images/pieces/cburnett/bQ.svg').default} alt='Descripción de la pieza' />
             case 'Q':
-                return <img style={imagen} src={require('../images/pieces/queen-w.svg').default} alt='Descripción de la pieza' />
+                return <img style={imagen} src={require('../images/pieces/cburnett/wQ.svg').default} alt='Descripción de la pieza' />
             case 'k':
-                return <img style={imagen} src={require('../images/pieces/king-b.svg').default} alt='Descripción de la pieza' />
+                return <img style={imagen} src={require('../images/pieces/cburnett/bK.svg').default} alt='Descripción de la pieza' />
             case 'K':
-                return <img style={imagen} src={require('../images/pieces/king-w.svg').default} alt='Descripción de la pieza' />
+                return <img style={imagen} src={require('../images/pieces/cburnett/wK.svg').default} alt='Descripción de la pieza' />
             default:
                 return <img style={imagen} src={require('../images/pieces/Empty.svg').default} alt='Descripción de la pieza' />
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import whiteKing from '../images/whiteKing.png'
+import whiteKing from '../images/pieces/cburnett/wK.svg'
 
 /* Establece el modo de juego al que se está jugando */
 export const GameMode = () => {
