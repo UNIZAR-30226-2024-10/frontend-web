@@ -43,19 +43,19 @@ function SignUp() {
   };
 
   return (
-    <div className='mainContainer'>
-      <div className='wrapper'>
+    <div className='mainContainerSignup'>
+      <div className='wrapperSignup'>
         <div>
           {/* Botón para volver al menú principal */}
-          <button className='title-button' onClick={handleClick}>
+          <button className='titleButtonSignup' onClick={handleClick}>
             {/* Hint para el botón */}
             <Tooltip title="Volver al menú principal">
-              <h1 className='title'>ChessHub</h1>
+              <h1 className='titleSignup'>ChessHub</h1>
             </Tooltip>
           </button>
         </div>
-        <div className="form-signup">
-          <h3 className='form-title'><u>Crear Cuenta</u></h3>
+        <div className="formSignup">
+          <h3 className='formTitleSignup'><u>Crear Cuenta</u></h3>
           {/* Input para el nombre de usuario */}
           <Box
             component="form"

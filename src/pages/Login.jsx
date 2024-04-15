@@ -42,19 +42,19 @@ function Login() {
   };
 
   return (
-    <div className='mainContainer'>
-      <div className='wrapper'>
+    <div className='mainContainerLogin'>
+      <div className='wrapperLogin'>
         <div>
           {/* Botón para volver al menú principal */}
-          <button className='title-button' onClick={handleClick}>
+          <button className='titleButtonLogin' onClick={handleClick}>
             {/* Hint para el botón */}
             <Tooltip title="Volver al menú principal">
-              <h1 className='title'>ChessHub</h1>
+              <h1 className='titleLogin'>ChessHub</h1>
             </Tooltip>
           </button>
         </div>
-        <div className="form-login">
-          <h3 className='form-title'><u>Inicio de Sesión</u></h3>
+        <div className="formLogin">
+          <h3 className='formTitleLogin'><u>Inicio de Sesión</u></h3>
           {/* Input para el nombre de usuario */}
           <Box
             component="form"
@@ -118,7 +118,7 @@ function Login() {
             Iniciar sesión
           </Button>
           {/* Botón para acceder a signup */}
-          <a className='registrate' onClick={() => { navigate('/signup') }}>¿No tienes cuenta? Regístrate</a>
+          <a className='registrateLogin' onClick={() => { navigate('/signup') }}>¿No tienes cuenta? Regístrate</a>
         </div>
       </div>
     </div>
