@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import Casilla from './Casilla';
 import '../styles/Tablero.css'
 const apiUrl = process.env.REACT_APP_API_URL;
-import damaNegra from '../images/pieces/queen-b.svg'
-import damaBlanca from '../images/pieces/queen-w.svg'
-import caballoNegra from '../images/pieces/knight-b.svg'
-import caballoBlanca from '../images/pieces/knight-w.svg'
-import alfilNegra from '../images/pieces/bishop-b.svg'
-import alfilBlanca from '../images/pieces/bishop-w.svg'
-import torreNegra from '../images/pieces/rook-b.svg'
-import torreBlanca from '../images/pieces/rook-w.svg'
+import damaNegra from '../images/pieces/cburnett/bQ.svg'
+import damaBlanca from '../images/pieces/cburnett/wQ.svg'
+import caballoNegra from '../images/pieces/cburnett/bN.svg'
+import caballoBlanca from '../images/pieces/cburnett/wN.svg'
+import alfilNegra from '../images/pieces/cburnett/bB.svg'
+import alfilBlanca from '../images/pieces/cburnett/wB.svg'
+import torreNegra from '../images/pieces/cburnett/bR.svg'
+import torreBlanca from '../images/pieces/cburnett/wR.svg'
 
 
 const Tablero = ({pauseTimer1, pauseTimer2}) => {
