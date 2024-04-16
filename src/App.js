@@ -6,15 +6,12 @@ import Login from './pages/Login.jsx';
 import SignUp from './pages/SignUp.jsx';
 import Game from './pages/Game.jsx'
 import Ranking from './pages/Ranking.jsx';
-import { GameMode } from './components/CustomHooks.jsx';
 import GameOnline from './pages/GameOnline.jsx';
 import BattlePass from './pages/BattlePass.jsx';
 import Arenas from './pages/Arenas.jsx';
 import Personalizacion from './pages/Personalizacion.jsx';
 import { GameMode, PlayersInGame } from './components/CustomHooks.jsx';
 import {SocketContext, socket} from './context/socket';
-import BattlePass from './pages/BattlePass.jsx';
-import { PlayersInGame } from './components/CustomHooks.jsx';
 
 
 
@@ -25,7 +22,7 @@ function App() {
     <SocketContext.Provider value={socket}>
       <div className="App">
         <Routes>
-          <Route path="/" element={<Home updateMode={updateMode} gameMode={gameMode} updatePlayersInGame={updatePlayersInGame}/>} />
+          <Route path="/home" element={<Home updateMode={updateMode} gameMode={gameMode} updatePlayersInGame={updatePlayersInGame}/>} />
           <Route path="/login" element={<Login />} />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/battlePass' element={<BattlePass />} />

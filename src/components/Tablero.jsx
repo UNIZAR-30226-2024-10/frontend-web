@@ -297,6 +297,7 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
 
         }
     }, [movimiento])
+    
     useEffect(() =>{
       if(!showModal && selectedOption){
         console.log("Se lia")
@@ -318,6 +319,7 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
             });
       }
     },[showModal])
+    
     return (
         <>
         <div style={gridStyle} className={`tablero`}>
