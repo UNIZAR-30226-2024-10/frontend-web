@@ -144,7 +144,7 @@
   transform: scale(1.1);
 }
 .glowing-background {
-  filter: drop-shadow(0 0 5px #fff); /* Adjust the shadow color and size as needed */
+  filter: drop-shadow(0 0 10px #fff); /* Adjust the shadow color and size as needed */
 }
 .boton-arenas {
   padding: 0;
@@ -256,4 +256,13 @@
   .pageTitleArenas {
     display: none;
   }
+}
+
+.arenas {
+  height: 60%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
 }

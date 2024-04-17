@@ -46,8 +46,8 @@ function BattlePass() {
   const [userBattlePass, setUserBattlePass] = useState({
     level: 0,
     points: 0,
-    rewards: [{ name: '😀️', claimed: true }], 
-    rewardsClaimed: 1,
+    rewards: [{}], 
+    rewardsClaimed: 0,
   });
 
   /* Recompensas que ofrece el juego */
@@ -133,7 +133,7 @@ function BattlePass() {
       <div className="battlePass-container">
         <div className="battlePass-container center">
           {/* Puntos disponibles del usuario */}
-          <div className="battlePass-user">
+          <div>
             <h2 className="infoPuntos">Puntos disponibles: {userBattlePass.points}</h2>
           </div>
           {/* Recompensas */}

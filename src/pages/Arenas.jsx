@@ -21,10 +21,15 @@ function Arenas() {
     showArenaElo : '',
     showPopUp : false,
   });
-  
+  const [userArenas, setUserArenas] = useState({
+    elo: 1200,
+    arena: 'MADERA', // Actualizar segun el usuario
+  });
+
+
   /* Arenas del juego y su contenido */
   const arenas = [
-    {img : Madera, str : 'MADERA', elo : '1200 - 1500', 
+    {img : Madera, str : 'MADERA', elo : '1200 - 1499', 
       des : 'Este tablero de ajedrez se encuentra tallado en la madera más antigua\
       y noble que jamás hayas visto. Cada cuadro está meticulosamente pulido, revelando\
       la rica tonalidad de la madera que parece respirar vida propia. Este tablero de \
@@ -32,7 +37,7 @@ function Arenas() {
       imaginación y desafía la mente. Es un testigo silencioso de innumerables batallas y \
       estrategias, y un recordatorio de que, en el juego del ajedrez, como en la vida misma, \
       cada movimiento cuenta.'}, 
-    {img : Marmol, str : 'MARMOL', elo : '1500 - 1800',
+    {img : Marmol, str : 'MARMOL', elo : '1500 - 1799',
       des : 'Tallado con precisión divina por manos expertas de un antiguo artesano,\
       este tablero de mármol es una obra maestra que desafía la imaginación.Cuando \
       un jugador se sienta frente a este tablero de maravillas, siente una conexión\
@@ -41,20 +46,20 @@ function Arenas() {
       Quienes se aventuran a jugar en este tablero de mármol no solo participan en un juego,\
       sino que se sumergen en una experiencia trascendental, donde los límites entre la realidad\
       y la fantasía se desdibujan y el alma misma se eleva hacia las estrellas.'}, 
-    {img : Oro, str : 'ORO',  elo : '1800 - 2100',
+    {img : Oro, str : 'ORO',  elo : '1800 - 2099',
       des : 'Este tablero de ajedrez de oro no solo es una obra maestra de artesanía, sino\
       también un símbolo de poder y prestigio. Cada vez que se mueve una pieza en este \
       tablero dorado, resuena un eco melodioso que llena el aire con una sensación de grandeza\
       y solemnidad. Los jugadores que se aventuran a desafiarlo saben que estan entrando en \
       un reino de majestuosidad y desafío, donde cada movimiento es una danza entre la gloria y la derrota.'}, 
-    {img : Esmeralda, str : 'ESMERALDA', elo : '2100 - 2400', 
+    {img : Esmeralda, str : 'ESMERALDA', elo : '2100 - 2399', 
       des : 'Quienes se aventuran a jugar en este tablero de esmeralda no solo se enfrentan\
       a un desafío de habilidad, sino que también se sumergen en un viaje de descubrimiento\
       personal y crecimiento espiritual.Cada partida en este tablero es una experiencia única,\
       es una danza de luz y sombra, donde los jugadores se sumergen en un mundo de estrategia\
       y astucia, donde los movimientos resonan como susurros antiguos entre las montañas, y el destino\
       mismo parece tejerse en cada jugada.'}, 
-    {img : Diamante, str : 'DIAMANTE', elo : '2400 - 2700', 
+    {img : Diamante, str : 'DIAMANTE', elo : '2400 - 3000', 
       des : 'Tallado con habilidad divina este tablero de diamante es una obra maestra de la belleza\
       y la magia. Cuando los jugadores tocan las piezas, sienten una energía mágica que fluye a través\
       de ellas, una conexión con la esencia misma del juego. Los espectadores que tienen el privilegio\
@@ -98,21 +103,26 @@ function Arenas() {
       <div className="arenas-container">
         {!arenaPopUp.showPopUp && 
           <div className="arenas-container center">
+            <div>
+              <h2 className="infoPuntos">Elo actual: {userArenas.elo} → {userArenas.arena}</h2>
+            </div>
             {/* Listado de las arenas */}
-            {arenas.map((arena, index) => (
-              <div key={index} className="lista-arenas" onMouseEnter={() => setHoveredArena(index)} onMouseLeave={() => setHoveredArena(null)}>
-                <button className="boton-arenas" 
-                  onClick={() => setArenaPopUp({ showArena : arena.img, showArenaStr : arena.str, showArenaElo : arena.elo, showPopUp : true })}>
-                  {/* Imagen de la arena */}
-                  <img className="imagenArena glowing-background" src={arena.img} alt={`Tablero ${index}`} />
-                </button>
-                {hoveredArena === index && 
-                  <div className="message">
-                    {/* Información "on hover" */}
-                    Arena {index + 1}
-                  </div>}
-              </div>
-            ))}
+            <div className="arenas">
+              {arenas.map((arena, index) => (
+                <div key={index} className="lista-arenas" onMouseEnter={() => setHoveredArena(index)} onMouseLeave={() => setHoveredArena(null)}>
+                  <button className="boton-arenas" 
+                    onClick={() => setArenaPopUp({ showArena : arena.img, showArenaStr : arena.str, showArenaElo : arena.elo, showPopUp : true })}>
+                    {/* Imagen de la arena */}
+                    <img className={userArenas.arena === arena.str ? "imagenArena glowing-background" : "imagenArena"} src={arena.img} alt={`Tablero ${index}`} />
+                  </button>
+                  {hoveredArena === index && 
+                    <div className="message">
+                      {/* Información "on hover" */}
+                      Arena {index + 1}
+                    </div>}
+                </div>
+              ))}
+            </div>
           </div>
         }
         {arenaPopUp.showPopUp && 

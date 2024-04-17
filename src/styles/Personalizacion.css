@@ -51,7 +51,7 @@
 }
 
 /* Formato del botón de apertura del sidebar cuando este no se está mostrando */
-.SideMenuButtonPersonalizacion {
+.sideMenuButtonPersonalizacion {
   position: absolute;
   top: 0;
   left: 0;
@@ -77,4 +77,67 @@
   transform: translate(30px, 30px);
   background-color: transparent;
   opacity: 0;
+}
+
+.containerPersonalizacion {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Recuadro en verde que contiene el listado de arenas*/
+.containerPersonalizacion.center{
+  width: 65%;
+  height: 70%;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  border-radius: 10px;
+  overflow-y: auto;
+  background-color: #506C64;
+}
+
+.menuDeslizante {
+  height: 90%;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.menuDeslizanteContenido {
+  height: 80%;
+  width: 98%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 20px;
+  border: solid 1px white;
+}
+.menuDeslizantePagina {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Boton con el que se selecciona el contenido a mostrar (fichas o emoticonos) */
+.contenidoButton {
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+  padding: 4px 8px;
+  border: none;
+  background-color: transparent;
+}
+.contenidoButton.selected {
+  text-decoration: underline;
+}
+
+.listadoImagenes {
+  width: 50px;
+  height: 50px;
 }
