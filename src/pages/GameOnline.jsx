@@ -15,7 +15,10 @@ import {SocketContext} from './../context/socket';
 
 function GameOnline({ gameMode, playersInfo }) {
   const socket = useContext(SocketContext);
-
+  const [userArenas, setUserArenas] = useState({
+    elo: 1200,
+    arena: 'MADERA', // Actualizar segun el usuario
+  });
   const navigate = useNavigate();
   const [wantToQuit, setWantToQuit] = useState(false); /* Indica que un jugador quiere abandonar la partida */
   const [gameState, setGameState] = useState({ /* Contiene los diferentes estados de la partida */
@@ -328,7 +331,7 @@ function GameOnline({ gameMode, playersInfo }) {
               fichasComidas='0' />
           </div>
           {/* Tablero */}
-          <TableroOnline blancasAbajo={colorSuffix.toString()==='0'} tableroUpdate={tableroUpdate} setTableroEnviar={setTableroEnviar} pauseTimer1={pauseTimer1} pauseTimer2={pauseTimer2} />
+          <TableroOnline blancasAbajo={colorSuffix.toString()==='0'} tableroUpdate={tableroUpdate} setTableroEnviar={setTableroEnviar} pauseTimer1={pauseTimer1} pauseTimer2={pauseTimer2} arena={userArenas.arena} />
           <div>
             {/* Jugador 2 */}
             <InfoPlayers

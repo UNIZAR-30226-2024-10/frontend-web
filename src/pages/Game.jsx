@@ -9,7 +9,10 @@ import Tablero from '../components/Tablero';
 function Game({ gameMode }) {
 
   const navigate = useNavigate();
-
+  const [userArenas, setUserArenas] = useState({
+    elo: 1200,
+    arena: 'Madera', // Actualizar segun el usuario
+  });
   const playingGame = true; /* Indica al sideBar de que este componente se está usando en partida */
   const [wantToQuit, setWantToQuit] = useState(false); /* Indica que un jugador quiere abandonar la partida */
   const [gameState, setGameState] = useState({ /* Contiene los diferentes estados de la partida */
@@ -178,7 +181,7 @@ function Game({ gameMode }) {
           </div>
           {/* Tablero */}
           <div className="tablero-wr">
-            <Tablero pauseTimer1={pauseTimer1} pauseTimer2={pauseTimer2} />
+            <Tablero pauseTimer1={pauseTimer1} pauseTimer2={pauseTimer2} arena={userArenas.arena}/>
           </div>
           <div>
             {/* Jugador 2 */}

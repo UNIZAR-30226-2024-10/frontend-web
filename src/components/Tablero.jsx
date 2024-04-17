@@ -12,7 +12,7 @@ import torreNegra from '../images/pieces/cburnett/bR.svg'
 import torreBlanca from '../images/pieces/cburnett/wR.svg'
 
 
-const Tablero = ({pauseTimer1, pauseTimer2}) => {
+const Tablero = ({pauseTimer1, pauseTimer2, arena}) => {
     const gridStyle = {
         display: 'grid',
     };
@@ -338,6 +338,7 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
                             setNewMov={setNewMov}
                             turno={turno}
                             blancasAbajo={true}
+                            arena={arena}
                         />
                     ))}
                 </div>

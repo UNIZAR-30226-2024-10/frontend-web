@@ -12,7 +12,7 @@ import alfilBlanca from '../images/pieces/cburnett/wB.svg'
 import torreNegra from '../images/pieces/cburnett/bR.svg'
 import torreBlanca from '../images/pieces/cburnett/wR.svg'
 
-const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer1, pauseTimer2}) => {
+const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer1, pauseTimer2, arena}) => {
     const gridStyle = {
         display: 'grid',
     };
@@ -344,6 +344,7 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
                             setNewMov={setNewMov}
                             turno={turno}
                             blancasAbajo={blancasAbajo}
+                            arena={arena}
                         />
                     ))}
                 </div>

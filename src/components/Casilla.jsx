@@ -14,8 +14,32 @@ const Casilla = (args) => {
     const NEGRO = '#F5D000' */ 
     /* const BLANCO = '#50C878' // Esmeralda
     const NEGRO = '#38A869'  */
-    const BLANCO = '#F0F0F0' // Diamante
-    const NEGRO = '#B0E0E6' 
+    // let BLANCO = '#F0F0F0' // Diamante
+    // let NEGRO = '#B0E0E6' 
+    let BLANCO, NEGRO;
+    switch (args.arena) {
+        case 'Madera':
+            BLANCO = '#8B4513';
+            NEGRO = '#D2B48C';
+            break;
+        case 'Marmol':
+            BLANCO = '#f5f5f5';
+            NEGRO = '#B8B8B8';
+            break;
+        case 'Oro':
+            BLANCO = '#FFEA70';
+            NEGRO = '#F5D000';
+            break;
+        case 'Esmeralda':
+            BLANCO = '#50C878';
+            NEGRO = '#38A869';
+            break;
+        case 'Diamante':
+        default:
+            BLANCO = '#F0F0F0';
+            NEGRO = '#B0E0E6';
+            break;
+    }
 
     const mFila = args.rowIndex
     const mCol = args.colIndex
