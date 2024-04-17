@@ -172,9 +172,9 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
         ['P', 'P', 'P', 'P', '', 'P', 'P', 'P'],
         ['R', 'N', 'B', '', '', '', 'N', 'R'], */
         ['r', '', '', '', 'k', '', '', 'r'],
-        ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
-        ['' , 'n' , 'b' , 'q' ,'' , 'b' , 'n' , '' ],
-        ['' , '' , '' , '' ,'' , '' , '' , '' ],
+        ['p', 'p', 'p', 'p', 'p', 'p', 'p', ''],
+        ['' , 'n' , 'b' , 'q' ,'n' , 'b' , 'n' , 'P' ],
+        ['' , '' , '' , '' ,'' , '' , '' , 'p' ],
         ['' , '' , '' , '' ,'' , '' , '' , '' ],
         ['' , 'N' , 'B' , 'Q' ,'' , 'B' , 'N' , '' ],
         ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
@@ -347,7 +347,7 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
             <div className="modal">
                 <div className="modal-content">
                     <span className="close" onClick={closeModal}>&times;</span>
-                    <p>Selecciona una opción:</p>
+                    <p>Selecciona una opción para coronar:</p>
                     <div className='opciones-modal-tablero'> 
                         <img style={{ width: '50px', height: '50px' }} src={turno === 0 ? `${damaBlanca}` : `${damaNegra}`} onClick={() => { setSelectedOption(turno === 0 ? 'Q' : 'q'); closeModal(); }} alt="Dama" />
                         <img style={{ width: '50px', height: '50px' }} src={turno === 0 ? `${alfilBlanca}` : `${alfilNegra}`} onClick={() => { setSelectedOption(turno === 0 ? 'B' : 'b'); closeModal(); }} alt="Alfil" />
