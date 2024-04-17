@@ -49,7 +49,7 @@ function InfoHome() {
           </div>
         </div>
       </div>
-      <hr style={{width: '90%'}}/>
+      {/* <hr style={{width: '90%'}}/> */}
       <div>
         <div className="infoHome-title">
           MODOS DE JUEGO
