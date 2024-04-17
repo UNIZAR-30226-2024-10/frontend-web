@@ -44,10 +44,10 @@ function BattlePass() {
   const [showSidebar, setShowSidebar] = useState(false); /* Mostrar o esconder el sideBar */
   /* Informacion del usuario relacionada con el battlePass */
   const [userBattlePass, setUserBattlePass] = useState({
-    level: 0,
-    points: 0,
-    rewards: [{}], 
-    rewardsClaimed: 0,
+    level: 7,
+    points: 34,
+    rewards: [{ level: 1, claimed : true }], 
+    rewardsClaimed: 1,
   });
 
   /* Recompensas que ofrece el juego */
@@ -98,7 +98,7 @@ function BattlePass() {
   const claimRewards = (tier) => {
     setUserBattlePass(prevState => ({
       ...prevState,
-      rewards: [...prevState.rewards, { name: tier, claimed: true }],
+      rewards: [...prevState.rewards, { level: tier, claimed: true }],
       rewardsClaimed: userBattlePass.rewards.length,
     }));
   };
@@ -106,7 +106,7 @@ function BattlePass() {
   /* Reclamar todas las recompensas disponibles */
   const claimAllRewards = () => {
     for(let i = userBattlePass.rewardsClaimed; i < userBattlePass.level; i++){
-      claimRewards(tiers[i].reward);
+      claimRewards(tiers[i].level);
     }
   }
 
@@ -144,7 +144,7 @@ function BattlePass() {
                 <li key={index}>
                   {/* Consultar si la recompensa está disponible o no, y si es el caso si ya ha sido reclamada o no */}
                   <div className={userBattlePass.level >= tier.level ?
-                    (userBattlePass.rewards.find(rewards => rewards.name === tier.reward && rewards.claimed) ?
+                    (userBattlePass.rewards.find(rewards => rewards.level === tier.level && rewards.claimed) ?
                       "items itemClaimed" : "items itemUnlocked") : ("items itemLocked")}>
                     {/* Información de la recompensa */}
                     <div className="infoRecompensa">
@@ -166,7 +166,7 @@ function BattlePass() {
                     </div>
                     {/* Botón asociado a la recompensa, para poder reclamarla */}
                     <button disabled={userBattlePass.rewards.find(rewards => rewards.name === tier.reward && rewards.claimed) || userBattlePass.level < tier.level}
-                      onClick={() => claimRewards(tier.reward)}
+                      onClick={() => claimRewards(tier.level)}
                       className="claim-button">
                       RECLAMAR RECOMPENSA
                     </button>
