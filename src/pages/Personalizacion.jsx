@@ -38,7 +38,7 @@ function Personalizacion () {
   const [rewardShowing, setRewardShowing] = useState('piezas');
   const [currentPage, setCurrentPage] = useState(1); // State to track the current page
 
-  const chunkSize = 3; // Number of elements per chunk
+  const chunkSize = 6; // Number of elements per chunk
 
   // Function to split the array into chunks
   const chunkArray = (arr, size) => {
@@ -52,7 +52,10 @@ function Personalizacion () {
     }, []);
   };
 
+  const emoticonosPreview = ['😁️','😂️','👍️','😎️','😭️','😅️','👊️','🤩️','🤯️','😜️','🫠️','😎️','😡️','😈️','👻️'];
+
   const piezasPreview = [
+    { modelo: 'DEFECTO', negras : [DefaultBK,DefaultBQ,DefaultBN,DefaultBB,DefaultBR,DefaultBP], blancas : [DefaultWK,DefaultWQ,DefaultWN,DefaultWB,DefaultWR,DefaultWP] },
     { modelo: 'ALPHA', negras : [AlphaBK,AlphaBQ,AlphaBN,AlphaBB,AlphaBR,AlphaBP], blancas : [AlphaWK,AlphaWQ,AlphaWN,AlphaWB,AlphaWR,AlphaWP] },
     { modelo: 'CARDINAL', negras: [CardinalBK, CardinalBQ, CardinalBN, CardinalBB, CardinalBR, CardinalBP], blancas: [CardinalWK, CardinalWQ, CardinalWN, CardinalWB, CardinalWR, CardinalWP] },
     { modelo: 'CELTIC', negras : [CelticBK,CelticBQ,CelticBN,CelticBB,CelticBR,CelticBP], blancas : [CelticWK,CelticWQ,CelticWN,CelticWB,CelticWR,CelticWP] },
@@ -134,7 +137,7 @@ function Personalizacion () {
             ) : (
               <div className="menuDeslizanteContenido">
                 {partidaChunks[currentPage - 1]?.map((piezas, i) => (
-                  <div key={i} /* className={`historialPartidas ${piezas.estado}`} */>
+                  <div key={i}>
                   </div>
                 ))}
               </div> 
