@@ -25,6 +25,13 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
   const closeModal = () => {
       setShowModal(false);
   };
+  const [torreBlancaIzdaMovida, setTorreBlancaIzdaMovida] = useState(false);
+  const [torreBlancaDchaMovida, setTorreBlancaDchaMovida] = useState(false);
+  const [torreNegraIzdaMovida, setTorreNegraIzdaMovida] = useState(false);
+  const [torreNegraDchaMovida, setTorreNegraDchaMovida] = useState(false);
+  const [reyBlancoMovido, setReyBlancoMovido] = useState(false);
+  const [reyNegroMovido, setReyNegroMovido] = useState(false);
+
     function traducirTableroAJSON(matrizAux) {
         const piezas = {
             'p': 'peon',
@@ -36,6 +43,12 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
         };
         const json = {
             turno: turno === 1 ? 'blancas' : 'negras', // Añadir el turno al principio del JSON
+            ha_movido_rey_blanco: reyBlancoMovido,
+            ha_movido_rey_negro: reyNegroMovido,
+            ha_movido_torre_blanca_dcha: torreBlancaDchaMovida,
+            ha_movido_torre_blanca_izqda: torreBlancaIzdaMovida,
+            ha_movido_torre_negra_dcha: torreNegraDchaMovida,
+            ha_movido_torre_negra_izqda: torreNegraIzdaMovida,    
             peon: [],
             alfil: [],
             caballo: [],
@@ -227,6 +240,23 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
             //Se obtienen las coordenadas de la casilla destino
             const newX = movimiento.fila
             const newY = movimiento.col
+            if(tablero[oldX][oldY]==='k'){
+              setReyNegroMovido(true);
+            }else if(tablero[oldX][oldY]==='K'){
+              setReyBlancoMovido(true);
+            }else if(tablero[oldX][oldY]==='r'){
+              if(oldY===0){
+                setTorreNegraIzdaMovida(true)
+              }else{
+                setTorreNegraDchaMovida(true)
+              }
+            }else if (tablero[oldX][oldY]==='R'){
+              if(oldY===0){
+                setTorreBlancaIzdaMovida(true)
+              }else{
+                setTorreBlancaDchaMovida(true)
+              }
+            }
             // const originalTablero = [...tablero]
           // console.log(oldX, oldY)
           // console.log(newX, newY)
@@ -274,7 +304,7 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
     useEffect(()=>{
       !blancasAbajo ? pauseTimer2() : null;
     }, [])
-        useEffect(() =>{
+    useEffect(() =>{
       if(!showModal && selectedOption){
         console.log("Se lia")
          const newTablero = JSON.parse(JSON.stringify(tablero)) //asi se hace una copia 
@@ -323,7 +353,7 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
             <div className="modal">
                 <div className="modal-content">
                     <span className="close" onClick={closeModal}>&times;</span>
-                    <p>Selecciona una opción:</p>
+                    <p>Selecciona una opción para coronar:</p>
                     <div className='opciones-modal-tablero'> 
                         <img style={{ width: '50px', height: '50px' }} src={turno === 0 ? `${damaBlanca}` : `${damaNegra}`} onClick={() => { setSelectedOption(turno === 0 ? 'Q' : 'q'); closeModal(); }} alt="Dama" />
                         <img style={{ width: '50px', height: '50px' }} src={turno === 0 ? `${alfilBlanca}` : `${alfilNegra}`} onClick={() => { setSelectedOption(turno === 0 ? 'B' : 'b'); closeModal(); }} alt="Alfil" />

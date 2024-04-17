@@ -82,6 +82,29 @@ function SignUp() {
               onChange={(e) => setEmail(e.target.value)}
             />
           </Box>
+          <Box
+            component="form"
+            sx={{
+              '& > :not(style)': { m: 1, width: '25ch' },
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <TextField 
+              id="username" 
+              label="Nombre de usuario" 
+              variant="outlined" 
+              value={username}
+              color="warning" /* Color del borde */
+              InputLabelProps={{
+                style: labelColorStyle,
+              }}
+              InputProps={{
+                style: { color: 'white' } // Change text color to white
+              }}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </Box>
           {/* Input para la contraseña */}
           <Box
             component="form"
