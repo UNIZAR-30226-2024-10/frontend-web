@@ -58,7 +58,7 @@ function BattlePass() {
     { level: 4, reward: {K : cardinalK, Q : cardinalQ}, rewardType : 'pieza', requiredPoints: '40' },
     { level: 5, reward: '👍️', rewardType : 'emoticono', requiredPoints: '50' },
     { level: 6, reward: {K : celticK, Q : celticQ}, rewardType : 'pieza', requiredPoints: '60' },
-    { level: 7, reward: '😎️', rewardType : 'emoticono', requiredPoints: '70' },
+    { level: 7, reward: '😲️', rewardType : 'emoticono', requiredPoints: '70' },
     { level: 8, reward: {K : chess7K, Q : chess7Q}, rewardType : 'pieza', requiredPoints: '80' },
     { level: 9, reward: '😭️', rewardType : 'emoticono', requiredPoints: '90' },
     { level: 10, reward: {K : chessnutK, Q : chessnutQ}, rewardType : 'pieza', requiredPoints: '100' },

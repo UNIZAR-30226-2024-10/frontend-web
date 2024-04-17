@@ -38,7 +38,11 @@ function Personalizacion () {
   const [rewardShowing, setRewardShowing] = useState('piezas');
   const [currentPage, setCurrentPage] = useState(1); // State to track the current page
 
-  const chunkSize = 6; // Number of elements per chunk
+  const chunkSizePiezas = 4; // Number of elements per chunk
+  const chunkSizeEmotes = 9;
+
+  const [fichasSelected, setFichasSelected] = useState('DEFECTO');
+  const [emotesSelected, setEmotesSelected] = useState(['😁️','😂️','👍️','😎️']);
 
   // Function to split the array into chunks
   const chunkArray = (arr, size) => {
@@ -52,7 +56,7 @@ function Personalizacion () {
     }, []);
   };
 
-  const emoticonosPreview = ['😁️','😂️','👍️','😎️','😭️','😅️','👊️','🤩️','🤯️','😜️','🫠️','😎️','😡️','😈️','👻️'];
+  const emotesPreview = ['😁️','😂️','👍️','😲️','😭️','😅️','👊️','🤩️','🤯️','😜️','🫠️','😎️','😡️','😈️','👻️'];
 
   const piezasPreview = [
     { modelo: 'DEFECTO', negras : [DefaultBK,DefaultBQ,DefaultBN,DefaultBB,DefaultBR,DefaultBP], blancas : [DefaultWK,DefaultWQ,DefaultWN,DefaultWB,DefaultWR,DefaultWP] },
@@ -73,10 +77,18 @@ function Personalizacion () {
     { modelo: 'ANARCANDY', negras : [AnarcandyBK,AnarcandyBQ,AnarcandyBN,AnarcandyBB,AnarcandyBR,AnarcandyBP], blancas : [AnarcandyWK,AnarcandyWQ,AnarcandyWN,AnarcandyWB,AnarcandyWR,AnarcandyWP] },
   ];
 
-  const partidaChunks = chunkArray(piezasPreview, chunkSize);
+  const piezasChunks = chunkArray(piezasPreview, chunkSizePiezas);
+  const emotesChunks = chunkArray(emotesPreview, chunkSizeEmotes);
 
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage);
+  };
+
+  const addEmote = (emote) => {
+    setEmotesSelected(prevEmotes => {
+      const newEmotes = [...prevEmotes.slice(1), emote];
+      return newEmotes.length > 4 ? newEmotes.slice(0, 4) : newEmotes;
+    });
   };
 
   return(
@@ -113,11 +125,23 @@ function Personalizacion () {
                   Emoticonos
               </button>
             </div>
+            {/* Mensajes informativos cuando se muestran piezas/emoticonos */}
+            {rewardShowing === 'piezas' ? (
+              <div style={{textDecoration: 'underline'}}>
+                Selecciona un aspecto para las piezas
+              </div>
+            ) : (
+              <div style={{textDecoration: 'underline'}}>
+                Selecciona hasta 4 emoticonos para usar en el chat de partida
+              </div>
+            )}
             {/* Eleccion de piezas / Emoticonos */}
             {rewardShowing === 'piezas' ? (
+              /* Listado de aspectos de piezas */
               <div className="menuDeslizanteContenido">
-                {partidaChunks[currentPage - 1]?.map((piezas, i) => (
-                  <button key={i} className="listadoPiezas" >
+                {piezasChunks[currentPage - 1]?.map((piezas, i) => (
+                  <button key={i} className={`listadoPiezas ${fichasSelected === piezas.modelo ? 'selected' : ''}`}
+                    onClick={() => setFichasSelected(piezas.modelo)}>
                     <div className="modeloPiezas">
                       {piezas.modelo}
                     </div>
@@ -135,22 +159,36 @@ function Personalizacion () {
                 ))}
               </div> 
             ) : (
+              /* Listado de emoticonos */
               <div className="menuDeslizanteContenido">
-                {partidaChunks[currentPage - 1]?.map((piezas, i) => (
-                  <div key={i}>
-                  </div>
+                {emotesChunks[currentPage - 1]?.map((emotes, i) => (
+                  <button key={i} className={`listadoEmotes ${emotesSelected.find(selected => selected == emotes) ? 'selected' : ''}`}
+                    onClick={() => addEmote(emotes)}>
+                    {emotes}
+                  </button>
                 ))}
               </div> 
             )}
-            {/* Pagination component to switch between pages */}
-            <div className="menuDeslizantePagina">
-              <Pagination
-                count={partidaChunks.length}
-                page={currentPage}
-                onChange={handleChangePage}
-                color="primary"
-              />
-            </div>
+            {/* Botones para cambiar de páginas */}
+            {rewardShowing === 'piezas' ? (
+              <div className="menuDeslizantePagina">
+                <Pagination
+                  count={piezasChunks.length}
+                  page={currentPage}
+                  onChange={handleChangePage}
+                  color="primary"
+                />
+              </div>
+            ) : (
+              <div className="menuDeslizantePagina">
+                <Pagination
+                  count={emotesChunks.length}
+                  page={currentPage}
+                  onChange={handleChangePage}
+                  color="primary"
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
