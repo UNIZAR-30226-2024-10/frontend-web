@@ -53,21 +53,21 @@ function Personalizacion () {
   };
 
   const piezasPreview = [
-    { modelo: 'alpha', negras : [AlphaBK,AlphaBQ,AlphaBN,AlphaBB,AlphaBR,AlphaBP], blancas : [AlphaWK,AlphaWQ,AlphaWN,AlphaWB,AlphaWR,AlphaWP] },
-    { modelo: 'cardinal', negras: [CardinalBK, CardinalBQ, CardinalBN, CardinalBB, CardinalBR, CardinalBP], blancas: [CardinalWK, CardinalWQ, CardinalWN, CardinalWB, CardinalWR, CardinalWP] },
-    { modelo: 'celtic', negras : [CelticBK,CelticBQ,CelticBN,CelticBB,CelticBR,CelticBP], blancas : [CelticWK,CelticWQ,CelticWN,CelticWB,CelticWR,CelticWP] },
-    { modelo: 'chess7', negras: [Chess7BK, Chess7BQ, Chess7BN, Chess7BB, Chess7BR, Chess7BP], blancas: [Chess7WK, Chess7WQ, Chess7WN, Chess7WB, Chess7WR, Chess7WP] },
-    { modelo: 'chessnut', negras : [ChessnutBK,ChessnutBQ,ChessnutBN,ChessnutBB,ChessnutBR,ChessnutBP], blancas : [ChessnutWK,ChessnutWQ,ChessnutWN,ChessnutWB,ChessnutWR,ChessnutWP] },
-    { modelo: 'companion', negras: [CompanionBK, CompanionBQ, CompanionBN, CompanionBB, CompanionBR, CompanionBP], blancas: [CompanionWK, CompanionWQ, CompanionWN, CompanionWB, CompanionWR, CompanionWP] },
-    { modelo: 'fantasy', negras : [FantasyBK,FantasyBQ,FantasyBN,FantasyBB,FantasyBR,FantasyBP], blancas : [FantasyWK,FantasyWQ,FantasyWN,FantasyWB,FantasyWR,FantasyWP] },
-    { modelo: 'fresca', negras: [FrescaBK, FrescaBQ, FrescaBN, FrescaBB, FrescaBR, FrescaBP], blancas: [FrescaWK, FrescaWQ, FrescaWN, FrescaWB, FrescaWR, FrescaWP] },
-    { modelo: 'governor', negras : [GovernorBK,GovernorBQ,GovernorBN,GovernorBB,GovernorBR,GovernorBP], blancas : [GovernorWK,GovernorWQ,GovernorWN,GovernorWB,GovernorWR,GovernorWP] },
-    { modelo: 'kosal', negras: [KosalBK, KosalBQ, KosalBN, KosalBB, KosalBR, KosalBP], blancas: [KosalWK, KosalWQ, KosalWN, KosalWB, KosalWR, KosalWP] },
-    { modelo: 'leipzig', negras : [LeipzigBK,LeipzigBQ,LeipzigBN,LeipzigBB,LeipzigBR,LeipzigBP], blancas : [LeipzigWK,LeipzigWQ,LeipzigWN,LeipzigWB,LeipzigWR,LeipzigWP] },
-    { modelo: 'mpchess', negras: [MpchessBK, MpchessBQ, MpchessBN, MpchessBB, MpchessBR, MpchessBP], blancas: [MpchessWK, MpchessWQ, MpchessWN, MpchessWB, MpchessWR, MpchessWP] },
-    { modelo: 'pixel', negras : [PixelBK,PixelBQ,PixelBN,PixelBB,PixelBR,PixelBP], blancas : [PixelWK,PixelWQ,PixelWN,PixelWB,PixelWR,PixelWP] },
-    { modelo: 'maestro', negras: [MaestroBK, MaestroBQ, MaestroBN, MaestroBB, MaestroBR, MaestroBP], blancas: [MaestroWK, MaestroWQ, MaestroWN, MaestroWB, MaestroWR, MaestroWP] },
-    { modelo: 'anarcandy', negras : [AnarcandyBK,AnarcandyBQ,AnarcandyBN,AnarcandyBB,AnarcandyBR,AnarcandyBP], blancas : [AnarcandyWK,AnarcandyWQ,AnarcandyWN,AnarcandyWB,AnarcandyWR,AnarcandyWP] },
+    { modelo: 'ALPHA', negras : [AlphaBK,AlphaBQ,AlphaBN,AlphaBB,AlphaBR,AlphaBP], blancas : [AlphaWK,AlphaWQ,AlphaWN,AlphaWB,AlphaWR,AlphaWP] },
+    { modelo: 'CARDINAL', negras: [CardinalBK, CardinalBQ, CardinalBN, CardinalBB, CardinalBR, CardinalBP], blancas: [CardinalWK, CardinalWQ, CardinalWN, CardinalWB, CardinalWR, CardinalWP] },
+    { modelo: 'CELTIC', negras : [CelticBK,CelticBQ,CelticBN,CelticBB,CelticBR,CelticBP], blancas : [CelticWK,CelticWQ,CelticWN,CelticWB,CelticWR,CelticWP] },
+    { modelo: 'CHESS7', negras: [Chess7BK, Chess7BQ, Chess7BN, Chess7BB, Chess7BR, Chess7BP], blancas: [Chess7WK, Chess7WQ, Chess7WN, Chess7WB, Chess7WR, Chess7WP] },
+    { modelo: 'CHESSNUT', negras : [ChessnutBK,ChessnutBQ,ChessnutBN,ChessnutBB,ChessnutBR,ChessnutBP], blancas : [ChessnutWK,ChessnutWQ,ChessnutWN,ChessnutWB,ChessnutWR,ChessnutWP] },
+    { modelo: 'COMPANION', negras: [CompanionBK, CompanionBQ, CompanionBN, CompanionBB, CompanionBR, CompanionBP], blancas: [CompanionWK, CompanionWQ, CompanionWN, CompanionWB, CompanionWR, CompanionWP] },
+    { modelo: 'FANTASY', negras : [FantasyBK,FantasyBQ,FantasyBN,FantasyBB,FantasyBR,FantasyBP], blancas : [FantasyWK,FantasyWQ,FantasyWN,FantasyWB,FantasyWR,FantasyWP] },
+    { modelo: 'FRESCA', negras: [FrescaBK, FrescaBQ, FrescaBN, FrescaBB, FrescaBR, FrescaBP], blancas: [FrescaWK, FrescaWQ, FrescaWN, FrescaWB, FrescaWR, FrescaWP] },
+    { modelo: 'GOVERNOR', negras : [GovernorBK,GovernorBQ,GovernorBN,GovernorBB,GovernorBR,GovernorBP], blancas : [GovernorWK,GovernorWQ,GovernorWN,GovernorWB,GovernorWR,GovernorWP] },
+    { modelo: 'KOSAL', negras: [KosalBK, KosalBQ, KosalBN, KosalBB, KosalBR, KosalBP], blancas: [KosalWK, KosalWQ, KosalWN, KosalWB, KosalWR, KosalWP] },
+    { modelo: 'LEIPZIG', negras : [LeipzigBK,LeipzigBQ,LeipzigBN,LeipzigBB,LeipzigBR,LeipzigBP], blancas : [LeipzigWK,LeipzigWQ,LeipzigWN,LeipzigWB,LeipzigWR,LeipzigWP] },
+    { modelo: 'MPCHESS', negras: [MpchessBK, MpchessBQ, MpchessBN, MpchessBB, MpchessBR, MpchessBP], blancas: [MpchessWK, MpchessWQ, MpchessWN, MpchessWB, MpchessWR, MpchessWP] },
+    { modelo: 'PIXEL', negras : [PixelBK,PixelBQ,PixelBN,PixelBB,PixelBR,PixelBP], blancas : [PixelWK,PixelWQ,PixelWN,PixelWB,PixelWR,PixelWP] },
+    { modelo: 'MAESTRO', negras: [MaestroBK, MaestroBQ, MaestroBN, MaestroBB, MaestroBR, MaestroBP], blancas: [MaestroWK, MaestroWQ, MaestroWN, MaestroWB, MaestroWR, MaestroWP] },
+    { modelo: 'ANARCANDY', negras : [AnarcandyBK,AnarcandyBQ,AnarcandyBN,AnarcandyBB,AnarcandyBR,AnarcandyBP], blancas : [AnarcandyWK,AnarcandyWQ,AnarcandyWN,AnarcandyWB,AnarcandyWR,AnarcandyWP] },
   ];
 
   const partidaChunks = chunkArray(piezasPreview, chunkSize);
@@ -114,24 +114,21 @@ function Personalizacion () {
             {rewardShowing === 'piezas' ? (
               <div className="menuDeslizanteContenido">
                 {partidaChunks[currentPage - 1]?.map((piezas, i) => (
-                  <div key={i} className="asd" >
-                    {/* <p className="historialPartidas Estado">{partida.estado}</p>
-                    <p className="historialPartidas Fecha">{partida.fecha}</p>
-                    <p className="historialPartidas Puntos">Puntos otorgados: {partida.puntos}</p> */}
-                    {/* <img className = "imagenBattlePass" src={piezas.negras} alt='Pieza' />
-                    <img className = "imagenBattlePass" src={piezas.queen} alt='Pieza' /> */}
-                    {piezas.modelo}
-                    <div className="asd2">
+                  <button key={i} className="listadoPiezas" >
+                    <div className="modeloPiezas">
+                      {piezas.modelo}
+                    </div>
+                    <div className="familiaPiezas">
                       {piezas.blancas.map((blancas, index) => (
-                          <img key={index} className="listadoImagenes" src={blancas} />
+                        <img key={index} className="piezasIndividuales" src={blancas} />
                       ))}
                     </div>
-                    <div className="asd2">
+                    <div className="familiaPiezas">
                       {piezas.negras.map((negras, index) => (
-                          <img key={index} className="listadoImagenes" src={negras} />
+                        <img key={index} className="piezasIndividuales" src={negras} />
                       ))}
                     </div>
-                  </div>
+                  </button>
                 ))}
               </div> 
             ) : (

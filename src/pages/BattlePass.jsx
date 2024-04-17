@@ -44,8 +44,8 @@ function BattlePass() {
   const [showSidebar, setShowSidebar] = useState(false); /* Mostrar o esconder el sideBar */
   /* Informacion del usuario relacionada con el battlePass */
   const [userBattlePass, setUserBattlePass] = useState({
-    level: 7,
-    points: 34,
+    level: 4,
+    points: 44,
     rewards: [{ level: 1, claimed : true }], 
     rewardsClaimed: 1,
   });
@@ -161,15 +161,15 @@ function BattlePass() {
                     <div>
                       {/* Indicadores de si la recompensa está reclamada, disponible para reclamar o no disponible */}
                       {userBattlePass.level >= tier.level ?
-                      (userBattlePass.rewards.find(rewards => rewards.name === tier.reward && rewards.claimed) ?
+                      (userBattlePass.rewards.find(rewards => rewards.level === tier.level && rewards.claimed) ?
                       <CheckIcon /> : <LockOpenIcon />) : <LockIcon />}
                     </div>
                     {/* Botón asociado a la recompensa, para poder reclamarla */}
-                    <button disabled={userBattlePass.rewards.find(rewards => rewards.name === tier.reward && rewards.claimed) || userBattlePass.level < tier.level}
+                 {/*    <button disabled={userBattlePass.rewards.find(rewards => rewards.name === tier.reward && rewards.claimed) || userBattlePass.level < tier.level}
                       onClick={() => claimRewards(tier.level)}
                       className="claim-button">
                       RECLAMAR RECOMPENSA
-                    </button>
+                    </button> */}
                   </div>
                 </li>
               ))}
