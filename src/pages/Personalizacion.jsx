@@ -42,7 +42,7 @@ function Personalizacion () {
   const chunkSizeEmotes = 9;
 
   const [fichasSelected, setFichasSelected] = useState('DEFECTO');
-  const [emotesSelected, setEmotesSelected] = useState(['😁️','😂️','👍️','😎️']);
+  const [emotesSelected, setEmotesSelected] = useState(['😁️','😂️','👍️','😲️']);
 
   // Function to split the array into chunks
   const chunkArray = (arr, size) => {
