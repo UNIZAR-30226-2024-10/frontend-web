@@ -36,7 +36,8 @@ function Personalizacion () {
   /* Hook para controlar si el sideBar es visible o no lo es */
   const [showSidebar, setShowSidebar] = useState(false);
   const [rewardShowing, setRewardShowing] = useState('piezas');
-  const [currentPage, setCurrentPage] = useState(1); // State to track the current page
+  const [currentPagePiezas, setCurrentPagePiezas] = useState(1); // State to track the current page
+  const [currentPageEmotes, setCurrentPageEmotes] = useState(1); // State to track the current page
 
   const chunkSizePiezas = 4; // Number of elements per chunk
   const chunkSizeEmotes = 9;
@@ -80,8 +81,12 @@ function Personalizacion () {
   const piezasChunks = chunkArray(piezasPreview, chunkSizePiezas);
   const emotesChunks = chunkArray(emotesPreview, chunkSizeEmotes);
 
-  const handleChangePage = (event, newPage) => {
-    setCurrentPage(newPage);
+  const handleChangePagePiezas = (event, newPage) => {
+    setCurrentPagePiezas(newPage);
+  };
+
+  const handleChangePageEmotes = (event, newPage) => {
+    setCurrentPageEmotes(newPage);
   };
 
   const addEmote = (emote) => {
@@ -132,14 +137,14 @@ function Personalizacion () {
               </div>
             ) : (
               <div style={{textDecoration: 'underline'}}>
-                Selecciona hasta 4 emoticonos para usar en el chat de partida
+                Selecciona 4 emoticonos para la partida
               </div>
             )}
             {/* Eleccion de piezas / Emoticonos */}
             {rewardShowing === 'piezas' ? (
               /* Listado de aspectos de piezas */
               <div className="menuDeslizanteContenido">
-                {piezasChunks[currentPage - 1]?.map((piezas, i) => (
+                {piezasChunks[currentPagePiezas - 1]?.map((piezas, i) => (
                   <button key={i} className={`listadoPiezas ${fichasSelected === piezas.modelo ? 'selected' : ''}`}
                     onClick={() => setFichasSelected(piezas.modelo)}>
                     <div className="modeloPiezas">
@@ -161,7 +166,7 @@ function Personalizacion () {
             ) : (
               /* Listado de emoticonos */
               <div className="menuDeslizanteContenido">
-                {emotesChunks[currentPage - 1]?.map((emotes, i) => (
+                {emotesChunks[currentPageEmotes - 1]?.map((emotes, i) => (
                   <button key={i} className={`listadoEmotes ${emotesSelected.find(selected => selected == emotes) ? 'selected' : ''}`}
                     onClick={() => addEmote(emotes)}>
                     {emotes}
@@ -173,18 +178,20 @@ function Personalizacion () {
             {rewardShowing === 'piezas' ? (
               <div className="menuDeslizantePagina">
                 <Pagination
+                  defaultPage={1}
                   count={piezasChunks.length}
-                  page={currentPage}
-                  onChange={handleChangePage}
+                  page={currentPagePiezas}
+                  onChange={handleChangePagePiezas}
                   color="primary"
                 />
               </div>
             ) : (
               <div className="menuDeslizantePagina">
                 <Pagination
+                  defaultPage={1}
                   count={emotesChunks.length}
-                  page={currentPage}
-                  onChange={handleChangePage}
+                  page={currentPageEmotes}
+                  onChange={handleChangePageEmotes}
                   color="primary"
                 />
               </div>

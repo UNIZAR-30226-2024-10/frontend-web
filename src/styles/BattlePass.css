@@ -87,7 +87,7 @@
 /* Recuadro en verde que contiene el battlepass*/
 .battlePass-container.center{
   width: 80%;
-  height: 60%;
+  height: 70%;
   color: white;
   display: flex;
   justify-content: space-around;
@@ -218,22 +218,28 @@
   box-shadow: 0 0 30px #ff8e0d; /* Box-shadow when active/focused */
 }
 
+/* Gestión de componentes según el tamaño de la ventana */
 @media only screen and (max-width: 450px) {
-  .battlePass-container {
-    display: none;
-  }
   .pageTitleBattlepass {
     display: none;
   }
 }
-
-@media only screen and (max-height: 620px){
+@media only screen and (max-width: 560px){
+  .infoPuntos{
+    display: none;
+  }
+}
+@media only screen and (max-width: 280px){
+    .battlePass-container {
+    display: none;
+  }
+}
+@media only screen and (max-height: 540px){
   .battlePass-container {
     display: none;
   }
 }
-
-@media only screen and (max-height: 570px){
+@media only screen and (max-height: 550px){
   .pageTitleBattlepass {
     display: none;
   }

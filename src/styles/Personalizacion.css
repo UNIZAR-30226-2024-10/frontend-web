@@ -94,10 +94,9 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  /* justify-content: space-around; */
   align-items: center;
   border-radius: 10px;
-  overflow-y: auto;
+  overflow: auto;
   background-color: #506C64;
 }
 
@@ -119,6 +118,7 @@
   justify-content: space-evenly;
   border-radius: 20px;
   border: solid 1px white;
+  overflow: auto;
 }
 .menuDeslizantePagina {
   display: flex;
@@ -132,8 +132,9 @@
   cursor: pointer;
   padding: 4px 8px;
   border: none;
-  font-weight: bold;
-  background-color: transparent;
+  margin-left: 5px;
+  border-radius: 8px;
+  background-color: #ff8e0d;
 }
 .contenidoButton.selected {
   text-decoration: underline;
@@ -150,7 +151,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   border-radius: 10px;
   overflow: auto;
   background-color: #e0dcdc91;
@@ -162,6 +162,7 @@
 .listadoPiezas.selected {
   border: solid 2px lime;
 }
+
 .familiaPiezas{
   width: 90%;
   display: flex;
@@ -195,4 +196,24 @@
 }
 .listadoEmotes.selected {
   border: solid 2px lime;
+}
+
+/* Gestión de componentes según el tamaño de la ventana */
+@media only screen and (max-width: 500px){
+  .containerPersonalizacion {
+    display: none;
+  }
+  .pageTitlePersonalizacion {
+    display: none;
+  }
+}
+@media only screen and (max-height: 500px){
+  .pageTitlePersonalizacion {
+    display: none;
+  }
+}
+@media only screen and (max-height: 430px){
+  .containerPersonalizacion {
+    display: none;
+  }
 }

@@ -239,6 +239,17 @@
   justify-content: space-around;
 }
 
+/* Listado de arenas */
+.arenas {
+  height: 60%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* Gestión de componentes según el tamaño de la ventana */
 @media only screen and (max-width: 1400px){
   .arenaPopUp {
     display: none;
@@ -247,22 +258,22 @@
     width: 100%;
   }
 }
-
 @media only screen and (max-width: 500px){
   .arenas-container {
     display: none;
   }
+  .pageTitleArenas {
+    display: none;
+  }
+}
+@media only screen and (max-height: 570px){
 
   .pageTitleArenas {
     display: none;
   }
 }
-
-.arenas {
-  height: 60%;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: center;
+@media only screen and (max-height: 500px){
+  .arenas-container {
+    display: none;
+  }
 }
