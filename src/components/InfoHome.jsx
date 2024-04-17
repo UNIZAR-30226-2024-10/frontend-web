@@ -8,7 +8,7 @@ function InfoHome() {
   const RapidInfo = "Rapid";
   /* Información acerca de cada modo de juego */
   const BulletText = "Esta variante del juego se caracteriza por partidas extremadamente rápidas, \
-	en las que cada jugador cuenta con 1 minuto de tiempo para realizar sus movimientos."
+	en las que cada jugador cuenta con 3 minuto de tiempo para realizar sus movimientos."
   const BlitzText = "En el ajedrez Blitz, cada jugador tiene un tiempo máximo de 5 minutos.\
    Esto hace que cada movimiento deba ser rápido y preciso, ya que no hay mucho \
   margen para pensar demasiado.";
