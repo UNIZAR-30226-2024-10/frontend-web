@@ -19,7 +19,7 @@
   backdrop-filter: blur(10px);
 }
 /* Estilo para el botón de enviar */
-.form > button {
+.sendButton {
   background-color: #ff8e0d;
   border: none; 
   padding: 0 1rem; 
@@ -31,7 +31,7 @@
   transition: box-shadow 0.2s ease;
 }
 
-.form > button:hover {
+.sendButton:hover {
   background-color: #ff8800;
   box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5); /* Define la sombra al hacer hover */
 }
@@ -124,6 +124,46 @@
     background-color: white;
 		border-bottom-right-radius: 10px;
 	}
+}
+
+/* Formato para el botón de envío de emoticonos */
+.envioEmotes {
+  width: 100%;
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  transition: height 0.4s ease;
+  overflow: auto;
+  background-color: #ff8e0d;
+}
+.envioEmotes.hidden {
+  height: 0%;
+}
+
+.selectEmote {
+  width: 4vw;
+  height: 4vh;
+  font-size: 2em;
+  cursor: pointer;
+  border: none;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.selectEmote:hover{
+  background-color: rgb(231, 228, 228);
+}
+
+.chatEmojis {
+  border: none;
+  cursor: pointer;
+  background-color: #ff8e0d;
+}
+.chatEmojis:hover {
+  background-color: #ff8800;
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5); /* Define la sombra al hacer hover */
 }
 
 /* Gestión de componentes según el tamaño de la ventana */
