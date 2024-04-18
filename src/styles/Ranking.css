@@ -1,14 +1,15 @@
 /* Fichero de estilos para BattlePass.jsx */
-.background-battlePass {
-  height: 100vh;
+.background-ranking {
   width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   background: url('../images/background.jpg') no-repeat center/cover;
 }
 
 /* Formato del sidebar cuando está cerrado */
-.sideBattlepass {
+.sideRanking {
   position: fixed;
   z-index: 999;
   top: 0;
@@ -19,16 +20,16 @@
 }
 
 /* Formato del sidebar cuando está abierto */
-.sideBattlepass.open {
+.sideRanking.open {
   left: 0;
 }
 
-.titleBattlePass {
+.titleRanking {
   width: 100%;
   height: 15%;
   position: relative;
+  top: 0%;
   display: flex;
-  align-items: center;
   justify-content: center;
 }
 
@@ -46,6 +47,7 @@
   opacity: 1;
   transition: opacity 0.7s ease; 
 }
+
 /* Formato del botón de apertura del sidebar cuando este se está mostrando */
 .sideMenuButton.hidden {
   position: absolute;
@@ -60,9 +62,8 @@
   opacity: 0; /* Opacity when hidden */
 }
 
-.pageTitleBattlepass {
+.pageTitleRanking {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   color: #fff;
@@ -70,12 +71,15 @@
   font-size: 24px;
   padding: 25px 30px;
   font-weight: 600;
-  font-style: normal;
   background-color: #ff8e0d;
   border: solid 1px #fff;
   border-radius: 8px;
-  /* transform: translateY(-90%); */
 }
 
-.battlePass-container{
+.ranking-container{
+  width: 100%;
+  display: 'flex';
+  flex-direction: 'row';
+  justify-content: space-between;
+
 }

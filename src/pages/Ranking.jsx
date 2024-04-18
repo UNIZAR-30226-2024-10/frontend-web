@@ -11,12 +11,6 @@ function Ranking() {
   const [showSidebar, setShowSidebar] = useState(false);
   const [data, setData] = useState(null);
 
-  const estilo = {
-    display: 'flex', 
-    flexDirection: 'row', 
-    justifyContent: 'space-evenly'
-  }
-
   //Obtencion rankings de las 3 modalidades
   useEffect(() => {
     Promise.all([ //Se hacen concurrentemente las 3 llamadas a la API
@@ -35,12 +29,12 @@ function Ranking() {
   }, []);
 
   return (
-    <div className="background-battlePass">
-      <div className={showSidebar ? "sideBattlepass open" : "sideBattlepass"}>
-        {/* sideBar */}
-        <SideBar setShowSidebar={setShowSidebar}/>
+    <div className="background-ranking">
+      <div className={showSidebar ? "sideRanking open" : "sideRanking"}>
+      {/* sideBar */}
+      <SideBar setShowSidebar={setShowSidebar}/>
       </div>
-      <div className="titleBattlePass">
+      <div className="titleRanking">
         {/* Botón para desplegar el sidebar */}
         <button className={!showSidebar ? "sideMenuButton" : "sideMenuButton hidden"} onClick={() => setShowSidebar(true)}>
           <MenuIcon sx={{
@@ -51,15 +45,16 @@ function Ranking() {
           }} />
         </button>
         {/* Título de la página */}
-        <h1 className="pageTitleBattlepass">RANKING GLOBAL</h1>
+        <h1 className="pageTitleRanking">RANKING GLOBAL</h1>
       </div>
-      {/* <div className="battlePass-container"> */}
-        <div style={estilo}>
+      <div style={{display:'flex', flexDirection:'column', flexGrow:'1', justifyContent:'center', alignItems:'center'}}>
+        <div style={{width:'80%', display: 'flex', justifyContent:'space-around'}}>
           <div>{data && <TablaRanking data={data.bullet} modalidad={'Bullet'}/>}</div>
           <div>{data && <TablaRanking data={data.rapid} modalidad={'Rapid'}/>}</div>
           <div>{data && <TablaRanking data={data.blitz} modalidad={'Blitz'}/>}</div>
         </div>
-      {/* </div> */}
+      </div>
+      
     </div>
   );
 }

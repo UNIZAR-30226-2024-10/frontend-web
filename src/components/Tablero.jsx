@@ -133,6 +133,7 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
 
     //cjto de movimientos posibles con la conf. de tablero actual
     const movsPosiblesIni = {
+        '[2-5]':[[1,5]],
         '[7-0]': [], //En este caso es para las negras
         '[7-1]': [[5,0], [5,2]],
         '[7-2]': [],
@@ -171,14 +172,14 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
         ['' , '' , '' , '' ,'' , '' , '' , '' ],
         ['P', 'P', 'P', 'P', '', 'P', 'P', 'P'],
         ['R', 'N', 'B', '', '', '', 'N', 'R'], */
-        ['r', '', '', '', 'k', '', '', 'r'],
-        ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
-        ['' , 'n' , 'b' , 'q' ,'' , 'b' , 'n' , '' ],
+        ['', '', '', '', 'k', '', '', ''],
+        ['', '', '', '', '', '', '', ''],
+        ['' , '' , '' , '' ,'' , 'Q' , '' , '' ],
         ['' , '' , '' , '' ,'' , '' , '' , '' ],
         ['' , '' , '' , '' ,'' , '' , '' , '' ],
-        ['' , 'N' , 'B' , 'Q' ,'' , 'B' , 'N' , '' ],
-        ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
-        ['R', '', '', '', 'K', '', '', 'R'],
+        ['' , '' , '' , '' ,'' , '' , '' , '' ],
+        ['', '', '', '', '', '', '', ''],
+        ['', '', '', '', 'K', '', '', ''],
     ]
     const [tablero, setTablero] = useState(matrizIni)
 
@@ -190,7 +191,7 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
     //{fil:x, col:y} (coordenadas a las que se ha movido piezasel)
     const [movimiento, setNewMov] = useState(0)
 
-    // Que color esta jugando. 0: blancas, 1: negras
+    // ue color esta jugando. 0: blancas, 1: negras
     const [turno, setTurno] = useState(0) 
     
     // Funcion que envia tablero al servidor
