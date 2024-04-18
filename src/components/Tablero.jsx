@@ -133,6 +133,7 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena}) => {
 
     //cjto de movimientos posibles con la conf. de tablero actual
     const movsPosiblesIni = {
+        '[2-5]':[[1,5]],
         '[7-0]': [], //En este caso es para las negras
         '[7-1]': [[5,0], [5,2]],
         '[7-2]': [],
@@ -176,9 +177,8 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena}) => {
         ['' , 'n' , 'b' , 'q' ,'n' , 'b' , 'n' , 'P' ],
         ['' , '' , '' , '' ,'' , '' , '' , 'p' ],
         ['' , '' , '' , '' ,'' , '' , '' , '' ],
-        ['' , 'N' , 'B' , 'Q' ,'' , 'B' , 'N' , '' ],
-        ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
-        ['R', '', '', '', 'K', '', '', 'R'],
+        ['', '', '', '', '', '', '', ''],
+        ['', '', '', '', 'K', '', '', ''],
     ]
     const [tablero, setTablero] = useState(matrizIni)
 
@@ -190,7 +190,7 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena}) => {
     //{fil:x, col:y} (coordenadas a las que se ha movido piezasel)
     const [movimiento, setNewMov] = useState(0)
 
-    // Que color esta jugando. 0: blancas, 1: negras
+    // ue color esta jugando. 0: blancas, 1: negras
     const [turno, setTurno] = useState(0) 
     
     // Funcion que envia tablero al servidor
