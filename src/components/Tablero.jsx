@@ -322,7 +322,7 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena}) => {
     
     return (
         <>
-        <div style={gridStyle} className={`tablero`}>
+        <div className={`tablero`}>
             {[...Array(8)].map((_, rowIndex) => (
                 <div key={rowIndex}  className="filatab">
                     {[...Array(8)].map((_, colIndex) => (

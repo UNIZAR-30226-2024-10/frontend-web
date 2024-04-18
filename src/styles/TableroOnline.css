@@ -1,4 +1,4 @@
-.tablero {
+.tableroOnline {
   height: 70vh;
   width: 42vw;
   padding-bottom: 4px;
@@ -6,15 +6,15 @@
   transition: width 0.5s ease;
   transition: height 0.5s ease;
 }
-.tablero.rotated{
+.tableroOnline.rotated{
   transform: rotate(180deg);
 }
-.filatab {
+.filatabOnline {
   display: flex;
   height: 100%;
   /* Ajusta la altura para que todas las filas ocupen el mismo espacio */
 }
-.modal {
+.modalOnline {
   position: fixed;
   top: 0;
   left: 0;
@@ -26,71 +26,71 @@
   align-items: center;
 }
 
-.modal-content {
+.modalOnline-content {
   background-color: white;
   padding: 20px;
   border-radius: 5px;
 }
 
-.close {
+.closeOnline {
   color: #aaa;
   float: right;
   font-size: 28px;
   font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.closeOnline:hover,
+.closeOnline:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;
 }
-.opciones-modal-tablero{
+.opcionesOnline-modal-tablero{
   display: flex;
 }
-.opciones-modal-tablero > *{
+.opcionesOnline-modal-tablero > *{
 font-size: 20px;
   margin-bottom: 10px;
   margin: 10px;
   padding: 10px;
 }
-.opciones-modal-tablero>*:hover {
+.opcionesOnline-modal-tablero>*:hover {
   background-color: #e2dddd;
 }
-.modal{
+.modalOnline{
   padding: 40px; 
   padding-right: 4%;
 }
 
 /* Gestión de componentes según el tamaño de la ventana */
 @media only screen and (max-width: 1400px) {
-  .tablero {
+  .tableroOnline {
     width: 50vw;
   }
 }
 @media only screen and (max-width: 1000px) {
-  .tablero {
+  .tableroOnline {
     width: 65vw;
   }
 }
 @media only screen and (max-width: 700px) {
-  .tablero {
+  .tableroOnline {
     width: 75vw;
   }
 } 
 @media only screen and (max-width: 450px) {
-  .tablero {
+  .tableroOnline {
     display: none;
   }
 }
 
 @media only screen and (max-height: 780px) {
-  .tablero {
+  .tableroOnline {
     height: 75vh;
   }
 }
 @media only screen and (max-height: 610px) {
-  .tablero {
+  .tableroOnline {
     display: none;
   }
 }

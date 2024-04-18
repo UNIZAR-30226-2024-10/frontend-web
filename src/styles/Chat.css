@@ -13,12 +13,10 @@
   background: rgba(156, 22, 22, 0.507); 
   padding: 0.25rem; 
   display: flex;
-  flex-wrap: wrap;
   height: 7%;
   width: 100%; 
   box-sizing: border-box; 
   backdrop-filter: blur(10px);
-  /* border-radius: 8px; */
 }
 /* Estilo para el botón de enviar */
 .form > button {
@@ -126,4 +124,17 @@
     background-color: white;
 		border-bottom-right-radius: 10px;
 	}
+}
+
+/* Gestión de componentes según el tamaño de la ventana */
+@media only screen and (max-width: 1600px) {
+  .input {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-height: 700px) {
+  .form {
+    height: 10%;
+  }
 }

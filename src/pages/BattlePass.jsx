@@ -8,37 +8,6 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 import CheckIcon from '@mui/icons-material/Check';
 
 /* Imagenes de piezas */
-/* import alphaK from '../images/pieces/alpha/bK.svg';
-import cardinalK from '../images/pieces/cardinal/bK.svg';
-import celticK from '../images/pieces/celtic/bK.svg';
-import chess7K from '../images/pieces/chess7/bK.svg';
-import chessnutK from '../images/pieces/chessnut/bK.svg';
-import companionK from '../images/pieces/companion/bK.svg';
-import fantasyK from '../images/pieces/fantasy/bK.svg';
-import frescaK from '../images/pieces/fresca/bK.svg';
-import governorK from '../images/pieces/governor/bK.svg';
-import kosalK from '../images/pieces/kosal/bK.svg';
-import leipzigK from '../images/pieces/leipzig/bK.svg';
-import mpchessK from '../images/pieces/mpchess/bK.svg';
-import pixelK from '../images/pieces/pixel/bK.svg';
-import maestroK from '../images/pieces/maestro/bK.svg';
-import anarcandyK from '../images/pieces/anarcandy/bK.svg';
-
-import alphaQ from '../images/pieces/alpha/wQ.svg';
-import cardinalQ from '../images/pieces/cardinal/wQ.svg';
-import celticQ from '../images/pieces/celtic/wQ.svg';
-import chess7Q from '../images/pieces/chess7/wQ.svg';
-import chessnutQ from '../images/pieces/chessnut/wQ.svg';
-import companionQ from '../images/pieces/companion/wQ.svg';
-import fantasyQ from '../images/pieces/fantasy/wQ.svg';
-import frescaQ from '../images/pieces/fresca/wQ.svg';
-import governorQ from '../images/pieces/governor/wQ.svg';
-import kosalQ from '../images/pieces/kosal/wQ.svg';
-import leipzigQ from '../images/pieces/leipzig/wQ.svg';
-import mpchessQ from '../images/pieces/mpchess/wQ.svg';
-import pixelQ from '../images/pieces/pixel/wQ.svg';
-import maestroQ from '../images/pieces/maestro/wQ.svg';
-import anarcandyQ from '../images/pieces/anarcandy/wQ.svg'; */
 
 import {
   AlphaWQ, AnarcandyWQ, CardinalWQ, DefaultWQ, CelticWQ, Chess7WQ, ChessnutWQ, CompanionWQ,   

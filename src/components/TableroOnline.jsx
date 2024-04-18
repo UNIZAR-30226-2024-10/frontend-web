@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Casilla from './Casilla';
-import '../styles/Tablero.css'
+import '../styles/TableroOnline.css'
 import { tab } from '@testing-library/user-event/dist/tab';
 const apiUrl = process.env.REACT_APP_API_URL;
 import damaNegra from '../images/pieces/cburnett/bQ.svg'
@@ -13,9 +13,6 @@ import torreNegra from '../images/pieces/cburnett/bR.svg'
 import torreBlanca from '../images/pieces/cburnett/wR.svg'
 
 const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer1, pauseTimer2, arena}) => {
-    const gridStyle = {
-        display: 'grid',
-    };
   const [showModal, setShowModal] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const openModal = () => {
@@ -328,9 +325,9 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
     },[showModal])
     return (
         <>
-        <div style={gridStyle} className={`tablero ${!blancasAbajo ? 'rotated' : ''}`}>
+        <div className={`tableroOnline ${!blancasAbajo ? 'rotated' : ''}`}>
             {[...Array(8)].map((_, rowIndex) => (
-                <div key={rowIndex}  className="filatab">
+                <div key={rowIndex}  className="filatabOnline">
                     {[...Array(8)].map((_, colIndex) => (
                         <Casilla 
                             key={`${rowIndex}-${colIndex}`} // Add unique key prop here
@@ -351,11 +348,11 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
             ))}
         </div>
         {showModal && (
-            <div className="modal">
-                <div className="modal-content">
-                    <span className="close" onClick={closeModal}>&times;</span>
+            <div className="modalOnline">
+                <div className="modalOnline-content">
+                    <span className="closeOnline" onClick={closeModal}>&times;</span>
                     <p>Selecciona una opción para coronar:</p>
-                    <div className='opciones-modal-tablero'> 
+                    <div className='opcionesOnline-modal-tablero'> 
                         <img style={{ width: '50px', height: '50px' }} src={turno === 0 ? `${damaBlanca}` : `${damaNegra}`} onClick={() => { setSelectedOption(turno === 0 ? 'Q' : 'q'); closeModal(); }} alt="Dama" />
                         <img style={{ width: '50px', height: '50px' }} src={turno === 0 ? `${alfilBlanca}` : `${alfilNegra}`} onClick={() => { setSelectedOption(turno === 0 ? 'B' : 'b'); closeModal(); }} alt="Alfil" />
                         <img style={{ width: '50px', height: '50px' }} src={turno === 0 ? `${caballoBlanca}` : `${caballoNegra}`} onClick={() => { setSelectedOption(turno === 0 ? 'N' : 'n'); closeModal(); }} alt="Caballo" />
