@@ -102,6 +102,8 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena}) => {
                           movsPosiblesIni[key].push([7 - movimiento.y, movimiento.x]);
                       });
                   }
+              }else if(pieza==='jaque'){
+                //pasalo
               }else{
               json.allMovements[pieza].forEach((movimientos) => {
                   let newX=0;
@@ -172,13 +174,14 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena}) => {
         ['' , '' , '' , '' ,'' , '' , '' , '' ],
         ['P', 'P', 'P', 'P', '', 'P', 'P', 'P'],
         ['R', 'N', 'B', '', '', '', 'N', 'R'], */
-        ['r', '', '', '', 'k', '', '', 'r'],
-        ['p', 'p', 'p', 'p', 'p', 'p', 'p', ''],
-        ['' , 'n' , 'b' , 'q' ,'n' , 'b' , 'n' , 'P' ],
-        ['' , '' , '' , '' ,'' , '' , '' , 'p' ],
+        ['r', 'n', 'b', 'q', 'k', 'b', 'n', ''],
+        ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'P'],
         ['' , '' , '' , '' ,'' , '' , '' , '' ],
-        ['', '', '', '', '', '', '', ''],
-        ['', '', '', '', 'K', '', '', ''],
+        ['' , '' , '' , '' ,'' , '' , 'r' , 'p' ],
+        ['' , '' , '' , '' ,'' , '' , '' , '' ],
+        ['' , '' , '' , '' ,'' , '' , '' , '' ],
+        ['P', 'P', 'P', 'P', 'P', 'P', 'P', ''],
+        ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
     ]
     const [tablero, setTablero] = useState(matrizIni)
 
@@ -231,6 +234,8 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena}) => {
     }
   const [X, setX] = useState(null);
   const [Y, setY] = useState(null);
+  const [oldX, setOldX] = useState(null);
+  const [oldY, setOldY] = useState(null);
 
     //Ocurre un movimiento
     useEffect(() => {
@@ -238,6 +243,8 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena}) => {
           //Se obtienen las coordenadas de la casilla origen
             const oldX = piezaSel.fila
             const oldY = piezaSel.col
+            setOldX(oldX)
+            setOldY(oldY)
             //Se obtienen las coordenadas de la casilla destino
             const newX = movimiento.fila
             const newY = movimiento.col
@@ -278,6 +285,7 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena}) => {
             else if((newTablero[newX][newY]==='P' && newX==0 )||  (newTablero[newX][newY]==='p' && newX==7)){
                 setX(prevX => newX);
                 setY(prevY => newY);
+
                 openModal();
                 return
             }
@@ -300,10 +308,11 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena}) => {
     
     useEffect(() =>{
       if(!showModal && selectedOption){
-        console.log("Se lia")
+        console.log("coronar")
          const newTablero = JSON.parse(JSON.stringify(tablero)) //asi se hace una copia 
            newTablero[X][Y]= selectedOption;
-          newTablero[turno === 0 ? X+1 : X-1][Y] = ''
+          // newTablero[turno === 0 ? X+1 : X-1][Y] = ''
+          newTablero[oldX][oldY] = ''
          submitMov(newTablero)
             .then(isLegal => {
               if (isLegal) {

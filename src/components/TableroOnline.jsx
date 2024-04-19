@@ -191,8 +191,10 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
 
     // Que color esta jugando. 0: blancas, 1: negras
     const [turno, setTurno] = useState(0) 
-      const [X, setX] = useState(null);
+  const [X, setX] = useState(null);
   const [Y, setY] = useState(null);
+  const [oldX, setOldX] = useState(null);
+  const [oldY, setOldY] = useState(null);
     // Funcion que envia tablero al servidor
     // Si el movimiento es legal: actualiza los movimientos posibles dado el nuevo tablero y devuelve true
     // Si el movimiento no es legal: devuelve false y no actualiza los movimientos posibles
@@ -234,6 +236,8 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
           //Se obtienen las coordenadas de la casilla origen
             const oldX = piezaSel.fila
             const oldY = piezaSel.col
+            setOldX(oldX)
+            setOldY(oldY)
             //Se obtienen las coordenadas de la casilla destino
             const newX = movimiento.fila
             const newY = movimiento.col
@@ -306,7 +310,9 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
         console.log("Se lia")
          const newTablero = JSON.parse(JSON.stringify(tablero)) //asi se hace una copia 
            newTablero[X][Y]= selectedOption;
-          newTablero[turno === 0 ? X+1 : X-1][Y] = ''
+          // newTablero[turno === 0 ? X+1 : X-1][Y] = ''
+                    newTablero[oldX][oldY] = ''
+
          submitMov(newTablero)
             .then(isLegal => {
               if (isLegal) {
