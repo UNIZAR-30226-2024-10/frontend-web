@@ -166,12 +166,6 @@
   border-radius: 8px;
 }
 
-/* Div inútil para centrar tablero y chat */
-.gameOnlineUselessContaier {
-  width: 25%;
-  height: 100%;
-}
-
 /* Opciones de la partida */
 .gameOnlineOptions {
   width: 22vw;

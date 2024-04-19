@@ -1,4 +1,4 @@
-import React, { useEffect, useState , useContext, useCallback} from 'react';
+import React, { useEffect, useState , useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/GameOnline.css'
 import SideBar from '../components/SideBar';
@@ -23,12 +23,12 @@ function GameOnline({ gameMode, playersInfo }) {
   const [wantToQuit, setWantToQuit] = useState(false); /* Indica que un jugador quiere abandonar la partida */
   const [gameState, setGameState] = useState({ /* Contiene los diferentes estados de la partida */
     victory : false,
+    defeat : false,
     victoryCause : '',
     surrender : false,
     confirmSurrender: false,
     showingSettings: false,
     isPlaying : true,
-    isMenuVisible : false,
   });
   var playingGame = true; /* Indica al sideBar de que este componente se está usando en partida */
   const { roomId, colorSuffix } = useParams();
@@ -101,20 +101,6 @@ function GameOnline({ gameMode, playersInfo }) {
     /* Aviso al servidor de que el usuario se ha rendido */
     socket.emit("I_surrender", {roomId}); 
   }
-  /* Mostrar o esconder los ajustes de partida */
-  const handleSettings = () => {
-    setGameState(prevState => ({
-      ...prevState,
-      showingSettings : !gameState.showingSettings
-    }));
-  }
-  /* Mostrar o esconder el sideBar */
-  const ToggleMenuVisibility = (value) => {
-    setGameState(prevState => ({
-      ...prevState,
-      isMenuVisible : value,
-    }));
-  };
   /* Pausar o reanudar la partida */
   const handlePause = () => {
     setGameState(prevState => ({
@@ -253,14 +239,42 @@ function GameOnline({ gameMode, playersInfo }) {
               </div>}
           </div>}
 
-        {/* Jugador se sale de la partida */}
+        {/* Mensajes de victoria */}
         {gameState.victory && 
           <div className='gameOnlinePopupBackground'>
             <div className='gameOnlinePopup'>
-              <h1>¡Has ganado!</h1>
-              {gameState.victoryCause === 'disconnect' ? 
-              (<h1>El otro jugador se ha desconectado</h1>) : 
-              (<h1>El otro jugador se ha rendido</h1>)}
+              <div>
+                <h1>¡Has ganado!</h1>
+                {/* Causa de la victoria */}
+                {gameState.victoryCause === 'disconnect' ? (<h2>Ganas por desconexión del rival</h2>) 
+                : gameState.victoryCause === 'surrender' ?  (<h2>Ganas por rendición del rival</h2>)
+                : gameState.victoryCause === 'jaque' ? (<h2>Ganas por jaque mate</h2>)
+                : (<h2>Ganas por falta de tiempo del rival</h2>)}
+              </div>
+              <div>
+                <p>+5 puntos de Elo</p>
+                <p>+10 puntos de recompensa</p>
+              </div>
+              <button className="gameOnlinePopupButt" onClick={() => navigate('/home')}>
+                Abandonar partida
+              </button>
+            </div>
+          </div>}
+
+        {/* Mensajes de derrota */}
+        {gameState.defeat && 
+          <div className='gameOnlinePopupBackground'>
+            <div className='gameOnlinePopup'>
+              <div>
+                <h1>¡Has perdido!</h1>
+                {/* Causa de la victoria */}
+                {gameState.victoryCause === 'jaque' ? (<h2>Pierdes por jaque mate</h2>)
+                : (<h2>Pierdes por falta de tiempo</h2>)}
+              </div>
+              <div>
+                <p>-5 puntos de Elo</p>
+                <p>+5 puntos de recompensa</p>
+              </div>
               <button className="gameOnlinePopupButt" onClick={() => navigate('/home')}>
                 Abandonar partida
               </button>
@@ -271,7 +285,10 @@ function GameOnline({ gameMode, playersInfo }) {
         {wantToQuit && playingGame &&
         <div className="gameOnlinePopupBackground">
           <div className="gameOnlinePopup">
-            <h1><u>¿Seguro que quieres abandonar la partida? </u></h1>
+            <div>
+              <h1><u>¿Seguro que quieres abandonar la partida? </u></h1>
+              <h2>Perderás la partida al desconectarte</h2>
+            </div>
             <div className="gameOnlinePopupButtons">
                 <button className="gameOnlinePopupButt confirm" onClick={() => {handleConfirmSurrender();  navigate('/home')}}>
                   Sí
@@ -282,8 +299,6 @@ function GameOnline({ gameMode, playersInfo }) {
             </div>
           </div>
         </div>}
-        {/* Uno de los jugadores Gana por cualquier otra cosa (jaque mate ...) */}
-
       </>
     );
   }
@@ -309,10 +324,6 @@ function GameOnline({ gameMode, playersInfo }) {
         <InfoGameMode GameMode={gameMode} />
       </div>
       <div className="gameOnlineScreen">
-        {/* Útil para centrar el tablero y el chat */}
-{/*         <div className='gameOnlineUselessContaier'>
-          
-        </div> */}
         <div className="gameOnline">
           {/* Jugador 1 */}
           <InfoPlayers

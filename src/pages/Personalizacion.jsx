@@ -59,7 +59,7 @@ function Personalizacion () {
   // Conjunto de emoticonos del usuario
   const [emotesSelected, setEmotesSelected] = useState(['','','','']);
   // Nivel del usuario (recompensas desbloqueadas)
-  const userLevel = 2;
+  const userLevel = 0;
   // Emoticonos del juego
   const emotesPreview = [
     { level: 1, value: '😁️'},
