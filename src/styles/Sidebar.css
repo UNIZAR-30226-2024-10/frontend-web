@@ -8,6 +8,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: auto;
 }
 /* Estilos para los elementos dentro del Sidebar, puedes personalizarlos según tus necesidades */
 .Sidebar h2 {
@@ -220,4 +221,20 @@
   cursor: pointer;
   transform: translateX(150%);
   background-color: transparent;
+}
+/* Gestión de componentes según el tamaño de la ventana */
+@media only screen and (max-width: 580px){
+  .popUp {
+    display: none;
+  }
+}
+@media only screen and (max-height: 540px){
+  .popUp {
+    display: none
+  }
+}
+@media only screen and (max-height: 800px){
+  .popUp-content {
+    width: 40%;
+  }
 }

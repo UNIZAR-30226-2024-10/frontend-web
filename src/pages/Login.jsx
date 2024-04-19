@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Tooltip } from '@mui/material';
+const apiUrl = process.env.REACT_APP_API_URL;
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -21,12 +22,12 @@ function Login() {
   const handleLogin = async () => {
     navigate('/home');
     try {
-      const response = await fetch('http://tu_backend_url/login', {
+      const response = await fetch(`${apiUrl}/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ nombre:username, contraseña:password }),
       });
 
       if (response.ok) {

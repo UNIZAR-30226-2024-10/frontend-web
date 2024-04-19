@@ -12,7 +12,7 @@ import torreNegra from '../images/pieces/cburnett/bR.svg'
 import torreBlanca from '../images/pieces/cburnett/wR.svg'
 
 
-const Tablero = ({pauseTimer1, pauseTimer2}) => {
+const Tablero = ({pauseTimer1, pauseTimer2, arena}) => {
     const gridStyle = {
         display: 'grid',
     };
@@ -102,6 +102,8 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
                           movsPosiblesIni[key].push([7 - movimiento.y, movimiento.x]);
                       });
                   }
+              }else if(pieza==='jaque'){
+                //pasalo
               }else{
               json.allMovements[pieza].forEach((movimientos) => {
                   let newX=0;
@@ -172,14 +174,14 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
         ['' , '' , '' , '' ,'' , '' , '' , '' ],
         ['P', 'P', 'P', 'P', '', 'P', 'P', 'P'],
         ['R', 'N', 'B', '', '', '', 'N', 'R'], */
-        ['', '', '', '', 'k', '', '', ''],
-        ['', '', '', '', '', '', '', ''],
-        ['' , '' , '' , '' ,'' , 'Q' , '' , '' ],
+        ['r', 'n', 'b', 'q', 'k', 'b', 'n', ''],
+        ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'P'],
+        ['' , '' , '' , '' ,'' , '' , '' , '' ],
+        ['' , '' , '' , '' ,'' , '' , 'r' , 'p' ],
         ['' , '' , '' , '' ,'' , '' , '' , '' ],
         ['' , '' , '' , '' ,'' , '' , '' , '' ],
-        ['' , '' , '' , '' ,'' , '' , '' , '' ],
-        ['', '', '', '', '', '', '', ''],
-        ['', '', '', '', 'K', '', '', ''],
+        ['P', 'P', 'P', 'P', 'P', 'P', 'P', ''],
+        ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
     ]
     const [tablero, setTablero] = useState(matrizIni)
 
@@ -232,6 +234,8 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
     }
   const [X, setX] = useState(null);
   const [Y, setY] = useState(null);
+  const [oldX, setOldX] = useState(null);
+  const [oldY, setOldY] = useState(null);
 
     //Ocurre un movimiento
     useEffect(() => {
@@ -239,6 +243,8 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
           //Se obtienen las coordenadas de la casilla origen
             const oldX = piezaSel.fila
             const oldY = piezaSel.col
+            setOldX(oldX)
+            setOldY(oldY)
             //Se obtienen las coordenadas de la casilla destino
             const newX = movimiento.fila
             const newY = movimiento.col
@@ -279,6 +285,7 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
             else if((newTablero[newX][newY]==='P' && newX==0 )||  (newTablero[newX][newY]==='p' && newX==7)){
                 setX(prevX => newX);
                 setY(prevY => newY);
+
                 openModal();
                 return
             }
@@ -301,10 +308,11 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
     
     useEffect(() =>{
       if(!showModal && selectedOption){
-        console.log("Se lia")
+        console.log("coronar")
          const newTablero = JSON.parse(JSON.stringify(tablero)) //asi se hace una copia 
            newTablero[X][Y]= selectedOption;
-          newTablero[turno === 0 ? X+1 : X-1][Y] = ''
+          // newTablero[turno === 0 ? X+1 : X-1][Y] = ''
+          newTablero[oldX][oldY] = ''
          submitMov(newTablero)
             .then(isLegal => {
               if (isLegal) {
@@ -323,7 +331,7 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
     
     return (
         <>
-        <div style={gridStyle} className={`tablero`}>
+        <div className={`tablero`}>
             {[...Array(8)].map((_, rowIndex) => (
                 <div key={rowIndex}  className="filatab">
                     {[...Array(8)].map((_, colIndex) => (
@@ -339,6 +347,7 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
                             setNewMov={setNewMov}
                             turno={turno}
                             blancasAbajo={true}
+                            arena={arena}
                         />
                     ))}
                 </div>
@@ -348,7 +357,7 @@ const Tablero = ({pauseTimer1, pauseTimer2}) => {
             <div className="modal">
                 <div className="modal-content">
                     <span className="close" onClick={closeModal}>&times;</span>
-                    <p>Selecciona una opción:</p>
+                    <p>Selecciona una opción para coronar:</p>
                     <div className='opciones-modal-tablero'> 
                         <img style={{ width: '50px', height: '50px' }} src={turno === 0 ? `${damaBlanca}` : `${damaNegra}`} onClick={() => { setSelectedOption(turno === 0 ? 'Q' : 'q'); closeModal(); }} alt="Dama" />
                         <img style={{ width: '50px', height: '50px' }} src={turno === 0 ? `${alfilBlanca}` : `${alfilNegra}`} onClick={() => { setSelectedOption(turno === 0 ? 'B' : 'b'); closeModal(); }} alt="Alfil" />

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Casilla from './Casilla';
-import '../styles/Tablero.css'
+import '../styles/TableroOnline.css'
 import { tab } from '@testing-library/user-event/dist/tab';
 const apiUrl = process.env.REACT_APP_API_URL;
 import damaNegra from '../images/pieces/cburnett/bQ.svg'
@@ -12,10 +12,7 @@ import alfilBlanca from '../images/pieces/cburnett/wB.svg'
 import torreNegra from '../images/pieces/cburnett/bR.svg'
 import torreBlanca from '../images/pieces/cburnett/wR.svg'
 
-const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer1, pauseTimer2}) => {
-    const gridStyle = {
-        display: 'grid',
-    };
+const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer1, pauseTimer2, arena}) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const openModal = () => {
@@ -25,6 +22,13 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
   const closeModal = () => {
       setShowModal(false);
   };
+  const [torreBlancaIzdaMovida, setTorreBlancaIzdaMovida] = useState(false);
+  const [torreBlancaDchaMovida, setTorreBlancaDchaMovida] = useState(false);
+  const [torreNegraIzdaMovida, setTorreNegraIzdaMovida] = useState(false);
+  const [torreNegraDchaMovida, setTorreNegraDchaMovida] = useState(false);
+  const [reyBlancoMovido, setReyBlancoMovido] = useState(false);
+  const [reyNegroMovido, setReyNegroMovido] = useState(false);
+
     function traducirTableroAJSON(matrizAux) {
         const piezas = {
             'p': 'peon',
@@ -36,6 +40,12 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
         };
         const json = {
             turno: turno === 1 ? 'blancas' : 'negras', // Añadir el turno al principio del JSON
+            ha_movido_rey_blanco: reyBlancoMovido,
+            ha_movido_rey_negro: reyNegroMovido,
+            ha_movido_torre_blanca_dcha: torreBlancaDchaMovida,
+            ha_movido_torre_blanca_izqda: torreBlancaIzdaMovida,
+            ha_movido_torre_negra_dcha: torreNegraDchaMovida,
+            ha_movido_torre_negra_izqda: torreNegraIzdaMovida,    
             peon: [],
             alfil: [],
             caballo: [],
@@ -181,8 +191,10 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
 
     // Que color esta jugando. 0: blancas, 1: negras
     const [turno, setTurno] = useState(0) 
-      const [X, setX] = useState(null);
+  const [X, setX] = useState(null);
   const [Y, setY] = useState(null);
+  const [oldX, setOldX] = useState(null);
+  const [oldY, setOldY] = useState(null);
     // Funcion que envia tablero al servidor
     // Si el movimiento es legal: actualiza los movimientos posibles dado el nuevo tablero y devuelve true
     // Si el movimiento no es legal: devuelve false y no actualiza los movimientos posibles
@@ -224,9 +236,28 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
           //Se obtienen las coordenadas de la casilla origen
             const oldX = piezaSel.fila
             const oldY = piezaSel.col
+            setOldX(oldX)
+            setOldY(oldY)
             //Se obtienen las coordenadas de la casilla destino
             const newX = movimiento.fila
             const newY = movimiento.col
+            if(tablero[oldX][oldY]==='k'){
+              setReyNegroMovido(true);
+            }else if(tablero[oldX][oldY]==='K'){
+              setReyBlancoMovido(true);
+            }else if(tablero[oldX][oldY]==='r'){
+              if(oldY===0){
+                setTorreNegraIzdaMovida(true)
+              }else{
+                setTorreNegraDchaMovida(true)
+              }
+            }else if (tablero[oldX][oldY]==='R'){
+              if(oldY===0){
+                setTorreBlancaIzdaMovida(true)
+              }else{
+                setTorreBlancaDchaMovida(true)
+              }
+            }
             // const originalTablero = [...tablero]
           // console.log(oldX, oldY)
           // console.log(newX, newY)
@@ -274,12 +305,14 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
     useEffect(()=>{
       !blancasAbajo ? pauseTimer2() : null;
     }, [])
-        useEffect(() =>{
+    useEffect(() =>{
       if(!showModal && selectedOption){
         console.log("Se lia")
          const newTablero = JSON.parse(JSON.stringify(tablero)) //asi se hace una copia 
            newTablero[X][Y]= selectedOption;
-          newTablero[turno === 0 ? X+1 : X-1][Y] = ''
+          // newTablero[turno === 0 ? X+1 : X-1][Y] = ''
+                    newTablero[oldX][oldY] = ''
+
          submitMov(newTablero)
             .then(isLegal => {
               if (isLegal) {
@@ -298,9 +331,9 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
     },[showModal])
     return (
         <>
-        <div style={gridStyle} className={`tablero ${!blancasAbajo ? 'rotated' : ''}`}>
+        <div className={`tableroOnline ${!blancasAbajo ? 'rotated' : ''}`}>
             {[...Array(8)].map((_, rowIndex) => (
-                <div key={rowIndex}  className="filatab">
+                <div key={rowIndex}  className="filatabOnline">
                     {[...Array(8)].map((_, colIndex) => (
                         <Casilla 
                             key={`${rowIndex}-${colIndex}`} // Add unique key prop here
@@ -314,17 +347,18 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
                             setNewMov={setNewMov}
                             turno={turno}
                             blancasAbajo={blancasAbajo}
+                            arena={arena}
                         />
                     ))}
                 </div>
             ))}
         </div>
         {showModal && (
-            <div className="modal">
-                <div className="modal-content">
-                    <span className="close" onClick={closeModal}>&times;</span>
-                    <p>Selecciona una opción:</p>
-                    <div className='opciones-modal-tablero'> 
+            <div className="modalOnline">
+                <div className="modalOnline-content">
+                    <span className="closeOnline" onClick={closeModal}>&times;</span>
+                    <p>Selecciona una opción para coronar:</p>
+                    <div className='opcionesOnline-modal-tablero'> 
                         <img style={{ width: '50px', height: '50px' }} src={turno === 0 ? `${damaBlanca}` : `${damaNegra}`} onClick={() => { setSelectedOption(turno === 0 ? 'Q' : 'q'); closeModal(); }} alt="Dama" />
                         <img style={{ width: '50px', height: '50px' }} src={turno === 0 ? `${alfilBlanca}` : `${alfilNegra}`} onClick={() => { setSelectedOption(turno === 0 ? 'B' : 'b'); closeModal(); }} alt="Alfil" />
                         <img style={{ width: '50px', height: '50px' }} src={turno === 0 ? `${caballoBlanca}` : `${caballoNegra}`} onClick={() => { setSelectedOption(turno === 0 ? 'N' : 'n'); closeModal(); }} alt="Caballo" />

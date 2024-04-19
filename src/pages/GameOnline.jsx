@@ -1,10 +1,9 @@
 import React, { useEffect, useState , useContext, useCallback} from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/Game.css'
+import '../styles/GameOnline.css'
 import SideBar from '../components/SideBar';
 import MenuIcon from '@mui/icons-material/Menu';
 import FlagIcon from '@mui/icons-material/Flag';
-import SettingsIcon from '@mui/icons-material/Settings';
 import Tooltip from '@mui/material/Tooltip';
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
@@ -14,8 +13,12 @@ import Chat from '../components/Chat.jsx';
 import {SocketContext} from './../context/socket';
 
 function GameOnline({ gameMode, playersInfo }) {
+  const [showSidebar, setShowSidebar] = useState(false); /* Mostrar o esconder el sideBar */
   const socket = useContext(SocketContext);
-
+  const [userArenas, setUserArenas] = useState({
+    elo: 1200,
+    arena: 'MADERA', // Actualizar segun el usuario
+  });
   const navigate = useNavigate();
   const [wantToQuit, setWantToQuit] = useState(false); /* Indica que un jugador quiere abandonar la partida */
   const [gameState, setGameState] = useState({ /* Contiene los diferentes estados de la partida */
@@ -176,19 +179,19 @@ function GameOnline({ gameMode, playersInfo }) {
     return (
       /* Devuelve un cuadro informativo para cada uno de los jugadores */
       <div>
-        <div className="game-info">
-          <div className="game-info-players">
-            <div className="game-info-players-name"> {/* Nombre del jugador y su elo */}
+        <div className="gameOnlineInfo">
+          <div className="gameOnlineInfo players">
+            <div className="gameOnlineInfo players name"> {/* Nombre del jugador y su elo */}
               {nombreJugador} ({eloJugador})
             </div>
-            <div className="game-info-players-token"> {/* Color de la ficha del jugador */}
+            <div className="gameOnlineInfo players color"> {/* Color de la ficha del jugador */}
               {colorFicha}
             </div>
           </div>
-          <div className="game-info-players-timer"> {/* Tiempo restante del jugador */}
+          <div className="gameOnlineInfo timer"> {/* Tiempo restante del jugador */}
             {minutes} : {seconds}
           </div>
-          <div className="game-info-tokenEaten"> {/* Cantidad de fichas comidas por el jugador */}
+          <div className="gameOnlineInfo eaten"> {/* Cantidad de fichas comidas por el jugador */}
             Fichas comidas: {fichasComidas}
           </div>
         </div>
@@ -199,7 +202,7 @@ function GameOnline({ gameMode, playersInfo }) {
   /* Cuadro informativo del modo de juego al que se está jugando */
   const InfoGameMode = ({ GameMode }) => {
     return (
-      <div className="game-mode-info">
+      <div className="pageTitleGameOnline">
         {GameMode} {/* Modo de juego */}
       </div>
     );
@@ -209,20 +212,12 @@ function GameOnline({ gameMode, playersInfo }) {
   const GamePopup = () => {
     return(
       <>
-        {/* Ajustes de partida */}
-        {gameState.showingSettings && 
-          <div className="popup-background">
-            <div className="game-popup">
-              <h1><u>Menú de ajustes de la partida</u></h1>
-            </div>
-          </div>}
-
         {/* Partida pausada */}
         {!gameState.isPlaying && !gameState.surrender &&
-          <div className="popup-background">
-            <div className="game-popup">
+          <div className="gameOnlinePopupBackground">
+            <div className="gameOnlinePopup">
               <h1><u>Se ha pausado la partida</u></h1>
-              <button className="game-popup-button" onClick={handlePause}>
+              <button className="gameOnlinePopupButt" onClick={handlePause}>
                 Reanudar Partida
                 <PlayArrowIcon sx={{
                   color: 'white',
@@ -235,24 +230,24 @@ function GameOnline({ gameMode, playersInfo }) {
 
         {/* Surrender de jugador */}
         {gameState.surrender && 
-          <div className="popup-background">
+          <div className="gameOnlinePopupBackground">
             {gameState.surrender && !gameState.confirmSurrender &&
-              <div className="game-popup">
+              <div className="gameOnlinePopup">
                 <h1><u>¿Estas seguro de que deseas rendirte?</u></h1>
-                <div className="game-popup-button-surrender">
-                  <button className="game-popup-button" onClick={handleConfirmSurrender}>
+                <div className="gameOnlinePopupButtons">
+                  <button className="gameOnlinePopupButt confirm" onClick={handleConfirmSurrender}>
                     Sí
                   </button>
-                  <button className="game-popup-button" onClick={handleSurrender}>
+                  <button className="gameOnlinePopupButt cancel" onClick={handleSurrender}>
                     No
                   </button>
                 </div>
               </div>}
             {gameState.confirmSurrender &&
-              <div className="game-popup">
+              <div className="gameOnlinePopup">
                 <h1><u>¡Te has rendido!</u></h1>
                 <h3>El jugador {playersInfo.opponent} gana</h3>
-                <button className="game-popup-button" onClick={() => navigate('/home')}>
+                <button className="gameOnlinePopupButt" onClick={() => navigate('/home')}>
                   Abandonar partida
                 </button>
               </div>}
@@ -260,13 +255,13 @@ function GameOnline({ gameMode, playersInfo }) {
 
         {/* Jugador se sale de la partida */}
         {gameState.victory && 
-          <div className='popup-background'>
-            <div className='game-popup'>
+          <div className='gameOnlinePopupBackground'>
+            <div className='gameOnlinePopup'>
               <h1>¡Has ganado!</h1>
               {gameState.victoryCause === 'disconnect' ? 
               (<h1>El otro jugador se ha desconectado</h1>) : 
               (<h1>El otro jugador se ha rendido</h1>)}
-              <button className="game-popup-button" onClick={() => navigate('/home')}>
+              <button className="gameOnlinePopupButt" onClick={() => navigate('/home')}>
                 Abandonar partida
               </button>
             </div>
@@ -274,117 +269,107 @@ function GameOnline({ gameMode, playersInfo }) {
 
         {/* El jugador quiere abandonar la partida (mediante el botón del sideBar) */}
         {wantToQuit && playingGame &&
-        <div className="popup-background">
-          <div className="game-popup">
+        <div className="gameOnlinePopupBackground">
+          <div className="gameOnlinePopup">
             <h1><u>¿Seguro que quieres abandonar la partida? </u></h1>
-            <div className="game-popup-button-surrender">
-                <button className="game-popup-button" onClick={() => {handleConfirmSurrender();  navigate('/home')}}>
+            <div className="gameOnlinePopupButtons">
+                <button className="gameOnlinePopupButt confirm" onClick={() => {handleConfirmSurrender();  navigate('/home')}}>
                   Sí
                 </button>
-                <button className="game-popup-button" onClick={() => setWantToQuit(false)}>
+                <button className="gameOnlinePopupButt cancel" onClick={() => setWantToQuit(false)}>
                   No
                 </button>
             </div>
           </div>
         </div>}
         {/* Uno de los jugadores Gana por cualquier otra cosa (jaque mate ...) */}
+
       </>
     );
   }
 
   /* Juego Online */
   return (
-    <div className="game-background">
-      <div className="game-menu">
+    <div className="gameOnlineBackground">
+      <div className={showSidebar ? "sideGameOnline open" : "sideGameOnline"}>
+        {/* sideBar */}
+        <SideBar ingame={playingGame} setWantToQuit={setWantToQuit} setShowSidebar={setShowSidebar}/>
+      </div>
+      <div className="titleGameOnline">
         {/* Botón para desplegar el sidebar */}
-        <button className={!gameState.isMenuVisible ? "game-button-menu" : "game-button-menu hidden"} onClick={() => ToggleMenuVisibility(true)}>
+        <button className={!showSidebar ? "sideMenuButton" : "sideMenuButton hidden"} onClick={() => setShowSidebar(true)}>
           <MenuIcon sx={{
             color: '#fff',
-            backgroundColor: '#312D2D',
+            backgroundColor: 'transparent',
             height: 52,
             width: 52,
           }} />
         </button>
-        {/* Sidebar */}
-        <div className={`sliding-div ${gameState.isMenuVisible ? 'visible' : ''}`}>
-          <SideBar ingame={playingGame} setWantToQuit={setWantToQuit} setShowSidebar={ToggleMenuVisibility}/>
-        </div>
+        {/* Título de la página */}
+        <InfoGameMode GameMode={gameMode} />
       </div>
-      <div className="game-screen">
-        {/* Mensajes en forma de PopUp */}
-        <GamePopup /> 
-        <div className="game-mode"> 
-          {/* Indicador del modo de juego al que se esta jugando */}
-          <InfoGameMode GameMode={gameMode} />
-        </div>
-        <div className="game">
-          <div>
-            {/* Jugador 1 */}
-            <InfoPlayers
-              numJugador='1'
-              nombreJugador={playersInfo.opponent}
-              eloJugador='200'
-              colorFicha='Negras'
-              fichasComidas='0' />
-          </div>
+      <div className="gameOnlineScreen">
+        {/* Útil para centrar el tablero y el chat */}
+{/*         <div className='gameOnlineUselessContaier'>
+          
+        </div> */}
+        <div className="gameOnline">
+          {/* Jugador 1 */}
+          <InfoPlayers
+            numJugador='1'
+            nombreJugador="asd"
+            eloJugador='200'
+            colorFicha='Negras'
+            fichasComidas='0' />
           {/* Tablero */}
-          <TableroOnline blancasAbajo={colorSuffix.toString()==='0'} tableroUpdate={tableroUpdate} setTableroEnviar={setTableroEnviar} pauseTimer1={pauseTimer1} pauseTimer2={pauseTimer2} />
-          <div>
-            {/* Jugador 2 */}
-            <InfoPlayers
-              numJugador='2'
-              nombreJugador={playersInfo.me}
-              eloJugador='200'
-              colorFicha='Blancas'
-              fichasComidas='0' />
+          <div className='tableroGameOnline'>
+            <GamePopup /> {/* Mensajes en forma de PopUp */}
+            <TableroOnline blancasAbajo={colorSuffix.toString()==='0'} tableroUpdate={tableroUpdate} setTableroEnviar={setTableroEnviar} pauseTimer1={pauseTimer1} pauseTimer2={pauseTimer2} arena={userArenas.arena} />
           </div>
+          {/* Jugador 2 */}
+          <InfoPlayers
+            numJugador='2'
+            nombreJugador="asd"
+            eloJugador='200'
+            colorFicha='Blancas'
+            fichasComidas='0' />
         </div>
-      </div>
-      <div className="game-chat-box">
-        {/* Chat de la partida */}
-        <div className="game-chat">
-          <Chat socket={socket} roomId={roomId}/>
-        </div>
-        {/* Botones de opciones para la partida */}
-        <div className="game-options">
-          {/* Botón de rendición */}
-          <button className="game-options-button" onClick={handleSurrender} disabled={gameState.confirmSurrender}>
-            <Tooltip title="Rendirse">
-              <FlagIcon sx={{
-                color: 'white',
-                height: 42,
-                width: 42
-              }} />
-            </Tooltip>
-          </button>
-          {/* Botón para parar o reanudar la partida */}
-          <button className="game-options-button" onClick={handlePause} disabled={gameState.surrender || gameState.confirmSurrender}>
-            {gameState.isPlaying ? 
-              (<Tooltip title="Pausar partida">
-                <PauseIcon sx={{
+        <div className='gameOnlineChatContainer'>
+          {/* Chat de la partida */}
+          <div className="gameOnlineChat">
+            <Chat socket={socket} roomId={roomId}/>
+          </div>
+          {/* Botones de opciones para la partida */}
+          <div className="gameOnlineOptions">
+            {/* Botón de rendición */}
+            <button className="gameOnlineOptionsButton" onClick={handleSurrender} disabled={gameState.confirmSurrender}>
+              <Tooltip title="Rendirse">
+                <FlagIcon sx={{
                   color: 'white',
-                  width: 42,
-                  height: 42
+                  height: 42,
+                  width: 42
                 }} />
-              </Tooltip> )  : 
-              (<Tooltip title="Reanudar partida">
-                <PlayArrowIcon sx={{
-                  color: 'white',
-                  width: 42,
-                  height: 42
-                }} />
-              </Tooltip>)}
-          </button>
-          {/* Botón de ajustes de la partida */}
-          <button className="game-options-button"  onClick={handleSettings}  disabled={gameState.surrender || gameState.confirmSurrender}>
-            <Tooltip title="Ajustes">
-              <SettingsIcon sx={{
-                color: 'white',
-                height: 42,
-                width: 42
-              }} />
-            </Tooltip>
-          </button>
+              </Tooltip>
+            </button>
+            {/* Botón para parar o reanudar la partida */}
+            <button className="gameOnlineOptionsButton" onClick={handlePause} disabled={gameState.surrender || gameState.confirmSurrender}>
+              {gameState.isPlaying ? 
+                (<Tooltip title="Pausar partida">
+                  <PauseIcon sx={{
+                    color: 'white',
+                    width: 42,
+                    height: 42
+                  }} />
+                </Tooltip> )  : 
+                (<Tooltip title="Reanudar partida">
+                  <PlayArrowIcon sx={{
+                    color: 'white',
+                    width: 42,
+                    height: 42
+                  }} />
+                </Tooltip>)}
+            </button>
+          </div>
         </div>
       </div>
     </div>

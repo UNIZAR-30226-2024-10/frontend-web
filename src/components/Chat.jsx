@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import './../styles/Chat.css'
 import { SocketContext } from './../context/socket';
+import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 
 function Chat({ roomId }) {
   const socket = useContext(SocketContext);
@@ -8,6 +9,8 @@ function Chat({ roomId }) {
   const [message, setMessage] = useState([]); /* Lista de mensajes enviados y recibidos */
   const inputRef = useRef(null); /* Referencia sobre el input*/
   const chatContainerRef = useRef(null); /* Referencia sobre los mensajes enviados y recibidos */
+  const [showEmotes, setShowEmotes] = useState(false);
+  const avaliableEmotes = ['😁️','😂️','👍️','😲️'];
 
   useEffect(() => {
     /* Se recibe un mensaje del servidor */
@@ -45,6 +48,21 @@ function Chat({ roomId }) {
     }
   };
 
+  const sendEmote = (emote) => {
+
+    const newMessage = {
+      body: emote,  // Contenido del mensaje
+      from: 'Me' // Emisor del mensaje
+    };
+    
+    console.log("valor a enviar",emote);
+    /* Envio del mensaje al servidor */
+    if (emote) {
+      setMessage([...message, newMessage]); // Añade el nuevo mensaje a la lista de mensajes
+      socket.emit('chat message', { roomId: roomId, body: emote, from: socket.id }); // Envía el mensaje creado a través del socket con un evento de tipo 'chat message' 
+      setValue(''); // Vacia el buffer de mensajes escritos
+    }
+  }
   /* Añade el mensaje recibido a la lista de mensajes */
   function receiveMessage(msg) {
     setMessage(state => [...state, msg]);
@@ -61,8 +79,19 @@ function Chat({ roomId }) {
           </li>
         ))}
       </ul>
+      {<div className={`envioEmotes ${showEmotes ? '' : 'hidden'}`}>
+       {showEmotes && avaliableEmotes.map((emote,index) => (
+          <button type="button" key={index} className="selectEmote" onClick={() => {sendEmote(emote)}}>{emote}</button>
+        ))}
+      </div>}
       {/* Input para escribir mensajes */}
       <form onSubmit={handleSubmit} className="form">
+        <button className="chatEmojis" type="button" onClick={() => setShowEmotes(!showEmotes)}>
+          <EmojiEmotionsIcon sx={{
+            color: 'white',
+            bgcolor: 'transparent'
+          }}/>
+        </button>
         <input className="input"
           type="text" 
           placeholder="Escribe un mensaje" 
@@ -71,7 +100,7 @@ function Chat({ roomId }) {
           onChange={(e) => setValue(e.target.value)} /* Se construye el mensaje a enviar */
         />
         {/* Botón para enviar mensajes */}
-        <button type="submit">Enviar</button>
+        <button type="submit" className="sendButton">Enviar</button>
       </form>
     </div>
   );

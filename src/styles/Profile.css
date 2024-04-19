@@ -45,9 +45,21 @@
 }
 
 .avatar-button.selected {
-  background-color: limegreen;
+  background-color: lime;
 }
 
 .avatar-button:hover{
   background-color: rgb(214, 213, 212);
+}
+
+/* Gestión de componentes según el tamaño de la ventana */
+@media only screen and (max-width: 700px) {
+  .profile-settings {
+    display: none;
+  }
+}
+@media only screen and (max-height: 590px) {
+  .profile-settings {
+    display: none;
+  }
 }

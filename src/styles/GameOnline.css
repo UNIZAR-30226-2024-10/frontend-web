@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Anta&display=swap');
 
 /* Fondo */
-.gameBackground {
+.gameOnlineBackground {
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -11,7 +11,7 @@
 }
 
 /* Formato del sidebar cuando está cerrado */
-.sideGame {
+.sideGameOnline {
   position: fixed;
   z-index: 999;
   top: 0;
@@ -21,11 +21,11 @@
   transition: left 0.7s ease;
 }
 /* Formato del sidebar cuando está abierto */
-.sideGame.open {
+.sideGameOnline.open {
   left: 0;
 }
 
-.titleGame {
+.titleGameOnline {
   width: 100%;
   height: 10%;
   position: relative;
@@ -59,9 +59,9 @@
   visibility: visible;
   transform: translate(30px, 30px);
   background-color: transparent;
-  opacity: 0; /* Opacity when hidden */
+  opacity: 0; 
 }
-.pageTitleGame {
+.pageTitleGameOnline {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -77,22 +77,23 @@
   border-radius: 8px;
 }
 
-/* Formato para situar el tablero y los cuadros informativos */
-.game {
+/*Juego */
+.gameOnlineScreen {
   width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+.gameOnline {
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow-y: auto;
 }
-.gameScreen {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.tableroGame {
+.tableroGameOnline {
   width: 100%;
   height: 100%;
   display: flex;
@@ -100,14 +101,94 @@
   justify-content: center;
   position: relative;
 }
-.gameComponents {
+
+/* Información de la partida */
+.gameOnlineInfo {
+  width: 42vw;
+  margin: 5px;
+  border: solid 1px white;
+  color: white;
+  font-size: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  background-color: #7ca15a;
+  transition: width 0.5s ease;
+}
+.gameOnlineInfo.players {
+  width: 35%;
+  height: 100%;
+  border: none;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+}
+.gameOnlineInfo.players.name {
+  width: 100%;
+  font-weight: bolder;
+}
+.gameOnlineInfo.players.color {
+  width: 100%;
+  font-size: 16px;
+}
+.gameOnlineInfo.timer {
+  width: 30%;
+  font-weight: bold;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.gameOnlineInfo.eaten{
+  width: 35%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Chat del juego */
+.gameOnlineChatContainer {
+  width: 30%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  justify-content: center;
+  /* background-color: rebeccapurple; */
+}
+.gameOnlineChat {
+  width: 22vw;
+  height: 70vh;
+  border: solid 4px black;
+  border-radius: 8px;
+}
+
+/* Div inútil para centrar tablero y chat */
+.gameOnlineUselessContaier {
+  width: 25%;
+  height: 100%;
+}
+
+/* Opciones de la partida */
+.gameOnlineOptions {
+  width: 22vw;
+  display: flex;
+  flex-direction: row;
+}
+
+.gameOnlineOptionsButton {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: #FFFFFF;
+  font-size: 20px;
 }
 
 /* PopUps */
-.gamePopupBackground {
+.gameOnlinePopupBackground {
   background-color: transparent;
   position: fixed;
   z-index: 999;
@@ -117,7 +198,7 @@
   align-items: center;
   justify-content: center;
 }
-.gamePopup {
+.gameOnlinePopup {
   width: 600px;
   height: 300px;
   border: solid 2px black;
@@ -132,116 +213,94 @@
 }
 
 /* Botones de los popUps */
-.gamePopupButtons {
+.gameOnlinePopupButtons {
   width: 60%;
   display: flex;
   align-items: center;
   justify-content: space-around;
 }
-.gamePopupButt {
-  width: 125px;
+.gameOnlinePopupButt {
+  width: 250px;
   height: 50px;
   color: white;
   font-size: 24px;
   border-radius: 8px;
   font-weight: bolder;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: #506C64;
   transition: 0.4s ease;
 }
-.gamePopupButt.confirm:hover {
+.gameOnlinePopupButt.confirm {
+  width: 125px;
+}
+.gameOnlinePopupButt.cancel {
+  width: 125px;
+}
+.gameOnlinePopupButt.confirm:hover {
   background-color: rgb(196, 5, 5);
 }
-.gamePopupButt.cancel:hover {
+.gameOnlinePopupButt.cancel:hover {
   background-color: lime;
-}
-
-/* Información de la partida */
-.gameInfo {
-  width: 42vw;
-  margin: 5px;
-  border: solid 1px white;
-  color: white;
-  font-size: 20px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  background-color: #7ca15a;
-  transition: width 0.5s ease;
-  /* overflow: auto; */
-}
-.gameInfo.players {
-  width: 35%;
-  height: 100%;
-  border: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.gameInfo.players.name {
-  width: 100%;
-  font-weight: bolder;
-}
-.gameInfo.players.color {
-  width: 100%;
-  font-size: 16px;
-}
-.gameInfo.timer {
-  width: 30%;
-  font-weight: bold;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.gameInfo.eaten{
-  width: 35%;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 /* Gestión de componentes según el tamaño de la ventana */
 @media only screen and (max-width: 1400px) {
-  .gameInfo {
+  .gameOnlineInfo {
     width: 50vw;
   }
 }
 @media only screen and (max-width: 1000px) {
-  .gameInfo {
+  .gameOnlineInfo {
     width: 65vw;
   }
 }
 @media only screen and (max-width: 700px) {
-  .gameInfo {
+  .gameOnlineInfo {
     width: 75vw;
   }
 } 
 @media only screen and (max-width: 600px) {
-  .gameInfo {
+  .gameOnlineInfo {
     width: 85vw;
   }
 }
-@media only screen and (max-width: 515px) {
-  .gameInfo {
+@media only screen and (max-width: 700px) {
+  .gameOnline {
+    width: 100vw;
+  }
+  .gameOnlineChatContainer {
+    display: none;
+  }
+}
+@media only screen and (max-width: 500px) {
+  .gameOnline {
+    display: none;
+  }
+    .gameOnlineInfo {
     display: none;
   }
 }
 @media only screen and (max-width: 450px) {
-  .pageTitleGame {
+  .pageTitleGameOnline {
     display: none;
   }
 }
 
 @media only screen and (max-height: 725px){
-  .gameInfo {
+  .gameOnlineInfo {
     display: none;
   }
 }
 @media only screen and (max-height: 780px){
-  .pageTitleGame {
+  .pageTitleGameOnline {
+    display: none;
+  }
+}
+@media only screen and (max-height: 610px) {
+  .gameOnlineChatContainer {
     display: none;
   }
 }
