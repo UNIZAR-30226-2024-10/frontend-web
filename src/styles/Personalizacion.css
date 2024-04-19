@@ -159,6 +159,9 @@
 .listadoPiezas:hover {
   background-color: #c5c0c091;
 }
+.listadoPiezas.locked {
+  cursor: not-allowed;
+}
 .listadoPiezas.selected {
   border: solid 2px lime;
 }
@@ -193,6 +196,9 @@
 }
 .listadoEmotes:hover {
   background-color: #c5c0c091;
+}
+.listadoEmotes.locked {
+  cursor: not-allowed;
 }
 .listadoEmotes.selected {
   border: solid 2px lime;
