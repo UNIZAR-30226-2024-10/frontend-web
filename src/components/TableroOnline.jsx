@@ -100,6 +100,8 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
                           movsPosiblesIni[key].push([7 - movimiento.y, movimiento.x]);
                       });
                   }
+              }else if(pieza==='jaque'){
+                //pasalo
               }else{
               json.allMovements[pieza].forEach((movimientos) => {
                   let newX=0;
