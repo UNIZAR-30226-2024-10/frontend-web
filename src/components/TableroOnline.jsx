@@ -220,6 +220,10 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
               console.log(parseRes.allMovements);
               setMovsPosibles(transformarMovimientos(parseRes));
               return true;
+            }else if(parseRes["Jaque mate"]===true){
+              console.log("ha ganado, ", turno)
+              return true;
+
             }
             else { //La jugada no es legal
               console.log('ERROR: Jugada no legal. Deja al rey en mate.');

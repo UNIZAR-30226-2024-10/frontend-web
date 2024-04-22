@@ -12,7 +12,7 @@ import torreNegra from '../images/pieces/cburnett/bR.svg'
 import torreBlanca from '../images/pieces/cburnett/wR.svg'
 
 
-const Tablero = ({pauseTimer1, pauseTimer2, arena}) => {
+const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory}) => {
     const gridStyle = {
         display: 'grid',
     };
@@ -221,7 +221,18 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena}) => {
               console.log(movsPosibles)
               // console.log(movsPosibles)
               return true;
-            }else { //La jugada no es legal
+            }else if(parseRes["Jaque mate"]===true){
+              console.log("ha ganado, ", turno)
+                setVictory(prevState => ({
+                  ...prevState,
+                  victory: true,
+                  victoryCause: 'jaque',
+                  ganador:turno
+                }));
+              return true;
+
+            }
+            else { //La jugada no es legal
               console.log('ERROR: Jugada no legal. Deja al rey en mate.');
 
               return false;

@@ -335,7 +335,7 @@ function GameOnline({ gameMode, playersInfo }) {
           {/* Tablero */}
           <div className='tableroGameOnline'>
             <GamePopup /> {/* Mensajes en forma de PopUp */}
-            <TableroOnline blancasAbajo={colorSuffix.toString()==='0'} tableroUpdate={tableroUpdate} setTableroEnviar={setTableroEnviar} pauseTimer1={pauseTimer1} pauseTimer2={pauseTimer2} arena={userArenas.arena} />
+            <TableroOnline blancasAbajo={colorSuffix.toString()==='0'} tableroUpdate={tableroUpdate} setTableroEnviar={setTableroEnviar} pauseTimer1={pauseTimer1} pauseTimer2={pauseTimer2} arena={userArenas.arena}/>
           </div>
           {/* Jugador 2 */}
           <InfoPlayers
