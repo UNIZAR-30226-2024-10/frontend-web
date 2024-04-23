@@ -88,3 +88,9 @@
     display: none;
   }
 }
+.error-message {
+  background-color: rgb(214, 33, 33);
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 14px;
+}

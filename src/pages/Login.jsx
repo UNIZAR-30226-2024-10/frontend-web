@@ -18,29 +18,40 @@ function Login() {
   const labelColorStyle = {
     color: 'white',
   };
+  const [error, setError] = useState('');
 
   const handleLogin = async () => {
-    navigate('/home');
     try {
       const response = await fetch(`${apiUrl}/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ nombre:username, contraseña:password }),
+        body: JSON.stringify({ nombre: username, contraseña: password }),
+        timeout: 10000, // Tiempo de espera de 10 segundos (10000 milisegundos)
       });
-
+      const parseRes = await response.json();
+      console.log(parseRes)
       if (response.ok) {
-        // Si la solicitud es exitosa, redirige a la página de inicio
         navigate('/home');
       } else {
-        // Si la solicitud falla, muestra un mensaje de error
-        console.error('Error al iniciar sesión');
+        if (response.status === 401) {
+          setError('Usuario o contraseña incorrectos');
+        } else {
+          setError('Error desconocido, por favor intenta de nuevo');
+        }
       }
     } catch (error) {
       console.error('Error de red:', error);
+      if (error instanceof TypeError && error.message === 'Failed to fetch') {
+        setError('Error de red: No se pudo conectar al servidor');
+      } else {
+        setError('Error de red, por favor intenta de nuevo');
+      }
     }
   };
+
+
 
   return (
     <div className='mainContainerLogin'>
@@ -106,6 +117,10 @@ function Login() {
             />
           </Box>
           {/* Botón para proceder al login */}
+          {/* Mostrar mensaje de error */}
+          {error && (
+            <p className="error-message">{error}</p>
+          )}
           <Button
             variant="contained"
             onClick={handleLogin}
