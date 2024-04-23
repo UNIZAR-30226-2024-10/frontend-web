@@ -10,6 +10,9 @@ import alfilNegra from '../images/pieces/cburnett/bB.svg'
 import alfilBlanca from '../images/pieces/cburnett/wB.svg'
 import torreNegra from '../images/pieces/cburnett/bR.svg'
 import torreBlanca from '../images/pieces/cburnett/wR.svg'
+import { json } from 'react-router-dom';
+import AMatriz from './AMatriz';
+
 
 
 const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory}) => {
@@ -166,14 +169,6 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory}) => {
     // minúsculas: negras
     // mayúsculas: blancas
     const matrizIni = [
-/*         ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
-        ['p', 'p', 'p', 'p', '', 'p', 'p', 'p'],
-        ['' , '' , '' , 'p' ,'' , '' , '' , '' ],
-        ['' , '' , '' , '' ,'Q' , '' , '' , '' ],
-        ['' , '' , 'B' , '' ,'P' , '' , '' , '' ],
-        ['' , '' , '' , '' ,'' , '' , '' , '' ],
-        ['P', 'P', 'P', 'P', '', 'P', 'P', 'P'],
-        ['R', 'N', 'B', '', '', '', 'N', 'R'], */
         ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
         ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
         ['' , '' , '' , '' ,'' , '' , '' , '' ],
