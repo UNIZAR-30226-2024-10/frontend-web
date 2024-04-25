@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import { Tooltip, Typography } from '@mui/material';
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function SignUp() {
+function SignUp({ updateUserInfo }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -34,6 +34,7 @@ function SignUp() {
 
       if (response.ok) {
         // Si la solicitud es exitosa, redirige a la página de inicio
+        updateUserInfo({ field : "loggedIn", value : true});
         navigate('/home');
       } else {
         // Si la solicitud falla, muestra un mensaje de error

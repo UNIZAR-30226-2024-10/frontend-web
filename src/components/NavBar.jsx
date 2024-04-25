@@ -5,10 +5,10 @@ import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
-function Navbar ({ updateUserProfileVisibility, avatar }) {
+function Navbar ({ updateUserProfileVisibility, avatar, userInfo, updateUserInfo }) {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null); /* Hook para controlar si el menu es visible o no */
-  const [loggedIn, setLoggedIn] = React.useState(true); /* Hook para controlar si el usuario ha iniciado sesión o no */
+  //const [loggedIn, setLoggedIn] = React.useState(false); /* Hook para controlar si el usuario ha iniciado sesión o no */
   const open = Boolean(anchorEl);
 
   /* Abrir el menú */
@@ -26,7 +26,8 @@ function Navbar ({ updateUserProfileVisibility, avatar }) {
   }
   /* Cerrar sesión */
   const handleCloseSesion = () => {
-    setLoggedIn(false);
+    /* setLoggedIn(false); */
+    updateUserInfo({ field : "loggedIn", value : false});
     setAnchorEl(null);
   }
 
@@ -64,7 +65,7 @@ function Navbar ({ updateUserProfileVisibility, avatar }) {
           ChessHub
         </div>
         <div>
-          {loggedIn ? ( // Aquí comprobamos si el usuario está autenticado
+          {userInfo.loggedIn ? ( // Aquí comprobamos si el usuario está autenticado
             <>
               <button className='navbar-user-button'
                 onClick={handleClick} 

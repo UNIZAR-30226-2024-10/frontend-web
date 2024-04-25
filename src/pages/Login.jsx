@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import { Tooltip } from '@mui/material';
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function Login() {
+function Login({ updateUserInfo }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -33,6 +33,7 @@ function Login() {
       const parseRes = await response.json();
       console.log(parseRes)
       if (response.ok) {
+        updateUserInfo({ field : "loggedIn", value : true});
         navigate('/home');
       } else {
         if (response.status === 401) {

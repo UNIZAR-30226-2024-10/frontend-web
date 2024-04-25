@@ -67,3 +67,24 @@ export const PlayersInGame = () => {
     updatePlayersInGame,
   };
 }
+
+/* Hook para información acerca del usuario */
+export const UserInfo = () => {
+  const [userInfo, setUserInfo] = useState({
+    /* Información a guardar de cada usuario */
+    loggedIn : false,
+    userName : '',
+  });
+  const updateUserInfo = (data) => {
+    setUserInfo(prevState => ({
+      /* Modifica solo el campo campo indicado con el valor indicado */
+      ...prevState,
+      [data.field] : data.value,
+    }));
+  }
+
+  return {
+    userInfo,
+    updateUserInfo,
+  }
+}
