@@ -175,6 +175,8 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory}) => {
     ]
     const [tablero, setTablero] = useState(matrizIni)
 
+    //Matriz que indica si una casilla es alcanzable por la pieza seleccionada 
+    const [alcanzables, setAlcanzables] = useState(['', '', '', '', '', '', '', ''].map(() => ['', '', '', '', '', '', '', ''])) //8x8
 
     //Coordenadas de la pieza seleccionada
     const [piezaSel, setPiezaSel] = useState(null)
@@ -240,6 +242,22 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory}) => {
     const [Y, setY] = useState(null);
     const [oldX, setOldX] = useState(null);
     const [oldY, setOldY] = useState(null);
+
+    //SE SELECCIONA UNA PIEZA NUEVA
+    useEffect(() => {
+        if (piezaSel) { //Si se ha seleccionado una pieza
+            const newAlcanzables = ['', '', '', '', '', '', '', ''].map(() => ['', '', '', '', '', '', '', '']) //8x8
+            const filSel = piezaSel.fila
+            const colSel = piezaSel.col
+            const alcanzables = movsPosibles['['+filSel+'-'+colSel+']'] 
+            if (alcanzables) {
+                alcanzables.forEach(([x, y]) => {
+                    newAlcanzables[x][y] = 's'; //una 's' en las casillas alcanzables por la pieza seleccionada
+                });
+                setAlcanzables(newAlcanzables);
+            }
+        }
+    }, [piezaSel])
 
     //OCURRE UN MOVIMIENTO
     useEffect(() => {
@@ -342,14 +360,13 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory}) => {
                         <Casilla 
                             key={`${rowIndex}-${colIndex}`} // Add unique key prop here
                             tablero={tablero}
+                            alcanzables={alcanzables}
                             rowIndex={rowIndex} 
                             colIndex={colIndex} 
                             piezaSel={piezaSel} 
                             setPiezaSel={setPiezaSel}
                             movsPosibles={movsPosibles}
-                            mov={movimiento} 
                             setNewMov={setNewMov}
-                            turno={turno}
                             blancasAbajo={true}
                             arena={arena}
                         />
