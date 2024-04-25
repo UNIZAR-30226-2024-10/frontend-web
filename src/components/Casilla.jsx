@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import '../styles/Casilla.css'
 
@@ -78,6 +78,8 @@ const Casilla = (args) => {
                 return <img style={imagen} src={require('../images/pieces/cburnett/bK.svg').default} alt='Descripción de la pieza' />
             case 'K':
                 return <img style={imagen} src={require('../images/pieces/cburnett/wK.svg').default} alt='Descripción de la pieza' />
+            case 'Punto':
+                return <img style={imagen} src={require('../images/punto.svg').default} alt='Descripción de la pieza' />
             default:
                 return <img style={imagen} src={require('../images/pieces/Empty.svg').default} alt='Descripción de la pieza' />
 
@@ -96,7 +98,6 @@ const Casilla = (args) => {
     const handleClick = () => {
         // console.log( args.tablero[mFila][mCol]);
         // console.log("soy "+mFila + " col "+ mCol );
-        
         //Si soy una casilla con una pieza seleccionable y me seleccionan cambio piezaSel
         if (args.tablero[mFila][mCol] !== '' && '['+mFila+'-'+mCol+']' in args.movsPosibles && args.piezaSel===null
         && ((args.tablero[mFila][mCol] === args.tablero[mFila][mCol].toUpperCase() && args.turno === 0) ||
@@ -125,7 +126,16 @@ const Casilla = (args) => {
             }
         }
     }
-
+        const [hasPossibleMove, setHasPossibleMove] = useState(false);
+    useEffect(() =>{
+      if(args.piezaSel){
+        const clave = '['+args.piezaSel.fila+'-'+args.piezaSel.col+']';
+        if (args.movsPosibles[clave].some(([fila, col]) => fila === mFila && col === mCol)) {
+            console.log(`[${mFila}-${mCol}] está en args.movsPosibles[${clave}]`);
+            setHasPossibleMove(true)
+        }
+      }
+    },[args.piezaSel])
     
     return (
         <button 
@@ -138,6 +148,7 @@ const Casilla = (args) => {
                 transform: !args.blancasAbajo ? 'rotate(180deg)' : 'none' // Aplica rotación si blancasAbajo es true
             }} // Aplicar dinámicamente el color de la casilla
         >       {char2Src(args.tablero[mFila][mCol])}
+
         </button>
      );
 }
