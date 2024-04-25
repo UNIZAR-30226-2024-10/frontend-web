@@ -4,18 +4,7 @@ import '../styles/Casilla.css'
 
 const Casilla = (args) => {
 
-    /* const BLANCO = '#ADF597'
-    const NEGRO = '#2E960F' */ 
-    /* const BLANCO = '#8B4513' // Madera
-    const NEGRO = '#D2B48C' */  
-    /* const BLANCO = '#f5f5f5' // Mármol
-    const NEGRO = '#B8B8B8' */
-    /* const BLANCO = '#FFEA70' // Oro
-    const NEGRO = '#F5D000' */ 
-    /* const BLANCO = '#50C878' // Esmeralda
-    const NEGRO = '#38A869'  */
-    // let BLANCO = '#F0F0F0' // Diamante
-    // let NEGRO = '#B0E0E6' 
+    // Definir los colores de las casillas según la arena seleccionada
     let BLANCO, NEGRO;
     switch (args.arena) {
         case 'Madera':
@@ -96,46 +85,27 @@ const Casilla = (args) => {
      * Maneja el evento de clic para la casilla.
      */
     const handleClick = () => {
-        // console.log( args.tablero[mFila][mCol]);
-        // console.log("soy "+mFila + " col "+ mCol );
+        
         //Si soy una casilla con una pieza seleccionable y me seleccionan cambio piezaSel
-        if (args.tablero[mFila][mCol] !== '' && '['+mFila+'-'+mCol+']' in args.movsPosibles && args.piezaSel===null
-        && ((args.tablero[mFila][mCol] === args.tablero[mFila][mCol].toUpperCase() && args.turno === 0) ||
-        args.tablero[mFila][mCol] === args.tablero[mFila][mCol].toLowerCase() && args.turno === 1)){
+        if ('['+mFila+'-'+mCol+']' in args.movsPosibles){
+
             console.log('piezaSel: ', mFila, ',', mCol)
             args.setPiezaSel({fila: mFila, col: mCol})
         } else {
-          if (args.piezaSel!==null ){ //Si piezaSel esta definida (hay una pieza seleccionada)
-            if(args.tablero[mFila][mCol] !== '' && ((args.tablero[mFila][mCol] === args.tablero[mFila][mCol].toUpperCase() && args.turno === 0)
-            || (args.tablero[mFila][mCol] === args.tablero[mFila][mCol].toLowerCase() && args.turno === 1))){
-              // console.log('nuevopiezaSel: ', mFila, ',', mCol)
-              // console.log("turno y emas, ", args.tablero[mFila][mCol], "   ", args.turno)
-              args.setPiezaSel({fila:mFila, col:mCol});
-            }else{
+          if (args.piezaSel!==null){ //Si hay una pieza seleccionada
+              //Se comprueba si esta casilla esta entre movs posibles de la pieza seleccionada, si lo esta setNewMov
               const filaSel = args.piezaSel.fila
               const colSel = args.piezaSel.col
-              //Se comprueba si esta casilla esta entre movs posibles de la pieza seleccionada
               const soyMovPosible = args.movsPosibles['['+filaSel+'-'+colSel+']'].some(
                   (element) => element[0] === mFila && element[1] === mCol
               );
               if (soyMovPosible) {
                   args.setNewMov({fila: mFila, col: mCol})
               }
-            }
-                
-            }
+            }  
         }
     }
-        const [hasPossibleMove, setHasPossibleMove] = useState(false);
-    useEffect(() =>{
-      if(args.piezaSel){
-        const clave = '['+args.piezaSel.fila+'-'+args.piezaSel.col+']';
-        if (args.movsPosibles[clave].some(([fila, col]) => fila === mFila && col === mCol)) {
-            console.log(`[${mFila}-${mCol}] está en args.movsPosibles[${clave}]`);
-            setHasPossibleMove(true)
-        }
-      }
-    },[args.piezaSel])
+
     
     return (
         <button 
