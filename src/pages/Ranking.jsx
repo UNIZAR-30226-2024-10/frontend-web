@@ -4,6 +4,8 @@
   import SideBar from '../components/SideBar';
   import MenuIcon from '@mui/icons-material/Menu';
   import TablaRanking from "../components/TablaRanking";
+  import Alert from '@mui/material/Alert';
+
   const apiUrl = process.env.REACT_APP_API_URL;
 
 
@@ -52,6 +54,7 @@ function Ranking() {
           <div>{data && <TablaRanking data={data.bullet} modalidad={'Bullet'}/>}</div>
           <div>{data && <TablaRanking data={data.rapid} modalidad={'Rapid'}/>}</div>
           <div>{data && <TablaRanking data={data.blitz} modalidad={'Blitz'}/>}</div>
+          <div>{data===null && <Alert severity="error">API inaccesible.</Alert>}</div>
         </div>
       </div>
       
