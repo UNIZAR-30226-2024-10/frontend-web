@@ -157,7 +157,6 @@
   justify-content: center;
   align-items: center;
   justify-content: center;
-  /* background-color: rebeccapurple; */
 }
 .gameOnlineChat {
   width: 22vw;
@@ -186,8 +185,8 @@
   background-color: transparent;
   position: fixed;
   z-index: 999;
-  width: 100%;
-  height: 100%;
+  /* width: 100%;
+  height: 100%; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -195,6 +194,8 @@
 .gameOnlinePopup {
   width: 600px;
   height: 300px;
+/*   width: 35vw;
+  height: 34vh; */
   border: solid 2px black;
   border-radius: 16px;
   box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.63);

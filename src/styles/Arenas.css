@@ -129,6 +129,39 @@
   pointer-events: none; /* Ensures the message doesn't interfere with mouse events */
 }
 
+.arenasContentShowing {
+  /* background-color: rebeccapurple; */
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Mensaje de puntos del usuario */
+.infoPuntosArenas {
+  padding: 6px 10px;
+  border-radius: 4pc;
+  border: solid 2px white;
+  background-color: transparent;
+}
+
+/* Boton con el que se selecciona el contenido a mostrar (fichas o emoticonos) */
+.contenidoButtonArenas {
+  height: 50px;
+  width: 100px;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+  padding: 4px 8px;
+  border: none;
+  margin-left: 5px;
+  border-radius: 8px;
+  background-color: #ff8e0d;
+}
+.contenidoButtonArenas.selected {
+  text-decoration: underline;
+}
+
 /* Listado de las arenas */
 .lista-arenas {
   position: relative;

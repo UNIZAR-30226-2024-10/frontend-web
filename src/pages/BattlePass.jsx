@@ -110,7 +110,7 @@ function BattlePass() {
         <div className="battlePass-container center">
           {/* Puntos disponibles del usuario */}
           <div>
-            <h2 className="infoPuntos">Puntos de recompensa disponibles: {userBattlePass.points}</h2>
+            <h2 className="infoPuntos">Puntos de recompensa: {userBattlePass.points}</h2>
           </div>
           {/* Recompensas */}
           <div className="recompensas">
