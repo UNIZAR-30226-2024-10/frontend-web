@@ -1,14 +1,14 @@
-
-import React, { useState } from 'react';
-import '../styles/SignUp.css';
+import React from "react";
+import { useState } from "react";
+import '../styles/EditCredentials.css';
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { Tooltip, Typography } from '@mui/material';
+import { Tooltip } from '@mui/material';
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function SignUp({ updateUserInfo }) {
+function EditCredentials () {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -21,43 +21,25 @@ function SignUp({ updateUserInfo }) {
     color: 'white',
   };
 
-  const handleSignUp = async () => {
-    try {
-      const response = await fetch(`${apiUrl}/users/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ nombre:username, contraseña:password, correoElectronico:email}),
-      });
+  /* Gestión del cambio de credenciales */
+  const handleCredentials = () => {
 
-      if (response.ok) {
-        // Si la solicitud es exitosa, redirige a la página de inicio
-        updateUserInfo({ field : "loggedIn", value : true});
-        navigate('/home');
-      } else {
-        // Si la solicitud falla, muestra un mensaje de error
-        console.error('Error al registrarse');
-      }
-    } catch (error) {
-      console.error('Error de red:', error);
-    }
-  };
+  }
 
-  return (
-    <div className='mainContainerSignup'>
-      <div className='wrapperSignup'>
+  return(
+    <div className='mainContainerCredentials'>
+      <div className='wrapperCredentials'>
         <div>
           {/* Botón para volver al menú principal */}
-          <button className='titleButtonSignup' onClick={handleClick}>
+          <button className='titleButtonCredentials' onClick={handleClick}>
             {/* Hint para el botón */}
             <Tooltip title="Volver al menú principal">
-              <h1 className='titleSignup'>ChessHub</h1>
+              <h1 className='titleCredentials'>ChessHub</h1>
             </Tooltip>
           </button>
         </div>
-        <div className="formSignup">
-          <h3 className='formTitleSignup'><u>Crear Cuenta</u></h3>
+        <div className="formCredentials">
+          <h3 className='formTitleCredentials'><u>Modificar credenciales</u></h3>
           {/* Input para el nombre de usuario */}
           <Box
             component="form"
@@ -155,10 +137,10 @@ function SignUp({ updateUserInfo }) {
               onChange={(e) => setSegundaPassword(e.target.value)}
             />
           </Box>
-          {/* Botón para proceder al signup */}
+          {/* Botón para proceder al Credentials */}
           <Button 
             variant="contained" 
-            onClick={handleSignUp} 
+            onClick={handleCredentials} 
             sx={{ padding: '10px 40px' ,
             fontSize: '16px', 
             bgcolor: '#F77F00',
@@ -166,7 +148,7 @@ function SignUp({ updateUserInfo }) {
             }}
             color='warning'
           >
-            Registrarse
+            Modificar Credenciales
           </Button>
         </div>
       </div>
@@ -174,4 +156,4 @@ function SignUp({ updateUserInfo }) {
   );
 }
 
-export default SignUp;
+export default EditCredentials;

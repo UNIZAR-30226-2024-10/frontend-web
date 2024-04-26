@@ -6,7 +6,7 @@
   position: relative;
   border-radius: 4px;
   /* background-color: blue; */
-  background: linear-gradient(to bottom left, #494849, #161616);
+  /* background: linear-gradient(to bottom left, #494849, #161616); */
 }
 
 .profile-close-button{
@@ -25,7 +25,7 @@
   margin: 45px;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(to left, #faaf40, #ee4336);
+  /* background: linear-gradient(to left, #faaf40, #ee4336); */
 }
 
 .avatar-selector{
@@ -45,7 +45,7 @@
 }
 
 .avatar-button.selected {
-  background-color: lime;
+  background-color: whitesmoke;
 }
 
 .avatar-button:hover{

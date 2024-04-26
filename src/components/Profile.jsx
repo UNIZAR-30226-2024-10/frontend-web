@@ -15,26 +15,8 @@ import whiteQueen from '../images/pieces/cburnett/wQ.svg'
 import blackRook from '../images/pieces/cburnett/bR.svg'
 import whiteRook from '../images/pieces/cburnett/wR.svg'
 import { Tooltip } from "@mui/material";
-import { useRef, useEffect } from "react";
 
 function Profile({ updateUserProfileVisibility, modifyAvatarImage, modifyAvatarColor, avatar }) {
-  const popupRef = useRef(null); /* Referencia para el popUp */
-
-  useEffect(() => {
-    /* Cierra el PopUp cuando se hace click fuera de este */
-    function handleClickOutside(event) {
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
-        updateUserProfileVisibility(false);
-      }
-    }
-    /* Event listener to detect clicks outside the popup */
-    document.addEventListener('mousedown', handleClickOutside);
-
-    /* Cleanup function to remove event listener */
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
 
   /* Avatares y colores de fondo disponibles */
   const whiteImages = [whiteKing,whiteQueen,whiteBishop,whiteKnight,whiteRook,whitePawn]
@@ -46,7 +28,7 @@ function Profile({ updateUserProfileVisibility, modifyAvatarImage, modifyAvatarC
     <div className='profile-settings' >
       {/* Hint del botón de cerrar perfil */}
       <Tooltip
-        title="Cerrar perfil"
+        title="Cerrar"
         slotProps={{
           popper: {
             modifiers: [
@@ -70,11 +52,16 @@ function Profile({ updateUserProfileVisibility, modifyAvatarImage, modifyAvatarC
         </button>
       </Tooltip>
       {/* Opciones del perfil */}
-      <div className="settings" ref={popupRef}>
-        <h1>Perfil de usuario</h1>
+      <div className="settings">
+        <h1>CAMBIO DE AVATAR</h1>
+        <Avatar 
+          alt="User"
+          src={avatar.image}
+          sx={{ bgcolor: avatar.bgcolor, width: 48, height: 48 }}
+        />
         <hr style={{width: "90%"}}/>
         <h2>Selecciona un avatar</h2>
-        <hr style={{width: "90%"}}/>
+        {/* <hr style={{width: "90%"}}/> */}
         <div className="avatar-selector">
           {/* Listado de los avatares blancos */}
           {whiteImages.map((image,index) => (
@@ -101,7 +88,7 @@ function Profile({ updateUserProfileVisibility, modifyAvatarImage, modifyAvatarC
         </div>
         <hr style={{width: "90%"}}/>
         <h2>Selecciona un fondo para tu avatar</h2>
-        <hr style={{width: "90%"}}/>
+        {/* <hr style={{width: "90%"}}/> */}
         <div className="avatar-selector">
           {/* Listado de los colores de fondo para el avatar */}
           {colors.map((color,index) => (

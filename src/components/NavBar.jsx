@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+const apiUrl = process.env.REACT_APP_API_URL;
 
 function Navbar ({ updateUserProfileVisibility, avatar, userInfo, updateUserInfo }) {
   const navigate = useNavigate();
@@ -21,12 +22,32 @@ function Navbar ({ updateUserProfileVisibility, avatar, userInfo, updateUserInfo
   };
   /* Mostrar el perfil de usuario */
   const handleProfile = () => {
-    updateUserProfileVisibility();
+    /* updateUserProfileVisibility(); */
     setAnchorEl(null);
+    navigate('/profile');
   }
   /* Cerrar sesión */
   const handleCloseSesion = () => {
-    /* setLoggedIn(false); */
+/*     try {
+      const response = await fetch(`${apiUrl}/users/logout`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ nombre:username, contraseña:password, correoElectronico:email}),
+      });
+
+      if (response.ok) {
+        // Si la solicitud es exitosa, redirige a la página de inicio
+        updateUserInfo({ field : "loggedIn", value : true});
+        navigate('/home');
+      } else {
+        // Si la solicitud falla, muestra un mensaje de error
+        console.error('Error al registrarse');
+      }
+    } catch (error) {
+      console.error('Error de red:', error);
+    } */
     updateUserInfo({ field : "loggedIn", value : false});
     setAnchorEl(null);
   }

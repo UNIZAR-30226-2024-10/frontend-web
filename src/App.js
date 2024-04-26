@@ -10,7 +10,9 @@ import GameOnline from './pages/GameOnline.jsx';
 import BattlePass from './pages/BattlePass.jsx';
 import Arenas from './pages/Arenas.jsx';
 import Personalizacion from './pages/Personalizacion.jsx';
-import { GameMode, PlayersInGame, UserInfo } from './components/CustomHooks.jsx';
+import UserProfile from './pages/UserProfile.jsx';
+import EditCredentials from './pages/EditCredentials.jsx';
+import { GameMode, PlayersInGame, UserInfo, ShowUserProfile } from './components/CustomHooks.jsx';
 import {SocketContext, socket} from './context/socket';
 
 function App() {
@@ -18,6 +20,7 @@ function App() {
   const {playersInfo, updatePlayersInGame} = PlayersInGame(); /* Hook para almacenar los jugadores de una partida */
   /* Hook para almacenar toda la información acerca de un usuaio */
   const {userInfo, updateUserInfo} = UserInfo();
+  const {userProfileVisibility, updateUserProfileVisibility} = ShowUserProfile();
   return (
     <SocketContext.Provider value={socket}>
       <div className="App">
@@ -25,6 +28,8 @@ function App() {
           <Route path="/home" element={<Home updateMode={updateMode} gameMode={gameMode} /* Esto quizas sobra → */updatePlayersInGame={updatePlayersInGame} /* ← */ userInfo={userInfo} updateUserInfo={updateUserInfo}/>} />
           <Route path="/login" element={<Login updateUserInfo={updateUserInfo}/>} />
           <Route path='/signup' element={<SignUp updateUserInfo={updateUserInfo}/>} />
+          <Route path='/cambio-credenciales' element={<EditCredentials />} />
+          <Route path='/profile' element={<UserProfile userProfileVisibility={userProfileVisibility} updateUserProfileVisibility={updateUserProfileVisibility}/>} />
           <Route path='/battlePass' element={<BattlePass />} />
           <Route path='/ranking' element={<Ranking />} />
           <Route path='/arenas' element={<Arenas />} />

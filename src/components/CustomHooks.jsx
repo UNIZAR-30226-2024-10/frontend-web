@@ -72,7 +72,7 @@ export const PlayersInGame = () => {
 export const UserInfo = () => {
   const [userInfo, setUserInfo] = useState({
     /* Información a guardar de cada usuario */
-    loggedIn : false,
+    loggedIn : true,
     userName : '',
   });
   const updateUserInfo = (data) => {
