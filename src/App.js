@@ -7,6 +7,7 @@ import SignUp from './pages/SignUp.jsx';
 import Game from './pages/Game.jsx'
 import Ranking from './pages/Ranking.jsx';
 import GameOnline from './pages/GameOnline.jsx';
+import GameAsync from './pages/GameAsync.jsx';
 import BattlePass from './pages/BattlePass.jsx';
 import Arenas from './pages/Arenas.jsx';
 import Personalizacion from './pages/Personalizacion.jsx';
@@ -36,6 +37,8 @@ function App() {
           <Route path='/personalizacion' element={<Personalizacion />} />
           <Route path='/game' element={<Game gameMode={gameMode} />} />
           <Route path='/gameOnline/:roomId/:colorSuffix' element={<GameOnline gameMode={gameMode} playersInfo={playersInfo} />} />
+          <Route path='/gameAsync/' element={<GameAsync gameMode={gameMode} playersInfo={playersInfo} />} />
+
         </Routes>
       </div>
     </SocketContext.Provider>
