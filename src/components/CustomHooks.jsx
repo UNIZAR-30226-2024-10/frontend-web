@@ -13,43 +13,6 @@ export const GameMode = () => {
   };
 }
 
-/* Establece el avatar y el fondo de avatar del usuario */
-export const AvatarSelector = () => {
-  const [avatar, setAvatar] = useState({
-    image : whiteKing, 
-    bgcolor: 'orange',
-  });
-  const modifyAvatarImage = (newAvatar) => {
-    setAvatar(prevState => ({
-      ...prevState,
-      image : newAvatar,
-    }));
-  };
-  const modifyAvatarColor = (color) => {
-    setAvatar(prevState => ({
-      ...prevState,
-      bgcolor : color,
-    }));
-  }
-  return {
-    avatar,
-    modifyAvatarImage,
-    modifyAvatarColor,
-  };
-}
-
-/* Hook para mostrar el perfil del usuario en el home */
-export const ShowUserProfile = () => { 
-  const [userProfileVisibility, setUserProfileVisibility] = useState(false);
-  const updateUserProfileVisibility = () => {
-    setUserProfileVisibility(!userProfileVisibility);
-  };
-  return {
-    userProfileVisibility,
-    updateUserProfileVisibility,
-  };
-}
-
 /* Hook para almacenar el nombre de los jugadores en partida */
 export const PlayersInGame = () => { 
   const [playersInfo, setPlayersInfo] = useState({
@@ -68,13 +31,27 @@ export const PlayersInGame = () => {
   };
 }
 
+/* Hook para mostrar el perfil del usuario */
+export const ShowUserProfile = () => { 
+  const [userProfileVisibility, setUserProfileVisibility] = useState(false);
+  const updateUserProfileVisibility = () => {
+    setUserProfileVisibility(!userProfileVisibility);
+  };
+  return {
+    userProfileVisibility,
+    updateUserProfileVisibility,
+  };
+}
+
 /* Hook para información acerca del usuario */
 export const UserInfo = () => {
   const [userInfo, setUserInfo] = useState({
     /* Información a guardar de cada usuario */
-    loggedIn : true,
-    userName : '',
-    userId : '',
+    loggedIn : localStorage.getItem('loggedIn') || false,
+    userName : localStorage.getItem('userName') || '',
+    userId : localStorage.getItem('userId') || '',
+    avatarImage : localStorage.getItem('avatarImage') || whiteKing, 
+    avatarColor: localStorage.getItem('avatarColor') || 'orange',
   });
   const updateUserInfo = (data) => {
     setUserInfo(prevState => ({
@@ -82,10 +59,30 @@ export const UserInfo = () => {
       ...prevState,
       [data.field] : data.value,
     }));
+    // Actualiza los valores en el navegador
+    localStorage.setItem([data.field], data.value);
+  }
+  const modifyAvatarImage = (newAvatar) => {
+    setUserInfo(prevState => ({
+      ...prevState,
+      avatarImage : newAvatar,
+    }));
+    // Actualiza los valores en el navegador
+    localStorage.setItem('avatarImage', newAvatar);
+  };
+  const modifyAvatarColor = (newColor) => {
+    setUserInfo(prevState => ({
+      ...prevState,
+      avatarColor : newColor,
+    }));
+    // Actualiza los valores en el navegador
+    localStorage.setItem('avatarColor', newColor);
   }
 
   return {
     userInfo,
     updateUserInfo,
+    modifyAvatarImage,
+    modifyAvatarColor,
   }
 }

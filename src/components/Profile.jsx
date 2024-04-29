@@ -16,7 +16,7 @@ import blackRook from '../images/pieces/cburnett/bR.svg'
 import whiteRook from '../images/pieces/cburnett/wR.svg'
 import { Tooltip } from "@mui/material";
 
-function Profile({ updateUserProfileVisibility, modifyAvatarImage, modifyAvatarColor, avatar }) {
+function Profile({ updateUserProfileVisibility, modifyAvatarImage, modifyAvatarColor, userInfo }) {
 
   /* Avatares y colores de fondo disponibles */
   const whiteImages = [whiteKing,whiteQueen,whiteBishop,whiteKnight,whiteRook,whitePawn]
@@ -56,8 +56,8 @@ function Profile({ updateUserProfileVisibility, modifyAvatarImage, modifyAvatarC
         <h1>CAMBIO DE AVATAR</h1>
         <Avatar 
           alt="User"
-          src={avatar.image}
-          sx={{ bgcolor: avatar.bgcolor, width: 48, height: 48 }}
+          src={userInfo.avatarImage}
+          sx={{ bgcolor: userInfo.avatarColor, width: 48, height: 48 }}
         />
         <hr style={{width: "90%"}}/>
         <h2>Selecciona un avatar</h2>
@@ -65,7 +65,7 @@ function Profile({ updateUserProfileVisibility, modifyAvatarImage, modifyAvatarC
         <div className="avatar-selector">
           {/* Listado de los avatares blancos */}
           {whiteImages.map((image,index) => (
-            <button onClick={() => modifyAvatarImage(image)} className={image === avatar.image ? "avatar-button selected" : "avatar-button"} key={index}>
+            <button onClick={() => modifyAvatarImage(image)} className={image === userInfo.avatarImage ? "avatar-button selected" : "avatar-button"} key={index}>
               <Avatar 
                 alt={`Image ${index + 1}`}
                 src={image} 
@@ -77,7 +77,7 @@ function Profile({ updateUserProfileVisibility, modifyAvatarImage, modifyAvatarC
         <div className="avatar-selector">
           {/* Listado de los avateres negros */}
           {blackImages.map((image,index) => (
-            <button onClick={() => modifyAvatarImage(image)} className={image === avatar.image ? "avatar-button selected" : "avatar-button"} key={index}>
+            <button onClick={() => modifyAvatarImage(image)} className={image === userInfo.avatarImage ? "avatar-button selected" : "avatar-button"} key={index}>
               <Avatar 
                 alt={`Image ${index + 1}`}
                 src={image} 
@@ -92,7 +92,7 @@ function Profile({ updateUserProfileVisibility, modifyAvatarImage, modifyAvatarC
         <div className="avatar-selector">
           {/* Listado de los colores de fondo para el avatar */}
           {colors.map((color,index) => (
-            <button onClick={() => modifyAvatarColor(color)} className={color === avatar.bgcolor ? "avatar-button selected" : "avatar-button"} key={index}>
+            <button onClick={() => modifyAvatarColor(color)} className={color === userInfo.avatarColor ? "avatar-button selected" : "avatar-button"} key={index}>
               <Avatar 
                 alt=""
                 src="" 

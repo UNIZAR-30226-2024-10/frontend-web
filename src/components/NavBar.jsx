@@ -7,7 +7,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { responsiveFontSizes } from '@mui/material';
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function Navbar ({ avatar, userInfo, updateUserInfo }) {
+function Navbar ({ userInfo, updateUserInfo }) {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null); /* Hook para controlar si el menu es visible o no */
   //const [loggedIn, setLoggedIn] = React.useState(false); /* Hook para controlar si el usuario ha iniciado sesión o no */
@@ -55,8 +55,8 @@ function Navbar ({ avatar, userInfo, updateUserInfo }) {
       /* Avatar del usuario */
       <Avatar 
         alt="User"
-        src={avatar.image}
-        sx={{ bgcolor: avatar.bgcolor, width: 48, height: 48 }}
+        src={userInfo.avatarImage}
+        sx={{ bgcolor: userInfo.avatarColor, width: 48, height: 48 }}
       />
     );
   }
@@ -84,6 +84,7 @@ function Navbar ({ avatar, userInfo, updateUserInfo }) {
           ChessHub
         </div>
         <div>
+          {console.log("info del user",userInfo)}
           {userInfo.loggedIn ? ( // Aquí comprobamos si el usuario está autenticado
             <>
               <button className='navbar-user-button'

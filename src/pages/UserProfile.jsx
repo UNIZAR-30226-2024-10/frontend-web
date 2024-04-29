@@ -5,12 +5,10 @@ import SideBar from "../components/SideBar";
 import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from '@mui/material/Avatar';
 import '../styles/UserProfile.css'
-import Profile from "../components/Profile";
-import { AvatarSelector } from '../components/CustomHooks.jsx';
+import Profile from "../components/Profile.jsx";
 
 function UserProfile ( args ) {
   const [showSidebar, setShowSidebar] = useState(false); /* Mostrar o esconder el sideBar */
-  const {avatar, modifyAvatarImage, modifyAvatarColor} = AvatarSelector();
   const navigate = useNavigate();
   const handleClick = () => {
     navigate('/cambio-credenciales');
@@ -42,8 +40,8 @@ function UserProfile ( args ) {
               <button className="userInfoProfileAvatarButton" onClick={args.updateUserProfileVisibility}>
                 <Avatar 
                   alt="User"
-                  src={avatar.image}
-                  sx={{ bgcolor: avatar.bgcolor, width: 52, height: 52 }}
+                  src={args.userInfo.avatarImage}
+                  sx={{ bgcolor: args.userInfo.avatarColor, width: 52, height: 52 }}
                 />
               </button>
               <div className="userInfoProfileTextTitle">
@@ -78,7 +76,7 @@ function UserProfile ( args ) {
             </div>
           </>}
           {args.userProfileVisibility && <>
-            <Profile updateUserProfileVisibility={args.updateUserProfileVisibility} avatar={avatar} modifyAvatarImage={modifyAvatarImage} modifyAvatarColor={modifyAvatarColor}/>
+            <Profile updateUserProfileVisibility={args.updateUserProfileVisibility} userInfo={args.userInfo} modifyAvatarImage={args.modifyAvatarImage} modifyAvatarColor={args.modifyAvatarColor}/>
           </>}
         </div>
       </div>
