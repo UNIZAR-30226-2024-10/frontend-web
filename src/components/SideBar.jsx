@@ -110,6 +110,11 @@ const handleClickJugarRAOnline = () => {
     setLoading(true);
     socket.emit('join_room', { mode: 'Blitz' }); // Envía un evento al servidor para unirse al juego en modo Blitz
   }
+  const handleClickJugarCorrespondence = () => {
+    args.updateMode('Correspondencia');
+    setLoading(true);
+    socket.emit('join_room', { mode: 'Correspondencia' }); // Envía un evento al servidor para unirse al juego en modo Blitz
+  }
   const OnlineMode = () => {
     return (
       /* Modos de juego para partidas online */
@@ -127,6 +132,19 @@ const handleClickJugarRAOnline = () => {
             |
           </div>
           <button className='popUp-modes' onClick={handleClickJugarBLOnline}>BLITZ</button>
+        </div>
+      </div>
+    );
+  }
+  const CorrespondenceMode = () => {
+    return (
+      /* Modos de juego para partidas online */
+      <div className='popUp-content-info'>
+        <div className='popUp-content-info-title'>
+          JUGAR POR CORRESPONDENCIA
+        </div>
+        <div className='popUp-content-info-modes'>
+          <button className='popUp-modes' onClick={handleClickJugarRAOnline}>JUGAR</button>
         </div>
       </div>
     );
@@ -167,6 +185,7 @@ const handleClickJugarRAOnline = () => {
           {/* Modos de juego */}
           <LocalMode />
           <OnlineMode />
+          <CorrespondenceMode />
         </div>
       </div>
     );
