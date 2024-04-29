@@ -15,15 +15,39 @@ const apiUrl = process.env.REACT_APP_API_URL;
 function Arenas({ userInfo, updateUserInfo }) {
   const [showSidebar, setShowSidebar] = useState(false); /* Mostrar o esconder el sideBar */
   const [hoveredArena, setHoveredArena] = useState(null);  /* Arena sobre la que se pasa el ratón */
-  /* Hook para guardar info de la arena a mostrar */
+  /* Hook para mostrar informacion de la arena sobre la que se clica */
   const [arenaPopUp, setArenaPopUp] = useState({
     showArena: '',
     showArenaStr: '',
     showArenaElo: '',
     showPopUp: false,
   });
-  // Informacion que se está mostrando en pantalla
-  const [mostrandoPantalla, setMostrandoPantalla] = useState({ modo : 'Rapid', elo : 1200, arena : 'MADERA' });
+  // Hook para guardar la informacion del modo de juego que se esta mostrando en pantalla
+  const [mostrandoPantalla, setMostrandoPantalla] = useState({ modo : 'Rapid', elo : 1200, arena : 'MADERA' }); // valores por defecto
+
+  const [error, setError] = useState(null);
+  // Pedir al backend la info del usuario
+  useEffect(() => {
+
+    const fetchUserData = async () => {
+       try {
+        const response = await fetch(`${apiUrl}/users/${userInfo.userId}`); // Construct URL using userId
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const userData = await response.json();
+        console.log(userData);
+        // Guardar info del usuario que pueda ser util posteriormente
+        updateUserInfo({ field : "eloRapid", value : userData.elorapid });
+        updateUserInfo({ field : "eloBlitz", value : userData.eloblitz });
+        updateUserInfo({ field : "eloBullet", value : userData.elobullet });
+      } catch (error) {
+        setError(error.message);
+      }
+    }
+
+    fetchUserData();
+  }, []);
 
   /* Arenas del juego y su contenido */
   const arenas = [
@@ -83,26 +107,35 @@ function Arenas({ userInfo, updateUserInfo }) {
     }
   }, [arenaPopUp.showArena]);
 
-  /*  */
+
   useEffect(() => {
-    // Actualizar arena en funcion del modo que se está mostrando
-    if (parseInt(mostrandoPantalla.elo) < 1500) {
-      mostrandoPantalla.arena = 'MADERA'; 
+
+    const actualizarMostrandoPantalla = () => {
+      var nuevaArena = '';
+      if (mostrandoPantalla.elo < 1500) {
+        nuevaArena = 'MADERA';
+      } 
+      else if (mostrandoPantalla.elo >= 1500 && mostrandoPantalla.elo < 1800) {
+        nuevaArena = 'MARMOL';
+      }
+      else if (mostrandoPantalla.elo >= 1800 && mostrandoPantalla.elo < 2100) {
+        nuevaArena = 'ORO';
+      }
+      else if (mostrandoPantalla.elo >= 2100 && mostrandoPantalla.elo < 2400) {
+        nuevaArena = 'ESMERALDA';
+      }
+      else if (mostrandoPantalla.elo > 2400) {
+        nuevaArena = 'DIAMANTE';
+      }
+
+      setMostrandoPantalla(prevState => ({
+        ...prevState,
+        arena : nuevaArena,
+      }));
+
     }
-    else if (parseInt(mostrandoPantalla.elo) >= 1500 && parseInt(mostrandoPantalla.elo) < 1800) {
-      mostrandoPantalla.arena = 'MARMOL'; 
-    }
-    else if (parseInt(mostrandoPantalla.elo) >= 1800 && parseInt(mostrandoPantalla.elo) < 2100) {
-      mostrandoPantalla.arena = 'ORO'; 
-    }
-    else if (parseInt(mostrandoPantalla.elo) >= 2100 && parseInt(mostrandoPantalla.elo) < 2400) {
-      mostrandoPantalla.arena = 'ESMERALDA'; 
-    }
-    else {
-      mostrandoPantalla.arena = 'DIAMANTE'; 
-    }
-    console.log(mostrandoPantalla);
-  }, [mostrandoPantalla])
+    actualizarMostrandoPantalla();
+  }, [mostrandoPantalla.modo])
 
   /* Arenas de juego */
   return (
@@ -130,15 +163,15 @@ function Arenas({ userInfo, updateUserInfo }) {
             <div className="arenasContentShowing">
               <div>
                 <button className={mostrandoPantalla.modo === 'Rapid' ? "contenidoButtonArenas selected" : "contenidoButtonArenas"} 
-                  onClick={() => setMostrandoPantalla({modo : 'Rapid', elo : userInfo.eloRapid})}>
+                  onClick={() => setMostrandoPantalla(prevState => ({...prevState, modo : 'Rapid', elo : userInfo.eloRapid}))}>
                   Rapid
                 </button>
                 <button className={mostrandoPantalla.modo === 'Bullet' ? "contenidoButtonArenas selected" : "contenidoButtonArenas"} 
-                  onClick={() => setMostrandoPantalla({modo :'Bullet', elo : userInfo.eloBullet})}>
+                  onClick={() => setMostrandoPantalla(prevState => ({...prevState, modo :'Bullet', elo : userInfo.eloBullet}))}>
                   Bullet
                 </button>
                 <button className={mostrandoPantalla.modo === 'Blitz' ? "contenidoButtonArenas selected" : "contenidoButtonArenas"} 
-                  onClick={() => setMostrandoPantalla({modo : 'Blitz', elo : userInfo.eloBlitz})}>
+                  onClick={() => setMostrandoPantalla(prevState => ({...prevState,modo : 'Blitz', elo : userInfo.eloBlitz}))}>
                   Blitz
                 </button>
               </div>

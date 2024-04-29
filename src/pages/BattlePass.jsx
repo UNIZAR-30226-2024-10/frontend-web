@@ -20,29 +20,31 @@ function BattlePass({ userInfo, updateUserInfo }) {
   const [showSidebar, setShowSidebar] = useState(false); /* Mostrar o esconder el sideBar */
   /* Informacion del usuario relacionada con el battlePass */
   const [userBattlePass, setUserBattlePass] = useState({
-    level: 0,
-    points: 0,
-    rewards: [{}], 
-    rewardsClaimed: 0,
+    level: 0, // Nivel actual del usuario en función de sus puntos
+    points: 0, // Puntos de recompensa del usuario 
+    rewardsClaimed: 0, // Recompensas desbloqueadas por el usuario 
   });
 
   const [error, setError] = useState(null);
   useEffect(() => {
+
     const fetchUserData = async () => {
-      console.log("userId",userInfo.userId);
+      // Pedir los puntos del usuario y el nivel en el que está
       try {
-        const response = await fetch(`${apiUrl}/users/${userInfo.userId}`);
+        const response = await fetch(`${apiUrl}/users/puntos_pase_batalla/${userInfo.userId}`); // Construct URL using userId
         if (!response.ok) {
-          console.log("entra");
           throw new Error('Network response was not ok');
         }
         const userData = await response.json();
-        console.log("hola");
-        console.log("respuesta del servidor",userData);
+        // Guardar info del usuario que pueda ser util posteriormente
+        setUserBattlePass(prevState => ({
+          ...prevState,
+          points : userData.puntosPaseBatalla
+        }))
       } catch (error) {
         setError(error.message);
       }
-    };
+    }
 
     fetchUserData();
   }, []); 
@@ -81,31 +83,29 @@ function BattlePass({ userInfo, updateUserInfo }) {
     { level: 30, reward: {K : AnarcandyBK, Q : AnarcandyWQ}, rewardType : 'pieza', requiredPoints: '300' },
   ];
 
-  /* ¡¡¡¡¡¡ Temporal !!!!! */
-/*   const updateLevel = () => {
-    const newLevel = userBattlePass.points / 100;
-    parseInt(newLevel);
-    setUserBattlePass(prevState => ({
-      ...prevState,
-      level: newLevel,
-    }));
-  } */
 
-  /* Reclamar recompensa seleccionada */
-  const claimRewards = (tier) => {
-    setUserBattlePass(prevState => ({
-      ...prevState,
-      rewards: [...prevState.rewards, { level: tier, claimed: true }],
-      rewardsClaimed: userBattlePass.rewards.length,
-    }));
-  };
+  useEffect(() => {
+    // Calcular el nivel del usuario en funcion de los puntos 
+    const updateLevel = () => {
+      const newLevel = userBattlePass.points / 10;
+      setUserBattlePass(prevState => ({
+        ...prevState,
+        level: parseInt(newLevel),
+      }));
+    }
+
+    updateLevel();
+  }, [userBattlePass.points]);
 
   /* Reclamar todas las recompensas disponibles */
-  const claimAllRewards = () => {
-    for(let i = userBattlePass.rewardsClaimed; i < userBattlePass.level; i++){
-      claimRewards(tiers[i].level);
-    }
-  }
+  const claimAllRewards = async () => {
+    setUserBattlePass(prevState => ({
+      ...prevState,
+      rewardsClaimed : userBattlePass.level,
+    }));
+
+    /* Mandar al backend el nuevo nivel de pase de batalla del usuario  */
+  };
 
   /* BattlePass */
   return (
@@ -141,8 +141,7 @@ function BattlePass({ userInfo, updateUserInfo }) {
                 <li key={index}>
                   {/* Consultar si la recompensa está disponible o no, y si es el caso si ya ha sido reclamada o no */}
                   <div className={userBattlePass.level >= tier.level ?
-                    (userBattlePass.rewards.find(rewards => rewards.level === tier.level && rewards.claimed) ?
-                      "items itemClaimed" : "items itemUnlocked") : ("items itemLocked")}>
+                    (userBattlePass.rewardsClaimed >= tier.level ? "items itemClaimed" : "items itemUnlocked") : ("items itemLocked")}>
                     {/* Información de la recompensa */}
                     <div className="infoRecompensa">
                       Recompensa {tier.level}
@@ -158,15 +157,8 @@ function BattlePass({ userInfo, updateUserInfo }) {
                     <div>
                       {/* Indicadores de si la recompensa está reclamada, disponible para reclamar o no disponible */}
                       {userBattlePass.level >= tier.level ?
-                      (userBattlePass.rewards.find(rewards => rewards.level === tier.level && rewards.claimed) ?
-                      <CheckIcon /> : <LockOpenIcon />) : <LockIcon />}
+                      (userBattlePass.rewardsClaimed >= tier.level ?<CheckIcon /> : <LockOpenIcon />) : <LockIcon />}
                     </div>
-                    {/* Botón asociado a la recompensa, para poder reclamarla */}
-                 {/*    <button disabled={userBattlePass.rewards.find(rewards => rewards.name === tier.reward && rewards.claimed) || userBattlePass.level < tier.level}
-                      onClick={() => claimRewards(tier.level)}
-                      className="claim-button">
-                      RECLAMAR RECOMPENSA
-                    </button> */}
                   </div>
                 </li>
               ))}

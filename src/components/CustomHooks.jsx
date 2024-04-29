@@ -58,7 +58,6 @@ export const UserInfo = () => {
     eloBlitz : sessionStorage.getItem('eloBlitz') || '',
     juegoPiezas : sessionStorage.getItem('juegoPiezas') || 'default',
     emoticonosPartida : sessionStorage.getItem('emoticonosPartida') || [], 
-    puntosPase : sessionStorage.getItem('puntosPase') || '',
   });
   const resetUserInfo = () => {
     /* resetea la información del usuario */
