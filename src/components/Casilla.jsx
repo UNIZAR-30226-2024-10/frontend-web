@@ -123,7 +123,6 @@ const Casilla = (args) => {
         
         //Si soy una casilla con una pieza seleccionable y me seleccionan cambio piezaSel
         if ('['+mFila+'-'+mCol+']' in args.movsPosibles){
-
             console.log('piezaSel: ', mFila, ',', mCol)
             args.setPiezaSel({fila: mFila, col: mCol})
         } else { //Si me han clickado y no soy una pieza seleccionable (entre las q tienen movs posibles)

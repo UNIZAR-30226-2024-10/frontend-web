@@ -134,6 +134,18 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory}) => {
             }
         );
 
+        // Eliminar los movimientos que no sean de piezas del color que le toca jugar
+        for (const key in movsPosiblesNew) {
+            const [x, y] = key.slice(1, -1).split('-');
+            const piece = tablero[x][y];
+            
+            if ((turno === 1 && piece === piece.toLowerCase()) || // Si le tocara a las blancas y la pieza es negra
+                (turno === 0 && piece === piece.toUpperCase())) { // o si le tocara a las negras y la pieza es blanca
+                delete movsPosiblesNew[key];
+            }
+            
+        }
+
         return movsPosiblesNew;
     }
 
@@ -206,12 +218,30 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory}) => {
 
             const parseRes = await response.json(); // parseRes es el objeto JSON que se recibe
 
+            
+
             if (parseRes.jugadaLegal === true) { // Si la jugada es legal (campo jugadaLegal) se cambian los movimientos posibles
-              setMovsPosibles(transformarMovimientos(parseRes));
-              console.log('raw:', parseRes)
-              console.log('movimientos posibles:');
-              console.log(movsPosibles)
-              return true;
+                const newMovsPosibles = transformarMovimientos(parseRes);
+                
+                // Comprobacion si se viola clavada (si con alguno de los nuevos movs posibles se come a un rey)
+                for (const key in newMovsPosibles) { 
+                    const movements = newMovsPosibles[key];
+                    for (const movement of movements) {
+                        const [x, y] = movement;
+                        const piece = nuevoTablero[x][y].toLowerCase();
+                        if (piece === 'k') {
+                            console.log('ERROR: Jugada no legal. Deja al rey en mate.');
+                            return false;
+                        }
+                    }
+                }
+
+                setMovsPosibles(newMovsPosibles);
+                console.log('raw', parseRes)
+                console.log('movimientos posibles:');
+                console.log(newMovsPosibles)
+
+                return true;
 
             } else if(parseRes["Jaque mate"]===true){
               console.log("ha ganado, ", turno)
@@ -243,7 +273,7 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory}) => {
     const [oldX, setOldX] = useState(null);
     const [oldY, setOldY] = useState(null);
 
-    //SE SELECCIONA UNA PIEZA NUEVA
+    //SE SELECCIONA UNA PIEZA NUEVA -> se actualizan las casillas alcanzables
     useEffect(() => {
         if (piezaSel) { //Si se ha seleccionado una pieza
             const newAlcanzables = ['', '', '', '', '', '', '', ''].map(() => ['', '', '', '', '', '', '', '']) //8x8
@@ -310,13 +340,13 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory}) => {
                 return
             }
 
-            console.log('turno:', turno)
             submitMov(newTablero)
             .then(isLegal => {
               if (isLegal) {
                 setTablero(newTablero); // Se cambia el tablero
                 turno === 0 ? pauseTimer2() : pauseTimer1();
                 setTurno(turno === 0 ? 1 : 0); // Cambia el color que tiene el turno
+                setAlcanzables(['', '', '', '', '', '', '', ''].map(() => ['', '', '', '', '', '', '', ''])); // Se limpian las casillas alcanzables
               }
               setPiezaSel(null); // No hay piezas seleccionadas
             })
