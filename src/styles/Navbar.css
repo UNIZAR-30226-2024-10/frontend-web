@@ -24,6 +24,12 @@
     border: none;
     margin-right: 100px; /* Desplaza el avatar del usuario a la izquierda */
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 14px;
+}
+.navbar-user-button>svg {
+  margin-right: 20px;
 }
 
 .navbar-login-button{

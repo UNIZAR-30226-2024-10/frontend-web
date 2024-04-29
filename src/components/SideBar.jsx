@@ -21,7 +21,11 @@ function SideBar(args) {
         const colorSuffix = data.color === 'white' ? '0' : '1';
         args.updatePlayersInGame({me: data.me, opponent: data.opponent}); // Guarda la información de los jugadores de la partida
         // Cifrar los parámetros y agregarlos a la URL
-        navigate(`/gameOnline/${data.roomId}/${colorSuffix}`);
+        if(data.color==0){
+          navigate(`/gameAsync/`);
+        }else{
+          navigate(`/home`);
+        }
       });
     }
     return () => {
@@ -144,7 +148,7 @@ const handleClickJugarRAOnline = () => {
           JUGAR POR CORRESPONDENCIA
         </div>
         <div className='popUp-content-info-modes'>
-          <button className='popUp-modes' onClick={handleClickJugarRAOnline}>JUGAR</button>
+          <button className='popUp-modes' onClick={handleClickJugarCorrespondence}>JUGAR</button>
         </div>
       </div>
     );

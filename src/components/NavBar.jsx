@@ -4,6 +4,7 @@ import { useNavigate, useResolvedPath } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 const apiUrl = process.env.REACT_APP_API_URL;
 
 function Navbar ({ userInfo, updateUserInfo, resetUserInfo }) {
@@ -92,8 +93,11 @@ function Navbar ({ userInfo, updateUserInfo, resetUserInfo }) {
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
               >
+                <NotificationsIcon style={{ fontSize: 40, color: 'white' }} />
                 <UserAvatar />
               </button>
+              
+
               <MenuUser />
             </>
           ) : (
