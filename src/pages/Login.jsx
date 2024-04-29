@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Tooltip } from '@mui/material';
+import { UserInfo } from '../components/CustomHooks';
 const apiUrl = process.env.REACT_APP_API_URL;
 
 function Login({ updateUserInfo }) {
@@ -33,8 +34,7 @@ function Login({ updateUserInfo }) {
       const parseRes = await response.json();
       /* console.log(parseRes) */
       if (response.ok) {
-        console.log("id de la sesión: ",parseRes.userId)
-        updateUserInfo({ field : "loggedIn", value : true }); // Marca que el usuario tiene sesión iniciada 
+        updateUserInfo({ field : "loggedIn", value : 'true' }); // Marca que el usuario tiene sesión iniciada 
         updateUserInfo({ field : "userId", value : parseRes.userId }); // Actualiza el id del usuario
         navigate('/home');
       } else {

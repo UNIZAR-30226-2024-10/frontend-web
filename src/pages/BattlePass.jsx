@@ -1,14 +1,14 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import '../styles/BattlePass.css';
 import SideBar from '../components/SideBar';
 import MenuIcon from '@mui/icons-material/Menu';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import CheckIcon from '@mui/icons-material/Check';
+const apiUrl = process.env.REACT_APP_API_URL;
 
 /* Imagenes de piezas */
-
 import {
   AlphaWQ, AnarcandyWQ, CardinalWQ, DefaultWQ, CelticWQ, Chess7WQ, ChessnutWQ, CompanionWQ,   
   AlphaBK, AnarcandyBK, CardinalBK, DefaultBK, CelticBK, Chess7BK, ChessnutBK, CompanionBK,   
@@ -16,15 +16,36 @@ import {
   KosalBK, FrescaBK, GovernorBK, LeipzigBK, MaestroBK, MpchessBK, PixelBK, FantasyBK,
 } from '../images/pieces'
 
-function BattlePass() {
+function BattlePass({ userInfo, updateUserInfo }) {
   const [showSidebar, setShowSidebar] = useState(false); /* Mostrar o esconder el sideBar */
   /* Informacion del usuario relacionada con el battlePass */
   const [userBattlePass, setUserBattlePass] = useState({
-    level: 4,
-    points: 44,
-    rewards: [{ level: 1, claimed : true }], 
-    rewardsClaimed: 1,
+    level: 0,
+    points: 0,
+    rewards: [{}], 
+    rewardsClaimed: 0,
   });
+
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      console.log("userId",userInfo.userId);
+      try {
+        const response = await fetch(`${apiUrl}/users/${userInfo.userId}`);
+        if (!response.ok) {
+          console.log("entra");
+          throw new Error('Network response was not ok');
+        }
+        const userData = await response.json();
+        console.log("hola");
+        console.log("respuesta del servidor",userData);
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+
+    fetchUserData();
+  }, []); 
 
   /* Recompensas que ofrece el juego */
   const tiers = [

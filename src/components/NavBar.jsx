@@ -4,13 +4,11 @@ import { useNavigate, useResolvedPath } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { responsiveFontSizes } from '@mui/material';
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function Navbar ({ userInfo, updateUserInfo }) {
+function Navbar ({ userInfo, updateUserInfo, resetUserInfo }) {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null); /* Hook para controlar si el menu es visible o no */
-  //const [loggedIn, setLoggedIn] = React.useState(false); /* Hook para controlar si el usuario ha iniciado sesión o no */
   const open = Boolean(anchorEl);
 
   /* Abrir el menú */
@@ -29,7 +27,8 @@ function Navbar ({ userInfo, updateUserInfo }) {
   /* Cerrar sesión */
   const [error,setError] = useState('');
   const handleCloseSesion = async () => {
-    try {
+    resetUserInfo(); // Resetea la informacíón del navegador
+    try { // Cierre de sesión
       const response = await fetch(`${apiUrl}/users/logout` ,{
         method: 'POST',
         headers: {
@@ -46,7 +45,7 @@ function Navbar ({ userInfo, updateUserInfo }) {
       setError(error.message);
     }
 
-    updateUserInfo({ field : "loggedIn", value : false});
+    updateUserInfo({ field : "loggedIn", value : 'false'});
     setAnchorEl(null);
   }
 
@@ -85,7 +84,7 @@ function Navbar ({ userInfo, updateUserInfo }) {
         </div>
         <div>
           {console.log("info del user",userInfo)}
-          {userInfo.loggedIn ? ( // Aquí comprobamos si el usuario está autenticado
+          {userInfo.loggedIn === 'true' ? ( // Aquí comprobamos si el usuario está autenticado
             <>
               <button className='navbar-user-button'
                 onClick={handleClick} 
