@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles/Navbar.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useResolvedPath } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { responsiveFontSizes } from '@mui/material';
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function Navbar ({ updateUserProfileVisibility, avatar, userInfo, updateUserInfo }) {
+function Navbar ({ avatar, userInfo, updateUserInfo }) {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null); /* Hook para controlar si el menu es visible o no */
   //const [loggedIn, setLoggedIn] = React.useState(false); /* Hook para controlar si el usuario ha iniciado sesión o no */
@@ -22,32 +23,29 @@ function Navbar ({ updateUserProfileVisibility, avatar, userInfo, updateUserInfo
   };
   /* Mostrar el perfil de usuario */
   const handleProfile = () => {
-    /* updateUserProfileVisibility(); */
     setAnchorEl(null);
     navigate('/profile');
   }
   /* Cerrar sesión */
-  const handleCloseSesion = () => {
-/*     try {
-      const response = await fetch(`${apiUrl}/users/logout`, {
+  const [error,setError] = useState('');
+  const handleCloseSesion = async () => {
+    try {
+      const response = await fetch(`${apiUrl}/users/logout` ,{
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ nombre:username, contraseña:password, correoElectronico:email}),
       });
-
-      if (response.ok) {
-        // Si la solicitud es exitosa, redirige a la página de inicio
-        updateUserInfo({ field : "loggedIn", value : true});
-        navigate('/home');
-      } else {
-        // Si la solicitud falla, muestra un mensaje de error
-        console.error('Error al registrarse');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
-    } catch (error) {
-      console.error('Error de red:', error);
-    } */
+      const responseData = await response.json();
+      console.log(responseData.message);
+    }   
+    catch (error) {
+      setError(error.message);
+    }
+
     updateUserInfo({ field : "loggedIn", value : false});
     setAnchorEl(null);
   }

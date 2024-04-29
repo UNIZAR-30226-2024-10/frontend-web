@@ -21,6 +21,7 @@ function SignUp({ updateUserInfo }) {
     color: 'white',
   };
 
+  const [error, setError] = useState('');
   const handleSignUp = async () => {
     try {
       const response = await fetch(`${apiUrl}/users/register`, {
@@ -30,11 +31,40 @@ function SignUp({ updateUserInfo }) {
         },
         body: JSON.stringify({ nombre:username, contraseña:password, correoElectronico:email}),
       });
-
       if (response.ok) {
-        // Si la solicitud es exitosa, redirige a la página de inicio
-        updateUserInfo({ field : "loggedIn", value : true});
-        navigate('/home');
+        // Si la solicitud es exitosa, inicia sesión con la nueva cuenta
+        console.log("usuario creado correctamente, Iniciando sesion ...");
+        try {
+          const responseLogin = await fetch(`${apiUrl}/users/login`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ nombre: username, contraseña: password }),
+            timeout: 10000, // Tiempo de espera de 10 segundos (10000 milisegundos)
+          });
+          const parseRes = await responseLogin.json();
+          if (responseLogin.ok) {
+            console.log("id de la sesión: ",parseRes.userId)
+            updateUserInfo({ field : "loggedIn", value : true }); // Marca que el usuario tiene sesión iniciada 
+            updateUserInfo({ field : "userId", value : parseRes.userId }); // Actualiza el id del usuario
+            navigate('/home');
+          } else { // Esto no debería de ocurrir
+            if (responseLogin.status === 401) {
+              setError('Usuario o contraseña incorrectos');
+            } 
+            else {
+              setError('Error desconocido, por favor intenta de nuevo');
+            }
+          }
+        } catch (error) {
+          console.error('Error de red:', error);
+          if (error instanceof TypeError && error.message === 'Failed to fetch') {
+            setError('Error de red: No se pudo conectar al servidor');
+          } else {
+            setError('Error de red, por favor intenta de nuevo');
+          }
+        }
       } else {
         // Si la solicitud falla, muestra un mensaje de error
         console.error('Error al registrarse');

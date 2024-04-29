@@ -31,16 +31,16 @@ function Login({ updateUserInfo }) {
         timeout: 10000, // Tiempo de espera de 10 segundos (10000 milisegundos)
       });
       const parseRes = await response.json();
-      console.log("id recibida",parseRes)
+      /* console.log(parseRes) */
       if (response.ok) {
-        updateUserInfo({ field : "loggedIn", value : true});
+        console.log("id de la sesión: ",parseRes.userId)
+        updateUserInfo({ field : "loggedIn", value : true }); // Marca que el usuario tiene sesión iniciada 
+        updateUserInfo({ field : "userId", value : parseRes.userId }); // Actualiza el id del usuario
         navigate('/home');
       } else {
         if (response.status === 401) {
           setError('Usuario o contraseña incorrectos');
-        } /* else if (response.status === 404){ // Hace falta esto??
-          setError('Usuario no encontrado');
-        } */
+        } 
         else {
           setError('Error desconocido, por favor intenta de nuevo');
         }
@@ -54,8 +54,6 @@ function Login({ updateUserInfo }) {
       }
     }
   };
-
-
 
   return (
     <div className='mainContainerLogin'>

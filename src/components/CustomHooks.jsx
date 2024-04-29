@@ -74,6 +74,7 @@ export const UserInfo = () => {
     /* Información a guardar de cada usuario */
     loggedIn : true,
     userName : '',
+    userId : '',
   });
   const updateUserInfo = (data) => {
     setUserInfo(prevState => ({
