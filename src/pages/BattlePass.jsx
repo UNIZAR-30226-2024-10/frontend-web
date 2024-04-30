@@ -40,9 +40,8 @@ function BattlePass({ userInfo }) {
         // Guardar info del usuario que pueda ser util posteriormente
         setUserBattlePass(prevState => ({
           ...prevState,
-          // Actualizar en que nivel esta el usuario actualmente 
-          points : userData.puntospase,
-          rewardsClaimed : userData.recompensamasalta
+          points : userData.puntospase, // Puntos del usuario
+          rewardsClaimed : userData.recompensamasalta // Nivel actual del usuario
         }))
       } catch (error) {
         setError(error.message);

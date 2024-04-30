@@ -20,7 +20,7 @@ function Home( args ) {
           throw new Error('Network response was not ok');
         }
         const userData = await response.json();
-        console.log("respuesta servidor", userData);
+        console.log(userData);
         // Guardar info del usuario que pueda ser util posteriormente
         args.updateUserInfo({ field : "userName", value : userData.nombre });
         args.updateUserInfo({ field : "eloBlitz", value : userData.eloblitz });
