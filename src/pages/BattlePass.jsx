@@ -15,6 +15,7 @@ import {
   KosalWQ, FrescaWQ, GovernorWQ, LeipzigWQ, MaestroWQ, MpchessWQ, PixelWQ, FantasyWQ,
   KosalBK, FrescaBK, GovernorBK, LeipzigBK, MaestroBK, MpchessBK, PixelBK, FantasyBK,
 } from '../images/pieces'
+import { UpdateDisabled } from "@mui/icons-material";
 
 function BattlePass({ userInfo }) {
   const [showSidebar, setShowSidebar] = useState(false); /* Mostrar o esconder el sideBar */
@@ -41,7 +42,7 @@ function BattlePass({ userInfo }) {
         setUserBattlePass(prevState => ({
           ...prevState,
           points : userData.puntospase, // Puntos del usuario
-          rewardsClaimed : userData.recompensamasalta // Nivel actual del usuario
+          rewardsClaimed : userData.nivelpase // Nivel actual del usuario
         }))
       } catch (error) {
         setError(error.message);
@@ -89,6 +90,7 @@ function BattlePass({ userInfo }) {
   useEffect(() => {
     // Calcular el nivel del usuario en funcion de los puntos 
     const updateLevel = () => {
+      console.log("entra??")
       const newLevel = userBattlePass.points / 10;
       setUserBattlePass(prevState => ({
         ...prevState,
@@ -106,7 +108,24 @@ function BattlePass({ userInfo }) {
       rewardsClaimed : userBattlePass.level,
     }));
 
-    /* Mandar al backend el nuevo nivel de pase de batalla del usuario  */
+    const nivelPase = userBattlePass.level;
+    console.log("nivel del pase de batalla", nivelPase);
+    try {
+      const response = await fetch(`${apiUrl}/users/update_nivel_pase/${userInfo.userId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ nivelPase })
+      });
+      const data = await response.json();
+    
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   /* BattlePass */
