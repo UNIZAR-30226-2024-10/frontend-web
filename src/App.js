@@ -30,11 +30,11 @@ function App() {
           <Route path="/login" element={<Login updateUserInfo={updateUserInfo}/>} />
           <Route path='/signup' element={<SignUp updateUserInfo={updateUserInfo}/>} />
           <Route path='/cambio-credenciales' element={<EditCredentials />} /> {/* Pendiente de terminar (calvera) */}
-          <Route path='/profile' element={<UserProfile userProfileVisibility={userProfileVisibility} updateUserProfileVisibility={updateUserProfileVisibility} userInfo={userInfo} modifyAvatarColor={modifyAvatarColor} modifyAvatarImage={modifyAvatarImage}/>} />
-          <Route path='/battlePass' element={<BattlePass userInfo={userInfo} updateUserInfo={updateUserInfo} />} />
+          <Route path='/profile' element={<UserProfile userProfileVisibility={userProfileVisibility} updateUserProfileVisibility={updateUserProfileVisibility} userInfo={userInfo} modifyAvatarColor={modifyAvatarColor} modifyAvatarImage={modifyAvatarImage} updateUserInfo={updateUserInfo}/>} />
+          <Route path='/battlePass' element={<BattlePass userInfo={userInfo} />} />
           <Route path='/ranking' element={<Ranking />} />
           <Route path='/arenas' element={<Arenas userInfo={userInfo} updateUserInfo={updateUserInfo}/>} />
-          <Route path='/personalizacion' element={<Personalizacion />} />
+          <Route path='/personalizacion' element={<Personalizacion userInfo={userInfo}/>} />
           <Route path='/game' element={<Game gameMode={gameMode} />} />
           <Route path='/gameOnline/:roomId/:colorSuffix' element={<GameOnline gameMode={gameMode} playersInfo={playersInfo} />} />
           <Route path='/gameAsync/:id' element={<GameAsync gameMode={gameMode} playersInfo={playersInfo} />} />

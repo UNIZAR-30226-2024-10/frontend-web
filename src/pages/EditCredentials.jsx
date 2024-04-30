@@ -22,8 +22,8 @@ function EditCredentials () {
   };
 
   /* Gestión del cambio de credenciales */
-  const handleCredentials = () => {
-
+  const handleCredentials = async () => {
+    
   }
 
   return(

@@ -16,7 +16,7 @@ import {
   KosalBK, FrescaBK, GovernorBK, LeipzigBK, MaestroBK, MpchessBK, PixelBK, FantasyBK,
 } from '../images/pieces'
 
-function BattlePass({ userInfo, updateUserInfo }) {
+function BattlePass({ userInfo }) {
   const [showSidebar, setShowSidebar] = useState(false); /* Mostrar o esconder el sideBar */
   /* Informacion del usuario relacionada con el battlePass */
   const [userBattlePass, setUserBattlePass] = useState({
@@ -31,15 +31,18 @@ function BattlePass({ userInfo, updateUserInfo }) {
     const fetchUserData = async () => {
       // Pedir los puntos del usuario y el nivel en el que está
       try {
-        const response = await fetch(`${apiUrl}/users/puntos_pase_batalla/${userInfo.userId}`); // Construct URL using userId
+        const response = await fetch(`${apiUrl}/users/${userInfo.userId}`); // Construct URL using userId
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         const userData = await response.json();
+        console.log("info recibida",userData);
         // Guardar info del usuario que pueda ser util posteriormente
         setUserBattlePass(prevState => ({
           ...prevState,
-          points : userData.puntosPaseBatalla
+          // Actualizar en que nivel esta el usuario actualmente 
+          points : userData.puntospase,
+          rewardsClaimed : userData.recompensamasalta
         }))
       } catch (error) {
         setError(error.message);

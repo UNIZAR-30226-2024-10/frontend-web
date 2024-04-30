@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SideBar from "../components/SideBar";
@@ -6,12 +6,77 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from '@mui/material/Avatar';
 import '../styles/UserProfile.css'
 import Profile from "../components/Profile.jsx";
+const apiUrl = process.env.REACT_APP_API_URL;
 
 function UserProfile ( args ) {
   const [showSidebar, setShowSidebar] = useState(false); /* Mostrar o esconder el sideBar */
+  const [showPopUp, setShowPopUp] = useState(false); 
+  const [confirmationDeleted, setConfirmationDeleted] = useState(false);
   const navigate = useNavigate();
   const handleClick = () => {
     navigate('/cambio-credenciales');
+  }
+
+  const [informacionUsuario, setInformacionUsuario] = useState({
+    nombre : '',
+    correo : '',
+    eloBlitz : '',
+    eloBullet : '',
+    eloRapid : '',
+    victorias : '',
+    derrotas : '',
+    empates : '',
+  });
+
+  const [error, setError] = useState(null);
+  useEffect(() => {
+
+    const fetchUserData = async () => {
+      // Pedir informacion del usuario al backend
+      try {
+        const response = await fetch(`${apiUrl}/users/${args.userInfo.userId}`); // Construct URL using userId
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const userData = await response.json();
+        setInformacionUsuario(prevState => ({ ...prevState, nombre : userData.nombre }))
+        setInformacionUsuario(prevState => ({ ...prevState, correo : userData.correoelectronico }))
+        setInformacionUsuario(prevState => ({ ...prevState, victorias : (userData.victorias === null ? 0 : userData.victorias) }))
+        setInformacionUsuario(prevState => ({ ...prevState, derrotas : (userData.derrotas === null ? 0 : userData.derrotas) }))
+        setInformacionUsuario(prevState => ({ ...prevState, empates : (userData.empates === null ? 0 : userData.empates) }))
+        setInformacionUsuario(prevState => ({ ...prevState, eloBlitz : userData.eloblitz }))
+        setInformacionUsuario(prevState => ({ ...prevState, eloBullet : userData.elobullet }))
+        setInformacionUsuario(prevState => ({ ...prevState, eloRapid : userData.elorapid }))
+      } catch (error) {
+        setError(error.message);
+      }
+    }
+
+    fetchUserData();
+  }, [])
+
+  const handleClickEliminar = async () => {
+    try {
+      const response = await fetch(`${apiUrl}/users/${args.userInfo.userId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+      }); // Construct URL using userId
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      else {
+        const userData = await response.json();
+        console.log("usuario eliminado correctamente")
+        /* args.resetUserInfo(); */
+        /* setConfirmationDeleted(true); */
+        setShowPopUp(false);
+        /* navigate('/home'); */
+      }
+    } catch (error) {
+      setError(error.message);
+    }
   }
 
   return (
@@ -35,6 +100,18 @@ function UserProfile ( args ) {
       </div>
       <div className="containerProfile">
         <div className={`containerProfile center ${args.userProfileVisibility ? 'showingProfile' : ''}`}>
+          {showPopUp && 
+          <div className="userInfoProfilePopUp">
+            <h1><u>¿Estás seguro de que quieres eliminar la cuenta?</u></h1>
+            <div className="userInfoProfilePopUpButtonsContainer">
+              <button className="userInfoProfilePopUpButtons confirm" onClick={handleClickEliminar}>Si</button>
+              <button className="userInfoProfilePopUpButtons cancel" onClick={() => setShowPopUp(false)}>No</button>
+            </div>
+          </div> }
+          {confirmationDeleted && 
+          <div className="userInfoProfilePopUp">
+            <button className="userInfoProfilePopUpButtons" onClick={navigate('/home')}>Volver al menu principal</button>
+          </div>}
           {!args.userProfileVisibility && <>
             <div className="userInfoProfile">
               <button className="userInfoProfileAvatarButton" onClick={args.updateUserProfileVisibility}>
@@ -48,13 +125,18 @@ function UserProfile ( args ) {
                 <h2><u>INFORMACION DE LA CUENTA</u></h2>
                 <div className="userInfoProfileTextContent">
                   <div>
-                    <h3>Nombre de usuario: Calvera</h3>
-                    <h3>Correo Electrónico: asdas@asdasd.com</h3>
+                    <h3>Nombre de usuario: {informacionUsuario.nombre}</h3>
+                    <h3>Correo Electrónico: {informacionUsuario.correo}</h3>
                     <h3>Contraseña: *****************</h3>
                   </div>
-                  <button className="userInfoProfileButton" onClick={handleClick}>
-                    Modificar información
-                  </button>
+                  <div className="userInfoButtonContainer">
+                    <button className="userInfoProfileButton" onClick={handleClick}>
+                      Modificar información
+                    </button>
+                    <button className="userInfoDeleteProfileButton" onClick={() => setShowPopUp(true)}>
+                      Eliminar cuenta
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -62,15 +144,17 @@ function UserProfile ( args ) {
               <div className="userEloProfileTextTitle">
                 <h2><u>INFORMACION DE JUEGO</u></h2>
                 <div>
-                  <h3>Elo en modo Rapid: 1200</h3>
-                  <h3>Elo en modo Blitz: 3245</h3>
-                  <h3>Elo en modo Bullet: 1200</h3>
+                  <h3>Elo en modo Rapid: {informacionUsuario.eloRapid}</h3>
+                  <h3>Elo en modo Blitz: {informacionUsuario.eloBlitz}</h3>
+                  <h3>Elo en modo Bullet: {informacionUsuario.eloBullet}</h3>
                 </div>
               </div>
               <div className="userEloProfileTextTitle">
-                <h2><u>ULTIMA RECOMPENSA</u></h2>
+                <h2><u>ESTADISTICAS</u></h2>
                 <div>
-                  <h1 style={{fontSize: '40px'}}>😁️</h1>
+                  <h3>Victorias: {informacionUsuario.victorias}</h3>
+                  <h3>Empates: {informacionUsuario.empates}</h3>
+                  <h3>Derrotas: {informacionUsuario.derrotas}</h3>
                 </div>
               </div>
             </div>

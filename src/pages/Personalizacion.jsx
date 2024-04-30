@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import '../styles/Personalizacion.css';
 import { useState } from "react";
 import SideBar from "../components/SideBar";
 import MenuIcon from '@mui/icons-material/Menu';
 import Pagination from '@mui/material/Pagination';
+const apiUrl = process.env.REACT_APP_API_URL;
+
 /* Importar todas las imágenes de piezas */ 
 import {
   AlphaWK, AnarcandyWK, CardinalWK, DefaultWK, CelticWK, Chess7WK, ChessnutWK, CompanionWK, FantasyWK,   
@@ -32,7 +34,7 @@ import {
   KosalBR, FrescaBR, GovernorBR, LeipzigBR, MaestroBR, MpchessBR, PixelBR,
 } from '../images/pieces'
 
-function Personalizacion () {
+function Personalizacion ({ userInfo }) {
   /* Hook para controlar si el sideBar es visible o no lo es */
   const [showSidebar, setShowSidebar] = useState(false);
   const [rewardShowing, setRewardShowing] = useState('piezas');
@@ -59,7 +61,28 @@ function Personalizacion () {
   // Conjunto de emoticonos del usuario
   const [emotesSelected, setEmotesSelected] = useState(['','','','']);
   // Nivel del usuario (recompensas desbloqueadas)
-  const userLevel = 0;
+  const [userLevel, setUserLevel] = useState(0);
+  const [error, setError] = useState(null);
+  useEffect(() => { // Pedir la información del usuario
+
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/users/${userInfo.userId}`); // Construct URL using userId
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const userData = await response.json();
+        /* setFichasSelected(userData.fichas) */
+        /* setEmotesSelected(userData.emotes) */
+        /* setUserLevel(userData.level) */
+      } catch (error) {
+        setError(error.message);
+      }
+    }
+
+    fetchUserData();
+  }, [])
+
   // Emoticonos del juego
   const emotesPreview = [
     { level: 1, value: '😁️'},
@@ -115,6 +138,24 @@ function Personalizacion () {
       return newEmotes.length > 4 ? newEmotes.slice(0, 4) : newEmotes;
     });
   };
+
+  useEffect(() => {
+
+    const updateUserData = async () => {
+      // Enviar al back la información
+    }
+
+    updateUserData();
+  }, [fichasSelected])
+
+  useEffect(() => {
+
+    const updateUserData = async () => {
+      // Enviar al back la información
+    }
+
+    updateUserData();
+  }, [emotesSelected])
 
   return(
     <div className="fondoPersonalizacion">
