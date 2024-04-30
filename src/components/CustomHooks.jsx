@@ -60,6 +60,17 @@ export const UserInfo = () => {
   const resetUserInfo = () => {
     /* resetea la información del usuario */
     sessionStorage.clear();
+    setUserInfo({
+      loggedIn : 'false',
+      userName : '',
+      userId : '',
+      userCorreo : '',
+      avatarImage : whiteKing, 
+      avatarColor: 'orange',
+      eloRapid : '', 
+      eloBullet : '', 
+      eloBlitz : '',
+    });
   }
   const updateUserInfo = (data) => {
     setUserInfo(prevState => ({

@@ -30,7 +30,7 @@ function App() {
           <Route path="/login" element={<Login updateUserInfo={updateUserInfo}/>} />
           <Route path='/signup' element={<SignUp updateUserInfo={updateUserInfo}/>} />
           <Route path='/cambio-credenciales' element={<EditCredentials />} /> {/* Pendiente de terminar (calvera) */}
-          <Route path='/profile' element={<UserProfile userProfileVisibility={userProfileVisibility} updateUserProfileVisibility={updateUserProfileVisibility} userInfo={userInfo} modifyAvatarColor={modifyAvatarColor} modifyAvatarImage={modifyAvatarImage} updateUserInfo={updateUserInfo}/>} />
+          <Route path='/profile' element={<UserProfile userProfileVisibility={userProfileVisibility} updateUserProfileVisibility={updateUserProfileVisibility} userInfo={userInfo} modifyAvatarColor={modifyAvatarColor} modifyAvatarImage={modifyAvatarImage} updateUserInfo={updateUserInfo} resetUserInfo={resetUserInfo}/>} />
           <Route path='/battlePass' element={<BattlePass userInfo={userInfo} />} />
           <Route path='/ranking' element={<Ranking />} />
           <Route path='/arenas' element={<Arenas userInfo={userInfo} updateUserInfo={updateUserInfo}/>} />

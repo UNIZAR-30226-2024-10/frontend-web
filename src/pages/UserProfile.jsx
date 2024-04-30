@@ -11,7 +11,6 @@ const apiUrl = process.env.REACT_APP_API_URL;
 function UserProfile ( args ) {
   const [showSidebar, setShowSidebar] = useState(false); /* Mostrar o esconder el sideBar */
   const [showPopUp, setShowPopUp] = useState(false); 
-  const [confirmationDeleted, setConfirmationDeleted] = useState(false);
   const navigate = useNavigate();
   const handleClick = () => {
     navigate('/cambio-credenciales');
@@ -68,11 +67,9 @@ function UserProfile ( args ) {
       }
       else {
         const userData = await response.json();
-        console.log("usuario eliminado correctamente")
-        /* args.resetUserInfo(); */
-        /* setConfirmationDeleted(true); */
+        args.resetUserInfo();
         setShowPopUp(false);
-        /* navigate('/home'); */
+        navigate('/home');
       }
     } catch (error) {
       setError(error.message);
@@ -108,10 +105,6 @@ function UserProfile ( args ) {
               <button className="userInfoProfilePopUpButtons cancel" onClick={() => setShowPopUp(false)}>No</button>
             </div>
           </div> }
-          {confirmationDeleted && 
-          <div className="userInfoProfilePopUp">
-            <button className="userInfoProfilePopUpButtons" onClick={navigate('/home')}>Volver al menu principal</button>
-          </div>}
           {!args.userProfileVisibility && <>
             <div className="userInfoProfile">
               <button className="userInfoProfileAvatarButton" onClick={args.updateUserProfileVisibility}>
