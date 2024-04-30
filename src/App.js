@@ -37,7 +37,7 @@ function App() {
           <Route path='/personalizacion' element={<Personalizacion />} />
           <Route path='/game' element={<Game gameMode={gameMode} />} />
           <Route path='/gameOnline/:roomId/:colorSuffix' element={<GameOnline gameMode={gameMode} playersInfo={playersInfo} />} />
-          <Route path='/gameAsync/' element={<GameAsync gameMode={gameMode} playersInfo={playersInfo} />} />
+          <Route path='/gameAsync/:id' element={<GameAsync gameMode={gameMode} playersInfo={playersInfo} />} />
         </Routes>
       </div>
     </SocketContext.Provider>

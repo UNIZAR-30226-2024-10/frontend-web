@@ -1,36 +1,64 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/Navbar.css';
-import { useNavigate, useResolvedPath } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function Navbar ({ userInfo, updateUserInfo, resetUserInfo }) {
+function Navbar({ userInfo, updateUserInfo, resetUserInfo }) {
   const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = React.useState(null); /* Hook para controlar si el menu es visible o no */
-  const open = Boolean(anchorEl);
+  const [anchorElProfile, setAnchorElProfile] = useState(null); // Estado para el menú del perfil
+  const [anchorElNotifications, setAnchorElNotifications] = useState(null); // Estado para el menú de notificaciones
+  const [notifications, setNotifications] = useState([]); // Estado para almacenar las notificaciones
+  const [hasNewNotifications, setHasNewNotifications] = useState(false); // Estado para indicar si hay nuevas notificaciones
 
-  /* Abrir el menú */
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  useEffect(() => {
+    // Función para cargar las notificaciones al montar el componente
+    const fetchNotifications = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/users/all_partidas_asincronas`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch notifications');
+        }
+        const data = await response.json();
+        console.log(data);
+        setNotifications(data); // Actualiza el estado con las notificaciones obtenidas
+        setHasNewNotifications(data.length > 0); // Verifica si hay nuevas notificaciones
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+      }
+    };
+
+    fetchNotifications(); // Llama a la función para cargar las notificaciones
+  }, []);
+
+  // Handlers para abrir y cerrar el menú del perfil
+  const handleProfileClick = (event) => {
+    setAnchorElProfile(event.currentTarget);
   };
-  /* Cerrar el menú */
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleProfileClose = () => {
+    setAnchorElProfile(null);
   };
-  /* Mostrar el perfil de usuario */
-  const handleProfile = () => {
-    setAnchorEl(null);
-    navigate('/profile');
-  }
-  /* Cerrar sesión */
-  const [error,setError] = useState('');
+
+  // Handlers para abrir y cerrar el menú de notificaciones
+  const handleNotificationsClick = (event) => {
+    setAnchorElNotifications(event.currentTarget);
+  };
+  const handleJugarPartida = (event) => {
+    navigate(`/gameAsync/${event}`)
+  };
+  const handleNotificationsClose = () => {
+    setAnchorElNotifications(null);
+  };
+
+  // Función para cerrar sesión
   const handleCloseSesion = async () => {
-    resetUserInfo(); // Resetea la informacíón del navegador
-    try { // Cierre de sesión
-      const response = await fetch(`${apiUrl}/users/logout` ,{
+    resetUserInfo(); // Resetea la información del usuario
+    try {
+      // Cierre de sesión en el servidor
+      const response = await fetch(`${apiUrl}/users/logout`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -41,70 +69,71 @@ function Navbar ({ userInfo, updateUserInfo, resetUserInfo }) {
       }
       const responseData = await response.json();
       console.log(responseData.message);
-    }   
-    catch (error) {
-      setError(error.message);
+    } catch (error) {
+      console.error('Error:', error);
     }
 
-    updateUserInfo({ field : "loggedIn", value : 'false'});
-    setAnchorEl(null);
-  }
+    updateUserInfo({ field: 'loggedIn', value: 'false' });
+  };
 
-  const UserAvatar = () => {
-    return (
-      /* Avatar del usuario */
-      <Avatar 
-        alt="User"
-        src={userInfo.avatarImage}
-        sx={{ bgcolor: userInfo.avatarColor, width: 48, height: 48 }}
-      />
-    );
-  }
+  // Componente para el avatar del usuario
+  const UserAvatar = () => (
+    <Avatar
+      alt="User"
+      src={userInfo.avatarImage}
+      sx={{ bgcolor: userInfo.avatarColor, width: 48, height: 48 }}
+    />
+  );
 
-  const MenuUser = () => {
-    return (
-      /* Menú desplegable al hacer click sobre la imagen del perfil*/
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{'aria-labelledby': 'basic-button' }}>
-        {/* Opciones del menu desplegable */}
-        <MenuItem onClick={handleProfile}>Perfil</MenuItem> 
-        <MenuItem onClick={handleCloseSesion}>Cerrar Sesión</MenuItem>
-      </Menu>
-    );
-  }
-  
   return (
     <div>
-      <nav className='navbar'>
-        <div className='navbar-title'>
-          ChessHub
-        </div>
+      <nav className="navbar">
+        <div className="navbar-title">ChessHub</div>
         <div>
-          {console.log("info del user",userInfo)}
-          {userInfo.loggedIn === 'true' ? ( // Aquí comprobamos si el usuario está autenticado
+          {userInfo.loggedIn === 'true' ? (
+            // Si el usuario está autenticado, mostrar los botones del usuario
             <>
-              <button className='navbar-user-button'
-                onClick={handleClick} 
-                aria-controls={open ? 'basic-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-              >
-                <NotificationsIcon style={{ fontSize: 40, color: 'white' }} />
-                <UserAvatar />
-              </button>
-              
-
-              <MenuUser />
+              <div className="navbar-user-button">
+                <NotificationsIcon
+                  style={{
+                    fontSize: 40,
+                    color: hasNewNotifications ? 'orange' : 'white', // Cambia el color del icono si hay nuevas notificaciones
+                    cursor: 'pointer'
+                  }}
+                  onClick={handleNotificationsClick} // Abrir menú de notificaciones al hacer clic en el ícono
+                />
+                <Menu
+                  id="notifications-menu"
+                  anchorEl={anchorElNotifications}
+                  open={Boolean(anchorElNotifications)}
+                  onClose={handleNotificationsClose}
+                >
+                  {notifications.map((notification, index) => (
+                    <MenuItem key={index} onClick={()=> handleJugarPartida(notification.id)}>{notification.id} </MenuItem>
+                  ))}
+                </Menu>
+                <button
+                  className="navbar-user-button"
+                  onClick={handleProfileClick} // Abrir menú de perfil al hacer clic en el avatar
+                >
+                  <UserAvatar />
+                </button>
+                <Menu
+                  id="profile-menu"
+                  anchorEl={anchorElProfile}
+                  open={Boolean(anchorElProfile)}
+                  onClose={handleProfileClose}
+                >
+                  <MenuItem onClick={() => navigate('/profile')}>Perfil</MenuItem>
+                  <MenuItem onClick={handleCloseSesion}>Cerrar Sesión</MenuItem>
+                </Menu>
+              </div>
             </>
           ) : (
-            // Si el usuario no está autenticado, mostramos el botón de inicio de sesión
-            <a className='navbar-login-button' onClick={()=>{
-              navigate('/login');
-            }}>Iniciar sesión</a>
+            // Si el usuario no está autenticado, mostrar el botón de inicio de sesión
+            <a className="navbar-login-button" onClick={() => navigate('/login')}>
+              Iniciar sesión
+            </a>
           )}
         </div>
       </nav>
