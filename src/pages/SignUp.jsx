@@ -23,23 +23,38 @@ function SignUp({ updateUserInfo }) {
 
   const [error, setError] = useState('');
   const handleSignUp = async () => {
-    try {
-      const response = await fetch(`${apiUrl}/users/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ nombre:username, contraseña:password, correoElectronico:email}),
-      });
-      if (response.ok) {
-        // Si la solicitud es exitosa, navega al menú del juego
-        navigate('/home');
-      } else {
-        // Si la solicitud falla, muestra un mensaje de error
-        console.error('Error al registrarse');
+    if (username === '' || password === '' || segundaPassword === '' || email === '') {
+      setError('Rellena todos los campos');
+    }
+    else if ( email.indexOf('@') === -1) {
+      setError('Email incorrecto');
+    }
+    else {
+      if (password.localeCompare(segundaPassword) !== 0 ) {
+        setError('Las contraseñas deben de coincidir');
       }
-    } catch (error) {
-      console.error('Error de red:', error);
+      else {
+        try {
+          const response = await fetch(`${apiUrl}/users/register`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ nombre:username, contraseña:password, correoElectronico:email}),
+          });
+          if (response.ok) {
+            // Si la solicitud es exitosa, navega al menú del juego
+            navigate('/home');
+          } else {
+            // Si la solicitud falla, muestra un mensaje de error
+            if (response.status === 500) {
+              setError('No se ha podido registrar el usuario');
+            }
+          }
+        } catch (error) {
+          console.error('Error de red:', error);
+        }
+      }
     }
   };
 
@@ -70,6 +85,7 @@ function SignUp({ updateUserInfo }) {
               id="email"  
               label="Correo electronico" 
               variant="outlined" 
+              type='email'
               value={email}
               color="warning" /* Color del borde */
               InputLabelProps={{
@@ -154,6 +170,10 @@ function SignUp({ updateUserInfo }) {
               onChange={(e) => setSegundaPassword(e.target.value)}
             />
           </Box>
+          {/* Mostrar mensaje de error */}
+          {error && (
+            <p className="error-message">{error}</p>
+          )}
           {/* Botón para proceder al signup */}
           <Button 
             variant="contained" 

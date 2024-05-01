@@ -38,8 +38,11 @@ function Login({ updateUserInfo }) {
         navigate('/home');
       } else {
         if (response.status === 401) {
-          setError('Usuario o contraseña incorrectos');
+          setError('Contraseña incorrecta');
         } 
+        else if (response.status === 404) {
+          setError('Usuario incorrecto')
+        }
         else {
           setError('Error desconocido, por favor intenta de nuevo');
         }
