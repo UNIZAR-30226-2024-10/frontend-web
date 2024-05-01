@@ -4,6 +4,8 @@ import '../styles/Game.css'
 import SideBar from '../components/SideBar';
 import MenuIcon from '@mui/icons-material/Menu';
 import TableroAsync from '../components/TableroAsync';
+import AMatriz from '../components/AMatriz';
+const apiUrl = process.env.REACT_APP_API_URL;
 
 
 function GameAsync({ gameMode }) {
@@ -17,7 +19,36 @@ function GameAsync({ gameMode }) {
   const [wantToQuit, setWantToQuit] = useState(false); /* Indica que un jugador quiere abandonar la partida */
   const [confirmSurrender, setConfirmSurrender] = useState(false); /* Contiene los diferentes estados de la partida */
 
+ const [tableroNuevo, setTableroNuevo] = useState(null);
 
+  useEffect(() => {
+    // Lógica para obtener el tablero de una API
+    const fetchTablero = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/users/all_partidas_asincronas`);
+        if (!response.ok) {
+          throw new Error('Error al obtener el tablero');
+        }
+        const data = await response.json();
+        const tableroString = data[0].tablero.replace(/\\/g, '');
+        const tableroJson = JSON.parse(tableroString);
+
+        // console.log(tableroString)
+        // setTablero(data[0].tablero); // Asumiendo que la respuesta de la API tiene una propiedad 'tablero'
+        const matriz = AMatriz({jsonData:tableroJson});
+        setTableroNuevo(matriz);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fetchTablero();
+
+    // Es importante limpiar los efectos si el componente se desmonta o se vuelve a montar
+    return () => {
+      // Lógica de limpieza si es necesaria
+    };
+  }, []);
   /* Cuadros informativos para cada uno de los jugadores */
   const InfoPlayers = ({numJugador, nombreJugador, eloJugador, colorFicha, fichasComidas }) => {
     return (
@@ -105,7 +136,7 @@ function GameAsync({ gameMode }) {
           {/* Tablero */}
           <div className='tableroGame'>
             <GamePopup />
-            <TableroAsync arena={userArenas.arena} setVictory={setGameState}/>
+            <TableroAsync arena={userArenas.arena} setVictory={setGameState} tableroNuevo={tableroNuevo}/>
           </div>
           {/* Jugador 2 */}
           <InfoPlayers

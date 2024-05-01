@@ -15,7 +15,7 @@ import AMatriz from './AMatriz';
 
 
 
-const Tablero = ({ arena, setVictory}) => {
+const Tablero = ({ arena, setVictory, tableroNuevo}) => {
     const gridStyle = {
         display: 'grid',
     };
@@ -139,20 +139,20 @@ const Tablero = ({ arena, setVictory}) => {
 
 
     //cjto de movimientos posibles con la conf. de tablero actual
-    const movsPosiblesIni = {
-        '[7-1]': [[5,0], [5,2]],
-        '[7-6]': [[5,5], [5,7]],
-        '[6-0]': [[5,0],[4,0]],
-        '[6-1]': [[5,1],[4,1]],
-        '[6-2]': [[5,2],[4,2]],
-        '[6-3]': [[5,3],[4,3]],
-        '[6-4]': [[5,4],[4,4]],
-        '[6-5]': [[5,5],[4,5]],
-        '[6-6]': [[5,6],[4,6]],
-        '[6-7]': [[5,7],[4,7]],
-    }
+    // const movsPosiblesIni = {
+    //     '[7-1]': [[5,0], [5,2]],
+    //     '[7-6]': [[5,5], [5,7]],
+    //     '[6-0]': [[5,0],[4,0]],
+    //     '[6-1]': [[5,1],[4,1]],
+    //     '[6-2]': [[5,2],[4,2]],
+    //     '[6-3]': [[5,3],[4,3]],
+    //     '[6-4]': [[5,4],[4,4]],
+    //     '[6-5]': [[5,5],[4,5]],
+    //     '[6-6]': [[5,6],[4,6]],
+    //     '[6-7]': [[5,7],[4,7]],
+    // }
 
-    const [movsPosibles, setMovsPosibles] = useState(movsPosiblesIni)
+    const [movsPosibles, setMovsPosibles] = useState({})
 
 
     // K: rey
@@ -187,7 +187,13 @@ const Tablero = ({ arena, setVictory}) => {
 
     // ue color esta jugando. 0: blancas, 1: negras
     const [turno, setTurno] = useState(0) 
-    
+        //SE SELECCIONA UNA PIEZA NUEVA
+    useEffect(() => {
+        if (tableroNuevo) { //Si se ha seleccionado una pieza
+          setTablero(tableroNuevo)
+          submitMov(tableroNuevo)
+        }
+    }, [tableroNuevo])
     // Funcion que envia tablero al servidor
     // Si el movimiento es legal: actualiza los movimientos posibles dado el nuevo tablero y devuelve true
     // Si el movimiento no es legal: devuelve false y no actualiza los movimientos posibles
