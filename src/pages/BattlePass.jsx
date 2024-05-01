@@ -15,7 +15,6 @@ import {
   KosalWQ, FrescaWQ, GovernorWQ, LeipzigWQ, MaestroWQ, MpchessWQ, PixelWQ, FantasyWQ,
   KosalBK, FrescaBK, GovernorBK, LeipzigBK, MaestroBK, MpchessBK, PixelBK, FantasyBK,
 } from '../images/pieces'
-import { UpdateDisabled } from "@mui/icons-material";
 
 function BattlePass({ userInfo }) {
   const [showSidebar, setShowSidebar] = useState(false); /* Mostrar o esconder el sideBar */
@@ -37,11 +36,10 @@ function BattlePass({ userInfo }) {
           throw new Error('Network response was not ok');
         }
         const userData = await response.json();
-        console.log("info recibida",userData);
         // Guardar info del usuario que pueda ser util posteriormente
         setUserBattlePass(prevState => ({
           ...prevState,
-          points : userData.puntospase, // Puntos del usuario
+          points : userData.puntosexperiencia, // Puntos del usuario
           rewardsClaimed : userData.nivelpase // Nivel actual del usuario
         }))
       } catch (error) {
@@ -90,7 +88,6 @@ function BattlePass({ userInfo }) {
   useEffect(() => {
     // Calcular el nivel del usuario en funcion de los puntos 
     const updateLevel = () => {
-      console.log("entra??")
       const newLevel = userBattlePass.points / 10;
       setUserBattlePass(prevState => ({
         ...prevState,
@@ -109,7 +106,6 @@ function BattlePass({ userInfo }) {
     }));
 
     const nivelPase = userBattlePass.level;
-    console.log("nivel del pase de batalla", nivelPase);
     try {
       const response = await fetch(`${apiUrl}/users/update_nivel_pase/${userInfo.userId}`, {
         method: 'POST',

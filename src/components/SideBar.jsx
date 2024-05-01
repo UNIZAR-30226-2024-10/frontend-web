@@ -100,7 +100,6 @@ function SideBar(args) {
   }
 const handleClickJugarRAOnline = () => {
     args.updateMode('Rapid');
-    console.log(args.gameMode);
     setLoading(true);
     socket.emit('join_room', { mode: 'Rapid' }); // Envía un evento al servidor para unirse al juego en modo Rapid
   };

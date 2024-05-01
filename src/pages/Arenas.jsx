@@ -36,8 +36,8 @@ function Arenas({ userInfo, updateUserInfo }) {
           throw new Error('Network response was not ok');
         }
         const userData = await response.json();
-        console.log(userData);
         // Guardar info del usuario que pueda ser util posteriormente
+        setMostrandoPantalla(prevState => ({ ...prevState, elo : userData.elorapid }));
         updateUserInfo({ field : "eloRapid", value : userData.elorapid });
         updateUserInfo({ field : "eloBlitz", value : userData.eloblitz });
         updateUserInfo({ field : "eloBullet", value : userData.elobullet });
@@ -135,7 +135,7 @@ function Arenas({ userInfo, updateUserInfo }) {
 
     }
     actualizarMostrandoPantalla();
-  }, [mostrandoPantalla.modo])
+  }, [mostrandoPantalla.modo, mostrandoPantalla.elo])
 
   /* Arenas de juego */
   return (

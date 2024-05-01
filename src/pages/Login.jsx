@@ -32,7 +32,6 @@ function Login({ updateUserInfo }) {
         timeout: 10000, // Tiempo de espera de 10 segundos (10000 milisegundos)
       });
       const parseRes = await response.json();
-      /* console.log(parseRes) */
       if (response.ok) {
         updateUserInfo({ field : "loggedIn", value : 'true' }); // Marca que el usuario tiene sesión iniciada 
         updateUserInfo({ field : "userId", value : parseRes.userId }); // Actualiza el id del usuario

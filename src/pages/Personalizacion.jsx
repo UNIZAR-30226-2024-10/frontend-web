@@ -60,8 +60,10 @@ function Personalizacion ({ userInfo }) {
   const [fichasSelected, setFichasSelected] = useState('DEFECTO');
   // Conjunto de emoticonos del usuario
   const [emotesSelected, setEmotesSelected] = useState(['','','','']);
+  var nuevoemote;
   // Nivel del usuario (recompensas desbloqueadas)
   const [userLevel, setUserLevel] = useState(0);
+
   const [error, setError] = useState(null);
   useEffect(() => { // Pedir la información del usuario
 
@@ -72,9 +74,12 @@ function Personalizacion ({ userInfo }) {
           throw new Error('Network response was not ok');
         }
         const userData = await response.json();
-        /* setFichasSelected(userData.fichas) */
-        /* setEmotesSelected(userData.emotes) */
-        /* setUserLevel(userData.level) */
+        setUserLevel(userData.nivelpase); // Actualizar nivel pase de batalla del usuario para saber que recompensas tiene desbloqueadas
+        setFichasSelected((userData.setpiezas === 'default' ? 'DEFECTO' : userData.setpiezas));
+        setEmotesSelected(userData.emoticonos.split(""));
+        nuevoemote = userData.emoticonos;
+        console.log(nuevoemote);
+        console.log("asda",nuevoemote.split(" "))
       } catch (error) {
         setError(error.message);
       }
@@ -139,23 +144,46 @@ function Personalizacion ({ userInfo }) {
     });
   };
 
-  useEffect(() => {
-
-    const updateUserData = async () => {
-      // Enviar al back la información
+  const sendUserPiezas = async () => {
+    const setPiezas = fichasSelected;
+    try {
+      const response = await fetch(`${apiUrl}/users/update_set_piezas/${userInfo.userId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ setPiezas })
+      });
+      const data = await response.json();
+    
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+    } catch (error) {
+      setError(error.message);
     }
+  }
 
-    updateUserData();
-  }, [fichasSelected])
-
-  useEffect(() => {
-
-    const updateUserData = async () => {
-      // Enviar al back la información
+  const sendUserEmoticonos = async () => {
+    var emoticonos;
+    console.log("emoticonos a enviar", emoticonos)
+    try {
+      const response = await fetch(`${apiUrl}/users/update_emoticonos/${userInfo.userId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ emoticonos })
+      });
+      const data = await response.json();
+    
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+    } catch (error) {
+      setError(error.message);
     }
-
-    updateUserData();
-  }, [emotesSelected])
+  }
 
   return(
     <div className="fondoPersonalizacion">
@@ -240,23 +268,33 @@ function Personalizacion ({ userInfo }) {
             {/* Botones para cambiar de páginas */}
             {rewardShowing === 'piezas' ? (
               <div className="menuDeslizantePagina">
-                <Pagination
-                  defaultPage={1}
-                  count={piezasChunks.length}
-                  page={currentPagePiezas}
-                  onChange={handleChangePagePiezas}
-                  color="primary"
-                />
+                <div className="paginationContainer">
+                  <Pagination
+                    defaultPage={1}
+                    count={piezasChunks.length}
+                    page={currentPagePiezas}
+                    onChange={handleChangePagePiezas}
+                    color="primary"
+                  />
+                </div>
+                <div className="cambiosButtonContainer">
+                  <button onClick={sendUserPiezas} className="guardarCambiosButton">Guardar cambios</button>
+                </div>
               </div>
             ) : (
               <div className="menuDeslizantePagina">
-                <Pagination
-                  defaultPage={1}
-                  count={emotesChunks.length}
-                  page={currentPageEmotes}
-                  onChange={handleChangePageEmotes}
-                  color="primary"
-                />
+                <div className="paginationContainer">
+                  <Pagination
+                    defaultPage={1}
+                    count={emotesChunks.length}
+                    page={currentPageEmotes}
+                    onChange={handleChangePageEmotes}
+                    color="primary"
+                  />
+                </div>
+                <div className="cambiosButtonContainer">
+                  <button onClick={sendUserEmoticonos} className="guardarCambiosButton">Guardar cambios</button>
+                </div>
               </div>
             )}
           </div>

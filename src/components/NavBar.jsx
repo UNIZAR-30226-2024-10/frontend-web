@@ -23,7 +23,6 @@ function Navbar({ userInfo, updateUserInfo, resetUserInfo }) {
           throw new Error('Failed to fetch notifications');
         }
         const data = await response.json();
-        console.log(data);
         setNotifications(data); // Actualiza el estado con las notificaciones obtenidas
         setHasNewNotifications(data.length > 0); // Verifica si hay nuevas notificaciones
       } catch (error) {
