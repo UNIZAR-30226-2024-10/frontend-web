@@ -33,6 +33,7 @@ import {
   KosalBP, FrescaBP, GovernorBP, LeipzigBP, MaestroBP, MpchessBP, PixelBP,
   KosalBR, FrescaBR, GovernorBR, LeipzigBR, MaestroBR, MpchessBR, PixelBR,
 } from '../images/pieces'
+import { SensorDoorRounded } from "@mui/icons-material";
 
 function Personalizacion ({ userInfo }) {
   /* Hook para controlar si el sideBar es visible o no lo es */
@@ -59,8 +60,7 @@ function Personalizacion ({ userInfo }) {
   // Set de piezas del usuario
   const [fichasSelected, setFichasSelected] = useState('DEFECTO');
   // Conjunto de emoticonos del usuario
-  const [emotesSelected, setEmotesSelected] = useState(['','','','']);
-  var nuevoemote;
+  const [emotesSelected, setEmotesSelected] = useState(['😁️','😁️','😁️','😁️']);
   // Nivel del usuario (recompensas desbloqueadas)
   const [userLevel, setUserLevel] = useState(0);
 
@@ -76,10 +76,11 @@ function Personalizacion ({ userInfo }) {
         const userData = await response.json();
         setUserLevel(userData.nivelpase); // Actualizar nivel pase de batalla del usuario para saber que recompensas tiene desbloqueadas
         setFichasSelected((userData.setpiezas === 'default' ? 'DEFECTO' : userData.setpiezas));
-        setEmotesSelected(userData.emoticonos.split(""));
-        nuevoemote = userData.emoticonos;
-        console.log(nuevoemote);
-        console.log("asda",nuevoemote.split(" "))
+
+        // Lee del back-end el set de emoticonos del usuario
+        const emojiArray = userData.emoticonos.replace(/[{}"]/g, '').split(',');
+        const emojisCleaned = emojiArray.map(emoji => emoji.trim()).filter(emoji => emoji !== '');
+        setEmotesSelected(emojisCleaned);
       } catch (error) {
         setError(error.message);
       }
@@ -145,6 +146,7 @@ function Personalizacion ({ userInfo }) {
   };
 
   const sendUserPiezas = async () => {
+    console.log("emotes usando actualmente",emotesSelected)
     const setPiezas = fichasSelected;
     try {
       const response = await fetch(`${apiUrl}/users/update_set_piezas/${userInfo.userId}`, {
@@ -165,7 +167,7 @@ function Personalizacion ({ userInfo }) {
   }
 
   const sendUserEmoticonos = async () => {
-    var emoticonos;
+    var emoticonos = emotesSelected;
     console.log("emoticonos a enviar", emoticonos)
     try {
       const response = await fetch(`${apiUrl}/users/update_emoticonos/${userInfo.userId}`, {
