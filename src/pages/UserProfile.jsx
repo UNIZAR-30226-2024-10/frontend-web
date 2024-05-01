@@ -117,13 +117,13 @@ function UserProfile ( args ) {
               <div className="userInfoProfileTextTitle">
                 <h2><u>INFORMACION DE LA CUENTA</u></h2>
                 <div className="userInfoProfileTextContent">
-                  <div>
+                  <div style={{overflow: 'auto'}}>
                     <h3>Nombre de usuario: {informacionUsuario.nombre}</h3>
                     <h3>Correo Electrónico: {informacionUsuario.correo}</h3>
                     <h3>Contraseña: *****************</h3>
                   </div>
                   <div className="userInfoButtonContainer">
-                    <button className="userInfoProfileButton" onClick={handleClick}>
+                    <button className="userInfoModifyProfileButton" onClick={handleClick}>
                       Modificar información
                     </button>
                     <button className="userInfoDeleteProfileButton" onClick={() => setShowPopUp(true)}>
@@ -135,7 +135,7 @@ function UserProfile ( args ) {
             </div>
             <div className="userEloProfile">
               <div className="userEloProfileTextTitle">
-                <h2><u>INFORMACION DE JUEGO</u></h2>
+                <h2><u>PUNTUACIÓN</u></h2>
                 <div>
                   <h3>Elo en modo Rapid: {informacionUsuario.eloRapid}</h3>
                   <h3>Elo en modo Blitz: {informacionUsuario.eloBlitz}</h3>
@@ -143,7 +143,7 @@ function UserProfile ( args ) {
                 </div>
               </div>
               <div className="userEloProfileTextTitle">
-                <h2><u>ESTADISTICAS</u></h2>
+                <h2><u>ESTADÍSTICAS</u></h2>
                 <div>
                   <h3>Victorias: {informacionUsuario.victorias}</h3>
                   <h3>Empates: {informacionUsuario.empates}</h3>
