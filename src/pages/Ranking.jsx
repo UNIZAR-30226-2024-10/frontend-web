@@ -16,9 +16,9 @@ function Ranking() {
   //Obtencion rankings de las 3 modalidades
   useEffect(() => {
     Promise.all([ //Se hacen concurrentemente las 3 llamadas a la API
-      fetch(`${apiUrl}/users/leaderboard/bullet`).then(response => response.json()),
-      fetch(`${apiUrl}/users/leaderboard/rapid`).then(response => response.json()),
-      fetch(`${apiUrl}/users/leaderboard/blitz`).then(response => response.json())
+      fetch(`${apiUrl}/users/ranking/bullet`).then(response => response.json()),
+      fetch(`${apiUrl}/users/ranking/rapid`).then(response => response.json()),
+      fetch(`${apiUrl}/users/ranking/blitz`).then(response => response.json())
     ])
     .then(([bulletData, rapidData, blitzData]) => {
       setData({ //Se concatenan los rankings de las tres modalidades en un json
