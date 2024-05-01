@@ -1,14 +1,14 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import '../styles/BattlePass.css';
 import SideBar from '../components/SideBar';
 import MenuIcon from '@mui/icons-material/Menu';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import CheckIcon from '@mui/icons-material/Check';
+const apiUrl = process.env.REACT_APP_API_URL;
 
 /* Imagenes de piezas */
-
 import {
   AlphaWQ, AnarcandyWQ, CardinalWQ, DefaultWQ, CelticWQ, Chess7WQ, ChessnutWQ, CompanionWQ,   
   AlphaBK, AnarcandyBK, CardinalBK, DefaultBK, CelticBK, Chess7BK, ChessnutBK, CompanionBK,   
@@ -16,15 +16,39 @@ import {
   KosalBK, FrescaBK, GovernorBK, LeipzigBK, MaestroBK, MpchessBK, PixelBK, FantasyBK,
 } from '../images/pieces'
 
-function BattlePass() {
+function BattlePass({ userInfo }) {
   const [showSidebar, setShowSidebar] = useState(false); /* Mostrar o esconder el sideBar */
   /* Informacion del usuario relacionada con el battlePass */
   const [userBattlePass, setUserBattlePass] = useState({
-    level: 4,
-    points: 44,
-    rewards: [{ level: 1, claimed : true }], 
-    rewardsClaimed: 1,
+    level: 0, // Nivel actual del usuario en función de sus puntos
+    points: 0, // Puntos de recompensa del usuario 
+    rewardsClaimed: 0, // Recompensas desbloqueadas por el usuario 
   });
+
+  const [error, setError] = useState(null);
+  useEffect(() => {
+
+    const fetchUserData = async () => {
+      // Pedir los puntos del usuario y el nivel en el que está
+      try {
+        const response = await fetch(`${apiUrl}/users/${userInfo.userId}`); // Construct URL using userId
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const userData = await response.json();
+        // Guardar info del usuario que pueda ser util posteriormente
+        setUserBattlePass(prevState => ({
+          ...prevState,
+          points : userData.puntosexperiencia, // Puntos del usuario
+          rewardsClaimed : userData.nivelpase // Nivel actual del usuario
+        }))
+      } catch (error) {
+        setError(error.message);
+      }
+    }
+
+    fetchUserData();
+  }, []); 
 
   /* Recompensas que ofrece el juego */
   const tiers = [
@@ -60,31 +84,45 @@ function BattlePass() {
     { level: 30, reward: {K : AnarcandyBK, Q : AnarcandyWQ}, rewardType : 'pieza', requiredPoints: '300' },
   ];
 
-  /* ¡¡¡¡¡¡ Temporal !!!!! */
-/*   const updateLevel = () => {
-    const newLevel = userBattlePass.points / 100;
-    parseInt(newLevel);
-    setUserBattlePass(prevState => ({
-      ...prevState,
-      level: newLevel,
-    }));
-  } */
 
-  /* Reclamar recompensa seleccionada */
-  const claimRewards = (tier) => {
-    setUserBattlePass(prevState => ({
-      ...prevState,
-      rewards: [...prevState.rewards, { level: tier, claimed: true }],
-      rewardsClaimed: userBattlePass.rewards.length,
-    }));
-  };
+  useEffect(() => {
+    // Calcular el nivel del usuario en funcion de los puntos 
+    const updateLevel = () => {
+      const newLevel = userBattlePass.points / 10;
+      setUserBattlePass(prevState => ({
+        ...prevState,
+        level: parseInt(newLevel),
+      }));
+    }
+
+    updateLevel();
+  }, [userBattlePass.points]);
 
   /* Reclamar todas las recompensas disponibles */
-  const claimAllRewards = () => {
-    for(let i = userBattlePass.rewardsClaimed; i < userBattlePass.level; i++){
-      claimRewards(tiers[i].level);
+  const claimAllRewards = async () => {
+    setUserBattlePass(prevState => ({
+      ...prevState,
+      rewardsClaimed : userBattlePass.level,
+    }));
+
+    const nivelPase = userBattlePass.level;
+    try {
+      const response = await fetch(`${apiUrl}/users/update_nivel_pase/${userInfo.userId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ nivelPase })
+      });
+      const data = await response.json();
+    
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+    } catch (error) {
+      setError(error.message);
     }
-  }
+  };
 
   /* BattlePass */
   return (
@@ -120,8 +158,7 @@ function BattlePass() {
                 <li key={index}>
                   {/* Consultar si la recompensa está disponible o no, y si es el caso si ya ha sido reclamada o no */}
                   <div className={userBattlePass.level >= tier.level ?
-                    (userBattlePass.rewards.find(rewards => rewards.level === tier.level && rewards.claimed) ?
-                      "items itemClaimed" : "items itemUnlocked") : ("items itemLocked")}>
+                    (userBattlePass.rewardsClaimed >= tier.level ? "items itemClaimed" : "items itemUnlocked") : ("items itemLocked")}>
                     {/* Información de la recompensa */}
                     <div className="infoRecompensa">
                       Recompensa {tier.level}
@@ -137,15 +174,8 @@ function BattlePass() {
                     <div>
                       {/* Indicadores de si la recompensa está reclamada, disponible para reclamar o no disponible */}
                       {userBattlePass.level >= tier.level ?
-                      (userBattlePass.rewards.find(rewards => rewards.level === tier.level && rewards.claimed) ?
-                      <CheckIcon /> : <LockOpenIcon />) : <LockIcon />}
+                      (userBattlePass.rewardsClaimed >= tier.level ?<CheckIcon /> : <LockOpenIcon />) : <LockIcon />}
                     </div>
-                    {/* Botón asociado a la recompensa, para poder reclamarla */}
-                 {/*    <button disabled={userBattlePass.rewards.find(rewards => rewards.name === tier.reward && rewards.claimed) || userBattlePass.level < tier.level}
-                      onClick={() => claimRewards(tier.level)}
-                      className="claim-button">
-                      RECLAMAR RECOMPENSA
-                    </button> */}
                   </div>
                 </li>
               ))}

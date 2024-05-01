@@ -23,54 +23,38 @@ function SignUp({ updateUserInfo }) {
 
   const [error, setError] = useState('');
   const handleSignUp = async () => {
-    try {
-      const response = await fetch(`${apiUrl}/users/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ nombre:username, contraseña:password, correoElectronico:email}),
-      });
-      if (response.ok) {
-        // Si la solicitud es exitosa, inicia sesión con la nueva cuenta
-        console.log("usuario creado correctamente, Iniciando sesion ...");
+    if (username === '' || password === '' || segundaPassword === '' || email === '') {
+      setError('Rellena todos los campos');
+    }
+    else if ( email.indexOf('@') === -1) {
+      setError('Email incorrecto');
+    }
+    else {
+      if (password.localeCompare(segundaPassword) !== 0 ) {
+        setError('Las contraseñas deben de coincidir');
+      }
+      else {
         try {
-          const responseLogin = await fetch(`${apiUrl}/users/login`, {
+          const response = await fetch(`${apiUrl}/users/register`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ nombre: username, contraseña: password }),
-            timeout: 10000, // Tiempo de espera de 10 segundos (10000 milisegundos)
+            body: JSON.stringify({ nombre:username, contraseña:password, correoElectronico:email}),
           });
-          const parseRes = await responseLogin.json();
-          if (responseLogin.ok) {
-            console.log("id de la sesión: ",parseRes.userId)
-            updateUserInfo({ field : "loggedIn", value : true }); // Marca que el usuario tiene sesión iniciada 
-            updateUserInfo({ field : "userId", value : parseRes.userId }); // Actualiza el id del usuario
+          if (response.ok) {
+            // Si la solicitud es exitosa, navega al menú del juego
             navigate('/home');
-          } else { // Esto no debería de ocurrir
-            if (responseLogin.status === 401) {
-              setError('Usuario o contraseña incorrectos');
-            } 
-            else {
-              setError('Error desconocido, por favor intenta de nuevo');
+          } else {
+            // Si la solicitud falla, muestra un mensaje de error
+            if (response.status === 500) {
+              setError('No se ha podido registrar el usuario');
             }
           }
         } catch (error) {
           console.error('Error de red:', error);
-          if (error instanceof TypeError && error.message === 'Failed to fetch') {
-            setError('Error de red: No se pudo conectar al servidor');
-          } else {
-            setError('Error de red, por favor intenta de nuevo');
-          }
         }
-      } else {
-        // Si la solicitud falla, muestra un mensaje de error
-        console.error('Error al registrarse');
       }
-    } catch (error) {
-      console.error('Error de red:', error);
     }
   };
 
@@ -101,6 +85,7 @@ function SignUp({ updateUserInfo }) {
               id="email"  
               label="Correo electronico" 
               variant="outlined" 
+              type='email'
               value={email}
               color="warning" /* Color del borde */
               InputLabelProps={{
@@ -185,6 +170,10 @@ function SignUp({ updateUserInfo }) {
               onChange={(e) => setSegundaPassword(e.target.value)}
             />
           </Box>
+          {/* Mostrar mensaje de error */}
+          {error && (
+            <p className="error-message">{error}</p>
+          )}
           {/* Botón para proceder al signup */}
           <Button 
             variant="contained" 

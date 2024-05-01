@@ -1,7 +1,7 @@
 function AMatriz({ jsonData }) {
   // Extraer solo las piezas de ajedrez del objeto jsonData
-  const { turno, ha_movido_rey_blanco, ha_movido_rey_negro, ha_movido_torre_blanca_dcha, ha_movido_torre_blanca_izqda, ha_movido_torre_negra_dcha, ha_movido_torre_negra_izqda, ...piezas } = jsonData;
-
+  const { turno, piezaCoronada,ha_movido_rey_blanco, ha_movido_rey_negro, ha_movido_torre_blanca_dcha, ha_movido_torre_blanca_izqda, ha_movido_torre_negra_dcha, ha_movido_torre_negra_izqda, ...piezas } = jsonData;
+  
   const matriz = [];
   for (let i = 0; i < 8; i++) {
     matriz.push(Array(8).fill(''));
@@ -40,3 +40,5 @@ function AMatriz({ jsonData }) {
 }
 
 export default AMatriz;
+
+

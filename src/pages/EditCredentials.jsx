@@ -6,9 +6,10 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Tooltip } from '@mui/material';
+import { UserInfo } from "../components/CustomHooks";
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function EditCredentials () {
+function EditCredentials ({ userInfo }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -21,9 +22,42 @@ function EditCredentials () {
     color: 'white',
   };
 
+  const [error, setError] = useState('');
   /* Gestión del cambio de credenciales */
-  const handleCredentials = () => {
-
+  const handleCredentials = async () => {
+    if (username === '' || password === '' || segundaPassword === '' || email === '') {
+      setError('Rellena todos los campos');
+    }
+    else if ( email.indexOf('@') === -1) {
+      setError('Email incorrecto');
+    }
+    else {
+      if (password.localeCompare(segundaPassword) !== 0 ) {
+        setError('Las contraseñas deben de coincidir');
+      }
+      else {
+        try {
+          const response = await fetch(`${apiUrl}/users/${userInfo.userId}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ nombre:username, contraseña:password, correoElectronico:email}),
+          });
+          if (response.ok) {
+            // Si la solicitud es exitosa, navega al menú del juego
+            navigate('/home');
+          } else {
+            // Si la solicitud falla, muestra un mensaje de error
+            if (response.status === 500) {
+              setError('No se han podido actualizar las credenciales');
+            }
+          }
+        } catch (error) {
+          console.error('Error de red:', error);
+        }
+      }
+    }
   }
 
   return(
@@ -137,6 +171,10 @@ function EditCredentials () {
               onChange={(e) => setSegundaPassword(e.target.value)}
             />
           </Box>
+          {/* Mostrar mensaje de error */}
+          {error && (
+            <p className="error-message">{error}</p>
+          )}
           {/* Botón para proceder al Credentials */}
           <Button 
             variant="contained" 

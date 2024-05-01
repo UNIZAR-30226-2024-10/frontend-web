@@ -19,25 +19,25 @@ import {SocketContext, socket} from './context/socket';
 function App() {
   const {gameMode, updateMode} = GameMode(); 
   const {playersInfo, updatePlayersInGame} = PlayersInGame(); 
-  const {userInfo, updateUserInfo, modifyAvatarColor, modifyAvatarImage} = UserInfo();
+  const {userInfo, updateUserInfo, modifyAvatarColor, modifyAvatarImage, resetUserInfo} = UserInfo();
   const {userProfileVisibility, updateUserProfileVisibility} = ShowUserProfile();
 
   return (
     <SocketContext.Provider value={socket}>
       <div className="App">
         <Routes>
-          <Route path="/home" element={<Home updateMode={updateMode} gameMode={gameMode} updatePlayersInGame={updatePlayersInGame} userInfo={userInfo} updateUserInfo={updateUserInfo}/>} />
+          <Route path="/home" element={<Home updateMode={updateMode} gameMode={gameMode} updatePlayersInGame={updatePlayersInGame} userInfo={userInfo} updateUserInfo={updateUserInfo} resetUserInfo={resetUserInfo}/>} />
           <Route path="/login" element={<Login updateUserInfo={updateUserInfo}/>} />
           <Route path='/signup' element={<SignUp updateUserInfo={updateUserInfo}/>} />
-          <Route path='/cambio-credenciales' element={<EditCredentials />} /> {/* Pendiente de terminar (calvera) */}
-          <Route path='/profile' element={<UserProfile userProfileVisibility={userProfileVisibility} updateUserProfileVisibility={updateUserProfileVisibility} userInfo={userInfo} modifyAvatarColor={modifyAvatarColor} modifyAvatarImage={modifyAvatarImage}/>} />
-          <Route path='/battlePass' element={<BattlePass />} />
+          <Route path='/cambio-credenciales' element={<EditCredentials userInfo={userInfo}/>} /> {/* Pendiente de terminar (calvera) */}
+          <Route path='/profile' element={<UserProfile userProfileVisibility={userProfileVisibility} updateUserProfileVisibility={updateUserProfileVisibility} userInfo={userInfo} modifyAvatarColor={modifyAvatarColor} modifyAvatarImage={modifyAvatarImage} updateUserInfo={updateUserInfo} resetUserInfo={resetUserInfo}/>} />
+          <Route path='/battlePass' element={<BattlePass userInfo={userInfo} />} />
           <Route path='/ranking' element={<Ranking />} />
-          <Route path='/arenas' element={<Arenas />} />
-          <Route path='/personalizacion' element={<Personalizacion />} />
+          <Route path='/arenas' element={<Arenas userInfo={userInfo} updateUserInfo={updateUserInfo}/>} />
+          <Route path='/personalizacion' element={<Personalizacion userInfo={userInfo}/>} />
           <Route path='/game' element={<Game gameMode={gameMode} />} />
           <Route path='/gameOnline/:roomId/:colorSuffix' element={<GameOnline gameMode={gameMode} playersInfo={playersInfo} />} />
-          <Route path='/gameAsync/' element={<GameAsync gameMode={gameMode} playersInfo={playersInfo} />} />
+          <Route path='/gameAsync/:id' element={<GameAsync gameMode={gameMode} playersInfo={playersInfo} />} />
         </Routes>
       </div>
     </SocketContext.Provider>

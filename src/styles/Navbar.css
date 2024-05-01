@@ -22,8 +22,14 @@
 .navbar-user-button {
     background-color: transparent;
     border: none;
-    margin-right: 100px; /* Desplaza el avatar del usuario a la izquierda */
+    margin-right: 30px; /* Desplaza el avatar del usuario a la izquierda */
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    /* padding: 14px; */
+}
+.navbar-user-button>svg {
+  margin-right: 20px;
 }
 
 .navbar-login-button{
@@ -32,4 +38,41 @@
     margin-right: 40px;
     cursor: pointer;
     font-size: 20px;
+}
+
+
+/* Estilos para el menú desplegable */
+.MuiMenu-paper {
+  background-color: #333;
+  color: white;
+}
+
+.MuiMenu-list {
+  padding: 0;
+}
+
+.MuiMenuItem-root {
+  padding: 10px 20px;
+  font-size: 16px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.MuiMenuItem-root:hover {
+  background-color: #555;
+}
+
+/* Estilos para el avatar del usuario en el menú */
+.MuiAvatar-root {
+  margin-right: 10px;
+}
+
+/* Estilos para el icono de notificaciones */
+.MuiSvgIcon-root {
+  cursor: pointer;
+}
+
+/* Estilos para el contenido del menú de notificaciones */
+#notifications-menu {
+  margin-top: 10px; /* Ajustar según necesidad */
+  width: 200px; /* Ajustar según necesidad */
 }

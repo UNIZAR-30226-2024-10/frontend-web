@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import '../styles/Profile.css';
 import Avatar from '@mui/material/Avatar';
 import CloseIcon from '@mui/icons-material/Close';
@@ -15,6 +15,7 @@ import whiteQueen from '../images/pieces/cburnett/wQ.svg'
 import blackRook from '../images/pieces/cburnett/bR.svg'
 import whiteRook from '../images/pieces/cburnett/wR.svg'
 import { Tooltip } from "@mui/material";
+const apiUrl = process.env.REACT_APP_API_URL;
 
 function Profile({ updateUserProfileVisibility, modifyAvatarImage, modifyAvatarColor, userInfo }) {
 
@@ -22,6 +23,34 @@ function Profile({ updateUserProfileVisibility, modifyAvatarImage, modifyAvatarC
   const whiteImages = [whiteKing,whiteQueen,whiteBishop,whiteKnight,whiteRook,whitePawn]
   const blackImages = [blackKing,blackQueen,blackBishop,blackKnight,blackRook,blackPawn]
   const colors = ['blue','grey','green','yellow','orange','pink','purple','red']
+
+  const [error, setError] = useState(null);
+  useEffect(() => {
+
+    // Enviar al servidor el nuevo avatar del usuario
+    const sendUserData = async () => {
+      const avatar = userInfo.avatarImage;
+      const color = userInfo.avatarColor
+      try {
+        const response = await fetch(`${apiUrl}/users/update_avatar_color/${userInfo.userId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ avatar, color })
+        });
+        const data = await response.json();
+    
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+      } catch (error) {
+        setError(error.message);
+      }
+    }
+
+    sendUserData();
+  },[userInfo.avatarImage, userInfo.avatarColor])
 
    /* Perfil de usuario */
   return (

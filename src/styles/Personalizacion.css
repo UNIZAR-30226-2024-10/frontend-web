@@ -121,8 +121,13 @@
   overflow: auto;
 }
 .menuDeslizantePagina {
+  width: 100%;
+  height: 9%;
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  overflow-x: auto;
 }
 
 /* Boton con el que se selecciona el contenido a mostrar (fichas o emoticonos) */
@@ -155,11 +160,11 @@
   align-items: center;
   border-radius: 10px;
   overflow: auto;
-  background-color: #e0dcdc91;
+  background: linear-gradient(to left, #faaf40, #ee4336);
   padding: 8px;
 }
 .listadoPiezas:hover {
-  background-color: #c5c0c091;
+  background: linear-gradient(to left, #fab040c9, #ee4236bd);
 }
 .listadoPiezas.locked {
   cursor: not-allowed;
@@ -193,17 +198,45 @@
   justify-content: center;
   border-radius: 10px;
   overflow: auto;
-  background-color: #e0dcdc91;
+  background: linear-gradient(to left, #faaf40, #ee4336);
   padding: 8px;
 }
 .listadoEmotes:hover {
-  background-color: #c5c0c091;
+  background: linear-gradient(to left, #fab040c9, #ee4236bd);
 }
 .listadoEmotes.locked {
   cursor: not-allowed;
 }
 .listadoEmotes.selected {
   border: solid 2px lime;
+}
+
+.guardarCambiosButton {
+  right: 10px;
+  height: 100%;
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+  background-color: lime;
+}
+
+.cambiosButtonContainer {
+  height: 100%;
+  width: 40%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+.paginationContainer {
+  height: 100%;
+  width: 60%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 /* Gestión de componentes según el tamaño de la ventana */

@@ -10,23 +10,44 @@ import Diamante from '../images/boards/diamante.png';
 import Esmeralda from '../images/boards/esmeralda.png';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Tooltip } from "@mui/material";
+const apiUrl = process.env.REACT_APP_API_URL;
 
-function Arenas() {
+function Arenas({ userInfo, updateUserInfo }) {
   const [showSidebar, setShowSidebar] = useState(false); /* Mostrar o esconder el sideBar */
   const [hoveredArena, setHoveredArena] = useState(null);  /* Arena sobre la que se pasa el ratón */
-  const [eloArenaShowing, setEloArenaShowing] = useState('Rapid'); /* Para que tipo de modo de juego se está mostrando el elo */
-  /* Hook para guardar info de la arena a mostrar */
+  /* Hook para mostrar informacion de la arena sobre la que se clica */
   const [arenaPopUp, setArenaPopUp] = useState({
     showArena: '',
     showArenaStr: '',
     showArenaElo: '',
     showPopUp: false,
   });
-  var userArenas = [
-    { modo: 'rapid', elo: 1200, arena: 'MADERA' },
-    { modo: 'blitz', elo: 1500, arena: 'MARMOL' },
-    { modo: 'bullet', elo: 2500, arena: 'DIAMANTE' },
-  ];
+  // Hook para guardar la informacion del modo de juego que se esta mostrando en pantalla
+  const [mostrandoPantalla, setMostrandoPantalla] = useState({ modo : 'Rapid', elo : 1200, arena : 'MADERA' }); // valores por defecto
+
+  const [error, setError] = useState(null);
+  // Pedir al backend la info del usuario
+  useEffect(() => {
+
+    const fetchUserData = async () => {
+       try {
+        const response = await fetch(`${apiUrl}/users/${userInfo.userId}`); // Construct URL using userId
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const userData = await response.json();
+        // Guardar info del usuario que pueda ser util posteriormente
+        setMostrandoPantalla(prevState => ({ ...prevState, elo : userData.elorapid }));
+        updateUserInfo({ field : "eloRapid", value : userData.elorapid });
+        updateUserInfo({ field : "eloBlitz", value : userData.eloblitz });
+        updateUserInfo({ field : "eloBullet", value : userData.elobullet });
+      } catch (error) {
+        setError(error.message);
+      }
+    }
+
+    fetchUserData();
+  }, []);
 
   /* Arenas del juego y su contenido */
   const arenas = [
@@ -86,6 +107,36 @@ function Arenas() {
     }
   }, [arenaPopUp.showArena]);
 
+
+  useEffect(() => {
+
+    const actualizarMostrandoPantalla = () => {
+      var nuevaArena = '';
+      if (mostrandoPantalla.elo < 1500) {
+        nuevaArena = 'MADERA';
+      } 
+      else if (mostrandoPantalla.elo >= 1500 && mostrandoPantalla.elo < 1800) {
+        nuevaArena = 'MARMOL';
+      }
+      else if (mostrandoPantalla.elo >= 1800 && mostrandoPantalla.elo < 2100) {
+        nuevaArena = 'ORO';
+      }
+      else if (mostrandoPantalla.elo >= 2100 && mostrandoPantalla.elo < 2400) {
+        nuevaArena = 'ESMERALDA';
+      }
+      else if (mostrandoPantalla.elo > 2400) {
+        nuevaArena = 'DIAMANTE';
+      }
+
+      setMostrandoPantalla(prevState => ({
+        ...prevState,
+        arena : nuevaArena,
+      }));
+
+    }
+    actualizarMostrandoPantalla();
+  }, [mostrandoPantalla.modo, mostrandoPantalla.elo])
+
   /* Arenas de juego */
   return (
     <div className="background-arenas">
@@ -111,18 +162,20 @@ function Arenas() {
           <div className="arenas-container center">
             <div className="arenasContentShowing">
               <div>
-                <button className={eloArenaShowing === 'Rapid' ? "contenidoButtonArenas selected" : "contenidoButtonArenas"} onClick={() => setEloArenaShowing('Rapid')}>
+                <button className={mostrandoPantalla.modo === 'Rapid' ? "contenidoButtonArenas selected" : "contenidoButtonArenas"} 
+                  onClick={() => setMostrandoPantalla(prevState => ({...prevState, modo : 'Rapid', elo : userInfo.eloRapid}))}>
                   Rapid
                 </button>
-                <button className={eloArenaShowing === 'Bullet' ? "contenidoButtonArenas selected" : "contenidoButtonArenas"} onClick={() => setEloArenaShowing('Bullet')}>
+                <button className={mostrandoPantalla.modo === 'Bullet' ? "contenidoButtonArenas selected" : "contenidoButtonArenas"} 
+                  onClick={() => setMostrandoPantalla(prevState => ({...prevState, modo :'Bullet', elo : userInfo.eloBullet}))}>
                   Bullet
                 </button>
-                <button className={eloArenaShowing === 'Blitz' ? "contenidoButtonArenas selected" : "contenidoButtonArenas"} onClick={() => setEloArenaShowing('Blitz')}>
+                <button className={mostrandoPantalla.modo === 'Blitz' ? "contenidoButtonArenas selected" : "contenidoButtonArenas"} 
+                  onClick={() => setMostrandoPantalla(prevState => ({...prevState,modo : 'Blitz', elo : userInfo.eloBlitz}))}>
                   Blitz
                 </button>
               </div>
-              {console.log("mostrando",userArenas.find(modalidad => modalidad.modo === eloArenaShowing))}
-              {<h2 className="infoPuntosArenas">Elo actual: {(userArenas.find(modalidad => modalidad.modo === eloArenaShowing))} → {userArenas.find(modalidad => modalidad.modo === eloArenaShowing)}</h2>}
+              <h2 className="infoPuntosArenas">Elo {mostrandoPantalla.modo} : {mostrandoPantalla.elo}</h2>
             </div>
             {/* Listado de las arenas */}
             <div className="arenas">
@@ -131,7 +184,7 @@ function Arenas() {
                   <button className="boton-arenas"
                     onClick={() => setArenaPopUp({ showArena: arena.img, showArenaStr: arena.str, showArenaElo: arena.elo, showPopUp: true })}>
                     {/* Imagen de la arena */}
-                    <img className={userArenas.arena === arena.str ? "imagenArena glowing-background" : "imagenArena"} src={arena.img} alt={`Tablero ${index}`} />
+                    <img className={mostrandoPantalla.arena === arena.str ? "imagenArena glowing-background" : "imagenArena"} src={arena.img} alt={`Tablero ${index}`} />
                   </button>
                   {hoveredArena === index &&
                     <div className="message">

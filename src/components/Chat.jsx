@@ -55,7 +55,6 @@ function Chat({ roomId }) {
       from: 'Me' // Emisor del mensaje
     };
     
-    console.log("valor a enviar",emote);
     /* Envio del mensaje al servidor */
     if (emote) {
       setMessage([...message, newMessage]); // Añade el nuevo mensaje a la lista de mensajes

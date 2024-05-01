@@ -47,12 +47,31 @@ export const ShowUserProfile = () => {
 export const UserInfo = () => {
   const [userInfo, setUserInfo] = useState({
     /* Información a guardar de cada usuario */
-    loggedIn : localStorage.getItem('loggedIn') || false,
-    userName : localStorage.getItem('userName') || '',
-    userId : localStorage.getItem('userId') || '',
-    avatarImage : localStorage.getItem('avatarImage') || whiteKing, 
-    avatarColor: localStorage.getItem('avatarColor') || 'orange',
+    loggedIn : sessionStorage.getItem('loggedIn') || 'false',
+    userName : sessionStorage.getItem('userName') || '',
+    userId : sessionStorage.getItem('userId') || '',
+    userCorreo : sessionStorage.getItem('userCorreo') || '',
+    avatarImage : sessionStorage.getItem('avatarImage') || whiteKing, 
+    avatarColor: sessionStorage.getItem('avatarColor') || 'orange',
+    eloRapid : sessionStorage.getItem('eloRapid') || '', 
+    eloBullet : sessionStorage.getItem('eloBullet') || '', 
+    eloBlitz : sessionStorage.getItem('eloBlitz') || '',
   });
+  const resetUserInfo = () => {
+    /* resetea la información del usuario */
+    sessionStorage.clear();
+    setUserInfo({
+      loggedIn : 'false',
+      userName : '',
+      userId : '',
+      userCorreo : '',
+      avatarImage : whiteKing, 
+      avatarColor: 'orange',
+      eloRapid : '', 
+      eloBullet : '', 
+      eloBlitz : '',
+    });
+  }
   const updateUserInfo = (data) => {
     setUserInfo(prevState => ({
       /* Modifica solo el campo campo indicado con el valor indicado */
@@ -60,7 +79,7 @@ export const UserInfo = () => {
       [data.field] : data.value,
     }));
     // Actualiza los valores en el navegador
-    localStorage.setItem([data.field], data.value);
+    sessionStorage.setItem([data.field], data.value);
   }
   const modifyAvatarImage = (newAvatar) => {
     setUserInfo(prevState => ({
@@ -68,7 +87,7 @@ export const UserInfo = () => {
       avatarImage : newAvatar,
     }));
     // Actualiza los valores en el navegador
-    localStorage.setItem('avatarImage', newAvatar);
+    sessionStorage.setItem('avatarImage', newAvatar);
   };
   const modifyAvatarColor = (newColor) => {
     setUserInfo(prevState => ({
@@ -76,7 +95,7 @@ export const UserInfo = () => {
       avatarColor : newColor,
     }));
     // Actualiza los valores en el navegador
-    localStorage.setItem('avatarColor', newColor);
+    sessionStorage.setItem('avatarColor', newColor);
   }
 
   return {
@@ -84,5 +103,6 @@ export const UserInfo = () => {
     updateUserInfo,
     modifyAvatarImage,
     modifyAvatarColor,
+    resetUserInfo,
   }
 }
