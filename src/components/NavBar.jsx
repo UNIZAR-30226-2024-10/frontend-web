@@ -17,16 +17,18 @@ function Navbar({ userInfo, updateUserInfo, resetUserInfo }) {
   useEffect(() => {
     // Función para cargar las notificaciones al montar el componente
     const fetchNotifications = async () => {
-      try {
-        const response = await fetch(`${apiUrl}/users/all_partidas_asincronas`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch notifications');
+      if(sessionStorage.getItem('loggedIn')){
+        try {
+          const response = await fetch(`${apiUrl}/users/get_partida_asincrona/${sessionStorage.getItem('userId')}`);
+          if (!response.ok) {
+            throw new Error('Failed to fetch notifications');
+          }
+          const data = await response.json();
+          setNotifications(data); // Actualiza el estado con las notificaciones obtenidas
+          setHasNewNotifications(data.length > 0); // Verifica si hay nuevas notificaciones
+        } catch (error) {
+          console.error('Error fetching notifications:', error);
         }
-        const data = await response.json();
-        setNotifications(data); // Actualiza el estado con las notificaciones obtenidas
-        setHasNewNotifications(data.length > 0); // Verifica si hay nuevas notificaciones
-      } catch (error) {
-        console.error('Error fetching notifications:', error);
       }
     };
 

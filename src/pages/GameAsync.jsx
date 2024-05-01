@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import '../styles/Game.css'
 import SideBar from '../components/SideBar';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -18,25 +18,52 @@ function GameAsync({ gameMode }) {
   const playingGame = true; /* Indica al sideBar de que este componente se está usando en partida */
   const [wantToQuit, setWantToQuit] = useState(false); /* Indica que un jugador quiere abandonar la partida */
   const [confirmSurrender, setConfirmSurrender] = useState(false); /* Contiene los diferentes estados de la partida */
-
+  const { id } = useParams();
  const [tableroNuevo, setTableroNuevo] = useState(null);
-
+    const inicial = [
+        ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
+        ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
+        ['' , '' , '' , '' ,'' , '' , '' , '' ],
+        ['' , '' , '' , '' ,'' , '' , '' , '' ],
+        ['' , '' , '' , '' ,'' , '' , '' , '' ],
+        ['' , '' , '' , '' ,'' , '' , '' , '' ],
+        ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
+        ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
+    ]
+    const [idMio, setIdMio] = useState(null)
+    const [idRival, setIdRival] = useState(null)
+    const [colorSuffix, setColorSuffix]=useState(null)
+    const [turno, setTurno]=useState(null)
   useEffect(() => {
     // Lógica para obtener el tablero de una API
     const fetchTablero = async () => {
       try {
-        const response = await fetch(`${apiUrl}/users/all_partidas_asincronas`);
+        const response = await fetch(`${apiUrl}/users/get_partida_asincrona/${id}`);
         if (!response.ok) {
           throw new Error('Error al obtener el tablero');
         }
         const data = await response.json();
-        const tableroString = data[0].tablero.replace(/\\/g, '');
-        const tableroJson = JSON.parse(tableroString);
-
-        // console.log(tableroString)
-        // setTablero(data[0].tablero); // Asumiendo que la respuesta de la API tiene una propiedad 'tablero'
-        const matriz = AMatriz({jsonData:tableroJson});
-        setTableroNuevo(matriz);
+        console.log("data", data)
+        if(data[0].usuarioblancasid===sessionStorage.getItem('userId')){
+          setColorSuffix(0);
+        }else{
+          setColorSuffix(1);
+        }
+        if(data[0].tablero===null){
+          setTableroNuevo(inicial)
+          setTurno(0);
+        }else{
+          const tableroString = data[0].tablero.replace(/\\/g, '');
+          const tableroJson = JSON.parse(tableroString);
+          if(tableroJson.turno === 'blancas' && data[0].usuarioblancasid===sessionStorage.getItem('userId')){
+            setTurno(0);
+          }else if (tableroJson.turno === 'negras' && data[0].usuarioblancasid!=sessionStorage.getItem('userId')){
+            setTurno(1);
+          }
+          // setTablero(data[0].tablero); // Asumiendo que la respuesta de la API tiene una propiedad 'tablero'
+          const matriz = AMatriz({jsonData:tableroJson});
+          setTableroNuevo(matriz);
+        }
       } catch (error) {
         console.error('Error:', error);
       }
@@ -136,7 +163,7 @@ function GameAsync({ gameMode }) {
           {/* Tablero */}
           <div className='tableroGame'>
             <GamePopup />
-            <TableroAsync arena={userArenas.arena} setVictory={setGameState} tableroNuevo={tableroNuevo}/>
+            <TableroAsync arena={userArenas.arena} setVictory={setGameState} tableroNuevo={tableroNuevo} id_partida={id} blancasAbajo={colorSuffix===0} turno={turno} />
           </div>
           {/* Jugador 2 */}
           <InfoPlayers

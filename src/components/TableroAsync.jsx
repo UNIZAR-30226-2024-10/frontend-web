@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Casilla from './Casilla';
-import '../styles/Tablero.css'
+import '../styles/TableroOnline.css'
 const apiUrl = process.env.REACT_APP_API_URL;
 import damaNegra from '../images/pieces/cburnett/bQ.svg'
 import damaBlanca from '../images/pieces/cburnett/wQ.svg'
@@ -15,10 +15,7 @@ import AMatriz from './AMatriz';
 
 
 
-const Tablero = ({ arena, setVictory, tableroNuevo}) => {
-    const gridStyle = {
-        display: 'grid',
-    };
+const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbajo}) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const openModal = () => {
@@ -211,7 +208,6 @@ const Tablero = ({ arena, setVictory, tableroNuevo}) => {
             });
 
             const parseRes = await response.json(); // parseRes es el objeto JSON que se recibe
-
             if (parseRes.jugadaLegal === true) { // Si la jugada es legal (campo jugadaLegal) se cambian los movimientos posibles
               setMovsPosibles(transformarMovimientos(parseRes));
               console.log('raw:', parseRes)
@@ -267,7 +263,7 @@ const Tablero = ({ arena, setVictory, tableroNuevo}) => {
 
     //OCURRE UN MOVIMIENTO
     useEffect(() => {
-        if(piezaSel && movimiento !== 0){ //Si ha ocurrido un movimiento
+        if(piezaSel && movimiento !== 0 && ((turno===0 && blancasAbajo===true) || (turno===1 && blancasAbajo===false))){ //Si ha ocurrido un movimiento
           //Se obtienen las coordenadas de la casilla origen
             const oldX = piezaSel.fila
             const oldY = piezaSel.col
@@ -322,6 +318,28 @@ const Tablero = ({ arena, setVictory, tableroNuevo}) => {
               if (isLegal) {
                 setTablero(newTablero); // Se cambia el tablero
                 setTurno(turno === 0 ? 1 : 0); // Cambia el color que tiene el turno
+                const postData = {
+                  id_partida:id_partida,
+                  tablero_actual:traducirTableroAJSON(newTablero)
+                };
+
+                // Configura las opciones de la solicitud
+                const requestOptions = {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                    // Si necesitas agregar más encabezados, puedes hacerlo aquí
+                  }, 
+                  body: JSON.stringify(postData) // Convierte los datos a formato JSON
+                };
+
+                // Realiza la solicitud POST a la API utilizando fetch
+                fetch(`apiUrl/update_cambio_partida_asincrona/${id_partida}`, requestOptions)
+                  .then(response => response.json())
+                  .catch(error => {
+                    console.error('Error al realizar la solicitud POST:', error);
+                    // Aquí puedes manejar el error si la solicitud POST falla
+                  });
               }
               setPiezaSel(null); // No hay piezas seleccionadas
             })
@@ -345,6 +363,28 @@ const Tablero = ({ arena, setVictory, tableroNuevo}) => {
               if (isLegal) {
                 setTablero(newTablero); // Se cambia el tablero
                 setTurno(turno === 0 ? 1 : 0); // Cambia el color que tiene el turno
+                const postData = {
+                  id_partida:id_partida,
+                  tablero_actual:traducirTableroAJSON(newTablero)
+                };
+
+                // Configura las opciones de la solicitud
+                const requestOptions = {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                    // Si necesitas agregar más encabezados, puedes hacerlo aquí
+                  }, 
+                  body: JSON.stringify(postData) // Convierte los datos a formato JSON
+                };
+
+                // Realiza la solicitud POST a la API utilizando fetch
+                fetch(`apiUrl/update_cambio_partida_asincrona/${id_partida}`, requestOptions)
+                  .then(response => response.json())
+                  .catch(error => {
+                    console.error('Error al realizar la solicitud POST:', error);
+                    // Aquí puedes manejar el error si la solicitud POST falla
+                  });
               }
               setPiezaSel(null); // No hay piezas seleccionadas
             })
@@ -357,9 +397,9 @@ const Tablero = ({ arena, setVictory, tableroNuevo}) => {
     
     return (
         <>
-        <div className={`tablero`}>
+        <div className={`tableroOnline ${!blancasAbajo ? 'rotated' : ''}`}>
             {[...Array(8)].map((_, rowIndex) => (
-                <div key={rowIndex}  className="filatab">
+                <div key={rowIndex}  className="filatabOnline">
                     {[...Array(8)].map((_, colIndex) => (
                         <Casilla 
                             key={`${rowIndex}-${colIndex}`} // Add unique key prop here
@@ -371,7 +411,8 @@ const Tablero = ({ arena, setVictory, tableroNuevo}) => {
                             setPiezaSel={setPiezaSel}
                             movsPosibles={movsPosibles}
                             setNewMov={setNewMov}
-                            blancasAbajo={true}
+                            turno={turno}
+                            blancasAbajo={blancasAbajo}
                             arena={arena}
                         />
                     ))}
@@ -397,4 +438,4 @@ const Tablero = ({ arena, setVictory, tableroNuevo}) => {
     );
 };
 
-export default Tablero;
+export default TableroAsync;

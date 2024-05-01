@@ -5,6 +5,8 @@ import '../styles/Sidebar.css';
 import CloseIcon from '@mui/icons-material/Close';
 import {SocketContext} from './../context/socket';
 import { Tooltip } from "@mui/material";
+const apiUrl = process.env.REACT_APP_API_URL;
+
 
 function SideBar(args) {
   const socket = useContext(SocketContext);
@@ -15,21 +17,46 @@ function SideBar(args) {
 
   useEffect(() => {
     if (socket) {
-      // Escuchar el evento 'game_ready' del servidor
-      socket.on('game_ready', (data) => {
-        setMatchFound(false);
-        console.log(data)
-        const colorSuffix = data.color === 'white' ? '0' : '1';
-        args.updatePlayersInGame({me: data.me, opponent: data.opponent}); // Guarda la información de los jugadores de la partida
-        // Cifrar los parámetros y agregarlos a la URL
-        if(data.color==0&&args.mode=="Correspondencia"){
-          navigate(`/gameAsync/`);
-          console.log("sda")
-        }else{
-          navigate(`/home`);
-        }
-      });
-    }
+    // Escuchar el evento 'game_ready' del servidor
+    socket.on('game_ready', (data) => {
+      setMatchFound(false);
+      console.log(data)
+      const colorSuffix = data.color === 'white' ? '0' : '1';
+      args.updatePlayersInGame({ me: data.me, opponent: data.opponent }); // Guarda la información de los jugadores de la partida
+      
+      // Si el color es blanco y el modo es 'Correspondencia', hacer la petición POST a la API
+      if (data.color === 'white' && args.mode === 'Correspondencia') {
+        const postData = {
+          usuarioBlancas:sessionStorage.getItem('userId'),
+          usuarioNegras:data.opponent,
+        };
+
+        // Configura las opciones de la solicitud
+        const requestOptions = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+            // Si necesitas agregar más encabezados, puedes hacerlo aquí
+          },
+          body: JSON.stringify(postData) // Convierte los datos a formato JSON
+        };
+
+        // Realiza la solicitud POST a la API utilizando fetch
+        fetch(`apiUrl/register_partida_asincrona`, requestOptions)
+          .then(response => response.json())
+          .then(data => {
+            navigate(`/gameAsync/${data.id}`)
+            // Aquí puedes manejar la respuesta de la API si es necesario
+          })
+          .catch(error => {
+            console.error('Error al realizar la solicitud POST:', error);
+            // Aquí puedes manejar el error si la solicitud POST falla
+          });
+      } else {
+        navigate(`/home`);
+      }
+    });
+  }
     return () => {
       socket.off("game_ready");
     };
@@ -189,8 +216,13 @@ const handleClickJugarRAOnline = () => {
           </div>
           {/* Modos de juego */}
           <LocalMode />
-          <OnlineMode />
-          <CorrespondenceMode />
+          {sessionStorage.getItem('loggedIn') && (
+            <>
+              <OnlineMode />
+              <CorrespondenceMode />
+            </>
+          )}
+
         </div>
       </div>
     );
