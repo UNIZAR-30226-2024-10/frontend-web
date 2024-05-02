@@ -21,7 +21,7 @@ function SideBar(args) {
     socket.on('game_ready', (data) => {
       setMatchFound(false);
       const colorSuffix = data.color === 'white' ? '0' : '1';
-      args.updatePlayersInGame({ me: data.me, opponent: data.opponent }); // Guarda la información de los jugadores de la partida
+      args.updateUserInfo({ field : 'opponent', value : data.opponent }); // Guarda la información de los jugadores de la partida
       
       // Si el color es blanco y el modo es 'Correspondencia', hacer la petición POST a la API
       if (data.color === 'white' && args.mode === 'Correspondencia') {

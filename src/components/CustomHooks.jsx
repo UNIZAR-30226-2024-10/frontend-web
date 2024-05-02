@@ -13,24 +13,6 @@ export const GameMode = () => {
   };
 }
 
-/* Hook para almacenar el nombre de los jugadores en partida */
-export const PlayersInGame = () => { 
-  const [playersInfo, setPlayersInfo] = useState({
-    me : '', 
-    opponent: '',
-  });
-  const updatePlayersInGame = (players) => {
-    setPlayersInfo({
-      me : players.me,
-      opponent : players.opponent,
-    });
-  };
-  return {
-    playersInfo,
-    updatePlayersInGame,
-  };
-}
-
 /* Hook para mostrar el perfil del usuario */
 export const ShowUserProfile = () => { 
   const [userProfileVisibility, setUserProfileVisibility] = useState(false);
@@ -57,6 +39,7 @@ export const UserInfo = () => {
     eloBlitz : sessionStorage.getItem('eloBlitz') || '',
     userPiezas : sessionStorage.getItem('userPiezas') || '',
     userEmotes : sessionStorage.getItem('userEmotes') || ['','','',''],
+    opponent: sessionStorage.getItem('opponent') || '',
   });
   const resetUserInfo = () => {
     /* resetea la información del usuario */

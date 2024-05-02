@@ -13,12 +13,11 @@ import Arenas from './pages/Arenas.jsx';
 import Personalizacion from './pages/Personalizacion.jsx';
 import UserProfile from './pages/UserProfile.jsx';
 import EditCredentials from './pages/EditCredentials.jsx';
-import { GameMode, PlayersInGame, UserInfo, ShowUserProfile } from './components/CustomHooks.jsx';
+import { GameMode, UserInfo, ShowUserProfile } from './components/CustomHooks.jsx';
 import {SocketContext, socket} from './context/socket';
 
 function App() {
   const {gameMode, updateMode} = GameMode(); 
-  const {playersInfo, updatePlayersInGame} = PlayersInGame(); 
   const {userInfo, updateUserInfo, modifyAvatarColor, modifyAvatarImage, resetUserInfo} = UserInfo();
   const {userProfileVisibility, updateUserProfileVisibility} = ShowUserProfile();
 
@@ -26,7 +25,7 @@ function App() {
     <SocketContext.Provider value={socket}>
       <div className="App">
         <Routes>
-          <Route path="/home" element={<Home updateMode={updateMode} gameMode={gameMode} updatePlayersInGame={updatePlayersInGame} userInfo={userInfo} updateUserInfo={updateUserInfo} resetUserInfo={resetUserInfo}/>} />
+          <Route path="/home" element={<Home updateMode={updateMode} gameMode={gameMode} userInfo={userInfo} updateUserInfo={updateUserInfo} resetUserInfo={resetUserInfo}/>} />
           <Route path="/login" element={<Login updateUserInfo={updateUserInfo}/>} />
           <Route path='/signup' element={<SignUp updateUserInfo={updateUserInfo}/>} />
           <Route path='/cambio-credenciales' element={<EditCredentials userInfo={userInfo}/>} /> {/* Pendiente de terminar (calvera) */}
@@ -36,8 +35,8 @@ function App() {
           <Route path='/arenas' element={<Arenas userInfo={userInfo} updateUserInfo={updateUserInfo}/>} />
           <Route path='/personalizacion' element={<Personalizacion userInfo={userInfo} updateUserInfo={updateUserInfo}/>} />
           <Route path='/game' element={<Game gameMode={gameMode} userInfo={userInfo}/>} />
-          <Route path='/gameOnline/:roomId/:colorSuffix' element={<GameOnline gameMode={gameMode} playersInfo={playersInfo} userInfo={userInfo}/>} />
-          <Route path='/gameAsync/:id' element={<GameAsync gameMode={gameMode} playersInfo={playersInfo} />} />
+          <Route path='/gameOnline/:roomId/:colorSuffix' element={<GameOnline gameMode={gameMode} userInfo={userInfo}/>} />
+          <Route path='/gameAsync/:id' element={<GameAsync gameMode={gameMode} />} />
         </Routes>
       </div>
     </SocketContext.Provider>

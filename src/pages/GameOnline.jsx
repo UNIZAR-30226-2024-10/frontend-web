@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom';
 import Chat from '../components/Chat.jsx';
 import {SocketContext} from './../context/socket';
 
-function GameOnline({ gameMode, playersInfo, userInfo }) {
+function GameOnline({ gameMode, userInfo }) {
   const [showSidebar, setShowSidebar] = useState(false); /* Mostrar o esconder el sideBar */
   const socket = useContext(SocketContext);
   const [userArenas, setUserArenas] = useState({
@@ -232,7 +232,7 @@ function GameOnline({ gameMode, playersInfo, userInfo }) {
             {gameState.confirmSurrender &&
               <div className="gameOnlinePopup">
                 <h1><u>¡Te has rendido!</u></h1>
-                <h3>El jugador {playersInfo.opponent} gana</h3>
+                <h3>El jugador {userInfo.opponent} gana</h3>
                 <button className="gameOnlinePopupButt" onClick={() => navigate('/home')}>
                   Abandonar partida
                 </button>
@@ -328,7 +328,7 @@ function GameOnline({ gameMode, playersInfo, userInfo }) {
           {/* Jugador 1 */}
           <InfoPlayers
             numJugador='1'
-            nombreJugador="asd"
+            nombreJugador={userInfo.opponent}
             eloJugador='200'
             colorFicha='Negras'
             fichasComidas='0' />
@@ -340,7 +340,7 @@ function GameOnline({ gameMode, playersInfo, userInfo }) {
           {/* Jugador 2 */}
           <InfoPlayers
             numJugador='2'
-            nombreJugador="asd"
+            nombreJugador={userInfo.name}
             eloJugador='200'
             colorFicha='Blancas'
             fichasComidas='0' />
