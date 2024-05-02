@@ -6,8 +6,8 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 const apiUrl = process.env.REACT_APP_API_URL;
-
 function Navbar({ userInfo, updateUserInfo, resetUserInfo }) {
+
   const navigate = useNavigate();
   const [anchorElProfile, setAnchorElProfile] = useState(null); // Estado para el menú del perfil
   const [anchorElNotifications, setAnchorElNotifications] = useState(null); // Estado para el menú de notificaciones
@@ -17,15 +17,32 @@ function Navbar({ userInfo, updateUserInfo, resetUserInfo }) {
   useEffect(() => {
     // Función para cargar las notificaciones al montar el componente
     const fetchNotifications = async () => {
-      if(sessionStorage.getItem('loggedIn')){
-        try {
-          const response = await fetch(`${apiUrl}/users/get_partida_asincrona/${sessionStorage.getItem('userId')}`);
+      if(userInfo.loggedIn){
+       try {
+          const response = await fetch(`${apiUrl}/users/get_partidas_asincronas/${userInfo.userId}`);
           if (!response.ok) {
             throw new Error('Failed to fetch notifications');
           }
           const data = await response.json();
           setNotifications(data); // Actualiza el estado con las notificaciones obtenidas
-          setHasNewNotifications(data.length > 0); // Verifica si hay nuevas notificaciones
+          
+          // Itera sobre los datos para hacer alguna operación
+          data.forEach(notification => {
+            console.log(notification)
+            if(notification.tablero===null){
+              if(notification.usuarioblancasid.toString()===userInfo.userId){
+                setHasNewNotifications(true); // Verifica si hay nuevas notificaciones
+              }
+            }else{
+              const tableroString = notification.tablero.replace(/\\/g, '');
+              const tableroJson = JSON.parse(tableroString);
+              if((notification.usuarioblancasid.toString()===userInfo.userId && tableroJson.turno === 'blancas') || (notification.usuarionegrasid.toString()===userInfo.userId && tableroJson.turno === 'negras')){
+                setHasNewNotifications(true); // Verifica si hay nuevas notificaciones
+              }
+            }
+          });
+
+          // console.log(data);
         } catch (error) {
           console.error('Error fetching notifications:', error);
         }
@@ -110,7 +127,7 @@ function Navbar({ userInfo, updateUserInfo, resetUserInfo }) {
                   onClose={handleNotificationsClose}
                 >
                   {notifications.map((notification, index) => (
-                    <MenuItem key={index} onClick={()=> handleJugarPartida(notification.id)}>{notification.id} </MenuItem>
+                    <MenuItem key={index} onClick={()=> handleJugarPartida(notification.id)}>{notification.usuarioblancasid} vs {notification.usuarionegrasid} - {notification.id}</MenuItem>
                   ))}
                 </Menu>
                 <button

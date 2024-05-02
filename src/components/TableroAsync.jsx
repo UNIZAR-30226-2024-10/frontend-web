@@ -15,7 +15,7 @@ import AMatriz from './AMatriz';
 
 
 
-const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbajo}) => {
+const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbajo, turno, setTurno}) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const openModal = () => {
@@ -32,7 +32,6 @@ const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbaj
   const [reyBlancoMovido, setReyBlancoMovido] = useState(false);
   const [reyNegroMovido, setReyNegroMovido] = useState(false);
     
-  
     function traducirTableroAJSON(matrizAux) {
       const piezas = {
           'p': 'peon',
@@ -134,21 +133,6 @@ const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbaj
         return movsPosiblesNew;
     }
 
-
-    //cjto de movimientos posibles con la conf. de tablero actual
-    // const movsPosiblesIni = {
-    //     '[7-1]': [[5,0], [5,2]],
-    //     '[7-6]': [[5,5], [5,7]],
-    //     '[6-0]': [[5,0],[4,0]],
-    //     '[6-1]': [[5,1],[4,1]],
-    //     '[6-2]': [[5,2],[4,2]],
-    //     '[6-3]': [[5,3],[4,3]],
-    //     '[6-4]': [[5,4],[4,4]],
-    //     '[6-5]': [[5,5],[4,5]],
-    //     '[6-6]': [[5,6],[4,6]],
-    //     '[6-7]': [[5,7],[4,7]],
-    // }
-
     const [movsPosibles, setMovsPosibles] = useState({})
 
 
@@ -183,7 +167,7 @@ const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbaj
     const [movimiento, setNewMov] = useState(0)
 
     // ue color esta jugando. 0: blancas, 1: negras
-    const [turno, setTurno] = useState(0) 
+    // const [turno, setTurno] = useState(0) 
         //SE SELECCIONA UNA PIEZA NUEVA
     useEffect(() => {
         if (tableroNuevo) { //Si se ha seleccionado una pieza
@@ -334,7 +318,7 @@ const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbaj
                 };
 
                 // Realiza la solicitud POST a la API utilizando fetch
-                fetch(`apiUrl/update_cambio_partida_asincrona/${id_partida}`, requestOptions)
+                fetch(`${apiUrl}/users/update_cambio_partida_asincrona/${id_partida}`, requestOptions)
                   .then(response => response.json())
                   .catch(error => {
                     console.error('Error al realizar la solicitud POST:', error);
@@ -364,7 +348,6 @@ const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbaj
                 setTablero(newTablero); // Se cambia el tablero
                 setTurno(turno === 0 ? 1 : 0); // Cambia el color que tiene el turno
                 const postData = {
-                  id_partida:id_partida,
                   tablero_actual:traducirTableroAJSON(newTablero)
                 };
 
@@ -379,7 +362,7 @@ const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbaj
                 };
 
                 // Realiza la solicitud POST a la API utilizando fetch
-                fetch(`apiUrl/update_cambio_partida_asincrona/${id_partida}`, requestOptions)
+                fetch(`${apiUrl}/users/update_cambio_partida_asincrona/${id_partida}`, requestOptions)
                   .then(response => response.json())
                   .catch(error => {
                     console.error('Error al realizar la solicitud POST:', error);

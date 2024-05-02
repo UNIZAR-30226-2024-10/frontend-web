@@ -6,7 +6,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import TableroAsync from '../components/TableroAsync';
 import AMatriz from '../components/AMatriz';
 const apiUrl = process.env.REACT_APP_API_URL;
-
+import { UserInfo, ShowUserProfile } from "../components/CustomHooks";
 
 function GameAsync({ gameMode }) {
   const [showSidebar, setShowSidebar] = useState(false); /* Mostrar o esconder el sideBar */
@@ -15,6 +15,8 @@ function GameAsync({ gameMode }) {
     elo: 1200,
     arena: 'Madera', // Actualizar segun el usuario
   });
+  const {userInfo, setUserInfo} = UserInfo()
+
   const playingGame = true; /* Indica al sideBar de que este componente se está usando en partida */
   const [wantToQuit, setWantToQuit] = useState(false); /* Indica que un jugador quiere abandonar la partida */
   const [confirmSurrender, setConfirmSurrender] = useState(false); /* Contiene los diferentes estados de la partida */
@@ -44,7 +46,8 @@ function GameAsync({ gameMode }) {
         }
         const data = await response.json();
         console.log("data", data)
-        if(data[0].usuarioblancasid===sessionStorage.getItem('userId')){
+        console.log(userInfo.userId)
+        if(data[0].usuarioblancasid.toString()===userInfo.userId){
           setColorSuffix(0);
         }else{
           setColorSuffix(1);
@@ -55,9 +58,9 @@ function GameAsync({ gameMode }) {
         }else{
           const tableroString = data[0].tablero.replace(/\\/g, '');
           const tableroJson = JSON.parse(tableroString);
-          if(tableroJson.turno === 'blancas' && data[0].usuarioblancasid===sessionStorage.getItem('userId')){
+          if(tableroJson.turno === 'blancas' && data[0].usuarioblancasid.toString()===userInfo.userId){
             setTurno(0);
-          }else if (tableroJson.turno === 'negras' && data[0].usuarioblancasid!=sessionStorage.getItem('userId')){
+          }else if (tableroJson.turno === 'negras' && data[0].usuarionegrasid.toString()===userInfo.userId){
             setTurno(1);
           }
           // setTablero(data[0].tablero); // Asumiendo que la respuesta de la API tiene una propiedad 'tablero'
@@ -163,7 +166,7 @@ function GameAsync({ gameMode }) {
           {/* Tablero */}
           <div className='tableroGame'>
             <GamePopup />
-            <TableroAsync arena={userArenas.arena} setVictory={setGameState} tableroNuevo={tableroNuevo} id_partida={id} blancasAbajo={colorSuffix===0} turno={turno} />
+            <TableroAsync arena={userArenas.arena} setVictory={setGameState} tableroNuevo={tableroNuevo} id_partida={id} blancasAbajo={colorSuffix===0} turno={turno} setTurno={setTurno} />
           </div>
           {/* Jugador 2 */}
           <InfoPlayers

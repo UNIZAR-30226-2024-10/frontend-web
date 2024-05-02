@@ -6,6 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import {SocketContext} from './../context/socket';
 import { Tooltip } from "@mui/material";
 const apiUrl = process.env.REACT_APP_API_URL;
+// import { UserInfo, ShowUserProfile } from "./CustomHooks"; // Asegúrate de importar desde la ubicación correcta
 
 
 function SideBar(args) {
@@ -14,7 +15,7 @@ function SideBar(args) {
   const [loading, setLoading] = useState(false); // Hook para simular la pantalla de carga
   const [gamesPopUp, setGamesPopUp] = useState(false); // Hook para mostrar los modos de juego
   const [matchFound, setMatchFound] = useState(false); // Hook para indicador de que se ha encontrado partida
-
+  // const {userInfo, setUserInfo} = UserInfo()
   useEffect(() => {
     if (socket) {
     // Escuchar el evento 'game_ready' del servidor
@@ -24,9 +25,9 @@ function SideBar(args) {
       args.updateUserInfo({ field : 'opponent', value : data.opponent }); // Guarda la información de los jugadores de la partida
       
       // Si el color es blanco y el modo es 'Correspondencia', hacer la petición POST a la API
-      if (data.color === 'white' && args.mode === 'Correspondencia') {
+      if (data.color === 'white' && data.mode === 'Correspondencia') {
         const postData = {
-          usuarioBlancas:sessionStorage.getItem('userId'),
+          usuarioBlancas:args.userInfo.userId,
           usuarioNegras:data.opponent,
         };
 
@@ -41,9 +42,10 @@ function SideBar(args) {
         };
 
         // Realiza la solicitud POST a la API utilizando fetch
-        fetch(`apiUrl/register_partida_asincrona`, requestOptions)
+        fetch(`${apiUrl}/users/register_partida_asincrona`, requestOptions)
           .then(response => response.json())
           .then(data => {
+            console.log("ids", data)
             navigate(`/gameAsync/${data.id}`)
             // Aquí puedes manejar la respuesta de la API si es necesario
           })
@@ -51,7 +53,10 @@ function SideBar(args) {
             console.error('Error al realizar la solicitud POST:', error);
             // Aquí puedes manejar el error si la solicitud POST falla
           });
-        } else {
+      } else if  (data.color === 'black' && data.mode === 'Correspondencia'){
+          navigate(`/home`);
+        }
+      else {
           navigate(`/gameOnline/${data.roomId}/${colorSuffix}`);
           /* navigate(`/home`); */
         }
@@ -145,7 +150,7 @@ const handleClickJugarRAOnline = () => {
   const handleClickJugarCorrespondence = () => {
     args.updateMode('Correspondencia');
     setLoading(true);
-    socket.emit('join_room', { mode: 'Correspondencia' , id:args.userInfo.userId, elo:sessionStorage.getItem('eloCorrespondencia')}); // Envía un evento al servidor para unirse al juego en modo Blitz
+    socket.emit('join_room', { mode: 'Correspondencia' , userId:args.userInfo.userId, elo:sessionStorage.getItem('eloCorrespondencia')}); // Envía un evento al servidor para unirse al juego en modo Blitz
   }
   const OnlineMode = () => {
     return (
