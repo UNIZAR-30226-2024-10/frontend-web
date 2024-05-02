@@ -50,12 +50,13 @@ export const UserInfo = () => {
     loggedIn : sessionStorage.getItem('loggedIn') || 'false',
     userName : sessionStorage.getItem('userName') || '',
     userId : sessionStorage.getItem('userId') || '',
-    userCorreo : sessionStorage.getItem('userCorreo') || '',
     avatarImage : sessionStorage.getItem('avatarImage') || whiteKing, 
     avatarColor: sessionStorage.getItem('avatarColor') || 'orange',
     eloRapid : sessionStorage.getItem('eloRapid') || '', 
     eloBullet : sessionStorage.getItem('eloBullet') || '', 
     eloBlitz : sessionStorage.getItem('eloBlitz') || '',
+    userPiezas : sessionStorage.getItem('userPiezas') || '',
+    userEmotes : sessionStorage.getItem('userEmotes') || ['','','',''],
   });
   const resetUserInfo = () => {
     /* resetea la información del usuario */
@@ -70,6 +71,8 @@ export const UserInfo = () => {
       eloRapid : '', 
       eloBullet : '', 
       eloBlitz : '',
+      userPiezas : '',
+      userEmotes : ['','','',''],
     });
   }
   const updateUserInfo = (data) => {

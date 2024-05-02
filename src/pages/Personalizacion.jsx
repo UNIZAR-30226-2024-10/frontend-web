@@ -33,9 +33,8 @@ import {
   KosalBP, FrescaBP, GovernorBP, LeipzigBP, MaestroBP, MpchessBP, PixelBP,
   KosalBR, FrescaBR, GovernorBR, LeipzigBR, MaestroBR, MpchessBR, PixelBR,
 } from '../images/pieces'
-import { SensorDoorRounded } from "@mui/icons-material";
 
-function Personalizacion ({ userInfo }) {
+function Personalizacion ({ userInfo, updateUserInfo }) {
   /* Hook para controlar si el sideBar es visible o no lo es */
   const [showSidebar, setShowSidebar] = useState(false);
   const [rewardShowing, setRewardShowing] = useState('piezas');
@@ -60,7 +59,7 @@ function Personalizacion ({ userInfo }) {
   // Set de piezas del usuario
   const [fichasSelected, setFichasSelected] = useState('DEFECTO');
   // Conjunto de emoticonos del usuario
-  const [emotesSelected, setEmotesSelected] = useState(['😁️','😁️','😁️','😁️']);
+  const [emotesSelected, setEmotesSelected] = useState(['','','','']);
   // Nivel del usuario (recompensas desbloqueadas)
   const [userLevel, setUserLevel] = useState(0);
 
@@ -75,12 +74,15 @@ function Personalizacion ({ userInfo }) {
         }
         const userData = await response.json();
         setUserLevel(userData.nivelpase); // Actualizar nivel pase de batalla del usuario para saber que recompensas tiene desbloqueadas
-        setFichasSelected((userData.setpiezas === 'default' ? 'DEFECTO' : userData.setpiezas));
+        setFichasSelected(userData.setpiezas);
+        console.log(userData.setPiezas)
 
         // Lee del back-end el set de emoticonos del usuario
         const emojiArray = userData.emoticonos.replace(/[{}"]/g, '').split(',');
         const emojisCleaned = emojiArray.map(emoji => emoji.trim()).filter(emoji => emoji !== '');
         setEmotesSelected(emojisCleaned);
+        console.log(emojisCleaned)
+        updateUserInfo({ field : 'userEmotes', value : emojisCleaned });
       } catch (error) {
         setError(error.message);
       }
@@ -146,8 +148,8 @@ function Personalizacion ({ userInfo }) {
   };
 
   const sendUserPiezas = async () => {
-    console.log("emotes usando actualmente",emotesSelected)
     const setPiezas = fichasSelected;
+    updateUserInfo({ field : 'userPiezas', value : fichasSelected })
     try {
       const response = await fetch(`${apiUrl}/users/update_set_piezas/${userInfo.userId}`, {
         method: 'POST',
@@ -168,7 +170,7 @@ function Personalizacion ({ userInfo }) {
 
   const sendUserEmoticonos = async () => {
     var emoticonos = emotesSelected;
-    console.log("emoticonos a enviar", emoticonos)
+    updateUserInfo({ field : 'userEmotes', value : emotesSelected});
     try {
       const response = await fetch(`${apiUrl}/users/update_emoticonos/${userInfo.userId}`, {
         method: 'POST',

@@ -34,9 +34,9 @@ function App() {
           <Route path='/battlePass' element={<BattlePass userInfo={userInfo} />} />
           <Route path='/ranking' element={<Ranking />} />
           <Route path='/arenas' element={<Arenas userInfo={userInfo} updateUserInfo={updateUserInfo}/>} />
-          <Route path='/personalizacion' element={<Personalizacion userInfo={userInfo}/>} />
-          <Route path='/game' element={<Game gameMode={gameMode} />} />
-          <Route path='/gameOnline/:roomId/:colorSuffix' element={<GameOnline gameMode={gameMode} playersInfo={playersInfo} />} />
+          <Route path='/personalizacion' element={<Personalizacion userInfo={userInfo} updateUserInfo={updateUserInfo}/>} />
+          <Route path='/game' element={<Game gameMode={gameMode} userInfo={userInfo}/>} />
+          <Route path='/gameOnline/:roomId/:colorSuffix' element={<GameOnline gameMode={gameMode} playersInfo={playersInfo} userInfo={userInfo}/>} />
           <Route path='/gameAsync/:id' element={<GameAsync gameMode={gameMode} playersInfo={playersInfo} />} />
         </Routes>
       </div>

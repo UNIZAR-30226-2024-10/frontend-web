@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom';
 import Chat from '../components/Chat.jsx';
 import {SocketContext} from './../context/socket';
 
-function GameOnline({ gameMode, playersInfo }) {
+function GameOnline({ gameMode, playersInfo, userInfo }) {
   const [showSidebar, setShowSidebar] = useState(false); /* Mostrar o esconder el sideBar */
   const socket = useContext(SocketContext);
   const [userArenas, setUserArenas] = useState({
@@ -348,7 +348,7 @@ function GameOnline({ gameMode, playersInfo }) {
         <div className='gameOnlineChatContainer'>
           {/* Chat de la partida */}
           <div className="gameOnlineChat">
-            <Chat socket={socket} roomId={roomId}/>
+            <Chat socket={socket} roomId={roomId} userInfo={userInfo}/>
           </div>
           {/* Botones de opciones para la partida */}
           <div className="gameOnlineOptions">

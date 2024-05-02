@@ -3,14 +3,20 @@ import './../styles/Chat.css'
 import { SocketContext } from './../context/socket';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 
-function Chat({ roomId }) {
+function Chat({ roomId, userInfo }) {
   const socket = useContext(SocketContext);
   const [value, setValue] = useState(''); /* Contenido del mensaje que se va a enviar */
   const [message, setMessage] = useState([]); /* Lista de mensajes enviados y recibidos */
   const inputRef = useRef(null); /* Referencia sobre el input*/
   const chatContainerRef = useRef(null); /* Referencia sobre los mensajes enviados y recibidos */
   const [showEmotes, setShowEmotes] = useState(false);
-  const avaliableEmotes = ['😁️','😂️','👍️','😲️'];
+  const [avaliableEmotes, setAvaliableEmotes] = useState(['😁️','😂️','👍️','😲️']);
+
+  const handleClickEmotes = () => {
+    /* console.log(userInfo.userEmotes); */
+    setAvaliableEmotes(userInfo.userEmotes);
+    setShowEmotes(!showEmotes);
+  }
 
   useEffect(() => {
     /* Se recibe un mensaje del servidor */
@@ -85,7 +91,7 @@ function Chat({ roomId }) {
       </div>}
       {/* Input para escribir mensajes */}
       <form onSubmit={handleSubmit} className="form">
-        <button className="chatEmojis" type="button" onClick={() => setShowEmotes(!showEmotes)}>
+        <button className="chatEmojis" type="button" onClick={handleClickEmotes}>
           <EmojiEmotionsIcon sx={{
             color: 'white',
             bgcolor: 'transparent'

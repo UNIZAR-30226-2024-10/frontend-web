@@ -20,7 +20,6 @@ function SideBar(args) {
     // Escuchar el evento 'game_ready' del servidor
     socket.on('game_ready', (data) => {
       setMatchFound(false);
-      console.log(data)
       const colorSuffix = data.color === 'white' ? '0' : '1';
       args.updatePlayersInGame({ me: data.me, opponent: data.opponent }); // Guarda la información de los jugadores de la partida
       
@@ -52,9 +51,10 @@ function SideBar(args) {
             console.error('Error al realizar la solicitud POST:', error);
             // Aquí puedes manejar el error si la solicitud POST falla
           });
-      } else {
-        navigate(`/home`);
-      }
+        } else {
+          navigate(`/gameOnline/${data.roomId}/${colorSuffix}`);
+          /* navigate(`/home`); */
+        }
     });
   }
     return () => {
@@ -130,22 +130,22 @@ function SideBar(args) {
 const handleClickJugarRAOnline = () => {
     args.updateMode('Rapid');
     setLoading(true);
-    socket.emit('join_room', { mode: 'Rapid' , id:sessionStorage.getItem('Rapid'), elo:sessionStorage.getItem('eloRapid')}); // Envía un evento al servidor para unirse al juego en modo Blitz
+    socket.emit('join_room', { mode: 'Rapid' , userId: args.userInfo.userId , elo: args.userInfo.eloRapid}); // Envía un evento al servidor para unirse al juego en modo Blitz
   };
   const handleClickJugarBUOnline = () => {
     args.updateMode('Bullet');
     setLoading(true);
-    socket.emit('join_room', { mode: 'Bullet' , id:sessionStorage.getItem('Bullet'), elo:sessionStorage.getItem('eloBullet')}); // Envía un evento al servidor para unirse al juego en modo Blitz
+    socket.emit('join_room', { mode: 'Bullet' , userId:args.userInfo.userId, elo:args.userInfo.eloBullet}); // Envía un evento al servidor para unirse al juego en modo Blitz
   }
   const handleClickJugarBLOnline = () => {
     args.updateMode('Blitz');
     setLoading(true);
-    socket.emit('join_room', { mode: 'Blitz' , id:sessionStorage.getItem('userId'), elo:sessionStorage.getItem('eloBlitz')}); // Envía un evento al servidor para unirse al juego en modo Blitz
+    socket.emit('join_room', { mode: 'Blitz' , userId:args.userInfo.userId, elo:args.userInfo.eloBlitz}); // Envía un evento al servidor para unirse al juego en modo Blitz
   }
   const handleClickJugarCorrespondence = () => {
     args.updateMode('Correspondencia');
     setLoading(true);
-    socket.emit('join_room', { mode: 'Correspondencia' , id:sessionStorage.getItem('userId'), elo:sessionStorage.getItem('eloCorrespondencia')}); // Envía un evento al servidor para unirse al juego en modo Blitz
+    socket.emit('join_room', { mode: 'Correspondencia' , id:args.userInfo.userId, elo:sessionStorage.getItem('eloCorrespondencia')}); // Envía un evento al servidor para unirse al juego en modo Blitz
   }
   const OnlineMode = () => {
     return (
@@ -216,7 +216,7 @@ const handleClickJugarRAOnline = () => {
           </div>
           {/* Modos de juego */}
           <LocalMode />
-          {sessionStorage.getItem('loggedIn') && (
+          {args.userInfo.loggedIn === 'true' && (
             <>
               <OnlineMode />
               <CorrespondenceMode />

@@ -49,15 +49,21 @@ function Ranking() {
         {/* Título de la página */}
         <h1 className="pageTitleRanking">RANKING GLOBAL</h1>
       </div>
-      <div style={{display:'flex', flexDirection:'column', flexGrow:'1', justifyContent:'center', alignItems:'center'}}>
+      {/* <div style={{display:'flex', flexDirection:'column', flexGrow:'1', justifyContent:'center', alignItems:'center'}}>
         <div style={{width:'80%', display: 'flex', justifyContent:'space-around'}}>
           <div>{data && <TablaRanking data={data.bullet} modalidad={'Bullet'}/>}</div>
           <div>{data && <TablaRanking data={data.rapid} modalidad={'Rapid'}/>}</div>
           <div>{data && <TablaRanking data={data.blitz} modalidad={'Blitz'}/>}</div>
           <div>{data===null && <Alert severity="error">API inaccesible.</Alert>}</div>
         </div>
+      </div> */}
+      <div className="centroRanking">
+        <div className="contenidoCentroRanking">
+          <div>{data && <TablaRanking data={data.bullet} modalidad={'Bullet'}/>}</div>
+          <div>{data && <TablaRanking data={data.rapid} modalidad={'Rapid'}/>}</div>
+          <div>{data && <TablaRanking data={data.blitz} modalidad={'Blitz'}/>}</div>
+        </div>
       </div>
-      
     </div>
   );
 }

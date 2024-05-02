@@ -27,6 +27,11 @@ function Home( args ) {
         args.updateUserInfo({ field : "eloRapid", value : userData.elorapid });
         args.updateUserInfo({ field : "avatarImage", value : userData.avatar });
         args.updateUserInfo({ field : "avatarColor", value : userData.color });
+        args.updatePlayersInGame({ field : "userPiezas", value : userData.setpiezas });
+        // Lee del back-end el set de emoticonos del usuario
+        const emojiArray = userData.emoticonos.replace(/[{}"]/g, '').split(',');
+        const emojisCleaned = emojiArray.map(emoji => emoji.trim()).filter(emoji => emoji !== '');
+        args.updateUserInfo({ field  : "userEmotes", value : emojisCleaned });
       } catch (error) {
         setError(error.message);
       }
@@ -38,7 +43,7 @@ function Home( args ) {
   return (
     <div className='Home'>
       <div className='side'>
-        <Sidebar inhome={home} updateMode={args.updateMode} gameMode={args.gameMode} updatePlayersInGame={args.updatePlayersInGame} />
+        <Sidebar inhome={home} updateMode={args.updateMode} gameMode={args.gameMode} updatePlayersInGame={args.updatePlayersInGame} userInfo={args.userInfo}/>
       </div>
       <div className='cuerpo-home'>
         <div className='appbar'>
