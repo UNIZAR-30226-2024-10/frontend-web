@@ -4,18 +4,7 @@ import '../styles/Casilla.css'
 
 const Casilla = (args) => {
 
-    /* const BLANCO = '#ADF597'
-    const NEGRO = '#2E960F' */ 
-    /* const BLANCO = '#8B4513' // Madera
-    const NEGRO = '#D2B48C' */  
-    /* const BLANCO = '#f5f5f5' // Mármol
-    const NEGRO = '#B8B8B8' */
-    /* const BLANCO = '#FFEA70' // Oro
-    const NEGRO = '#F5D000' */ 
-    /* const BLANCO = '#50C878' // Esmeralda
-    const NEGRO = '#38A869'  */
-    // let BLANCO = '#F0F0F0' // Diamante
-    // let NEGRO = '#B0E0E6' 
+    // Definir los colores de las casillas según la arena seleccionada
     let BLANCO, NEGRO;
     switch (args.arena) {
         case 'Madera':
@@ -52,38 +41,73 @@ const Casilla = (args) => {
         width: '90%',
     }
 
-    function char2Src(char) {
+    function char2Src(char, alcanzable) {
+        let img = ''
+        let alt = ''
         switch (char) {
             case 'p':
-                return <img style={imagen} src={require('../images/pieces/cburnett/bP.svg').default} alt='Descripción de la pieza' />
-            case 'P':
-                return <img style={imagen} src={require('../images/pieces/cburnett/wP.svg').default} alt='Descripción de la pieza' />
+                img = require('../images/pieces/cburnett/bP.svg').default;
+                alt = 'peon negro';
+                break;
             case 'r':
-                return <img style={imagen} src={require('../images/pieces/cburnett/bR.svg').default} alt='Descripción de la pieza' />
-            case 'R':
-                return <img style={imagen} src={require('../images/pieces/cburnett/wR.svg').default} alt='Descripción de la pieza' />
+                img = require('../images/pieces/cburnett/bR.svg').default;
+                alt = 'torre negra';
+                break;
             case 'n':
-                return <img style={imagen} src={require('../images/pieces/cburnett/bN.svg').default} alt='Descripción de la pieza' />
-            case 'N':
-                return <img style={imagen} src={require('../images/pieces/cburnett/wN.svg').default} alt='Descripción de la pieza' />
+                img = require('../images/pieces/cburnett/bN.svg').default;
+                alt = 'caballo negro';
+                break;
             case 'b':
-                return <img style={imagen} src={require('../images/pieces/cburnett/bB.svg').default} alt='Descripción de la pieza' />
-            case 'B':
-                return <img style={imagen} src={require('../images/pieces/cburnett/wB.svg').default} alt='Descripción de la pieza' />
+                img = require('../images/pieces/cburnett/bB.svg').default;
+                alt = 'alfil negro';
+                break;
             case 'q':
-                return <img style={imagen} src={require('../images/pieces/cburnett/bQ.svg').default} alt='Descripción de la pieza' />
-            case 'Q':
-                return <img style={imagen} src={require('../images/pieces/cburnett/wQ.svg').default} alt='Descripción de la pieza' />
+                img = require('../images/pieces/cburnett/bQ.svg').default;
+                alt = 'reina negra';
+                break;
             case 'k':
-                return <img style={imagen} src={require('../images/pieces/cburnett/bK.svg').default} alt='Descripción de la pieza' />
+                img = require('../images/pieces/cburnett/bK.svg').default;
+                alt = 'rey negro';
+                break;
+            case 'P':
+                img = require('../images/pieces/cburnett/wP.svg').default;
+                alt = 'peon blanco';
+                break;
+            case 'R':
+                img = require('../images/pieces/cburnett/wR.svg').default;
+                alt = 'torre blanca';
+                break;
+            case 'N':
+                img = require('../images/pieces/cburnett/wN.svg').default;
+                alt = 'caballo blanco';
+                break;
+            case 'B':
+                img = require('../images/pieces/cburnett/wB.svg').default;
+                alt = 'alfil blanco';
+                break;
+            case 'Q':
+                img = require('../images/pieces/cburnett/wQ.svg').default;
+                alt = 'reina blanca';
+                break;
             case 'K':
-                return <img style={imagen} src={require('../images/pieces/cburnett/wK.svg').default} alt='Descripción de la pieza' />
-            case 'Punto':
-                return <img style={imagen} src={require('../images/punto.svg').default} alt='Descripción de la pieza' />
+                img = require('../images/pieces/cburnett/wK.svg').default;
+                alt = 'rey blanco';
+                break;
             default:
-                return <img style={imagen} src={require('../images/pieces/Empty.svg').default} alt='Descripción de la pieza' />
-
-        }   
+                img = require('../images/Empty.svg').default;
+                alt = 'casilla vacia';
+                break;
+        }
+        let alcanzableImg = (char === '')? require('../images/alcanzaVacia.svg').default : require('../images/alcanzaMata.svg').default
+        return(
+            <div style={{position: 'relative'}}>
+                <img style={imagen} src={img} alt={alt} />
+                {alcanzable !== '' &&
+                    <img style={{...imagen, position: 'absolute', top: 0, left: 0}} src={alcanzableImg}/>}
+            </div>
+        )
+    
+        
     }
 
     const [hovered, setHovered] = useState(false);
@@ -96,46 +120,26 @@ const Casilla = (args) => {
      * Maneja el evento de clic para la casilla.
      */
     const handleClick = () => {
-        // console.log( args.tablero[mFila][mCol]);
-        // console.log("soy "+mFila + " col "+ mCol );
+        
         //Si soy una casilla con una pieza seleccionable y me seleccionan cambio piezaSel
-        if (args.tablero[mFila][mCol] !== '' && '['+mFila+'-'+mCol+']' in args.movsPosibles && args.piezaSel===null
-        && ((args.tablero[mFila][mCol] === args.tablero[mFila][mCol].toUpperCase() && args.turno === 0) ||
-        args.tablero[mFila][mCol] === args.tablero[mFila][mCol].toLowerCase() && args.turno === 1)){
+        if ('['+mFila+'-'+mCol+']' in args.movsPosibles){
             console.log('piezaSel: ', mFila, ',', mCol)
             args.setPiezaSel({fila: mFila, col: mCol})
-        } else {
-          if (args.piezaSel!==null ){ //Si piezaSel esta definida (hay una pieza seleccionada)
-            if(args.tablero[mFila][mCol] !== '' && ((args.tablero[mFila][mCol] === args.tablero[mFila][mCol].toUpperCase() && args.turno === 0)
-            || (args.tablero[mFila][mCol] === args.tablero[mFila][mCol].toLowerCase() && args.turno === 1))){
-              // console.log('nuevopiezaSel: ', mFila, ',', mCol)
-              // console.log("turno y emas, ", args.tablero[mFila][mCol], "   ", args.turno)
-              args.setPiezaSel({fila:mFila, col:mCol});
-            }else{
+        } else { //Si me han clickado y no soy una pieza seleccionable (entre las q tienen movs posibles)
+          if (args.piezaSel!==null){ //Si hay una pieza seleccionada
+              //Se comprueba si esta casilla esta entre movs posibles de la pieza seleccionada, si lo esta setNewMov
               const filaSel = args.piezaSel.fila
               const colSel = args.piezaSel.col
-              //Se comprueba si esta casilla esta entre movs posibles de la pieza seleccionada
               const soyMovPosible = args.movsPosibles['['+filaSel+'-'+colSel+']'].some(
                   (element) => element[0] === mFila && element[1] === mCol
               );
               if (soyMovPosible) {
                   args.setNewMov({fila: mFila, col: mCol})
               }
-            }
-                
-            }
+            }  
         }
     }
-        const [hasPossibleMove, setHasPossibleMove] = useState(false);
-    useEffect(() =>{
-      if(args.piezaSel){
-        const clave = '['+args.piezaSel.fila+'-'+args.piezaSel.col+']';
-        if (args.movsPosibles[clave].some(([fila, col]) => fila === mFila && col === mCol)) {
-            console.log(`[${mFila}-${mCol}] está en args.movsPosibles[${clave}]`);
-            setHasPossibleMove(true)
-        }
-      }
-    },[args.piezaSel])
+
     
     return (
         <button 
@@ -147,7 +151,8 @@ const Casilla = (args) => {
                 backgroundColor: hovered ? '#D3FFDE' : colorCasilla,
                 transform: !args.blancasAbajo ? 'rotate(180deg)' : 'none' // Aplica rotación si blancasAbajo es true
             }} // Aplicar dinámicamente el color de la casilla
-        >       {char2Src(args.tablero[mFila][mCol])}
+        >       
+        {char2Src(args.tablero[mFila][mCol], args.alcanzables[mFila][mCol])}
 
         </button>
      );
