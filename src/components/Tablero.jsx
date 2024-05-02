@@ -10,15 +10,9 @@ import alfilNegra from '../images/pieces/cburnett/bB.svg'
 import alfilBlanca from '../images/pieces/cburnett/wB.svg'
 import torreNegra from '../images/pieces/cburnett/bR.svg'
 import torreBlanca from '../images/pieces/cburnett/wR.svg'
-import { json } from 'react-router-dom';
-import AMatriz from './AMatriz';
-
 
 
 const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory}) => {
-    const gridStyle = {
-        display: 'grid',
-    };
   const [showModal, setShowModal] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const openModal = () => {
@@ -197,7 +191,7 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory}) => {
     //{fil:x, col:y} (coordenadas a las que se ha movido piezasel)
     const [movimiento, setNewMov] = useState(0)
 
-    // ue color esta jugando. 0: blancas, 1: negras
+    // Que color esta jugando. 0: blancas, 1: negras
     const [turno, setTurno] = useState(0) 
     
     // Funcion que envia tablero al servidor
@@ -331,8 +325,7 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory}) => {
                 newTablero[newX][3] = newTablero[newX][newY-2]
                 newTablero[newX][0]=''
               }
-            }
-            else if((newTablero[newX][newY]==='P' && newX==0 ) || (newTablero[newX][newY]==='p' && newX==7)){
+            } else if((newTablero[newX][newY]==='P' && newX==0 ) || (newTablero[newX][newY]==='p' && newX==7)){
                 setX(prevX => newX);
                 setY(prevY => newY);
 

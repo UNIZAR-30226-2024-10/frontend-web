@@ -10,9 +10,6 @@ import alfilNegra from '../images/pieces/cburnett/bB.svg'
 import alfilBlanca from '../images/pieces/cburnett/wB.svg'
 import torreNegra from '../images/pieces/cburnett/bR.svg'
 import torreBlanca from '../images/pieces/cburnett/wR.svg'
-import { json } from 'react-router-dom';
-import AMatriz from './AMatriz';
-
 
 
 const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbajo, turno, setTurno}) => {
@@ -31,7 +28,8 @@ const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbaj
   const [torreNegraDchaMovida, setTorreNegraDchaMovida] = useState(false);
   const [reyBlancoMovido, setReyBlancoMovido] = useState(false);
   const [reyNegroMovido, setReyNegroMovido] = useState(false);
-    
+
+  
     function traducirTableroAJSON(matrizAux) {
       const piezas = {
           'p': 'peon',
@@ -130,6 +128,18 @@ const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbaj
             }
         );
 
+        // Eliminar los movimientos que no sean de piezas del color que le toca jugar
+        for (const key in movsPosiblesNew) {
+          const [x, y] = key.slice(1, -1).split('-');
+          const piece = tablero[x][y];
+          
+          if ((turno === 1 && piece === piece.toLowerCase()) || // Si le tocara a las blancas y la pieza es negra
+              (turno === 0 && piece === piece.toUpperCase())) { // o si le tocara a las negras y la pieza es blanca
+              delete movsPosiblesNew[key];
+          }
+          
+      }
+
         return movsPosiblesNew;
     }
 
@@ -166,8 +176,9 @@ const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbaj
     //{fil:x, col:y} (coordenadas a las que se ha movido piezasel)
     const [movimiento, setNewMov] = useState(0)
 
-    // ue color esta jugando. 0: blancas, 1: negras
+    // Que color esta jugando. 0: blancas, 1: negras
     // const [turno, setTurno] = useState(0) 
+
         //SE SELECCIONA UNA PIEZA NUEVA
     useEffect(() => {
         if (tableroNuevo) { //Si se ha seleccionado una pieza
@@ -192,11 +203,30 @@ const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbaj
             });
 
             const parseRes = await response.json(); // parseRes es el objeto JSON que se recibe
+            
+            
+            
             if (parseRes.jugadaLegal === true) { // Si la jugada es legal (campo jugadaLegal) se cambian los movimientos posibles
-              setMovsPosibles(transformarMovimientos(parseRes));
-              console.log('raw:', parseRes)
-              console.log('movimientos posibles:');
-              console.log(movsPosibles)
+              const newMovsPosibles = transformarMovimientos(parseRes);
+                
+                // Comprobacion si se viola clavada (si con alguno de los nuevos movs posibles se come a un rey)
+                for (const key in newMovsPosibles) { 
+                    const movements = newMovsPosibles[key];
+                    for (const movement of movements) {
+                        const [x, y] = movement;
+                        const piece = nuevoTablero[x][y].toLowerCase();
+                        if (piece === 'k') {
+                            console.log('ERROR: Jugada no legal. Deja al rey en mate.');
+                            return false;
+                        }
+                    }
+                }
+
+                setMovsPosibles(newMovsPosibles);
+                console.log('raw', parseRes)
+                console.log('movimientos posibles:');
+                console.log(newMovsPosibles)
+
               return true;
 
             } else if(parseRes["Jaque mate"]===true){
@@ -287,8 +317,7 @@ const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbaj
                 newTablero[newX][3] = newTablero[newX][newY-2]
                 newTablero[newX][0]=''
               }
-            }
-            else if((newTablero[newX][newY]==='P' && newX==0 ) || (newTablero[newX][newY]==='p' && newX==7)){
+            } else if((newTablero[newX][newY]==='P' && newX==0 ) || (newTablero[newX][newY]==='p' && newX==7)){
                 setX(prevX => newX);
                 setY(prevY => newY);
 
@@ -302,6 +331,8 @@ const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbaj
               if (isLegal) {
                 setTablero(newTablero); // Se cambia el tablero
                 setTurno(turno === 0 ? 1 : 0); // Cambia el color que tiene el turno
+                setAlcanzables(['', '', '', '', '', '', '', ''].map(() => ['', '', '', '', '', '', '', ''])); // Se limpian las casillas alcanzables
+                
                 const postData = {
                   id_partida:id_partida,
                   tablero_actual:traducirTableroAJSON(newTablero)
@@ -394,7 +425,6 @@ const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbaj
                             setPiezaSel={setPiezaSel}
                             movsPosibles={movsPosibles}
                             setNewMov={setNewMov}
-                            turno={turno}
                             blancasAbajo={blancasAbajo}
                             arena={arena}
                         />

@@ -12,6 +12,7 @@ import alfilBlanca from '../images/pieces/cburnett/wB.svg'
 import torreNegra from '../images/pieces/cburnett/bR.svg'
 import torreBlanca from '../images/pieces/cburnett/wR.svg'
 
+
 const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer1, pauseTimer2, arena}) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -28,6 +29,7 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
   const [torreNegraDchaMovida, setTorreNegraDchaMovida] = useState(false);
   const [reyBlancoMovido, setReyBlancoMovido] = useState(false);
   const [reyNegroMovido, setReyNegroMovido] = useState(false);
+
 
     function traducirTableroAJSON(matrizAux) {
         const piezas = {
@@ -73,7 +75,7 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
     }
 
     function transformarMovimientos(json) {
-        const movsPosiblesIni = {};
+        const movsPosiblesNew = {};
         Object.keys(json.allMovements).forEach(pieza => {
                if (pieza === 'comer' || pieza === 'bloquear') {
                   // Obtener la sección de movimientos correspondiente
@@ -93,11 +95,11 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
                               newX = movimiento.fromColor === 'blancas' ? 7 - movimiento.fromY : 7 - movimiento.fromY;
                               newY = movimiento.fromX;
                               key = `[${newX}-${newY}]`;
-                          if (!movsPosiblesIni[key]) {
-                              movsPosiblesIni[key] = [];  
+                          if (!movsPosiblesNew[key]) {
+                              movsPosiblesNew[key] = [];  
                           }
                           // Agregar los movimientos posibles al objeto
-                          movsPosiblesIni[key].push([7 - movimiento.y, movimiento.x]);
+                          movsPosiblesNew[key].push([7 - movimiento.y, movimiento.x]);
                       });
                   }
               }else if(pieza==='jaque'){
@@ -115,10 +117,10 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
                               newY = movimiento.fromX;
                               key = `[${newX}-${newY}]`;
                           }
-                          if (!movsPosiblesIni[key]) {
-                              movsPosiblesIni[key] = [];  
+                          if (!movsPosiblesNew[key]) {
+                              movsPosiblesNew[key] = [];  
                           }else{
-                              movsPosiblesIni[key].push([7 - movimiento.y, movimiento.x]);
+                              movsPosiblesNew[key].push([7 - movimiento.y, movimiento.x]);
                           }
                       });
                   }
@@ -127,7 +129,19 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
             }
         );
 
-        return movsPosiblesIni;
+        // Eliminar los movimientos que no sean de piezas del color que le toca jugar
+        for (const key in movsPosiblesNew) {
+          const [x, y] = key.slice(1, -1).split('-');
+          const piece = tablero[x][y];
+          
+          if ((turno === 1 && piece === piece.toLowerCase()) || // Si le tocara a las blancas y la pieza es negra
+              (turno === 0 && piece === piece.toUpperCase())) { // o si le tocara a las negras y la pieza es blanca
+              delete movsPosiblesNew[key];
+          }
+          
+        }
+      
+        return movsPosiblesNew;
     }
 
 
@@ -173,6 +187,10 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
         ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
     ]
     const [tablero, setTablero] = useState(matrizIni)
+    
+    //Matriz que indica si una casilla es alcanzable por la pieza seleccionada 
+    const [alcanzables, setAlcanzables] = useState(['', '', '', '', '', '', '', ''].map(() => ['', '', '', '', '', '', '', ''])) //8x8
+
     useEffect(()=>{
       if(tableroUpdate){
         setTablero(tableroUpdate)
@@ -193,10 +211,7 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
 
     // Que color esta jugando. 0: blancas, 1: negras
     const [turno, setTurno] = useState(0) 
-  const [X, setX] = useState(null);
-  const [Y, setY] = useState(null);
-  const [oldX, setOldX] = useState(null);
-  const [oldY, setOldY] = useState(null);
+
     // Funcion que envia tablero al servidor
     // Si el movimiento es legal: actualiza los movimientos posibles dado el nuevo tablero y devuelve true
     // Si el movimiento no es legal: devuelve false y no actualiza los movimientos posibles
@@ -214,19 +229,40 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
             });
 
             const parseRes = await response.json(); // parseRes es el objeto JSON que se recibe
-            console.log(parseRes)
+
+
+
             if (parseRes.jugadaLegal === true) { // Si la jugada es legal (campo jugadaLegal) se cambian los movimientos posibles
+              const newMovsPosibles = transformarMovimientos(parseRes);
+                
+              // Comprobacion si se viola clavada (si con alguno de los nuevos movs posibles se come a un rey)
+              for (const key in newMovsPosibles) { 
+                  const movements = newMovsPosibles[key];
+                  for (const movement of movements) {
+                      const [x, y] = movement;
+                      const piece = nuevoTablero[x][y].toLowerCase();
+                      if (piece === 'k') {
+                          console.log('ERROR: Jugada no legal. Deja al rey en mate.');
+                          return false;
+                      }
+                  }
+              }
+
+              setMovsPosibles(newMovsPosibles);
+              console.log('raw', parseRes)
               console.log('movimientos posibles:');
-              console.log(parseRes.allMovements);
-              setMovsPosibles(transformarMovimientos(parseRes));
-              return true;
-            }else if(parseRes["Jaque mate"]===true){
-              console.log("ha ganado, ", turno)
+              console.log(newMovsPosibles)
+
               return true;
 
-            }
-            else { //La jugada no es legal
+            } else if(parseRes["Jaque mate"]===true){
+              console.log("ha ganado, ", turno)
+              //No se muestra victoria
+              return true;
+
+            } else { //La jugada no es legal
               console.log('ERROR: Jugada no legal. Deja al rey en mate.');
+              
               return false;
             }
         } catch (err) {
@@ -235,6 +271,28 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
             return false;
         }
     }
+
+
+    const [X, setX] = useState(null);
+    const [Y, setY] = useState(null);
+    const [oldX, setOldX] = useState(null);
+    const [oldY, setOldY] = useState(null);
+
+    //SE SELECCIONA UNA PIEZA NUEVA -> se actualizan las casillas alcanzables
+    useEffect(() => {
+      if (piezaSel) { //Si se ha seleccionado una pieza
+          const newAlcanzables = ['', '', '', '', '', '', '', ''].map(() => ['', '', '', '', '', '', '', '']) //8x8
+          const filSel = piezaSel.fila
+          const colSel = piezaSel.col
+          const alcanzables = movsPosibles['['+filSel+'-'+colSel+']'] 
+          if (alcanzables) {
+              alcanzables.forEach(([x, y]) => {
+                  newAlcanzables[x][y] = 's'; //una 's' en las casillas alcanzables por la pieza seleccionada
+              });
+              setAlcanzables(newAlcanzables);
+          }
+      }
+  }, [piezaSel])
 
     //Ocurre un movimiento
     useEffect(() => {
@@ -264,9 +322,6 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
                 setTorreBlancaDchaMovida(true)
               }
             }
-            // const originalTablero = [...tablero]
-          // console.log(oldX, oldY)
-          // console.log(newX, newY)
             // Se intercambian los contenidos de las casillas
             const newTablero = JSON.parse(JSON.stringify(tablero)) //asi se hace una copia
             newTablero[newX][newY] = tablero[oldX][oldY]
@@ -281,18 +336,22 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
                 newTablero[newX][3] = newTablero[newX][newY-2]
                 newTablero[newX][0]=''
               }
-            } else if((newTablero[newX][newY]==='P' && newX==0 )||  (newTablero[newX][newY]==='p' && newX==7)){
+            } else if((newTablero[newX][newY]==='P' && newX==0 ) ||  (newTablero[newX][newY]==='p' && newX==7)){
                 setX(prevX => newX);
                 setY(prevY => newY);
+
                 openModal();
                 return
             }
+
             submitMov(newTablero)
             .then(isLegal => {
               if (isLegal) {
-                setTablero(newTablero) //Se cambia el tablero
+                setTablero(newTablero); // Se cambia el tablero
+                
                 setTurno((turno === 0)? 1:0) //Cambia el color que tiene el turno
                 pauseTimer2()
+                setAlcanzables(['', '', '', '', '', '', '', ''].map(() => ['', '', '', '', '', '', '', ''])); // Se limpian las casillas alcanzables
                 setTableroEnviar(newTablero)
               }
               setPiezaSel(null); // No hay piezas seleccionadas
@@ -302,15 +361,13 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
               console.error("Error al procesar el movimiento:", error);
             });
 
-            setPiezaSel(null) //No hay piezas seleccionadas
         }
     }, [movimiento])
-    useEffect(()=>{
 
-    }, tablero)
     useEffect(()=>{
       !blancasAbajo ? pauseTimer2() : null;
     }, [])
+
     useEffect(() =>{
       if(!showModal && selectedOption){
         console.log("Se lia")
@@ -335,6 +392,7 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
             });
       }
     },[showModal])
+
     return (
         <>
         <div className={`tableroOnline ${!blancasAbajo ? 'rotated' : ''}`}>
@@ -344,14 +402,13 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
                         <Casilla 
                             key={`${rowIndex}-${colIndex}`} // Add unique key prop here
                             tablero={tablero}
+                            alcanzables={alcanzables}
                             rowIndex={rowIndex} 
                             colIndex={colIndex} 
                             piezaSel={piezaSel} 
                             setPiezaSel={setPiezaSel}
                             movsPosibles={movsPosibles}
-                            mov={movimiento} 
                             setNewMov={setNewMov}
-                            turno={turno}
                             blancasAbajo={blancasAbajo}
                             arena={arena}
                         />
