@@ -39,7 +39,8 @@ export const UserInfo = () => {
     eloBlitz : sessionStorage.getItem('eloBlitz') || '',
     userPiezas : sessionStorage.getItem('userPiezas') || '',
     userEmotes : sessionStorage.getItem('userEmotes') || ['','','',''],
-    opponent: sessionStorage.getItem('opponent') || '',
+    opponentName: sessionStorage.getItem('opponentName') || '',
+    opponentElo : sessionStorage.getItem('opponentElo') || '',
   });
   const resetUserInfo = () => {
     /* resetea la información del usuario */
@@ -56,6 +57,8 @@ export const UserInfo = () => {
       eloBlitz : '',
       userPiezas : '',
       userEmotes : ['','','',''],
+      opponentName: '',
+      opponentElo : '',
     });
   }
   const updateUserInfo = (data) => {

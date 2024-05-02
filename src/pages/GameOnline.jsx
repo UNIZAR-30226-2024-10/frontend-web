@@ -159,7 +159,7 @@ function GameOnline({ gameMode, userInfo }) {
   }
 
   /* Cuadros informativos para cada uno de los jugadores */
-  const InfoPlayers = ({numJugador, nombreJugador, eloJugador, colorFicha, tiempoRestante, fichasComidas }) => {
+  const InfoPlayers = ({numJugador, nombreJugador, eloJugador}) => {
     const minutes = parseInt(numJugador,10) ===1?minutes1:minutes2;
     const seconds = parseInt(numJugador,10) ===1?seconds1:seconds2;
     return (
@@ -168,17 +168,14 @@ function GameOnline({ gameMode, userInfo }) {
         <div className="gameOnlineInfo">
           <div className="gameOnlineInfo players">
             <div className="gameOnlineInfo players name"> {/* Nombre del jugador y su elo */}
-              {nombreJugador} ({eloJugador})
-            </div>
-            <div className="gameOnlineInfo players color"> {/* Color de la ficha del jugador */}
-              {colorFicha}
+              Usuario : {nombreJugador} 
             </div>
           </div>
           <div className="gameOnlineInfo timer"> {/* Tiempo restante del jugador */}
             {minutes} : {seconds}
           </div>
-          <div className="gameOnlineInfo eaten"> {/* Cantidad de fichas comidas por el jugador */}
-            Fichas comidas: {fichasComidas}
+          <div className="gameOnlineInfo elo"> {/* Cantidad de fichas comidas por el jugador */}
+            Elo: {eloJugador}
           </div>
         </div>
       </div>
@@ -328,10 +325,8 @@ function GameOnline({ gameMode, userInfo }) {
           {/* Jugador 1 */}
           <InfoPlayers
             numJugador='1'
-            nombreJugador={userInfo.opponent}
-            eloJugador='200'
-            colorFicha='Negras'
-            fichasComidas='0' />
+            nombreJugador={userInfo.opponentName}
+            eloJugador={userInfo.opponentElo}/>
           {/* Tablero */}
           <div className='tableroGameOnline'>
             <GamePopup /> {/* Mensajes en forma de PopUp */}
@@ -340,10 +335,8 @@ function GameOnline({ gameMode, userInfo }) {
           {/* Jugador 2 */}
           <InfoPlayers
             numJugador='2'
-            nombreJugador={userInfo.name}
-            eloJugador='200'
-            colorFicha='Blancas'
-            fichasComidas='0' />
+            nombreJugador={userInfo.userName}
+            eloJugador={userInfo.eloRapid} />
         </div>
         <div className='gameOnlineChatContainer'>
           {/* Chat de la partida */}

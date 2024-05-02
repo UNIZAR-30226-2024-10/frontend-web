@@ -22,7 +22,21 @@ function SideBar(args) {
     socket.on('game_ready', (data) => {
       setMatchFound(false);
       const colorSuffix = data.color === 'white' ? '0' : '1';
-      args.updateUserInfo({ field : 'opponent', value : data.opponent }); // Guarda la información de los jugadores de la partida
+      
+      console.log("id de mi oponente",data.opponent);
+      // Realiza la solicitud POST a la API utilizando fetch
+      fetch(`${apiUrl}/users/${data.opponent}`)
+        .then(response => response.json())
+        .then(userData => {
+          args.updateUserInfo({ field : 'opponentName', value : userData.nombre }); // Guarda la información de los jugadores de la partida
+          console.log("data mode",data.mode);
+          data.mode === 'Rapid' ? (args.updateUserInfo({ field : 'opponentElo', value : userData.elorapid})) 
+          : (data.mode === 'Bullet' ? (args.updateUserInfo({ field : 'opponentElo', value : userData.elobullet })) : (args.updateUserInfo({ field : 'opponentElo', value : userData.eloblitz })))
+        })
+        .catch(error => {
+          console.error('Se ha producido un error:', error);
+          // Aquí puedes manejar el error si la solicitud POST falla
+        });
       
       // Si el color es blanco y el modo es 'Correspondencia', hacer la petición POST a la API
       if (data.color === 'white' && data.mode === 'Correspondencia') {

@@ -23,7 +23,7 @@ function Arenas({ userInfo, updateUserInfo }) {
     showPopUp: false,
   });
   // Hook para guardar la informacion del modo de juego que se esta mostrando en pantalla
-  const [mostrandoPantalla, setMostrandoPantalla] = useState({ modo : 'Rapid', elo : 1200, arena : 'MADERA' }); // valores por defecto
+  const [mostrandoPantalla, setMostrandoPantalla] = useState({ modo : 'Rapid', elo : '', arena : 'MADERA' }); // valores por defecto
 
   const [error, setError] = useState(null);
   // Pedir al backend la info del usuario
