@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-
 import '../styles/Casilla.css'
+/* Imagenes de piezas */
+const imagenesPiezas = require.context('../images/pieces', true);
 
 const Casilla = (args) => {
 
@@ -10,7 +11,7 @@ const Casilla = (args) => {
         case 'Madera':
             BLANCO = '#8B4513';
             NEGRO = '#D2B48C';
-            break;
+            break; 
         case 'Marmol':
             BLANCO = '#f5f5f5';
             NEGRO = '#B8B8B8';
@@ -44,53 +45,54 @@ const Casilla = (args) => {
     function char2Src(char, alcanzable) {
         let img = ''
         let alt = ''
+        const familiaPieza = args.userInfo.userPiezas === 'DEFECTO' ? 'CBURNETT' : args.userInfo.userPiezas; 
         switch (char) {
             case 'p':
-                img = require('../images/pieces/cburnett/bP.svg').default;
+                img = imagenesPiezas(`./${familiaPieza.toLowerCase()}/bP.svg`);
                 alt = 'peon negro';
                 break;
             case 'r':
-                img = require('../images/pieces/cburnett/bR.svg').default;
+                img = imagenesPiezas(`./${familiaPieza.toLowerCase()}/bR.svg`);
                 alt = 'torre negra';
                 break;
             case 'n':
-                img = require('../images/pieces/cburnett/bN.svg').default;
+                img = imagenesPiezas(`./${familiaPieza.toLowerCase()}/bN.svg`);
                 alt = 'caballo negro';
                 break;
             case 'b':
-                img = require('../images/pieces/cburnett/bB.svg').default;
+                img = imagenesPiezas(`./${familiaPieza.toLowerCase()}/bB.svg`);
                 alt = 'alfil negro';
                 break;
             case 'q':
-                img = require('../images/pieces/cburnett/bQ.svg').default;
+                img = imagenesPiezas(`./${familiaPieza.toLowerCase()}/bQ.svg`);
                 alt = 'reina negra';
                 break;
             case 'k':
-                img = require('../images/pieces/cburnett/bK.svg').default;
+                img = imagenesPiezas(`./${familiaPieza.toLowerCase()}/bK.svg`);
                 alt = 'rey negro';
                 break;
             case 'P':
-                img = require('../images/pieces/cburnett/wP.svg').default;
+                img = imagenesPiezas(`./${familiaPieza.toLowerCase()}/wP.svg`);
                 alt = 'peon blanco';
                 break;
             case 'R':
-                img = require('../images/pieces/cburnett/wR.svg').default;
+                img = imagenesPiezas(`./${familiaPieza.toLowerCase()}/wR.svg`);
                 alt = 'torre blanca';
                 break;
             case 'N':
-                img = require('../images/pieces/cburnett/wN.svg').default;
+                img = imagenesPiezas(`./${familiaPieza.toLowerCase()}/wK.svg`);
                 alt = 'caballo blanco';
                 break;
             case 'B':
-                img = require('../images/pieces/cburnett/wB.svg').default;
+                img = imagenesPiezas(`./${familiaPieza.toLowerCase()}/wB.svg`);
                 alt = 'alfil blanco';
                 break;
             case 'Q':
-                img = require('../images/pieces/cburnett/wQ.svg').default;
+                img = imagenesPiezas(`./${familiaPieza.toLowerCase()}/wQ.svg`);
                 alt = 'reina blanca';
                 break;
             case 'K':
-                img = require('../images/pieces/cburnett/wK.svg').default;
+                img = imagenesPiezas(`./${familiaPieza.toLowerCase()}/wK.svg`);
                 alt = 'rey blanco';
                 break;
             default:

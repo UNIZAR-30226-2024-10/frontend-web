@@ -6,33 +6,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Pagination from '@mui/material/Pagination';
 const apiUrl = process.env.REACT_APP_API_URL;
 
-/* Importar todas las imágenes de piezas */ 
-import {
-  AlphaWK, AnarcandyWK, CardinalWK, DefaultWK, CelticWK, Chess7WK, ChessnutWK, CompanionWK, FantasyWK,   
-  AlphaWQ, AnarcandyWQ, CardinalWQ, DefaultWQ, CelticWQ, Chess7WQ, ChessnutWQ, CompanionWQ, FantasyWQ,  
-  AlphaWN, AnarcandyWN, CardinalWN, DefaultWN, CelticWN, Chess7WN, ChessnutWN, CompanionWN, FantasyWN,  
-  AlphaWB, AnarcandyWB, CardinalWB, DefaultWB, CelticWB, Chess7WB, ChessnutWB, CompanionWB, FantasyWB,  
-  AlphaWP, AnarcandyWP, CardinalWP, DefaultWP, CelticWP, Chess7WP, ChessnutWP, CompanionWP, FantasyWP,  
-  AlphaWR, AnarcandyWR, CardinalWR, DefaultWR, CelticWR, Chess7WR, ChessnutWR, CompanionWR, FantasyWR,  
-  AlphaBK, AnarcandyBK, CardinalBK, DefaultBK, CelticBK, Chess7BK, ChessnutBK, CompanionBK, FantasyBK,  
-  AlphaBQ, AnarcandyBQ, CardinalBQ, DefaultBQ, CelticBQ, Chess7BQ, ChessnutBQ, CompanionBQ, FantasyBQ,  
-  AlphaBN, AnarcandyBN, CardinalBN, DefaultBN, CelticBN, Chess7BN, ChessnutBN, CompanionBN, FantasyBN,  
-  AlphaBB, AnarcandyBB, CardinalBB, DefaultBB, CelticBB, Chess7BB, ChessnutBB, CompanionBB, FantasyBB,  
-  AlphaBP, AnarcandyBP, CardinalBP, DefaultBP, CelticBP, Chess7BP, ChessnutBP, CompanionBP, FantasyBP,  
-  AlphaBR, AnarcandyBR, CardinalBR, DefaultBR, CelticBR, Chess7BR, ChessnutBR, CompanionBR, FantasyBR,  
-  KosalWK, FrescaWK, GovernorWK, LeipzigWK, MaestroWK, MpchessWK, PixelWK,
-  KosalWQ, FrescaWQ, GovernorWQ, LeipzigWQ, MaestroWQ, MpchessWQ, PixelWQ,
-  KosalWN, FrescaWN, GovernorWN, LeipzigWN, MaestroWN, MpchessWN, PixelWN,
-  KosalWB, FrescaWB, GovernorWB, LeipzigWB, MaestroWB, MpchessWB, PixelWB,
-  KosalWP, FrescaWP, GovernorWP, LeipzigWP, MaestroWP, MpchessWP, PixelWP,
-  KosalWR, FrescaWR, GovernorWR, LeipzigWR, MaestroWR, MpchessWR, PixelWR,
-  KosalBK, FrescaBK, GovernorBK, LeipzigBK, MaestroBK, MpchessBK, PixelBK,
-  KosalBQ, FrescaBQ, GovernorBQ, LeipzigBQ, MaestroBQ, MpchessBQ, PixelBQ,
-  KosalBN, FrescaBN, GovernorBN, LeipzigBN, MaestroBN, MpchessBN, PixelBN,
-  KosalBB, FrescaBB, GovernorBB, LeipzigBB, MaestroBB, MpchessBB, PixelBB,
-  KosalBP, FrescaBP, GovernorBP, LeipzigBP, MaestroBP, MpchessBP, PixelBP,
-  KosalBR, FrescaBR, GovernorBR, LeipzigBR, MaestroBR, MpchessBR, PixelBR,
-} from '../images/pieces'
+// Importar las imágenes de las piezas
+const imagenesPiezas = require.context('../images/pieces', true);
+
 
 function Personalizacion ({ userInfo, updateUserInfo }) {
   /* Hook para controlar si el sideBar es visible o no lo es */
@@ -110,23 +86,24 @@ function Personalizacion ({ userInfo, updateUserInfo }) {
     { level: 29, value: '👻️'},
   ];
   // Piezas del juego
+  const PIEZAS = ['K', 'Q', 'B', 'N', 'P', 'R'];
   const piezasPreview = [
-    { level: 0, modelo: 'DEFECTO', negras : [DefaultBK,DefaultBQ,DefaultBN,DefaultBB,DefaultBR,DefaultBP], blancas : [DefaultWK,DefaultWQ,DefaultWN,DefaultWB,DefaultWR,DefaultWP] },
-    { level: 2, modelo: 'ALPHA', negras : [AlphaBK,AlphaBQ,AlphaBN,AlphaBB,AlphaBR,AlphaBP], blancas : [AlphaWK,AlphaWQ,AlphaWN,AlphaWB,AlphaWR,AlphaWP] },
-    { level: 4, modelo: 'CARDINAL', negras: [CardinalBK, CardinalBQ, CardinalBN, CardinalBB, CardinalBR, CardinalBP], blancas: [CardinalWK, CardinalWQ, CardinalWN, CardinalWB, CardinalWR, CardinalWP] },
-    { level: 6, modelo: 'CELTIC', negras : [CelticBK,CelticBQ,CelticBN,CelticBB,CelticBR,CelticBP], blancas : [CelticWK,CelticWQ,CelticWN,CelticWB,CelticWR,CelticWP] },
-    { level: 8, modelo: 'CHESS7', negras: [Chess7BK, Chess7BQ, Chess7BN, Chess7BB, Chess7BR, Chess7BP], blancas: [Chess7WK, Chess7WQ, Chess7WN, Chess7WB, Chess7WR, Chess7WP] },
-    { level: 10, modelo: 'CHESSNUT', negras : [ChessnutBK,ChessnutBQ,ChessnutBN,ChessnutBB,ChessnutBR,ChessnutBP], blancas : [ChessnutWK,ChessnutWQ,ChessnutWN,ChessnutWB,ChessnutWR,ChessnutWP] },
-    { level: 12, modelo: 'COMPANION', negras: [CompanionBK, CompanionBQ, CompanionBN, CompanionBB, CompanionBR, CompanionBP], blancas: [CompanionWK, CompanionWQ, CompanionWN, CompanionWB, CompanionWR, CompanionWP] },
-    { level: 14, modelo: 'FANTASY', negras : [FantasyBK,FantasyBQ,FantasyBN,FantasyBB,FantasyBR,FantasyBP], blancas : [FantasyWK,FantasyWQ,FantasyWN,FantasyWB,FantasyWR,FantasyWP] },
-    { level: 16, modelo: 'FRESCA', negras: [FrescaBK, FrescaBQ, FrescaBN, FrescaBB, FrescaBR, FrescaBP], blancas: [FrescaWK, FrescaWQ, FrescaWN, FrescaWB, FrescaWR, FrescaWP] },
-    { level: 18, modelo: 'GOVERNOR', negras : [GovernorBK,GovernorBQ,GovernorBN,GovernorBB,GovernorBR,GovernorBP], blancas : [GovernorWK,GovernorWQ,GovernorWN,GovernorWB,GovernorWR,GovernorWP] },
-    { level: 20, modelo: 'KOSAL', negras: [KosalBK, KosalBQ, KosalBN, KosalBB, KosalBR, KosalBP], blancas: [KosalWK, KosalWQ, KosalWN, KosalWB, KosalWR, KosalWP] },
-    { level: 22, modelo: 'LEIPZIG', negras : [LeipzigBK,LeipzigBQ,LeipzigBN,LeipzigBB,LeipzigBR,LeipzigBP], blancas : [LeipzigWK,LeipzigWQ,LeipzigWN,LeipzigWB,LeipzigWR,LeipzigWP] },
-    { level: 24, modelo: 'MPCHESS', negras: [MpchessBK, MpchessBQ, MpchessBN, MpchessBB, MpchessBR, MpchessBP], blancas: [MpchessWK, MpchessWQ, MpchessWN, MpchessWB, MpchessWR, MpchessWP] },
-    { level: 26, modelo: 'PIXEL', negras : [PixelBK,PixelBQ,PixelBN,PixelBB,PixelBR,PixelBP], blancas : [PixelWK,PixelWQ,PixelWN,PixelWB,PixelWR,PixelWP] },
-    { level: 28, modelo: 'MAESTRO', negras: [MaestroBK, MaestroBQ, MaestroBN, MaestroBB, MaestroBR, MaestroBP], blancas: [MaestroWK, MaestroWQ, MaestroWN, MaestroWB, MaestroWR, MaestroWP] },
-    { level: 30, modelo: 'ANARCANDY', negras : [AnarcandyBK,AnarcandyBQ,AnarcandyBN,AnarcandyBB,AnarcandyBR,AnarcandyBP], blancas : [AnarcandyWK,AnarcandyWQ,AnarcandyWN,AnarcandyWB,AnarcandyWR,AnarcandyWP] },
+    { level: 0, modelo: 'DEFECTO'},
+    { level: 2, modelo: 'ALPHA'},
+    { level: 4, modelo: 'CARDINAL'},
+    { level: 6, modelo: 'CELTIC'},
+    { level: 8, modelo: 'CHESS7'},
+    { level: 10, modelo: 'CHESSNUT'},
+    { level: 12, modelo: 'COMPANION'},
+    { level: 14, modelo: 'FANTASY'},
+    { level: 16, modelo: 'FRESCA'},
+    { level: 18, modelo: 'GOVERNOR'},
+    { level: 20, modelo: 'KOSAL'},
+    { level: 22, modelo: 'LEIPZIG'},
+    { level: 24, modelo: 'MPCHESS'},
+    { level: 26, modelo: 'PIXEL'},
+    { level: 28, modelo: 'MAESTRO'},
+    { level: 30, modelo: 'ANARCANDY'},
   ];
 
   const piezasChunks = chunkArray(piezasPreview, chunkSizePiezas);
@@ -245,13 +222,21 @@ function Personalizacion ({ userInfo, updateUserInfo }) {
                       {piezas.modelo}
                     </div>
                     <div className="familiaPiezas">
-                      {piezas.blancas.map((blancas, index) => (
-                        <img key={index} className="piezasIndividuales" src={blancas} />
+                      {PIEZAS.map((blancas, index) => (
+                        (piezas.modelo === "DEFECTO") ? (
+                          <img key={index} className="piezasIndividuales" src={imagenesPiezas(`./cburnett/w${blancas}.svg`)} />
+                        ) : (
+                          <img key={index} className="piezasIndividuales" src={imagenesPiezas(`./${piezas.modelo.toLowerCase()}/w${blancas}.svg`)} />
+                        )
                       ))}
                     </div>
                     <div className="familiaPiezas">
-                      {piezas.negras.map((negras, index) => (
-                        <img key={index} className="piezasIndividuales" src={negras} />
+                      {PIEZAS.map((negras, index) => (
+                        (piezas.modelo === "DEFECTO") ? (
+                          <img key={index} className="piezasIndividuales" src={imagenesPiezas(`./cburnett/b${negras}.svg`)} />
+                        ) : (
+                          <img key={index} className="piezasIndividuales" src={imagenesPiezas(`./${piezas.modelo.toLowerCase()}/b${negras}.svg`)} />
+                        )
                       ))}
                     </div>
                   </button>

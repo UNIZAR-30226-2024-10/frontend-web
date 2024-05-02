@@ -12,7 +12,7 @@ import torreNegra from '../images/pieces/cburnett/bR.svg'
 import torreBlanca from '../images/pieces/cburnett/wR.svg'
 
 
-const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbajo, turno, setTurno}) => {
+const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbajo, turno, setTurno, userInfo}) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const openModal = () => {
@@ -427,6 +427,7 @@ const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbaj
                             setNewMov={setNewMov}
                             blancasAbajo={blancasAbajo}
                             arena={arena}
+                            userInfo={userInfo}
                         />
                     ))}
                 </div>

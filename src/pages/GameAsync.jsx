@@ -8,14 +8,14 @@ import AMatriz from '../components/AMatriz';
 const apiUrl = process.env.REACT_APP_API_URL;
 import { UserInfo, ShowUserProfile } from "../components/CustomHooks";
 
-function GameAsync({ gameMode }) {
+function GameAsync({ gameMode, userInfo }) {
   const [showSidebar, setShowSidebar] = useState(false); /* Mostrar o esconder el sideBar */
   const navigate = useNavigate();
   const [userArenas, setUserArenas] = useState({
     elo: 1200,
     arena: 'Madera', // Actualizar segun el usuario
   });
-  const {userInfo, setUserInfo} = UserInfo()
+  /* const {userInfo, setUserInfo} = UserInfo() */
 
   const playingGame = true; /* Indica al sideBar de que este componente se está usando en partida */
   const [wantToQuit, setWantToQuit] = useState(false); /* Indica que un jugador quiere abandonar la partida */
@@ -166,7 +166,7 @@ function GameAsync({ gameMode }) {
           {/* Tablero */}
           <div className='tableroGame'>
             <GamePopup />
-            <TableroAsync arena={userArenas.arena} setVictory={setGameState} tableroNuevo={tableroNuevo} id_partida={id} blancasAbajo={colorSuffix===0} turno={turno} setTurno={setTurno} />
+            <TableroAsync arena={userArenas.arena} setVictory={setGameState} tableroNuevo={tableroNuevo} id_partida={id} blancasAbajo={colorSuffix===0} turno={turno} setTurno={setTurno} userInfo={userInfo}/>
           </div>
           {/* Jugador 2 */}
           <InfoPlayers

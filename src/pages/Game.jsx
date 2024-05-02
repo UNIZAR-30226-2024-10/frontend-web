@@ -6,7 +6,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Tablero from '../components/Tablero';
 
 
-function Game({ gameMode }) {
+function Game({ gameMode, userInfo }) {
   const [showSidebar, setShowSidebar] = useState(false); /* Mostrar o esconder el sideBar */
   const navigate = useNavigate();
   const [userArenas, setUserArenas] = useState({
@@ -186,7 +186,7 @@ useEffect(() => {
           {/* Tablero */}
           <div className='tableroGame'>
             <GamePopup />
-            <Tablero pauseTimer1={pauseTimer1} pauseTimer2={pauseTimer2} arena={userArenas.arena} setVictory={setGameState}/>
+            <Tablero pauseTimer1={pauseTimer1} pauseTimer2={pauseTimer2} arena={userArenas.arena} setVictory={setGameState} userInfo={userInfo}/>
           </div>
           {/* Jugador 2 */}
           <InfoPlayers

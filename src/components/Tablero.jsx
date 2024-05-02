@@ -12,7 +12,7 @@ import torreNegra from '../images/pieces/cburnett/bR.svg'
 import torreBlanca from '../images/pieces/cburnett/wR.svg'
 
 
-const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory}) => {
+const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const openModal = () => {
@@ -392,6 +392,7 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory}) => {
                             setNewMov={setNewMov}
                             blancasAbajo={true}
                             arena={arena}
+                            userInfo={userInfo}
                         />
                     ))}
                 </div>

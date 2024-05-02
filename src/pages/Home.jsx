@@ -47,7 +47,7 @@ function Home( args ) {
       </div>
       <div className='cuerpo-home'>
         <div className='appbar'>
-          <Navbar userInfo={args.userInfo} updateUserInfo={args.updateUserInfo} resetUserInfo={args.resetUserInfo}/> {/* Modifica el valor del hook para mostrar el perfil */}
+          <Navbar userInfo={args.userInfo} updateUserInfo={args.updateUserInfo} resetUserInfo={args.resetUserInfo}/>
         </div>
         <div className='middle'>
             <div className='middle-recuadros'>

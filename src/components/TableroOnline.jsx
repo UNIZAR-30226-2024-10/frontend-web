@@ -13,7 +13,7 @@ import torreNegra from '../images/pieces/cburnett/bR.svg'
 import torreBlanca from '../images/pieces/cburnett/wR.svg'
 
 
-const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer1, pauseTimer2, arena}) => {
+const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer1, pauseTimer2, arena, userInfo}) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const openModal = () => {
@@ -411,6 +411,7 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
                             setNewMov={setNewMov}
                             blancasAbajo={blancasAbajo}
                             arena={arena}
+                            userInfo={userInfo}
                         />
                     ))}
                 </div>
