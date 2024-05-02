@@ -13,7 +13,7 @@ function GameAsync({ gameMode, userInfo }) {
   const navigate = useNavigate();
   const [userArenas, setUserArenas] = useState({
     elo: 1200,
-    arena: 'Madera', // Actualizar segun el usuario
+    arena: 'MADERA', // Actualizar segun el usuario
   });
   /* const {userInfo, setUserInfo} = UserInfo() */
 
@@ -85,14 +85,11 @@ function GameAsync({ gameMode, userInfo }) {
       <div className="gameInfo">
         <div className="gameInfo players">
           <div className="gameInfo players name"> {/* Nombre del jugador y su elo */}
-            {nombreJugador} ({eloJugador})
+            Usuario : {nombreJugador} 
           </div>
           <div className="gameInfo players color"> {/* Color de la ficha del jugador */}
-            {colorFicha}
+            Elo : ({eloJugador})
           </div>
-        </div>
-        <div className="gameInfo eaten"> {/* Cantidad de fichas comidas por el jugador */}
-          Fichas comidas: {fichasComidas}
         </div>
       </div>
     );
@@ -134,6 +131,59 @@ function GameAsync({ gameMode, userInfo }) {
     );
   }
 
+   useEffect(() => {
+      // Calcular la arena en la que va a jugar el usuario
+      if (gameMode === 'Rapid'){
+        setUserArenas(prevState => ({
+          ...prevState,
+          elo : userInfo.eloRapid,
+        }))
+      }else if (gameMode === 'Bullet') {
+        setUserArenas(prevState => ({
+          ...prevState,
+          elo : userInfo.eloBullet,
+        }))
+      }else if (gameMode === 'Blitz') {
+        setUserArenas(prevState => ({
+          ...prevState,
+          elo : userInfo.eloBlitz,
+        }))
+      }
+    },[])
+  
+    useEffect(() => {
+      if (userArenas.elo < 1500) {
+        setUserArenas(prevState => ({
+          ...prevState,
+          arena : 'MADERA',
+        }))
+      } 
+      else if (userArenas.elo >= 1500 && userArenas.elo < 1800) {
+        setUserArenas(prevState => ({
+          ...prevState,
+          arena : 'MARMOL',
+        }))
+      }
+      else if (userArenas.elo >= 1800 && userArenas.elo < 2100) {
+        setUserArenas(prevState => ({
+          ...prevState,
+          arena : 'ORO',
+        }))
+      }
+      else if (userArenas.elo >= 2100 && userArenas.elo < 2400) {
+        setUserArenas(prevState => ({
+          ...prevState,
+          arena : 'ESMERALDA',
+        }))
+      }
+      else if (userArenas.elo > 2400) {
+        setUserArenas(prevState => ({
+          ...prevState,
+          arena : 'DIAMANTE',
+        }))
+      }
+    },[userArenas.elo])
+
   /* Juego Local */
   return (
     <div className="gameBackground">
@@ -159,10 +209,8 @@ function GameAsync({ gameMode, userInfo }) {
           {/* Jugador 1 */}
           <InfoPlayers
             numJugador='1'
-            nombreJugador='Jugador 1'
-            eloJugador='200'
-            colorFicha='Negras'
-            fichasComidas='0' />
+            nombreJugador={userInfo.opponentName}
+            eloJugador='200'/>
           {/* Tablero */}
           <div className='tableroGame'>
             <GamePopup />
@@ -170,11 +218,9 @@ function GameAsync({ gameMode, userInfo }) {
           </div>
           {/* Jugador 2 */}
           <InfoPlayers
-          numJugador='2'
-            nombreJugador='Jugador 2'
-            eloJugador='200'
-            colorFicha='Blancas'
-            fichasComidas='0' />
+            numJugador='2'
+            nombreJugador={userInfo.userName}
+            eloJugador='200'/>
         </div>
       </div>
     </div>

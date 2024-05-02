@@ -8,23 +8,23 @@ const Casilla = (args) => {
     // Definir los colores de las casillas según la arena seleccionada
     let BLANCO, NEGRO;
     switch (args.arena) {
-        case 'Madera':
+        case 'MADERA':
             BLANCO = '#8B4513';
             NEGRO = '#D2B48C';
             break; 
-        case 'Marmol':
+        case 'MARMOL':
             BLANCO = '#f5f5f5';
             NEGRO = '#B8B8B8';
             break;
-        case 'Oro':
+        case 'ORO':
             BLANCO = '#FFEA70';
             NEGRO = '#F5D000';
             break;
-        case 'Esmeralda':
+        case 'ESMERALDA':
             BLANCO = '#50C878';
             NEGRO = '#38A869';
             break;
-        case 'Diamante':
+        case 'DIAMANTE':
         default:
             BLANCO = '#F0F0F0';
             NEGRO = '#B0E0E6';

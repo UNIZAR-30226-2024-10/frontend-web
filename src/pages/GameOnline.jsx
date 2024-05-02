@@ -50,6 +50,59 @@ function GameOnline({ gameMode, userInfo }) {
   },[]);
 
   useEffect(() => {
+    // Calcular la arena en la que va a jugar el usuario
+    if (gameMode === 'Rapid'){
+      setUserArenas(prevState => ({
+        ...prevState,
+        elo : userInfo.eloRapid,
+      }))
+    }else if (gameMode === 'Bullet') {
+      setUserArenas(prevState => ({
+        ...prevState,
+        elo : userInfo.eloBullet,
+      }))
+    }else if (gameMode === 'Blitz') {
+      setUserArenas(prevState => ({
+        ...prevState,
+        elo : userInfo.eloBlitz,
+      }))
+    }
+  },[])
+
+  useEffect(() => {
+    if (userArenas.elo < 1500) {
+      setUserArenas(prevState => ({
+        ...prevState,
+        arena : 'MADERA',
+      }))
+    } 
+    else if (userArenas.elo >= 1500 && userArenas.elo < 1800) {
+      setUserArenas(prevState => ({
+        ...prevState,
+        arena : 'MARMOL',
+      }))
+    }
+    else if (userArenas.elo >= 1800 && userArenas.elo < 2100) {
+      setUserArenas(prevState => ({
+        ...prevState,
+        arena : 'ORO',
+      }))
+    }
+    else if (userArenas.elo >= 2100 && userArenas.elo < 2400) {
+      setUserArenas(prevState => ({
+        ...prevState,
+        arena : 'ESMERALDA',
+      }))
+    }
+    else if (userArenas.elo > 2400) {
+      setUserArenas(prevState => ({
+        ...prevState,
+        arena : 'DIAMANTE',
+      }))
+    }
+  },[userArenas.elo])
+
+  useEffect(() => {
     /* El oponente ha movido pieza */
     socket.on("movido", (data)=>{
       setTableroUpdate(data);
@@ -62,9 +115,7 @@ function GameOnline({ gameMode, userInfo }) {
   useEffect(() => {
     /* Movimiento de pieza,  se envía dicho movimiento al servidor */
     if (socket && tableroEnviar) {
-      console.log(tableroEnviar)
       socket.emit("move", { tableroEnviar, roomId});
-      console.log("muevo");
     }
   }, [socket, tableroEnviar]);
 
@@ -162,6 +213,7 @@ function GameOnline({ gameMode, userInfo }) {
   const InfoPlayers = ({numJugador, nombreJugador, eloJugador}) => {
     const minutes = parseInt(numJugador,10) ===1?minutes1:minutes2;
     const seconds = parseInt(numJugador,10) ===1?seconds1:seconds2;
+
     return (
       /* Devuelve un cuadro informativo para cada uno de los jugadores */
       <div>
@@ -336,7 +388,7 @@ function GameOnline({ gameMode, userInfo }) {
           <InfoPlayers
             numJugador='2'
             nombreJugador={userInfo.userName}
-            eloJugador={userInfo.eloRapid} />
+            eloJugador={userArenas.elo} />
         </div>
         <div className='gameOnlineChatContainer'>
           {/* Chat de la partida */}

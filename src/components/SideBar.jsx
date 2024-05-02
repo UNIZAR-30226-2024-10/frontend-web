@@ -29,9 +29,11 @@ function SideBar(args) {
         .then(response => response.json())
         .then(userData => {
           args.updateUserInfo({ field : 'opponentName', value : userData.nombre }); // Guarda la información de los jugadores de la partida
-          console.log("data mode",data.mode);
           data.mode === 'Rapid' ? (args.updateUserInfo({ field : 'opponentElo', value : userData.elorapid})) 
           : (data.mode === 'Bullet' ? (args.updateUserInfo({ field : 'opponentElo', value : userData.elobullet })) : (args.updateUserInfo({ field : 'opponentElo', value : userData.eloblitz })))
+          console.log("mi oponente es", userData.opponent);
+          console.log("elo de mi oponente", args.userInfo.opponentElo);
+          console.log("modo de juego",userData.mode);
         })
         .catch(error => {
           console.error('Se ha producido un error:', error);

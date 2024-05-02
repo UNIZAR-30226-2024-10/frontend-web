@@ -11,7 +11,7 @@ function Game({ gameMode, userInfo }) {
   const navigate = useNavigate();
   const [userArenas, setUserArenas] = useState({
     elo: 1200,
-    arena: 'Madera', // Actualizar segun el usuario
+    arena: 'MADERA', // Actualizar segun el usuario
   });
   const playingGame = true; /* Indica al sideBar de que este componente se está usando en partida */
   const [wantToQuit, setWantToQuit] = useState(false); /* Indica que un jugador quiere abandonar la partida */
@@ -39,6 +39,61 @@ function Game({ gameMode, userInfo }) {
     }));
   }
 }, [minutes1, seconds1]);
+
+useEffect(() => {
+  // Calcular la arena en la que va a jugar el usuario
+  if (gameMode === 'Rapid'){
+    setUserArenas(prevState => ({
+      ...prevState,
+      elo : userInfo.eloRapid,
+    }))
+  }else if (gameMode === 'Bullet') {
+    setUserArenas(prevState => ({
+      ...prevState,
+      elo : userInfo.eloBullet,
+    }))
+  }else if (gameMode === 'Blitz') {
+    setUserArenas(prevState => ({
+      ...prevState,
+      elo : userInfo.eloBlitz,
+    }))
+  }
+},[])
+
+useEffect(() => {
+  if (userArenas.elo < 1500) {
+    setUserArenas(prevState => ({
+      ...prevState,
+      arena : 'MADERA',
+    }))
+  } 
+  else if (userArenas.elo >= 1500 && userArenas.elo < 1800) {
+    setUserArenas(prevState => ({
+      ...prevState,
+      arena : 'MARMOL',
+    }))
+  }
+  else if (userArenas.elo >= 1800 && userArenas.elo < 2100) {
+    setUserArenas(prevState => ({
+      ...prevState,
+      arena : 'ORO',
+    }))
+  }
+  else if (userArenas.elo >= 2100 && userArenas.elo < 2400) {
+    setUserArenas(prevState => ({
+      ...prevState,
+      arena : 'ESMERALDA',
+    }))
+  }
+  else if (userArenas.elo > 2400) {
+    setUserArenas(prevState => ({
+      ...prevState,
+      arena : 'DIAMANTE',
+    }))
+  }
+  console.log("asdasd",userArenas.arena)
+  console.log("elo del jugador",userArenas.elo)
+},[userArenas.elo])
 
 useEffect(() => {
   if (minutes2 === 0 && seconds2 === 0) {
@@ -101,17 +156,13 @@ useEffect(() => {
       <div className="gameInfo">
         <div className="gameInfo players">
           <div className="gameInfo players name"> {/* Nombre del jugador y su elo */}
-            {nombreJugador} ({eloJugador})
-          </div>
-          <div className="gameInfo players color"> {/* Color de la ficha del jugador */}
-            {colorFicha}
+            {nombreJugador}
           </div>
         </div>
         <div className="gameInfo timer"> {/* Tiempo restante del jugador */}
           {minutes} : {seconds}
         </div>
         <div className="gameInfo eaten"> {/* Cantidad de fichas comidas por el jugador */}
-          Fichas comidas: {fichasComidas}
         </div>
       </div>
     );
@@ -178,11 +229,7 @@ useEffect(() => {
           {/* Jugador 1 */}
           <InfoPlayers
             numJugador='1'
-            nombreJugador='Jugador 1'
-            eloJugador='200'
-            colorFicha='Negras'
-            tiempoRestante='10 mins'
-            fichasComidas='0' />
+            nombreJugador='Jugador 1' />
           {/* Tablero */}
           <div className='tableroGame'>
             <GamePopup />
@@ -190,12 +237,8 @@ useEffect(() => {
           </div>
           {/* Jugador 2 */}
           <InfoPlayers
-          numJugador='2'
-            nombreJugador='Jugador 2'
-            eloJugador='200'
-            colorFicha='Blancas'
-            tiempoRestante='10 mins'
-            fichasComidas='0' />
+            numJugador='2'
+            nombreJugador='Jugador 2' />
         </div>
       </div>
     </div>
