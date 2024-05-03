@@ -149,12 +149,6 @@
   background-color: #506C64;
   transition: 0.4s ease;
 }
-.gamePopupButt.confirm:hover {
-  background-color: rgb(196, 5, 5);
-}
-.gamePopupButt.cancel:hover {
-  background-color: lime;
-}
 
 /* Información de la partida */
 .gameInfo {

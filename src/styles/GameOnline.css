@@ -234,12 +234,6 @@
 .gameOnlinePopupButt.cancel {
   width: 125px;
 }
-.gameOnlinePopupButt.confirm:hover {
-  background-color: rgb(196, 5, 5);
-}
-.gameOnlinePopupButt.cancel:hover {
-  background-color: lime;
-}
 
 /* Gestión de componentes según el tamaño de la ventana */
 @media only screen and (max-width: 1400px) {
