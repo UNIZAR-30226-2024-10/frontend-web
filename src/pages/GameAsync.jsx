@@ -46,7 +46,6 @@ function GameAsync({ gameMode, userInfo }) {
         }
         const data = await response.json();
         console.log("data", data)
-        console.log(userInfo.userId)
         if(data[0].usuarioblancasid.toString()===userInfo.userId){
           setColorSuffix(0);
         }else{

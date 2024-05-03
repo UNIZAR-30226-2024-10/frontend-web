@@ -14,6 +14,8 @@ function Navbar({ userInfo, updateUserInfo, resetUserInfo }) {
   const [notifications, setNotifications] = useState([]); // Estado para almacenar las notificaciones
   const [hasNewNotifications, setHasNewNotifications] = useState(false); // Estado para indicar si hay nuevas notificaciones
 
+    const [newNotificationIndices, setNewNotificationIndices] = useState([]);
+
   useEffect(() => {
     // Función para cargar las notificaciones al montar el componente
     const fetchNotifications = async () => {
@@ -27,22 +29,25 @@ function Navbar({ userInfo, updateUserInfo, resetUserInfo }) {
           setNotifications(data); // Actualiza el estado con las notificaciones obtenidas
           
           // Itera sobre los datos para hacer alguna operación
-          data.forEach(notification => {
+          const newIndices = [];
+          data.forEach((notification, index) => {
             console.log(notification)
             if(notification.tablero===null){
               if(notification.usuarioblancasid.toString()===userInfo.userId){
                 setHasNewNotifications(true); // Verifica si hay nuevas notificaciones
+                newIndices.push(index)
               }
             }else{
               const tableroString = notification.tablero.replace(/\\/g, '');
               const tableroJson = JSON.parse(tableroString);
               if((notification.usuarioblancasid.toString()===userInfo.userId && tableroJson.turno === 'blancas') || (notification.usuarionegrasid.toString()===userInfo.userId && tableroJson.turno === 'negras')){
                 setHasNewNotifications(true); // Verifica si hay nuevas notificaciones
+                newIndices.push(index)
               }
             }
           });
-
-          // console.log(data);
+          setNewNotificationIndices(newIndices);
+          console.log(newIndices);
         } catch (error) {
           console.error('Error fetching notifications:', error);
         }
@@ -102,6 +107,28 @@ function Navbar({ userInfo, updateUserInfo, resetUserInfo }) {
       sx={{ bgcolor: userInfo.avatarColor, width: 48, height: 48 }}
     />
   );
+  const [usuarios, setUsuarios] = useState([]);
+
+  useEffect(() => {
+    const fetchUsuarios = async () => {
+      const usuariosPromises = notifications.map(async (notification) => {
+        const usuarioBlancasResponse = await fetch(`${apiUrl}/users/${notification.usuarioblancasid}`);
+        const usuarioNegrasResponse = await fetch(`${apiUrl}/users/${notification.usuarionegrasid}`);
+        const usuarioBlancas = await usuarioBlancasResponse.json();
+        const usuarioNegras = await usuarioNegrasResponse.json();
+        return {
+          usuarioBlancas:usuarioBlancas.nombre,
+          usuarioNegras:usuarioNegras.nombre
+        };
+      });
+
+      // Esperar a que se completen todas las llamadas a la API
+      const usuariosData = await Promise.all(usuariosPromises);
+      setUsuarios(usuariosData);
+    };
+
+    fetchUsuarios();
+  }, [notifications]);
 
   return (
     <div>
@@ -126,8 +153,13 @@ function Navbar({ userInfo, updateUserInfo, resetUserInfo }) {
                   open={Boolean(anchorElNotifications)}
                   onClose={handleNotificationsClose}
                 >
-                  {notifications.map((notification, index) => (
+                  {/* {notifications.map((notification, index) => (
                     <MenuItem key={index} onClick={()=> handleJugarPartida(notification.id)}>{notification.usuarioblancasid} vs {notification.usuarionegrasid} - {notification.id}</MenuItem>
+                  ))} */}
+                  {usuarios.map((usuario, index) => (
+                    <div key={index} className={newNotificationIndices.includes(index) ? "menu-item-notificado" : "menu-item"} onClick={() => handleJugarPartida(notifications[index].id)}>
+                      {usuario.usuarioBlancas} vs {usuario.usuarioNegras} - {notifications[index].id}
+                    </div>
                   ))}
                 </Menu>
                 <button

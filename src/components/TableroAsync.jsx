@@ -30,7 +30,7 @@ const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbaj
   const [reyNegroMovido, setReyNegroMovido] = useState(false);
 
   
-    function traducirTableroAJSON(matrizAux) {
+    function traducirTableroAJSON(matrizAux, turnoPartida) {
       const piezas = {
           'p': 'peon',
           'n': 'caballo',
@@ -40,7 +40,7 @@ const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbaj
           'k': 'rey',
       };
       const json = {
-          turno: turno === 1 ? 'blancas' : 'negras', // Añadir el turno al principio del JSON
+          turno: turnoPartida === 0 ? 'blancas' : 'negras', // Añadir el turno al principio del JSON
           ha_movido_rey_blanco: reyBlancoMovido,
           ha_movido_rey_negro: reyNegroMovido,
           ha_movido_torre_blanca_dcha: torreBlancaDchaMovida,
@@ -129,17 +129,16 @@ const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbaj
         );
 
         // Eliminar los movimientos que no sean de piezas del color que le toca jugar
-        for (const key in movsPosiblesNew) {
-          const [x, y] = key.slice(1, -1).split('-');
-          const piece = tablero[x][y];
+        // for (const key in movsPosiblesNew) {
+        //   const [x, y] = key.slice(1, -1).split('-');
+        //   const piece = tablero[x][y];
           
-          if ((turno === 1 && piece === piece.toLowerCase()) || // Si le tocara a las blancas y la pieza es negra
-              (turno === 0 && piece === piece.toUpperCase())) { // o si le tocara a las negras y la pieza es blanca
-              delete movsPosiblesNew[key];
-          }
+        //   if ((turno === 0 && piece === piece.toLowerCase()) || // Si le tocara a las blancas y la pieza es negra
+        //       (turno === 1 && piece === piece.toUpperCase())) { // o si le tocara a las negras y la pieza es blanca
+        //       delete movsPosiblesNew[key];
+        //   }
           
-      }
-
+        // }
         return movsPosiblesNew;
     }
 
@@ -191,7 +190,7 @@ const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbaj
     // Si el movimiento no es legal: devuelve false y no actualiza los movimientos posibles
     const submitMov = async(nuevoTablero)=>{
       try {
-            const jsonMatriz = traducirTableroAJSON(nuevoTablero); // Convertir el nuevo tablero en una cadena JSON
+            const jsonMatriz = traducirTableroAJSON(nuevoTablero, turno); // Convertir el nuevo tablero en una cadena JSON
             // Se envia el tablero al back para que valide si el movimiento es legal y devuelva los movimientos posibles
             // const response = await fetch('http://13.51.136.199:3001/play', {
             const response = await fetch(`${apiUrl}/play`, {
@@ -277,7 +276,7 @@ const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbaj
 
     //OCURRE UN MOVIMIENTO
     useEffect(() => {
-        if(piezaSel && movimiento !== 0 && ((turno===0 && blancasAbajo===true) || (turno===1 && blancasAbajo===false))){ //Si ha ocurrido un movimiento
+      if(piezaSel && movimiento !== 0 && ((turno===0 && blancasAbajo===true) || (turno===1 && blancasAbajo===false))){ //Si ha ocurrido un movimiento
           //Se obtienen las coordenadas de la casilla origen
             const oldX = piezaSel.fila
             const oldY = piezaSel.col
@@ -330,14 +329,14 @@ const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbaj
             .then(isLegal => {
               if (isLegal) {
                 setTablero(newTablero); // Se cambia el tablero
-                setTurno(turno === 0 ? 1 : 0); // Cambia el color que tiene el turno
                 setAlcanzables(['', '', '', '', '', '', '', ''].map(() => ['', '', '', '', '', '', '', ''])); // Se limpian las casillas alcanzables
                 
+                // setTurno(turno === 0 ? 1 : 0); // Cambia el color que tiene el turno
                 const postData = {
                   id_partida:id_partida,
-                  tablero_actual:traducirTableroAJSON(newTablero)
+                  tablero_actual:traducirTableroAJSON(newTablero, turno === 0 ? 1 : 0)
                 };
-
+                // console.log("prueba", traducirTableroAJSON(newTablero), newTablero)
                 // Configura las opciones de la solicitud
                 const requestOptions = {
                   method: 'POST',
@@ -347,7 +346,7 @@ const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbaj
                   }, 
                   body: JSON.stringify(postData) // Convierte los datos a formato JSON
                 };
-
+                
                 // Realiza la solicitud POST a la API utilizando fetch
                 fetch(`${apiUrl}/users/update_cambio_partida_asincrona/${id_partida}`, requestOptions)
                   .then(response => response.json())
@@ -368,7 +367,6 @@ const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbaj
     
     useEffect(() =>{
       if(!showModal && selectedOption){
-        console.log("coronar")
          const newTablero = JSON.parse(JSON.stringify(tablero)) //asi se hace una copia 
            newTablero[X][Y]= selectedOption;
           // newTablero[turno === 0 ? X+1 : X-1][Y] = ''
@@ -377,9 +375,9 @@ const TableroAsync = ({ arena, setVictory, tableroNuevo, id_partida, blancasAbaj
             .then(isLegal => {
               if (isLegal) {
                 setTablero(newTablero); // Se cambia el tablero
-                setTurno(turno === 0 ? 1 : 0); // Cambia el color que tiene el turno
+                // setTurno(turno === 0 ? 1 : 0); // Cambia el color que tiene el turno
                 const postData = {
-                  tablero_actual:traducirTableroAJSON(newTablero)
+                  tablero_actual:traducirTableroAJSON(newTablero,turno === 0 ? 1 : 0)
                 };
 
                 // Configura las opciones de la solicitud

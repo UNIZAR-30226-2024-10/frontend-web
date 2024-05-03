@@ -76,3 +76,26 @@
   margin-top: 10px; /* Ajustar según necesidad */
   width: 200px; /* Ajustar según necesidad */
 }
+
+
+.menu-item {
+  width: 70px;
+  padding: 15px 30px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  border-bottom: 4px solid #ddd;
+}
+.menu-item-notificado{
+  width: 70px;
+  padding: 15px 30px;
+  cursor: pointer;
+  background-color: #908b8b;
+  border-bottom: 4px solid #ddd;
+}
+
+.menu-item:hover {
+  background-color: #e0e0e0;
+}
+.menu-item-notificado:hover {
+  background-color: #bcb2b2;
+}
