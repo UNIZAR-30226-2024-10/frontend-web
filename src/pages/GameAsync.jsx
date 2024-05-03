@@ -109,10 +109,29 @@ function GameAsync({ gameMode, userInfo }) {
     victoryCause : '',
     ganador:''
   });
+
+  const handleClickSurrender = () => {
+    // Avisar al back de que me he rendido y al otro usuario de que ha ganado
+    navigate('/home');
+  }
  /* Mensajes informativos (en forma de PopUp) que surgen en función del estado de la partida */
   const GamePopup = () => {
     return(
       <>
+      {wantToQuit && playingGame &&
+        <div className="gamePopupBackground">
+          <div className="gamePopup">
+            <h1><u>¿Quieres abandonar la partida? </u></h1>
+            <div className="gamePopupButtons">
+                <button className="gamePopupButt confirm" onClick={() => {handleClickSurrender}}>
+                  Sí
+                </button>
+                <button className="gamePopupButt cancel" onClick={() => setWantToQuit(false)}>
+                  No
+                </button>
+              </div>
+            </div>
+          </div>}
         {gameState.victory && 
           <div className='gameOnlinePopupBackground'>
             <div className='gameOnlinePopup'>

@@ -183,6 +183,21 @@ useEffect(() => {
   const GamePopup = () => {
     return(
       <>
+      {/* El jugador quiere abandonar la partida (mediante el botón del sideBar) */}
+      {wantToQuit && playingGame &&
+        <div className="gamePopupBackground">
+          <div className="gamePopup">
+            <h1><u>¿Quieres abandonar la partida? </u></h1>
+            <div className="gamePopupButtons">
+                <button className="gamePopupButt confirm" onClick={() => {navigate('/home')}}>
+                  Sí
+                </button>
+                <button className="gamePopupButt cancel" onClick={() => setWantToQuit(false)}>
+                  No
+                </button>
+              </div>
+            </div>
+          </div>}
         {gameState.victory && 
           <div className='gameOnlinePopupBackground'>
             <div className='gameOnlinePopup'>
