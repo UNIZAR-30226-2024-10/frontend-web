@@ -212,7 +212,7 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
 
             const parseRes = await response.json(); // parseRes es el objeto JSON que se recibe
 
-            
+            console.log(parseRes)
 
             if (parseRes.jugadaLegal === true) { // Si la jugada es legal (campo jugadaLegal) se cambian los movimientos posibles
                 const newMovsPosibles = transformarMovimientos(parseRes);
@@ -246,7 +246,6 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
                 victoryCause: 'jaque',
                 ganador:turno
               }));
-
               return true;
 
             } else { //La jugada no es legal

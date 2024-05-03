@@ -87,7 +87,7 @@ const Casilla = (args) => {
                 alt = 'torre blanca';
                 break;
             case 'N':
-                img = imagenesPiezas(`./${familiaPieza.toLowerCase()}/wK.svg`);
+                img = imagenesPiezas(`./${familiaPieza.toLowerCase()}/wN.svg`);
                 alt = 'caballo blanco';
                 break;
             case 'B':

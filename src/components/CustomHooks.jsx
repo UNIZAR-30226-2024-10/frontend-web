@@ -39,6 +39,7 @@ export const UserInfo = () => {
     eloBlitz : sessionStorage.getItem('eloBlitz') || '',
     userPiezas : sessionStorage.getItem('userPiezas') || '',
     userEmotes : sessionStorage.getItem('userEmotes') || ['','','',''],
+    opponentId : sessionStorage.getItem('opponentId') || '',
     opponentName: sessionStorage.getItem('opponentName') || '',
     opponentElo : sessionStorage.getItem('opponentElo') || '',
   });
@@ -56,6 +57,7 @@ export const UserInfo = () => {
       eloBlitz : '',
       userPiezas : '',
       userEmotes : ['','','',''],
+      oppponentId : '',
       opponentName: '',
       opponentElo : '',
     });

@@ -11,6 +11,7 @@ import TableroOnline from '../components/TableroOnline';
 import { useParams } from 'react-router-dom';
 import Chat from '../components/Chat.jsx';
 import {SocketContext} from './../context/socket';
+const apiUrl = process.env.REACT_APP_API_URL;
 
 function GameOnline({ gameMode, userInfo }) {
   const [showSidebar, setShowSidebar] = useState(false); /* Mostrar o esconder el sideBar */
@@ -29,6 +30,7 @@ function GameOnline({ gameMode, userInfo }) {
     confirmSurrender: false,
     showingSettings: false,
     isPlaying : true,
+    empate : false,
   });
   var playingGame = true; /* Indica al sideBar de que este componente se está usando en partida */
   const { roomId, colorSuffix } = useParams();
@@ -107,6 +109,23 @@ function GameOnline({ gameMode, userInfo }) {
     socket.on("movido", (data)=>{
       setTableroUpdate(data);
     })
+    socket.on("has_perdido", (data)=>{
+        setGameState(prevState => ({
+          ...prevState,
+          victoryCause: data.cause,
+          victory: false,
+          defeat: true,
+          isPlaying: false
+        }));
+    })
+    socket.on("has_empatado", (data)=>{
+      setGameState(prevState => ({
+        ...prevState,
+        victoryCause: data.cause,
+        empate : true,
+        isPlaying: false
+      }));
+  })
   }, [socket]);
 
   const [tableroEnviar, setTableroEnviar] = useState(null)
@@ -161,6 +180,29 @@ function GameOnline({ gameMode, userInfo }) {
     //setIsPlaying(!isPlaying);
     // Parar los timers
   }
+
+  const [partidaAcabada, setPartidaAcabada]=useState('');
+  useEffect(()=>{
+    if(partidaAcabada && partidaAcabada === 'JaqueMate'){
+      setGameState(prevState => ({
+        ...prevState,
+        victoryCause : partidaAcabada,
+        victory:true,
+        isPlaying:false
+      }));
+      socket.emit("Gano_partida", {roomId, cause:partidaAcabada}); 
+    }
+    else if (partidaAcabada && partidaAcabada === 'tablas' || partidaAcabada === 'ReyAhogado'){
+      setGameState(prevState => ({
+        ...prevState,
+        victoryCause : partidaAcabada,
+        empate : true,
+        isPlaying:false
+      }));
+      socket.emit("empato_partida", {roomId, cause:partidaAcabada}); 
+    }
+  }, [partidaAcabada])
+
 
   /* Establecer el tiempo de partida dependiendo del modo de juego  */
   const tiempo = gameMode === 'Rapid' ? 10 : (gameMode === 'Blitz' ? 5 : 3);
@@ -242,6 +284,51 @@ function GameOnline({ gameMode, userInfo }) {
       </div>
     );
   }
+  const he_ganado = () => {
+    fetch(`${apiUrl}/users/update_puntos/${gameMode.toLowerCase()}/${userInfo.userId}/${userInfo.opponentId}/${gameState.empate}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ resultado: 'ganado' }) // Puedes enviar datos en el cuerpo de la petición si es necesario
+    })
+    .then(response => {
+      if (response.ok) {
+        navigate('/home');
+      } else {
+        console.error('Error al hacer la petición POST');
+      }
+    })
+    .catch(error => {
+      console.error('Error al hacer la petición POST:', error);
+    });
+
+  }
+  const he_empatado = () => {
+    if(userInfo.userId < userInfo.opponentId){
+      fetch(`${apiUrl}/users/update_puntos/${gameMode.toLowerCase()}/${userInfo.userId}/${userInfo.opponentId}/${gameState.empate}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ resultado: 'ganado' }) // Puedes enviar datos en el cuerpo de la petición si es necesario
+      })
+      .then(response => {
+        if (response.ok) {
+          navigate('/home');
+        } else {
+          console.error('Error al hacer la petición POST');
+        }
+      })
+      .catch(error => {
+        console.error('Error al hacer la petición POST:', error);
+      });
+    }else{
+      navigate('/home')
+    }
+
+  }
+
 
   /* Mensajes informativos (en forma de PopUp) que surgen en función del estado de la partida */
   const GamePopup = () => {
@@ -282,7 +369,7 @@ function GameOnline({ gameMode, userInfo }) {
               <div className="gameOnlinePopup">
                 <h1><u>¡Te has rendido!</u></h1>
                 <h3>El jugador {userInfo.opponent} gana</h3>
-                <button className="gameOnlinePopupButt" onClick={() => navigate('/home')}>
+                <button className="gameOnlinePopupButt" onClick={()=> navigate('/home')}>
                   Abandonar partida
                 </button>
               </div>}
@@ -297,14 +384,14 @@ function GameOnline({ gameMode, userInfo }) {
                 {/* Causa de la victoria */}
                 {gameState.victoryCause === 'disconnect' ? (<h2>Ganas por desconexión del rival</h2>) 
                 : gameState.victoryCause === 'surrender' ?  (<h2>Ganas por rendición del rival</h2>)
-                : gameState.victoryCause === 'jaque' ? (<h2>Ganas por jaque mate</h2>)
+                : gameState.victoryCause === 'JaqueMate' ? (<h2>Ganas por jaque mate</h2>)
                 : (<h2>Ganas por falta de tiempo del rival</h2>)}
               </div>
               <div>
                 <p>+5 puntos de Elo</p>
                 <p>+10 puntos de recompensa</p>
               </div>
-              <button className="gameOnlinePopupButt" onClick={() => navigate('/home')}>
+              <button className="gameOnlinePopupButt" onClick={he_ganado}>
                 Abandonar partida
               </button>
             </div>
@@ -317,14 +404,34 @@ function GameOnline({ gameMode, userInfo }) {
               <div>
                 <h1>¡Has perdido!</h1>
                 {/* Causa de la victoria */}
-                {gameState.victoryCause === 'jaque' ? (<h2>Pierdes por jaque mate</h2>)
+                {gameState.victoryCause === 'JaqueMate' ? (<h2>Pierdes por jaque mate</h2>)
                 : (<h2>Pierdes por falta de tiempo</h2>)}
               </div>
               <div>
                 <p>-5 puntos de Elo</p>
                 <p>+5 puntos de recompensa</p>
               </div>
-              <button className="gameOnlinePopupButt" onClick={() => navigate('/home')}>
+              <button className="gameOnlinePopupButt" onClick={()=> navigate('/home')}>
+                Abandonar partida
+              </button>
+            </div>
+          </div>}
+
+        {/* Empate de partida */}
+        {gameState.empate && 
+          <div className='gameOnlinePopupBackground'>
+            <div className='gameOnlinePopup'>
+              <div>
+                <h1>¡Has empatado!</h1>
+                {/* Causa de la victoria */}
+                {gameState.victoryCause === 'tablas' ? (<h2>Empatas por tablas</h2>)
+                : (<h2>Empatas por rey ahogado</h2>)}
+              </div>
+              <div>
+                <p>-5 puntos de Elo</p>
+                <p>+5 puntos de recompensa</p>
+              </div>
+              <button className="gameOnlinePopupButt" onClick={he_empatado}>
                 Abandonar partida
               </button>
             </div>
@@ -382,7 +489,7 @@ function GameOnline({ gameMode, userInfo }) {
           {/* Tablero */}
           <div className='tableroGameOnline'>
             <GamePopup /> {/* Mensajes en forma de PopUp */}
-            <TableroOnline blancasAbajo={colorSuffix.toString()==='0'} tableroUpdate={tableroUpdate} setTableroEnviar={setTableroEnviar} pauseTimer1={pauseTimer1} pauseTimer2={pauseTimer2} arena={userArenas.arena} userInfo={userInfo}/>
+            <TableroOnline blancasAbajo={colorSuffix.toString()==='0'} tableroUpdate={tableroUpdate} setTableroEnviar={setTableroEnviar} pauseTimer1={pauseTimer1} pauseTimer2={pauseTimer2} arena={userArenas.arena} userInfo={userInfo} partidaAcabada={partidaAcabada} setPartidaAcabada={setPartidaAcabada} gameState={gameState} />
           </div>
           {/* Jugador 2 */}
           <InfoPlayers

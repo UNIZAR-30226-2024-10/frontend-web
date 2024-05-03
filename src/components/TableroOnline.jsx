@@ -13,7 +13,7 @@ import torreNegra from '../images/pieces/cburnett/bR.svg'
 import torreBlanca from '../images/pieces/cburnett/wR.svg'
 
 
-const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer1, pauseTimer2, arena, userInfo}) => {
+const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer1, pauseTimer2, arena, userInfo, partidaAcabada, setPartidaAcabada, gameState}) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const openModal = () => {
@@ -192,13 +192,11 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
     const [alcanzables, setAlcanzables] = useState(['', '', '', '', '', '', '', ''].map(() => ['', '', '', '', '', '', '', ''])) //8x8
 
     useEffect(()=>{
-      if(tableroUpdate){
+      if(tableroUpdate && !gameState.defeat){
         setTablero(tableroUpdate)
         setTurno((turno === 0)? 1:0) //Cambia el color que tiene el turno
         pauseTimer1()
         submitMov(tableroUpdate)
-        console.log("movio")
-
       }
     },[tableroUpdate])
 
@@ -256,11 +254,21 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
               return true;
 
             } else if(parseRes["Jaque mate"]===true){
-              console.log("ha ganado, ", turno)
+              setPartidaAcabada("JaqueMate")
               //No se muestra victoria
               return true;
 
-            } else { //La jugada no es legal
+            }else if(parseRes["tablas"]===true){
+              setPartidaAcabada('tablas');
+              //No se muestra victoria
+              return true;
+
+            } else if(parseRes["Rey ahogado"]===true){
+              setPartidaAcabada('ReyAhogado');
+              //No se muestra victoria
+              return true;
+
+            }else { //La jugada no es legal
               console.log('ERROR: Jugada no legal. Deja al rey en mate.');
               
               return false;

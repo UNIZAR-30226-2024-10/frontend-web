@@ -23,7 +23,7 @@ function SideBar(args) {
       setMatchFound(false);
       const colorSuffix = data.color === 'white' ? '0' : '1';
       
-      console.log("id de mi oponente",data.opponent);
+      args.updateUserInfo({ field : 'opponentId', value : data.opponent })
       // Realiza la solicitud POST a la API utilizando fetch
       fetch(`${apiUrl}/users/${data.opponent}`)
         .then(response => response.json())
@@ -31,9 +31,6 @@ function SideBar(args) {
           args.updateUserInfo({ field : 'opponentName', value : userData.nombre }); // Guarda la información de los jugadores de la partida
           data.mode === 'Rapid' ? (args.updateUserInfo({ field : 'opponentElo', value : userData.elorapid})) 
           : (data.mode === 'Bullet' ? (args.updateUserInfo({ field : 'opponentElo', value : userData.elobullet })) : (args.updateUserInfo({ field : 'opponentElo', value : userData.eloblitz })))
-          console.log("mi oponente es", userData.opponent);
-          console.log("elo de mi oponente", args.userInfo.opponentElo);
-          console.log("modo de juego",userData.mode);
         })
         .catch(error => {
           console.error('Se ha producido un error:', error);
