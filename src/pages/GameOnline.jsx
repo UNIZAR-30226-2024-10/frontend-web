@@ -44,6 +44,8 @@ function GameOnline({ gameMode, userInfo }) {
         victoryCause : 'disconnect',
       }));
       playingGame = false; 
+      setIsRunning1(false);
+      setIsRunning2(false);
     });
 
     return () => {
@@ -110,13 +112,16 @@ function GameOnline({ gameMode, userInfo }) {
       setTableroUpdate(data);
     })
     socket.on("has_perdido", (data)=>{
-        setGameState(prevState => ({
-          ...prevState,
-          victoryCause: data.cause,
-          victory: false,
-          defeat: true,
-          isPlaying: false
-        }));
+      setGameState(prevState => ({
+        ...prevState,
+        victoryCause: data.cause,
+        victory: false,
+        defeat: true,
+        isPlaying: false
+      }));
+      playingGame = false;
+      setIsRunning1(false);
+      setIsRunning2(false);
     })
     socket.on("has_empatado", (data)=>{
       setGameState(prevState => ({
@@ -125,6 +130,9 @@ function GameOnline({ gameMode, userInfo }) {
         empate : true,
         isPlaying: false
       }));
+      playingGame = false;
+      setIsRunning1(false);
+      setIsRunning2(false);
   })
   }, [socket]);
 
@@ -149,6 +157,8 @@ function GameOnline({ gameMode, userInfo }) {
         }));
       });
       playingGame = false;
+     /*  setIsRunning1(false);
+      setIsRunning2(false); */
     }
     return() => {
       socket.off("oponent_surrendered");
@@ -168,17 +178,11 @@ function GameOnline({ gameMode, userInfo }) {
       ...prevState,
       confirmSurrender : true
     }));
+    playingGame = false;
+    setIsRunning1(false);
+    setIsRunning2(false);
     /* Aviso al servidor de que el usuario se ha rendido */
     socket.emit("I_surrender", {roomId}); 
-  }
-  /* Pausar o reanudar la partida */
-  const handlePause = () => {
-    setGameState(prevState => ({
-      ...prevState,
-      isPlaying : !gameState.isPlaying
-    }));
-    //setIsPlaying(!isPlaying);
-    // Parar los timers
   }
 
   const [partidaAcabada, setPartidaAcabada]=useState('');
@@ -190,6 +194,9 @@ function GameOnline({ gameMode, userInfo }) {
         victory:true,
         isPlaying:false
       }));
+      playingGame = false;
+      setIsRunning1(false);
+      setIsRunning2(false);
       socket.emit("Gano_partida", {roomId, cause:partidaAcabada}); 
     }
     else if (partidaAcabada && partidaAcabada === 'tablas' || partidaAcabada === 'ReyAhogado'){
@@ -199,6 +206,9 @@ function GameOnline({ gameMode, userInfo }) {
         empate : true,
         isPlaying:false
       }));
+      playingGame = false;
+      setIsRunning1(false);
+      setIsRunning2(false);
       socket.emit("empato_partida", {roomId, cause:partidaAcabada}); 
     }
   }, [partidaAcabada])
@@ -214,6 +224,26 @@ function GameOnline({ gameMode, userInfo }) {
   const [seconds2, setSeconds2] = useState(0);
   const [isRunning1, setIsRunning1] = useState(false);
   const [isRunning2, setIsRunning2] = useState(true);
+  useEffect(() => {
+    if (minutes1 === 0 && seconds1 === 0) {
+      // El jugador 1 se ha quedado sin tiempo
+      setGameState(prevState => ({
+        ...prevState,
+        victory: true,
+        victoryCause: 'tiempo',
+      }));
+    }
+  }, [minutes1, seconds1]);
+  useEffect(() => {
+    if (minutes2 === 0 && seconds2 === 0) {
+      // El jugador 2 se ha quedado sin tiempo
+      setGameState(prevState => ({
+        ...prevState,
+        defeat: true,
+        victoryCause: 'tiempo',
+      }));
+    }
+  }, [minutes2, seconds2]);
   useEffect(()=>{
     let interval;
     if(isRunning1){
@@ -326,30 +356,12 @@ function GameOnline({ gameMode, userInfo }) {
     }else{
       navigate('/home')
     }
-
   }
-
 
   /* Mensajes informativos (en forma de PopUp) que surgen en función del estado de la partida */
   const GamePopup = () => {
     return(
       <>
-        {/* Partida pausada */}
-        {!gameState.isPlaying && !gameState.surrender &&
-          <div className="gameOnlinePopupBackground">
-            <div className="gameOnlinePopup">
-              <h1><u>Se ha pausado la partida</u></h1>
-              <button className="gameOnlinePopupButt" onClick={handlePause}>
-                Reanudar Partida
-                <PlayArrowIcon sx={{
-                  color: 'white',
-                  width: 32,
-                  height: 32
-                }} />
-              </button>
-            </div>
-          </div>}
-
         {/* Surrender de jugador */}
         {gameState.surrender && 
           <div className="gameOnlinePopupBackground">
@@ -368,7 +380,7 @@ function GameOnline({ gameMode, userInfo }) {
             {gameState.confirmSurrender &&
               <div className="gameOnlinePopup">
                 <h1><u>¡Te has rendido!</u></h1>
-                <h3>El jugador {userInfo.opponent} gana</h3>
+                <h2>Tu oponente gana</h2>
                 <button className="gameOnlinePopupButt" onClick={()=> navigate('/home')}>
                   Abandonar partida
                 </button>
@@ -388,8 +400,6 @@ function GameOnline({ gameMode, userInfo }) {
                 : (<h2>Ganas por falta de tiempo del rival</h2>)}
               </div>
               <div>
-                <p>+5 puntos de Elo</p>
-                <p>+10 puntos de recompensa</p>
               </div>
               <button className="gameOnlinePopupButt" onClick={he_ganado}>
                 Abandonar partida
@@ -408,8 +418,6 @@ function GameOnline({ gameMode, userInfo }) {
                 : (<h2>Pierdes por falta de tiempo</h2>)}
               </div>
               <div>
-                <p>-5 puntos de Elo</p>
-                <p>+5 puntos de recompensa</p>
               </div>
               <button className="gameOnlinePopupButt" onClick={()=> navigate('/home')}>
                 Abandonar partida
@@ -428,8 +436,6 @@ function GameOnline({ gameMode, userInfo }) {
                 : (<h2>Empatas por rey ahogado</h2>)}
               </div>
               <div>
-                <p>-5 puntos de Elo</p>
-                <p>+5 puntos de recompensa</p>
               </div>
               <button className="gameOnlinePopupButt" onClick={he_empatado}>
                 Abandonar partida
@@ -455,6 +461,7 @@ function GameOnline({ gameMode, userInfo }) {
             </div>
           </div>
         </div>}
+
       </>
     );
   }
@@ -515,23 +522,6 @@ function GameOnline({ gameMode, userInfo }) {
               </Tooltip>
             </button>
             {/* Botón para parar o reanudar la partida */}
-            <button className="gameOnlineOptionsButton" onClick={handlePause} disabled={gameState.surrender || gameState.confirmSurrender}>
-              {gameState.isPlaying ? 
-                (<Tooltip title="Pausar partida">
-                  <PauseIcon sx={{
-                    color: 'white',
-                    width: 42,
-                    height: 42
-                  }} />
-                </Tooltip> )  : 
-                (<Tooltip title="Reanudar partida">
-                  <PlayArrowIcon sx={{
-                    color: 'white',
-                    width: 42,
-                    height: 42
-                  }} />
-                </Tooltip>)}
-            </button>
           </div>
         </div>
       </div>
