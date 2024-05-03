@@ -19,7 +19,6 @@ function Game({ gameMode, userInfo }) {
 
   /* Establecer el tiempo de partida dependiendo del modo de juego  */
   const tiempo = gameMode === 'Rapid' ? 10 : (gameMode === 'Blitz' ? 5 : 3);
-  
   /* Gestión de los contadores de partida para cada uno de los jugadores */
   const [minutes1, setMinutes1] = useState(tiempo);
   const [seconds1, setSeconds1] = useState(0);
@@ -91,8 +90,6 @@ useEffect(() => {
       arena : 'DIAMANTE',
     }))
   }
-  console.log("asdasd",userArenas.arena)
-  console.log("elo del jugador",userArenas.elo)
 },[userArenas.elo])
 
 useEffect(() => {

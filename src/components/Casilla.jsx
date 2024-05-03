@@ -45,7 +45,14 @@ const Casilla = (args) => {
     function char2Src(char, alcanzable) {
         let img = ''
         let alt = ''
-        const familiaPieza = args.userInfo.userPiezas === 'DEFECTO' ? 'CBURNETT' : args.userInfo.userPiezas; 
+        let familiaPieza = '';
+        // Si el usuario no ha iniciado sesión, jugará con el set de piezas por defecto
+        if (args.userInfo.loggedIn === 'true') {
+          familiaPieza = args.userInfo.userPiezas === 'DEFECTO' ? 'CBURNETT' : args.userInfo.userPiezas; 
+        }else{
+          familiaPieza = 'CBURNETT';
+        }
+
         switch (char) {
             case 'p':
                 img = imagenesPiezas(`./${familiaPieza.toLowerCase()}/bP.svg`);

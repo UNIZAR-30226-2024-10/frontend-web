@@ -34,7 +34,7 @@ function App() {
           <Route path='/ranking' element={<Ranking />} />
           <Route path='/arenas' element={<Arenas userInfo={userInfo} updateUserInfo={updateUserInfo}/>} />
           <Route path='/personalizacion' element={<Personalizacion userInfo={userInfo} updateUserInfo={updateUserInfo}/>} />
-          <Route path='/game' element={<Game gameMode={gameMode} userInfo={userInfo}/>} />
+          <Route path='/game' element={<Game gameMode={gameMode} userInfo={userInfo} updateUserInfo={updateUserInfo}/>} />
           <Route path='/gameOnline/:roomId/:colorSuffix' element={<GameOnline gameMode={gameMode} userInfo={userInfo}/>} />
           <Route path='/gameAsync/:id' element={<GameAsync gameMode={gameMode} userInfo={userInfo}/>} />
         </Routes>

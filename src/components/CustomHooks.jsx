@@ -49,7 +49,6 @@ export const UserInfo = () => {
       loggedIn : 'false',
       userName : '',
       userId : '',
-      userCorreo : '',
       avatarImage : whiteKing, 
       avatarColor: 'orange',
       eloRapid : '', 
