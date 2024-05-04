@@ -11,6 +11,7 @@ import TableroOnline from '../components/TableroOnline';
 import { useParams } from 'react-router-dom';
 import Chat from '../components/Chat.jsx';
 import {SocketContext} from './../context/socket';
+import { ConstructionOutlined } from '@mui/icons-material';
 const apiUrl = process.env.REACT_APP_API_URL;
 
 function GameOnline({ gameMode, userInfo }) {
@@ -134,11 +135,12 @@ function GameOnline({ gameMode, userInfo }) {
       setIsRunning1(false);
       setIsRunning2(false);
     })
-    socket.on("value_timers",({minutos, segundos}) => {
-      console.log("sincronizacion", minutos, segundos)
-      setMinutes2(minutos);
-      setSeconds2(segundos);
-    })
+    if (socket) {
+      socket.on("value_timers",({minutos, segundos}) => {
+        setMinutes1(minutos);
+        setSeconds1(segundos);
+      })
+    }
   }, [socket]);
 
   const [tableroEnviar, setTableroEnviar] = useState(null)
@@ -270,9 +272,6 @@ function GameOnline({ gameMode, userInfo }) {
       interval =setInterval(()=>{
         if(seconds2 > 0){
           setSeconds2((seconds2)=>seconds2-1)
-          if (seconds2 / 10 === 0){
-            socket.emit("sync_timers", {minutes2, seconds2});
-          }
         }else if(minutes2 > 0){
           setMinutes2((minutes2)=>minutes2-1);
           setSeconds2(59);
@@ -281,6 +280,13 @@ function GameOnline({ gameMode, userInfo }) {
     }
     return () => clearInterval(interval)
   }, [seconds2, minutes2, isRunning2])
+
+  useEffect(() => {
+    if (seconds2 % 10 === 0) {
+      socket.emit("sync_timers", {minutes2,seconds2})
+    }
+  },[seconds2])
+
   const pauseTimer1 = ()=>{
       setIsRunning1(false);
       setIsRunning2(true)
