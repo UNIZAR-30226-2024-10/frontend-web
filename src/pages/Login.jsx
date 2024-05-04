@@ -57,6 +57,13 @@ function Login({ updateUserInfo }) {
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleLogin();
+      console.log("entra aqui")
+    }
+  };
+
   return (
     <div className='mainContainerLogin'>
       <div className='wrapperLogin'>
@@ -93,6 +100,7 @@ function Login({ updateUserInfo }) {
                 style: { color: 'white' } // Change text color to white
               }}
               onChange={(e) => setUsername(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && e.preventDefault()}
             />
           </Box>
           {/* Input para la contraseña */}
@@ -118,6 +126,7 @@ function Login({ updateUserInfo }) {
                 style: { color: 'white' } // Change text color to white
               }}
               onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && e.preventDefault()}
             />
           </Box>
           {/* Botón para proceder al login */}

@@ -96,6 +96,7 @@ function EditCredentials ({ userInfo }) {
                 style: { color: 'white' } // Change text color to white
               }}
               onChange={(e) => setEmail(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && e.preventDefault()}
             />
           </Box>
           <Box
@@ -119,6 +120,7 @@ function EditCredentials ({ userInfo }) {
                 style: { color: 'white' } // Change text color to white
               }}
               onChange={(e) => setUsername(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && e.preventDefault()}
             />
           </Box>
           {/* Input para la contraseña */}
@@ -144,6 +146,7 @@ function EditCredentials ({ userInfo }) {
                 style: { color: 'white' } // Change text color to white
               }}
               onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && e.preventDefault()}
             />
           </Box>
           {/* Input para repertir la contraseña */}
@@ -169,6 +172,7 @@ function EditCredentials ({ userInfo }) {
                 style: { color: 'white' } // Change text color to white
               }}
               onChange={(e) => setSegundaPassword(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && e.preventDefault()}
             />
           </Box>
           {/* Mostrar mensaje de error */}

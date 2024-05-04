@@ -95,6 +95,7 @@ function SignUp({ updateUserInfo }) {
                 style: { color: 'white' } // Change text color to white
               }}
               onChange={(e) => setEmail(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && e.preventDefault()}
             />
           </Box>
           <Box
@@ -118,6 +119,7 @@ function SignUp({ updateUserInfo }) {
                 style: { color: 'white' } // Change text color to white
               }}
               onChange={(e) => setUsername(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && e.preventDefault()}
             />
           </Box>
           {/* Input para la contraseña */}
@@ -143,6 +145,7 @@ function SignUp({ updateUserInfo }) {
                 style: { color: 'white' } // Change text color to white
               }}
               onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && e.preventDefault()}
             />
           </Box>
           {/* Input para repertir la contraseña */}
@@ -168,6 +171,7 @@ function SignUp({ updateUserInfo }) {
                 style: { color: 'white' } // Change text color to white
               }}
               onChange={(e) => setSegundaPassword(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && e.preventDefault()}
             />
           </Box>
           {/* Mostrar mensaje de error */}
