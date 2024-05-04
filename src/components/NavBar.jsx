@@ -157,7 +157,7 @@ function Navbar({ userInfo, updateUserInfo, resetUserInfo }) {
                     <MenuItem key={index} onClick={()=> handleJugarPartida(notification.id)}>{notification.usuarioblancasid} vs {notification.usuarionegrasid} - {notification.id}</MenuItem>
                   ))} */}
                   {usuarios.map((usuario, index) => (
-                    <div key={index} className={newNotificationIndices.includes(index) ? "menu-item-notificado" : "menu-item"} onClick={() => handleJugarPartida(notifications[index].id)}>
+                    <div key={index} className={newNotificationIndices.includes(index) ? "menu-item-notificado" : "menu-item"} onClick={() => newNotificationIndices.includes(index) && handleJugarPartida(notifications[index].id)}>
                       {usuario.usuarioBlancas} vs {usuario.usuarioNegras} - {notifications[index].id}
                     </div>
                   ))}

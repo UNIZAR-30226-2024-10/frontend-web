@@ -35,6 +35,9 @@ function GameAsync({ gameMode, userInfo }) {
     const [idRival, setIdRival] = useState(null)
     const [colorSuffix, setColorSuffix]=useState(null)
     const [turno, setTurno]=useState(null)
+  const [has_perdido, setHas_perdido] = useState(false);
+  const [has_empatado, setHas_empatado] = useState(false);
+
   useEffect(() => {
     // Lógica para obtener el tablero de una API
     const fetchTablero = async () => {
@@ -61,6 +64,41 @@ function GameAsync({ gameMode, userInfo }) {
           }else if (tableroJson.turno === 'negras' && data[0].usuarionegrasid.toString()===userInfo.userId){
             setTurno(1);
           }
+         if (tableroJson.has_perdido.toString() === 'true') {
+            // Hacer la petición POST a la API
+            fetch(`${apiUrl}/users/remove_partida_asincrona/${id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                    // Puedes agregar más encabezados si es necesario
+                },
+                body: JSON.stringify({
+                    // Aquí puedes enviar los datos que necesites a la API
+                    // Por ejemplo, si necesitas enviar el estado actual o alguna información relevante
+                    // puedes incluirlo aquí
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Si la petición es exitosa, actualiza el estado del juego
+                    setGameState(prevState => ({
+                        ...prevState,
+                        victory: false,
+                        defeat: true,
+                        victoryCause: 'jaque',
+                        ganador: turno
+                    }));
+                } else {
+                    // Si hay un error en la petición, manejarlo aquí
+                    console.error('Error al realizar la petición:', response.statusText);
+                }
+            })
+            .catch(error => {
+                // Manejar errores de red u otros errores
+                console.error('Error de red:', error);
+            });
+        }
+
           // setTablero(data[0].tablero); // Asumiendo que la respuesta de la API tiene una propiedad 'tablero'
           const matriz = AMatriz({jsonData:tableroJson});
           setTableroNuevo(matriz);
@@ -103,8 +141,11 @@ function GameAsync({ gameMode, userInfo }) {
     victory : false,
     defeat : false,
     victoryCause : '',
-    ganador:''
+    ganador:'',
+    empate : false,
+
   });
+  const [movido, setMovido]= useState(false)
 
   const handleClickSurrender = () => {
     // Avisar al back de que me he rendido y al otro usuario de que ha ganado
@@ -134,8 +175,48 @@ function GameAsync({ gameMode, userInfo }) {
               <div>
                 <h1>¡Has ganado!</h1>
                 {/* Causa de la victoria */}
-                {gameState.victoryCause === 'jaque' ? (<h2>Gana el jugador {gameState.ganador===0?2:1} por jaque mate</h2>)
-                : (<h2>Gana el jugador {gameState.ganador} por falta de tiempo del rival</h2>)}
+              <h2>Gana el jugador {gameState.ganador===0?2:1} por jaque mate</h2>
+              </div>
+              <button className="gameOnlinePopupButt" onClick={() => navigate('/home')}>
+                Abandonar partida
+              </button>
+            </div>
+          </div>}
+        {gameState.defeat && 
+          <div className='gameOnlinePopupBackground'>
+            <div className='gameOnlinePopup'>
+              <div>
+                <h1>¡Has perdido!</h1>
+                {/* Causa de la victoria */}
+              <h2>Pierdes por jaque mate</h2>
+              </div>
+              <div>
+              </div>
+              <button className="gameOnlinePopupButt" onClick={()=> navigate('/home')}>
+                Abandonar partida
+              </button>
+            </div>
+          </div>}
+        {movido && !has_perdido && !gameState.victory &&    
+          <div className='gameOnlinePopupBackground'>
+            <div className='gameOnlinePopup'>
+              <div>
+                <h1>Vuelve al menu principal</h1>
+                <h2>Te saldrá en las notificaciones cuando puedes jugar</h2>
+              </div>
+              <button className="gameOnlinePopupButt" onClick={() => navigate('/home')}>
+                Abandonar partida
+              </button>
+            </div>
+          </div>}
+           {gameState.empate && 
+          <div className='gameOnlinePopupBackground'>
+            <div className='gameOnlinePopup'>
+              <div>
+                <h1>¡Has empatado!</h1>
+                {/* Causa de la victoria */} (<h2>Empatas por tablas</h2>)
+              </div>
+              <div>
               </div>
               <button className="gameOnlinePopupButt" onClick={() => navigate('/home')}>
                 Abandonar partida
@@ -145,6 +226,7 @@ function GameAsync({ gameMode, userInfo }) {
       </>
     );
   }
+
 
    useEffect(() => {
       // Calcular la arena en la que va a jugar el usuario
@@ -229,7 +311,7 @@ function GameAsync({ gameMode, userInfo }) {
           {/* Tablero */}
           <div className='tableroGame'>
             <GamePopup />
-            <TableroAsync arena={userArenas.arena} setVictory={setGameState} tableroNuevo={tableroNuevo} id_partida={id} blancasAbajo={colorSuffix===0} turno={turno} setTurno={setTurno} userInfo={userInfo}/>
+            <TableroAsync arena={userArenas.arena} setGameState={setGameState} tableroNuevo={tableroNuevo} id_partida={id} blancasAbajo={colorSuffix===0} turno={turno} setTurno={setTurno} userInfo={userInfo} movido={movido} setMovido={setMovido} has_perdido={has_perdido} setHas_perdido={setHas_perdido}  has_empatado={has_empatado} setHas_empatado={setHas_empatado} />
           </div>
           {/* Jugador 2 */}
           <InfoPlayers

@@ -334,7 +334,6 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
             const newTablero = JSON.parse(JSON.stringify(tablero)) //asi se hace una copia
             newTablero[newX][newY] = tablero[oldX][oldY]
             newTablero[oldX][oldY] = ''
-            console.log(newTablero[newX][newY])
             if((newTablero[newX][newY]==='K' || newTablero[newX][newY]==='k')&&(Math.abs(oldY-newY))===2){
               if(newY===6){
                 newTablero[newX][5] = newTablero[newX][newY+1]

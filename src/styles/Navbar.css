@@ -93,9 +93,6 @@
   border-bottom: 4px solid #ddd;
 }
 
-.menu-item:hover {
-  background-color: #e0e0e0;
-}
 .menu-item-notificado:hover {
   background-color: #bcb2b2;
 }
