@@ -96,7 +96,7 @@
 
 @media only screen and (max-height: 780px) {
   .tableroOnline {
-    height: 75vh;
+    height: 80vh;
   }
 }
 @media only screen and (max-height: 610px) {

@@ -133,7 +133,12 @@ function GameOnline({ gameMode, userInfo }) {
       playingGame = false;
       setIsRunning1(false);
       setIsRunning2(false);
-  })
+    })
+    socket.on("value_timers",({minutos, segundos}) => {
+      console.log("sincronizacion", minutos, segundos)
+      setMinutes2(minutos);
+      setSeconds2(segundos);
+    })
   }, [socket]);
 
   const [tableroEnviar, setTableroEnviar] = useState(null)
@@ -155,10 +160,10 @@ function GameOnline({ gameMode, userInfo }) {
           victory : true, 
           victoryCause : 'surrender',
         }));
+        playingGame = false;
+        setIsRunning1(false);
+        setIsRunning2(false);
       });
-      playingGame = false;
-     /*  setIsRunning1(false);
-      setIsRunning2(false); */
     }
     return() => {
       socket.off("oponent_surrendered");
@@ -215,7 +220,7 @@ function GameOnline({ gameMode, userInfo }) {
 
 
   /* Establecer el tiempo de partida dependiendo del modo de juego  */
-  const tiempo = gameMode === 'Rapid' ? 10 : (gameMode === 'Blitz' ? 5 : 3);
+  const tiempo = gameMode === 'Rapid' ? 10 : (gameMode === 'Blitz' ? 5 : 1);
   
   /* Gestión de los contadores de partida para cada uno de los jugadores */
   const [minutes1, setMinutes1] = useState(tiempo);
@@ -232,6 +237,7 @@ function GameOnline({ gameMode, userInfo }) {
         victory: true,
         victoryCause: 'tiempo',
       }));
+      socket.emit("time_expired");
     }
   }, [minutes1, seconds1]);
   useEffect(() => {
@@ -249,7 +255,7 @@ function GameOnline({ gameMode, userInfo }) {
     if(isRunning1){
       interval =setInterval(()=>{
         if(seconds1 > 0){
-          setSeconds1((seconds1)=>seconds1-1)
+          setSeconds1((seconds1)=>seconds1-1);
         }else if(minutes1 > 0){
           setMinutes1((minutes1)=>minutes1-1);
           setSeconds1(59);
@@ -264,6 +270,9 @@ function GameOnline({ gameMode, userInfo }) {
       interval =setInterval(()=>{
         if(seconds2 > 0){
           setSeconds2((seconds2)=>seconds2-1)
+          if (seconds2 / 10 === 0){
+            socket.emit("sync_timers", {minutes2, seconds2});
+          }
         }else if(minutes2 > 0){
           setMinutes2((minutes2)=>minutes2-1);
           setSeconds2(59);

@@ -101,7 +101,7 @@
 
 @media only screen and (max-height: 780px) {
   .tablero {
-    height: 75vh;
+    height: 80vh;
   }
 }
 @media only screen and (max-height: 610px) {

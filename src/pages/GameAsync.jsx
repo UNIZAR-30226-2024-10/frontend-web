@@ -6,7 +6,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import TableroAsync from '../components/TableroAsync';
 import AMatriz from '../components/AMatriz';
 const apiUrl = process.env.REACT_APP_API_URL;
-import { UserInfo, ShowUserProfile } from "../components/CustomHooks";
 
 function GameAsync({ gameMode, userInfo }) {
   const [showSidebar, setShowSidebar] = useState(false); /* Mostrar o esconder el sideBar */
@@ -82,14 +81,12 @@ function GameAsync({ gameMode, userInfo }) {
   const InfoPlayers = ({numJugador, nombreJugador, eloJugador, colorFicha, fichasComidas }) => {
     return (
       <div className="gameInfo">
-        <div className="gameInfo players">
           <div className="gameInfo players name"> {/* Nombre del jugador y su elo */}
             Usuario : {nombreJugador} 
           </div>
           <div className="gameInfo players color"> {/* Color de la ficha del jugador */}
             Elo : ({eloJugador})
           </div>
-        </div>
       </div>
     );
   };

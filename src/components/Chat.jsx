@@ -13,7 +13,6 @@ function Chat({ roomId, userInfo }) {
   const [avaliableEmotes, setAvaliableEmotes] = useState(['😁️','😂️','👍️','😲️']);
 
   const handleClickEmotes = () => {
-    /* console.log(userInfo.userEmotes); */
     setAvaliableEmotes(userInfo.userEmotes);
     setShowEmotes(!showEmotes);
   }

@@ -99,3 +99,9 @@
 .menu-item-notificado:hover {
   background-color: #bcb2b2;
 }
+
+@media only screen and (max-width : 510px){
+  .menu-item {
+    display: none;
+  }
+}

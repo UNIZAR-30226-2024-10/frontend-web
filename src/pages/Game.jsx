@@ -152,9 +152,7 @@ useEffect(() => {
     return (
       <div className="gameInfo">
         <div className="gameInfo players">
-          <div className="gameInfo players name"> {/* Nombre del jugador y su elo */}
             {nombreJugador}
-          </div>
         </div>
         <div className="gameInfo timer"> {/* Tiempo restante del jugador */}
           {minutes} : {seconds}

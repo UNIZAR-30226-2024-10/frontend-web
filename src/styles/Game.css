@@ -153,7 +153,7 @@
 /* Información de la partida */
 .gameInfo {
   width: 42vw;
-  margin: 5px;
+  margin: 5px; 
   border: solid 1px white;
   color: white;
   font-size: 20px;
@@ -166,7 +166,7 @@
 }
 .gameInfo.players {
   width: 35%;
-  height: 100%;
+  font-weight: bolder;
   border: none;
   display: flex;
   flex-direction: column;
@@ -231,12 +231,17 @@
 }
 
 @media only screen and (max-height: 725px){
-  .gameInfo {
-    display: none;
+  .game {
+    height: 100%;
   }
 }
 @media only screen and (max-height: 780px){
   .pageTitleGame {
+    display: none;
+  }
+}
+@media only screen and (max-height: 640px) {
+  .gameInfo {
     display: none;
   }
 }

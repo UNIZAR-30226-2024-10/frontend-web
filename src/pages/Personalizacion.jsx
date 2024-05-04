@@ -51,13 +51,11 @@ function Personalizacion ({ userInfo, updateUserInfo }) {
         const userData = await response.json();
         setUserLevel(userData.nivelpase); // Actualizar nivel pase de batalla del usuario para saber que recompensas tiene desbloqueadas
         setFichasSelected(userData.setpiezas);
-        console.log(userData.setPiezas)
 
         // Lee del back-end el set de emoticonos del usuario
         const emojiArray = userData.emoticonos.replace(/[{}"]/g, '').split(',');
         const emojisCleaned = emojiArray.map(emoji => emoji.trim()).filter(emoji => emoji !== '');
         setEmotesSelected(emojisCleaned);
-        console.log(emojisCleaned)
         updateUserInfo({ field : 'userEmotes', value : emojisCleaned });
       } catch (error) {
         setError(error.message);
