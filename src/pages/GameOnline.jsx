@@ -222,7 +222,7 @@ function GameOnline({ gameMode, userInfo }) {
 
 
   /* Establecer el tiempo de partida dependiendo del modo de juego  */
-  const tiempo = gameMode === 'Rapid' ? 10 : (gameMode === 'Blitz' ? 5 : 1);
+  const tiempo = gameMode === 'Rapid' ? 10 : (gameMode === 'Blitz' ? 5 : 3);
   
   /* Gestión de los contadores de partida para cada uno de los jugadores */
   const [minutes1, setMinutes1] = useState(tiempo);
