@@ -43,22 +43,24 @@ function Personalizacion ({ userInfo, updateUserInfo }) {
   useEffect(() => { // Pedir la información del usuario
 
     const fetchUserData = async () => {
-      try {
-        const response = await fetch(`${apiUrl}/users/${userInfo.userId}`); // Construct URL using userId
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+      if(userInfo.loggedIn==='true'){
+        try {
+          const response = await fetch(`${apiUrl}/users/${userInfo.userId}`); // Construct URL using userId
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const userData = await response.json();
+          setUserLevel(userData.nivelpase); // Actualizar nivel pase de batalla del usuario para saber que recompensas tiene desbloqueadas
+          setFichasSelected(userData.setpiezas);
+  
+          // Lee del back-end el set de emoticonos del usuario
+          const emojiArray = userData.emoticonos.replace(/[{}"]/g, '').split(',');
+          const emojisCleaned = emojiArray.map(emoji => emoji.trim()).filter(emoji => emoji !== '');
+          setEmotesSelected(emojisCleaned);
+          updateUserInfo({ field : 'userEmotes', value : emojisCleaned });
+        } catch (error) {
+          setError(error.message);
         }
-        const userData = await response.json();
-        setUserLevel(userData.nivelpase); // Actualizar nivel pase de batalla del usuario para saber que recompensas tiene desbloqueadas
-        setFichasSelected(userData.setpiezas);
-
-        // Lee del back-end el set de emoticonos del usuario
-        const emojiArray = userData.emoticonos.replace(/[{}"]/g, '').split(',');
-        const emojisCleaned = emojiArray.map(emoji => emoji.trim()).filter(emoji => emoji !== '');
-        setEmotesSelected(emojisCleaned);
-        updateUserInfo({ field : 'userEmotes', value : emojisCleaned });
-      } catch (error) {
-        setError(error.message);
       }
     }
 

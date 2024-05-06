@@ -13,27 +13,29 @@ function Home( args ) {
   useEffect(() => {
 
     const fetchUserData = async () => {
-      // Pedir toda la info del usuario
-      try {
-        const response = await fetch(`${apiUrl}/users/${args.userInfo.userId}`); // Construct URL using userId
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+      if(args.userInfo.loggedIn==='true'){
+        // Pedir toda la info del usuario
+        try {
+          const response = await fetch(`${apiUrl}/users/${args.userInfo.userId}`); // Construct URL using userId
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const userData = await response.json();
+          // Guardar info del usuario que pueda ser util posteriormente
+          args.updateUserInfo({ field : "userName", value : userData.nombre });
+          args.updateUserInfo({ field : "eloBlitz", value : userData.eloblitz });
+          args.updateUserInfo({ field : "eloBullet", value : userData.elobullet });
+          args.updateUserInfo({ field : "eloRapid", value : userData.elorapid });
+          args.updateUserInfo({ field : "avatarImage", value : userData.avatar });
+          args.updateUserInfo({ field : "avatarColor", value : userData.color });
+          args.updateUserInfo({ field : "userPiezas", value : userData.setpiezas });
+          // Lee del back-end el set de emoticonos del usuario
+          const emojiArray = userData.emoticonos.replace(/[{}"]/g, '').split(',');
+          const emojisCleaned = emojiArray.map(emoji => emoji.trim()).filter(emoji => emoji !== '');
+          args.updateUserInfo({ field  : "userEmotes", value : emojisCleaned });
+        } catch (error) {
+          setError(error.message);
         }
-        const userData = await response.json();
-        // Guardar info del usuario que pueda ser util posteriormente
-        args.updateUserInfo({ field : "userName", value : userData.nombre });
-        args.updateUserInfo({ field : "eloBlitz", value : userData.eloblitz });
-        args.updateUserInfo({ field : "eloBullet", value : userData.elobullet });
-        args.updateUserInfo({ field : "eloRapid", value : userData.elorapid });
-        args.updateUserInfo({ field : "avatarImage", value : userData.avatar });
-        args.updateUserInfo({ field : "avatarColor", value : userData.color });
-        args.updateUserInfo({ field : "userPiezas", value : userData.setpiezas });
-        // Lee del back-end el set de emoticonos del usuario
-        const emojiArray = userData.emoticonos.replace(/[{}"]/g, '').split(',');
-        const emojisCleaned = emojiArray.map(emoji => emoji.trim()).filter(emoji => emoji !== '');
-        args.updateUserInfo({ field  : "userEmotes", value : emojisCleaned });
-      } catch (error) {
-        setError(error.message);
       }
     }
 

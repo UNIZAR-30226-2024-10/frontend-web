@@ -19,7 +19,7 @@ function Navbar({ userInfo, updateUserInfo, resetUserInfo }) {
   useEffect(() => {
     // Función para cargar las notificaciones al montar el componente
     const fetchNotifications = async () => {
-      if(userInfo.loggedIn){
+      if(userInfo.loggedIn === 'true'){
        try {
           const response = await fetch(`${apiUrl}/users/get_partidas_asincronas/${userInfo.userId}`);
           if (!response.ok) {

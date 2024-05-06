@@ -24,21 +24,23 @@ function BattlePass({ userInfo }) {
   useEffect(() => {
 
     const fetchUserData = async () => {
-      // Pedir los puntos del usuario y el nivel en el que está
-      try {
-        const response = await fetch(`${apiUrl}/users/${userInfo.userId}`); // Construct URL using userId
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+      if(userInfo.loggedIn==='true'){
+        // Pedir los puntos del usuario y el nivel en el que está
+        try {
+          const response = await fetch(`${apiUrl}/users/${userInfo.userId}`); // Construct URL using userId
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const userData = await response.json();
+          // Guardar info del usuario que pueda ser util posteriormente
+          setUserBattlePass(prevState => ({
+            ...prevState,
+            points : userData.puntosexperiencia, // Puntos del usuario
+            rewardsClaimed : userData.nivelpase // Nivel actual del usuario
+          }))
+        } catch (error) {
+          setError(error.message);
         }
-        const userData = await response.json();
-        // Guardar info del usuario que pueda ser util posteriormente
-        setUserBattlePass(prevState => ({
-          ...prevState,
-          points : userData.puntosexperiencia, // Puntos del usuario
-          rewardsClaimed : userData.nivelpase // Nivel actual del usuario
-        }))
-      } catch (error) {
-        setError(error.message);
       }
     }
 

@@ -30,19 +30,21 @@ function Arenas({ userInfo, updateUserInfo }) {
   useEffect(() => {
 
     const fetchUserData = async () => {
-       try {
-        const response = await fetch(`${apiUrl}/users/${userInfo.userId}`); // Construct URL using userId
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const userData = await response.json();
-        // Guardar info del usuario que pueda ser util posteriormente
-        setMostrandoPantalla(prevState => ({ ...prevState, elo : userData.elorapid }));
-        updateUserInfo({ field : "eloRapid", value : userData.elorapid });
-        updateUserInfo({ field : "eloBlitz", value : userData.eloblitz });
-        updateUserInfo({ field : "eloBullet", value : userData.elobullet });
-      } catch (error) {
-        setError(error.message);
+      if(userInfo.loggedIn==='true'){
+            try {
+             const response = await fetch(`${apiUrl}/users/${userInfo.userId}`); // Construct URL using userId
+             if (!response.ok) {
+               throw new Error('Network response was not ok');
+             }
+             const userData = await response.json();
+             // Guardar info del usuario que pueda ser util posteriormente
+             setMostrandoPantalla(prevState => ({ ...prevState, elo : userData.elorapid }));
+             updateUserInfo({ field : "eloRapid", value : userData.elorapid });
+             updateUserInfo({ field : "eloBlitz", value : userData.eloblitz });
+             updateUserInfo({ field : "eloBullet", value : userData.elobullet });
+           } catch (error) {
+             setError(error.message);
+           }
       }
     }
 
