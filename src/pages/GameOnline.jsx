@@ -13,6 +13,7 @@ import Chat from '../components/Chat.jsx';
 import {SocketContext} from './../context/socket';
 import { ConstructionOutlined } from '@mui/icons-material';
 const apiUrl = process.env.REACT_APP_API_URL;
+import AMatriz from '../components/AMatriz';
 
 function GameOnline({ gameMode, userInfo }) {
   const [showSidebar, setShowSidebar] = useState(false); /* Mostrar o esconder el sideBar */
