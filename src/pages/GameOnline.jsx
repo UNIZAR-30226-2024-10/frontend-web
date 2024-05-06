@@ -110,7 +110,8 @@ function GameOnline({ gameMode, userInfo }) {
   useEffect(() => {
     /* El oponente ha movido pieza */
     socket.on("movido", (data)=>{
-      setTableroUpdate(data);
+
+      setTableroUpdate(AMatriz({jsonData: data}));
     })
     socket.on("has_perdido", (data)=>{
       setGameState(prevState => ({
