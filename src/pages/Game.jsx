@@ -18,7 +18,7 @@ function Game({ gameMode, userInfo }) {
   const [confirmSurrender, setConfirmSurrender] = useState(false); /* Contiene los diferentes estados de la partida */
 
   /* Establecer el tiempo de partida dependiendo del modo de juego  */
-  const tiempo = gameMode === 'Rapid' ? 10 : (gameMode === 'Blitz' ? 5 : 3);
+  const tiempo = gameMode === 'Rapid' ? 10 : (gameMode === 'Blitz' ? 3 : 1);
   /* Gestión de los contadores de partida para cada uno de los jugadores */
   const [minutes1, setMinutes1] = useState(tiempo);
   const [seconds1, setSeconds1] = useState(0);
