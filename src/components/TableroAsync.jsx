@@ -38,7 +38,6 @@ const TableroAsync = ({ arena, setGameState, tableroNuevo, id_partida, blancasAb
           'q': 'dama',
           'k': 'rey',
       };
-      console.log("uñltimo", has_perdido)
       const json = {
           has_perdido: has_perdido,
           has_empatado:has_empatado,
