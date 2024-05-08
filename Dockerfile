@@ -26,7 +26,7 @@ COPY --from=build /app/build /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Expone el puerto 80 (el puerto predeterminado para HTTP)
-EXPOSE 80
+EXPOSE 8080
 
 # Comando de arranque del servidor nginx
 CMD ["nginx", "-g", "daemon off;"]
