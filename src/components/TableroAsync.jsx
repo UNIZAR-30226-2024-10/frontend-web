@@ -38,7 +38,6 @@ const TableroAsync = ({ arena, setGameState, tableroNuevo, id_partida, blancasAb
           'q': 'dama',
           'k': 'rey',
       };
-      console.log("uñltimo", has_perdido)
       const json = {
           has_perdido: has_perdido,
           has_empatado:has_empatado,
@@ -76,6 +75,7 @@ const TableroAsync = ({ arena, setGameState, tableroNuevo, id_partida, blancasAb
     }
 
     function transformarMovimientos(json) {
+      console.log(json)
         const movsPosiblesNew = {};
         Object.keys(json.allMovements).forEach(pieza => {
                if (pieza === 'comer' || pieza === 'bloquear') {
@@ -129,18 +129,18 @@ const TableroAsync = ({ arena, setGameState, tableroNuevo, id_partida, blancasAb
             }
             }
         );
-
+        // console.log("hola", movsPosiblesNew)
         // Eliminar los movimientos que no sean de piezas del color que le toca jugar
-        for (const key in movsPosiblesNew) {
-          const [x, y] = key.slice(1, -1).split('-');
-          const piece = tablero[x][y];
+        // for (const key in movsPosiblesNew) {
+        //   const [x, y] = key.slice(1, -1).split('-');
+        //   const piece = tablero[x][y];
           
-          if ((turno === 0 && piece === piece.toLowerCase()) || // Si le tocara a las blancas y la pieza es negra
-              (turno === 1 && piece === piece.toUpperCase())) { // o si le tocara a las negras y la pieza es blanca
-              delete movsPosiblesNew[key];
-          }
+        //   if ((turno === 0 && piece === piece.toLowerCase()) || // Si le tocara a las blancas y la pieza es negra
+        //   (turno === 1 && piece === piece.toUpperCase())) { // o si le tocara a las negras y la pieza es blanca
+        //     delete movsPosiblesNew[key];
+        //   }
           
-        }
+        // }
         return movsPosiblesNew;
     }
 
@@ -165,7 +165,7 @@ const TableroAsync = ({ arena, setGameState, tableroNuevo, id_partida, blancasAb
         ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
         ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
     ]
-    const [tablero, setTablero] = useState(matrizIni)
+    const [tablero, setTablero] = useState(null)
 
     //Matriz que indica si una casilla es alcanzable por la pieza seleccionada 
     const [alcanzables, setAlcanzables] = useState(['', '', '', '', '', '', '', ''].map(() => ['', '', '', '', '', '', '', ''])) //8x8
@@ -210,6 +210,7 @@ const TableroAsync = ({ arena, setGameState, tableroNuevo, id_partida, blancasAb
             
             if (parseRes.jugadaLegal === true) { // Si la jugada es legal (campo jugadaLegal) se cambian los movimientos posibles
               const newMovsPosibles = transformarMovimientos(parseRes);
+              // console.log("hola", newMovsPosibles)
                 
                 // Comprobacion si se viola clavada (si con alguno de los nuevos movs posibles se come a un rey)
                 for (const key in newMovsPosibles) { 
