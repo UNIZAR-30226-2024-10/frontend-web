@@ -161,7 +161,7 @@ const Casilla = (args) => {
                 transform: !args.blancasAbajo ? 'rotate(180deg)' : 'none' // Aplica rotación si blancasAbajo es true
             }} // Aplicar dinámicamente el color de la casilla
         >       
-        {char2Src(args.tablero[mFila][mCol], args.alcanzables[mFila][mCol])}
+        { args.tablero  ? char2Src(args.tablero[mFila][mCol], args.alcanzables[mFila][mCol]): ""}
 
         </button>
      );
