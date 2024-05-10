@@ -31,6 +31,7 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
   const [reyNegroMovido, setReyNegroMovido] = useState(false);
 
 
+    // Función que transforma la matriz del tablero en un objeto JSON para usar la api
     function traducirTableroAJSON(matrizAux) {
         const piezas = {
             'p': 'peon',
@@ -74,6 +75,7 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
         return json;
     }
 
+    // Función que transforma los movimientos posibles en un objeto con la forma { '[x-y]': [[x1, y1], [x2, y2], ...] }
     function transformarMovimientos(json) {
         const movsPosiblesNew = {};
         Object.keys(json.allMovements).forEach(pieza => {
