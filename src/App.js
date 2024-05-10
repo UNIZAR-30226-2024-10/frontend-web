@@ -5,6 +5,7 @@ import Home from './pages/Home.jsx'
 import Login from './pages/Login.jsx';
 import SignUp from './pages/SignUp.jsx';
 import Game from './pages/Game.jsx'
+import GameIA from './pages/GameIA.jsx'
 import Ranking from './pages/Ranking.jsx';
 import GameOnline from './pages/GameOnline.jsx';
 import GameAsync from './pages/GameAsync.jsx';
@@ -37,6 +38,8 @@ function App() {
           <Route path='/game' element={<Game gameMode={gameMode} userInfo={userInfo} updateUserInfo={updateUserInfo}/>} />
           <Route path='/gameOnline/:roomId/:colorSuffix' element={<GameOnline gameMode={gameMode} userInfo={userInfo}/>} />
           <Route path='/gameAsync/:id' element={<GameAsync gameMode={gameMode} userInfo={userInfo}/>} />
+
+          <Route path='/gameIA' element={<GameIA gameMode={gameMode} userInfo={userInfo} updateUserInfo={updateUserInfo}/>} />
         </Routes>
       </div>
     </SocketContext.Provider>
