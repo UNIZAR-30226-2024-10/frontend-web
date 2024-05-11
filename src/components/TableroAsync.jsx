@@ -135,8 +135,8 @@ const TableroAsync = ({ arena, setGameState, tableroNuevo, id_partida, blancasAb
           const [x, y] = key.slice(1, -1).split('-');
           const piece = tablero[x][y];
           
-          if ((blancasAbajo && piece === piece.toLowerCase()) || // Si es el tablero de blancas y la pieza es negra
-          (!blancasAbajo && piece === piece.toUpperCase())) { // o si es el tablero de blancas y la pieza es negra
+          if ((blancasAbajo && turno===0 && piece === piece.toLowerCase()) || // Si es el tablero de blancas y la pieza es negra
+          (!blancasAbajo && turno === 1 && piece === piece.toUpperCase())) { // o si es el tablero de blancas y la pieza es negra
             delete movsPosiblesNew[key];
           }
           

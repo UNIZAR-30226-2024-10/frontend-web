@@ -361,7 +361,7 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
                 setTurno((turno === 0)? 1:0) //Cambia el color que tiene el turno
                 pauseTimer2()
                 setAlcanzables(['', '', '', '', '', '', '', ''].map(() => ['', '', '', '', '', '', '', ''])); // Se limpian las casillas alcanzables
-                setTableroEnviar(traducirTableroAJSON(newTablero))
+                setTableroEnviar(JSON.stringify(traducirTableroAJSON(newTablero)))
               }
               setPiezaSel(null); // No hay piezas seleccionadas
             })
