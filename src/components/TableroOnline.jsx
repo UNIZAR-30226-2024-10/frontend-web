@@ -392,6 +392,7 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
                 // turno === 0 ? pauseTimer2() : pauseTimer1();
                 pauseTimer2()
                 setTurno(turno === 0 ? 1 : 0); // Cambia el color que tiene el turno
+                setTableroEnviar(JSON.stringify(traducirTableroAJSON(newTablero)))
               }
               setPiezaSel(null); // No hay piezas seleccionadas
             })
