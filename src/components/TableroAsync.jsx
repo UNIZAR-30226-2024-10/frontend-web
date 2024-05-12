@@ -131,16 +131,16 @@ const TableroAsync = ({ arena, setGameState, tableroNuevo, id_partida, blancasAb
         );
         // console.log("hola", movsPosiblesNew)
         // Eliminar los movimientos que no sean de piezas del color que le toca jugar
-        for (const key in movsPosiblesNew) {
-          const [x, y] = key.slice(1, -1).split('-');
-          const piece = tablero[x][y];
+        // for (const key in movsPosiblesNew) {
+        //   const [x, y] = key.slice(1, -1).split('-');
+        //   const piece = tablero[x][y];
           
-          if ((blancasAbajo && turno===0 && piece === piece.toLowerCase()) || // Si es el tablero de blancas y la pieza es negra
-          (!blancasAbajo && turno === 1 && piece === piece.toUpperCase())) { // o si es el tablero de blancas y la pieza es negra
-            delete movsPosiblesNew[key];
-          }
+        //   if ((blancasAbajo && piece === piece.toLowerCase()) || // Si es el tablero de blancas y la pieza es negra
+        //   (!blancasAbajo && piece === piece.toUpperCase())) { // o si es el tablero de blancas y la pieza es negra
+        //     delete movsPosiblesNew[key];
+        //   }
           
-        }
+        // }
         return movsPosiblesNew;
     }
 
@@ -169,13 +169,12 @@ const TableroAsync = ({ arena, setGameState, tableroNuevo, id_partida, blancasAb
           setTablero(tableroNuevo)
           submitMov(tableroNuevo, turno)
         }
-    }, [tableroNuevo])
+    }, [tableroNuevo, turno])
     // Funcion que envia tablero al servidor
     // Si el movimiento es legal: actualiza los movimientos posibles dado el nuevo tablero y devuelve true
     // Si el movimiento no es legal: devuelve false y no actualiza los movimientos posibles
     const submitMov = async(nuevoTablero, turnoPar)=>{
       try {
-            console.log(nuevoTablero)
             const jsonMatriz = traducirTableroAJSON(nuevoTablero, turnoPar); // Convertir el nuevo tablero en una cadena JSON
             // Se envia el tablero al back para que valide si el movimiento es legal y devuelva los movimientos posibles
             // const response = await fetch('http://13.51.136.199:3001/play', {
@@ -193,7 +192,6 @@ const TableroAsync = ({ arena, setGameState, tableroNuevo, id_partida, blancasAb
             
             if (parseRes.jugadaLegal === true) { // Si la jugada es legal (campo jugadaLegal) se cambian los movimientos posibles
               const newMovsPosibles = transformarMovimientos(parseRes);
-              // console.log("hola", newMovsPosibles)
                 
                 // Comprobacion si se viola clavada (si con alguno de los nuevos movs posibles se come a un rey)
                 for (const key in newMovsPosibles) { 
@@ -273,7 +271,7 @@ const TableroAsync = ({ arena, setGameState, tableroNuevo, id_partida, blancasAb
 
     //OCURRE UN MOVIMIENTO
     useEffect(() => {
-      if(piezaSel && movimiento !== 0 && ((turno===0 && blancasAbajo===true) || (turno===1 && blancasAbajo===false))){ //Si ha ocurrido un movimiento
+      if(piezaSel && movimiento !== 0 && ((turno === 0 && blancasAbajo===true && tablero[piezaSel.fila][piezaSel.col] === tablero[piezaSel.fila][piezaSel.col].toUpperCase()) || (turno===1 && blancasAbajo===false && tablero[piezaSel.fila][piezaSel.col] === tablero[piezaSel.fila][piezaSel.col].toLowerCase()))){ //Si ha ocurrido un movimiento
           //Se obtienen las coordenadas de la casilla origen
             const oldX = piezaSel.fila
             const oldY = piezaSel.col
