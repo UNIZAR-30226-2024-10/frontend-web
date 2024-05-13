@@ -30,7 +30,7 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
   const [reyNegroMovido, setReyNegroMovido] = useState(false);
     
   
-    function traducirTableroAJSON(matrizAux) {
+    function traducirTableroAJSON(matrizAux, turno) {
       const piezas = {
           'p': 'peon',
           'n': 'caballo',
@@ -40,7 +40,7 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
           'k': 'rey',
       };
       const json = {
-          turno: turno === 1 ? 'blancas' : 'negras', // Añadir el turno al principio del JSON
+          turno: turno, // se pasa el turno opuesto
           IA:'negras',
           ha_movido_rey_blanco: reyBlancoMovido,
           ha_movido_rey_negro: reyNegroMovido,
@@ -200,7 +200,7 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
     // Si el movimiento no es legal: devuelve false y no actualiza los movimientos posibles
     const submitMov = async(nuevoTablero)=>{
       try {
-            const jsonMatriz = traducirTableroAJSON(nuevoTablero); // Convertir el nuevo tablero en una cadena JSON
+            const jsonTablero = traducirTableroAJSON(nuevoTablero, 'blancas'); // Convertir el nuevo tablero en una cadena JSON
             // Se envia el tablero al back para que valide si el movimiento es legal y devuelva los movimientos posibles
             // const response = await fetch('http://13.51.136.199:3001/play', {
             const response = await fetch(`${apiUrl}/play`, {
@@ -208,7 +208,7 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
                 headers: {
                     'Content-type': 'application/json',
                 },
-                body: JSON.stringify(jsonMatriz),
+                body: JSON.stringify(jsonTablero),
             });
 
             const parseRes = await response.json(); // parseRes es el objeto JSON que se recibe
@@ -286,7 +286,8 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
     //OCURRE UN MOVIMIENTO
     useEffect(() => {
         if(piezaSel && movimiento !== 0){ //Si ha ocurrido un movimiento
-          //Se obtienen las coordenadas de la casilla origen
+            //COMPROBACIONES: (desactivar enroques, comprobar coronaciones)
+            //Se obtienen las coordenadas de la casilla origen
             const oldX = piezaSel.fila
             const oldY = piezaSel.col
             setOldX(oldX)
@@ -311,6 +312,7 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
                 setTorreBlancaDchaMovida(true)
               }
             }
+
             // Se intercambian los contenidos de las casillas
             const newTablero = JSON.parse(JSON.stringify(tablero)) //asi se hace una copia  
             newTablero[newX][newY] = tablero[oldX][oldY]
@@ -333,6 +335,7 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
                 return
             }
 
+            //UNA VEZ HECHAS LAS COMPROBACIONES, SE ENVIA EL MOVIMIENTO AL BACK
             submitMov(newTablero)
             .then(isLegal => {
               if (isLegal) {
