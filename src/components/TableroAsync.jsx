@@ -450,7 +450,7 @@ const TableroAsync = ({ arena, setGameState, tableroNuevo, id_partida, blancasAb
                             movsPosibles={movsPosibles}
                             setNewMov={setNewMov}
                             blancasAbajo={blancasAbajo}
-                            arena={arena}
+                            arena={"MADERA"}
                             userInfo={userInfo}
                         />
                     ))}
