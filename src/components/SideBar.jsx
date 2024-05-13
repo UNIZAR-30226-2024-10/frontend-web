@@ -5,6 +5,7 @@ import '../styles/Sidebar.css';
 import CloseIcon from '@mui/icons-material/Close';
 import {SocketContext} from './../context/socket';
 import { Tooltip } from "@mui/material";
+import { InsertChartOutlinedOutlined } from '@mui/icons-material';
 const apiUrl = process.env.REACT_APP_API_URL;
 // import { UserInfo, ShowUserProfile } from "./CustomHooks"; // Asegúrate de importar desde la ubicación correcta
 
@@ -284,6 +285,9 @@ const handleClickJugarRAOnline = () => {
       const interval = setInterval(() => {
         if(countdown > 0){
           setCountdown((prevCountdown) => prevCountdown - 1);
+        }
+        else {
+          countdown = 0;
         }
       }, 1000);
 
