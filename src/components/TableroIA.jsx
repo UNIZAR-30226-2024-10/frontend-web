@@ -40,7 +40,7 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
           'k': 'rey',
       };
       const json = {
-          turno: turno, // se pasa el turno opuesto
+          turno: turno,
           IA:'negras',
           ha_movido_rey_blanco: reyBlancoMovido,
           ha_movido_rey_negro: reyNegroMovido,
@@ -202,7 +202,8 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
       try {
             const jsonTablero = traducirTableroAJSON(nuevoTablero, 'blancas'); // Convertir el nuevo tablero en una cadena JSON
             // Se envia el tablero al back para que valide si el movimiento es legal y devuelva los movimientos posibles
-            // const response = await fetch('http://13.51.136.199:3001/play', {
+            console.log("se envia:",jsonTablero)
+
             const response = await fetch(`${apiUrl}/play`, {
                 method: 'POST',
                 headers: {
@@ -213,7 +214,7 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
 
             const parseRes = await response.json(); // parseRes es el objeto JSON que se recibe
 
-            console.log("mira aqui",parseRes)
+            console.log("respuesta a mov user",parseRes)
 
             if (parseRes.jugadaLegal === true) { // Si la jugada es legal (campo jugadaLegal) se cambian los movimientos posibles
                 const newMovsPosibles = transformarMovimientos(parseRes);
@@ -235,6 +236,36 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
                 console.log('raw', parseRes)
                 console.log('movimientos posibles:');
                 console.log(newMovsPosibles)
+
+
+                // El movimiento es legal => se envia el tablero al back para hacer el movimiento de la IA
+
+                const jsonTablero = traducirTableroAJSON(nuevoTablero, 'negras'); // crear json para pasar tablero nuevo pa q juegue la ia
+                // Se envia el tablero al back diciendo q es turno de la ia (negras siempre)
+                const response = await fetch(`${apiUrl}/play`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                    },
+                    body: JSON.stringify(jsonTablero),
+                });
+    
+                const movIAjson = await response.json(); // movIAjson es el objeto JSON que se recibe
+    
+                console.log("mov ia:",movIAjson)
+    
+                if (movIAjson) {
+                    const { fromX, fromY, x, y } = movIAjson;
+                    const newTablero = [...nuevoTablero];
+                    newTablero[x][y] = newTablero[fromX][fromY];
+                    newTablero[fromX][fromY] = '';
+                    setTablero(newTablero);
+                    setTurno(turno === 0 ? 1 : 0); //turno de la ia
+                } else {
+                    console.log('ERROR: error en el movimiento recibido de la IA');
+                    return false;
+                }
+
 
                 return true;
 
