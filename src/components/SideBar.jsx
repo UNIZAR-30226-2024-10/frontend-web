@@ -287,7 +287,7 @@ const handleClickJugarRAOnline = () => {
           setCountdown((prevCountdown) => prevCountdown - 1);
         }
         else {
-          setCountdown(0);
+          setCountdown((prevCountdown) => 0);
         }
       }, 1000);
 

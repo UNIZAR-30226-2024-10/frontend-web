@@ -154,7 +154,7 @@ function GameAsync({ gameMode, userInfo }) {
           <div className="gamePopup">
             <h1><u>¿Quieres abandonar la partida? </u></h1>
             <div className="gamePopupButtons">
-                <button className="gamePopupButt confirm" onClick={() => {handleClickSurrender}}>
+                <button className="gamePopupButt confirm" onClick={() => {navigate('/home');}}>
                   Sí
                 </button>
                 <button className="gamePopupButt cancel" onClick={() => setWantToQuit(false)}>
