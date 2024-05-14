@@ -47,7 +47,6 @@ function GameAsync({ gameMode, userInfo }) {
           throw new Error('Error al obtener el tablero');
         }
         const data = await response.json();
-        console.log("data", data)
         setColorSuffix(data[0].usuarioblancasid.toString()===userInfo.userId ? 0 : 1)
         if(data[0].tablero === null){
           setTableroNuevo(inicial)

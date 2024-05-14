@@ -70,7 +70,6 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
               }
           });
       });
-      // console.log(json)
       return json;
     }
 
@@ -91,7 +90,6 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
                         let newX = 0;
                         let newY = 0;
                         let key = 0;
-                        console.log("movimiento", movimiento)
                               newX = movimiento.fromColor === 'blancas' ? 7 - movimiento.fromY : 7 - movimiento.fromY;
                               newY = movimiento.fromX;
                               key = `[${newX}-${newY}]`;
@@ -202,7 +200,6 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
       try {
             const jsonTablero = traducirTableroAJSON(nuevoTablero, 'blancas'); // Convertir el nuevo tablero en una cadena JSON
             // Se envia el tablero al back para que valide si el movimiento es legal y devuelva los movimientos posibles
-            console.log("se envia:",jsonTablero)
 
             const response = await fetch(`${apiUrl}/play`, {
                 method: 'POST',
@@ -214,7 +211,6 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
 
             const parseRes = await response.json(); // parseRes es el objeto JSON que se recibe
 
-            console.log("respuesta a mov user",parseRes)
 
             if (parseRes.jugadaLegal === true) { // Si la jugada es legal (campo jugadaLegal) se cambian los movimientos posibles
                 const newMovsPosibles = transformarMovimientos(parseRes);
@@ -226,16 +222,12 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
                         const [x, y] = movement;
                         const piece = nuevoTablero[x][y].toLowerCase();
                         if (piece === 'k') {
-                            console.log('ERROR: Jugada no legal. Deja al rey en mate.');
                             return false;
                         }
                     }
                 }
 
                 setMovsPosibles(newMovsPosibles);
-                console.log('raw', parseRes)
-                console.log('movimientos posibles:');
-                console.log(newMovsPosibles)
 
 
                 // El movimiento es legal => se envia el tablero al back para hacer el movimiento de la IA
@@ -252,7 +244,6 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
     
                 const movIAjson = await response.json(); // movIAjson es el objeto JSON que se recibe
     
-                console.log("mov ia:",movIAjson)
     
                 if (movIAjson) {
                     const { fromX, fromY, x, y } = movIAjson;
@@ -262,7 +253,6 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
                     setTablero(newTablero);
                     setTurno(turno === 0 ? 1 : 0); //turno de la ia
                 } else {
-                    console.log('ERROR: error en el movimiento recibido de la IA');
                     return false;
                 }
 
@@ -270,7 +260,6 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
                 return true;
 
             } else if(parseRes["Jaque mate"]===true){
-              console.log("ha ganado, ", turno)
 
               setVictory(prevState => ({
                 ...prevState,
@@ -281,7 +270,6 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
               return true;
 
             } else { //La jugada no es legal
-              console.log('ERROR: Jugada no legal. Deja al rey en mate.');
 
               return false;
             }
@@ -387,7 +375,6 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
     
     useEffect(() =>{
       if(!showModal && selectedOption){
-        console.log("coronar")
          const newTablero = JSON.parse(JSON.stringify(tablero)) //asi se hace una copia 
            newTablero[X][Y]= selectedOption;
           // newTablero[turno === 0 ? X+1 : X-1][Y] = ''

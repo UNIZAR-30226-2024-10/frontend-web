@@ -71,7 +71,6 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
                 }
             });
         });
-        console.log(json)
         return json;
     }
 
@@ -93,7 +92,6 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
                         let newX = 0;
                         let newY = 0;
                         let key = 0;
-                        console.log("movimiento", movimiento)
                               newX = movimiento.fromColor === 'blancas' ? 7 - movimiento.fromY : 7 - movimiento.fromY;
                               newY = movimiento.fromX;
                               key = `[${newX}-${newY}]`;
@@ -242,16 +240,12 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
                       const [x, y] = movement;
                       const piece = nuevoTablero[x][y].toLowerCase();
                       if (piece === 'k') {
-                          console.log('ERROR: Jugada no legal. Deja al rey en mate.');
                           return false;
                       }
                   }
               }
 
               setMovsPosibles(newMovsPosibles);
-              console.log('raw', parseRes)
-              console.log('movimientos posibles:');
-              console.log(newMovsPosibles)
 
               return true;
 
@@ -271,8 +265,6 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
               return true;
 
             }else { //La jugada no es legal
-              console.log('ERROR: Jugada no legal. Deja al rey en mate.');
-              
               return false;
             }
         } catch (err) {
@@ -379,7 +371,6 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
 
     useEffect(() =>{
       if(!showModal && selectedOption){
-        console.log("Se lia")
          const newTablero = JSON.parse(JSON.stringify(tablero)) //asi se hace una copia 
            newTablero[X][Y]= selectedOption;
           // newTablero[turno === 0 ? X+1 : X-1][Y] = ''

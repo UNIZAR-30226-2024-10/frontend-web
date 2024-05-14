@@ -69,7 +69,6 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
               }
           });
       });
-      // console.log(json)
       return json;
     }
 
@@ -90,7 +89,6 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
                         let newX = 0;
                         let newY = 0;
                         let key = 0;
-                        console.log("movimiento", movimiento)
                               newX = movimiento.fromColor === 'blancas' ? 7 - movimiento.fromY : 7 - movimiento.fromY;
                               newY = movimiento.fromX;
                               key = `[${newX}-${newY}]`;
@@ -212,7 +210,6 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
 
             const parseRes = await response.json(); // parseRes es el objeto JSON que se recibe
 
-            console.log(parseRes)
 
             if (parseRes.jugadaLegal === true) { // Si la jugada es legal (campo jugadaLegal) se cambian los movimientos posibles
                 const newMovsPosibles = transformarMovimientos(parseRes);
@@ -224,21 +221,16 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
                         const [x, y] = movement;
                         const piece = nuevoTablero[x][y].toLowerCase();
                         if (piece === 'k') {
-                            console.log('ERROR: Jugada no legal. Deja al rey en mate.');
                             return false;
                         }
                     }
                 }
 
                 setMovsPosibles(newMovsPosibles);
-                console.log('raw', parseRes)
-                console.log('movimientos posibles:');
-                console.log(newMovsPosibles)
 
                 return true;
 
             } else if(parseRes["Jaque mate"]===true){
-              console.log("ha ganado, ", turno)
 
               setVictory(prevState => ({
                 ...prevState,
@@ -254,7 +246,6 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
                 empate: true,
                 victoryCause: 'tablas',  
               }));
-              console.log("ha entrado en tablas");
               //No se muestra victoria
               return true;
 
@@ -264,12 +255,10 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
                 empate: true,
                 victoryCause: 'ahogado',  
               }));
-              console.log("ha entrado en rey ahogado");
               //No se muestra victoria
               return true;
 
             } else { //La jugada no es legal
-              console.log('ERROR: Jugada no legal. Deja al rey en mate.');
 
               return false;
             }
@@ -372,7 +361,6 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
     
     useEffect(() =>{
       if(!showModal && selectedOption){
-        console.log("coronar")
          const newTablero = JSON.parse(JSON.stringify(tablero)) //asi se hace una copia 
            newTablero[X][Y]= selectedOption;
           // newTablero[turno === 0 ? X+1 : X-1][Y] = ''

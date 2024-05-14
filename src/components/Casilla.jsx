@@ -7,7 +7,6 @@ const Casilla = (args) => {
 
     // Definir los colores de las casillas según la arena seleccionada
     let BLANCO, NEGRO;
-    console.log("arena jugando",args.arena);
     switch (args.arena) {
         case 'MADERA':
             BLANCO = '#D2B48C';
@@ -134,7 +133,6 @@ const Casilla = (args) => {
         
         //Si soy una casilla con una pieza seleccionable y me seleccionan cambio piezaSel
         if ('['+mFila+'-'+mCol+']' in args.movsPosibles){
-            console.log('piezaSel: ', mFila, ',', mCol)
             args.setPiezaSel({fila: mFila, col: mCol})
         } else { //Si me han clickado y no soy una pieza seleccionable (entre las q tienen movs posibles)
           if (args.piezaSel!==null){ //Si hay una pieza seleccionada

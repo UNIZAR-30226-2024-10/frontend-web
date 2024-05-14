@@ -31,7 +31,6 @@ function Navbar({ userInfo, updateUserInfo, resetUserInfo }) {
           // Itera sobre los datos para hacer alguna operación
           const newIndices = [];
           data.forEach((notification, index) => {
-            console.log(notification)
             if(notification.tablero===null){
               if(notification.usuarioblancasid.toString()===userInfo.userId){
                 setHasNewNotifications(true); // Verifica si hay nuevas notificaciones
@@ -47,7 +46,6 @@ function Navbar({ userInfo, updateUserInfo, resetUserInfo }) {
             }
           });
           setNewNotificationIndices(newIndices);
-          console.log(newIndices);
         } catch (error) {
           console.error('Error fetching notifications:', error);
         }
@@ -91,7 +89,6 @@ function Navbar({ userInfo, updateUserInfo, resetUserInfo }) {
         throw new Error('Network response was not ok');
       }
       const responseData = await response.json();
-      console.log(responseData.message);
     } catch (error) {
       console.error('Error:', error);
     }

@@ -70,12 +70,10 @@ const TableroAsync = ({ arena, setGameState, tableroNuevo, id_partida, blancasAb
               }
           });
       });
-      // console.log(json)
       return json;
     }
 
     function transformarMovimientos(json) {
-      console.log(json)
         const movsPosiblesNew = {};
         Object.keys(json.allMovements).forEach(pieza => {
                if (pieza === 'comer' || pieza === 'bloquear') {
@@ -92,7 +90,6 @@ const TableroAsync = ({ arena, setGameState, tableroNuevo, id_partida, blancasAb
                         let newX = 0;
                         let newY = 0;
                         let key = 0;
-                        console.log("movimiento", movimiento)
                               newX = movimiento.fromColor === 'blancas' ? 7 - movimiento.fromY : 7 - movimiento.fromY;
                               newY = movimiento.fromX;
                               key = `[${newX}-${newY}]`;
@@ -129,7 +126,6 @@ const TableroAsync = ({ arena, setGameState, tableroNuevo, id_partida, blancasAb
             }
             }
         );
-        // console.log("hola", movsPosiblesNew)
         // Eliminar los movimientos que no sean de piezas del color que le toca jugar
         // for (const key in movsPosiblesNew) {
         //   const [x, y] = key.slice(1, -1).split('-');
@@ -200,21 +196,16 @@ const TableroAsync = ({ arena, setGameState, tableroNuevo, id_partida, blancasAb
                         const [x, y] = movement;
                         const piece = nuevoTablero[x][y].toLowerCase();
                         if (piece === 'k') {
-                            console.log('ERROR: Jugada no legal. Deja al rey en mate.');
                             return false;
                         }
                     }
                 }
 
                 setMovsPosibles(newMovsPosibles);
-                console.log('raw', parseRes)
-                console.log('movimientos posibles:');
-                console.log(newMovsPosibles)
 
               return true;
 
             } else if(parseRes["Jaque mate"]===true){
-              console.log(parseRes)
               setHas_perdido(true);
               setGameState(prevState => ({
                 ...prevState,
@@ -225,7 +216,6 @@ const TableroAsync = ({ arena, setGameState, tableroNuevo, id_partida, blancasAb
               return true;
 
             }else if(parseRes["tablas"]===true || parseRes["Rey ahogado"]===true){
-              console.log(parseRes)
               setHas_empatado(true);
               setGameState(prevState => ({
                 ...prevState,
@@ -236,7 +226,6 @@ const TableroAsync = ({ arena, setGameState, tableroNuevo, id_partida, blancasAb
               return true;
             }
              else { //La jugada no es legal
-              console.log('ERROR: Jugada no legal. Deja al rey en mate.');
 
               return false;
             }
@@ -330,7 +319,6 @@ const TableroAsync = ({ arena, setGameState, tableroNuevo, id_partida, blancasAb
                   id_partida:id_partida,
                   tablero_actual:traducirTableroAJSON(newTablero, turno === 0 ? 1 : 0)
                 };
-                // console.log("prueba", traducirTableroAJSON(newTablero), newTablero)
                 // Configura las opciones de la solicitud
                 const requestOptions = {
                   method: 'POST',
