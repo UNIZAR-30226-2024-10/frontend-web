@@ -248,6 +248,24 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
               }));
               return true;
 
+            }else if(parseRes["tablas"]===true){
+              setVictory(prevState => ({
+                ...prevState,
+                empate: true,
+                victoryCause: 'tablas',  
+              }));
+              //No se muestra victoria
+              return true;
+
+            } else if(parseRes["Rey ahogado"]===true){
+              setVictory(prevState => ({
+                ...prevState,
+                empate: true,
+                victoryCause: 'ahogado',  
+              }));
+              //No se muestra victoria
+              return true;
+
             } else { //La jugada no es legal
               console.log('ERROR: Jugada no legal. Deja al rey en mate.');
 

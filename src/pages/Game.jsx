@@ -174,8 +174,9 @@ useEffect(() => {
  const [gameState, setGameState] = useState({ /* Contiene los diferentes estados de la partida */
     victory : false,
     defeat : false,
+    empate : false,
     victoryCause : '',
-    ganador:''
+    ganador:'',
   });
  /* Mensajes informativos (en forma de PopUp) que surgen en función del estado de la partida */
   const GamePopup = () => {
@@ -210,6 +211,21 @@ useEffect(() => {
               </button>
             </div>
           </div>}
+
+        {gameState.empate && 
+        <div className='gameOnlinePopupBackground'>
+          <div className='gameOnlinePopup'>
+            <div>
+              <h1>¡Empate!</h1>
+              {/* Causa de la victoria */}
+              {gameState.victoryCause === 'tablas' ? (<h2>Empate por tablas</h2>)
+              : (<h2>Empate por rey ahogado</h2>)}
+            </div>
+            <button className="gameOnlinePopupButt" onClick={() => navigate('/home')}>
+              Abandonar partida
+            </button>
+          </div>
+        </div>}
       </>
     );
   }
