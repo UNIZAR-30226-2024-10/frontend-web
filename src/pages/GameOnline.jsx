@@ -100,7 +100,7 @@ function GameOnline({ gameMode, userInfo }) {
         arena : 'ESMERALDA',
       }))
     }
-    else if (userArenas.elo > 2400) {
+    else if (userArenas.elo >= 2400) {
       setUserArenas(prevState => ({
         ...prevState,
         arena : 'DIAMANTE',

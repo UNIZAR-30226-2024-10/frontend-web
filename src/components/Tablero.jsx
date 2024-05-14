@@ -254,6 +254,7 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
                 empate: true,
                 victoryCause: 'tablas',  
               }));
+              console.log("ha entrado en tablas");
               //No se muestra victoria
               return true;
 
@@ -263,6 +264,7 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
                 empate: true,
                 victoryCause: 'ahogado',  
               }));
+              console.log("ha entrado en rey ahogado");
               //No se muestra victoria
               return true;
 

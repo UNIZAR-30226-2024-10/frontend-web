@@ -425,7 +425,7 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
                             movsPosibles={movsPosibles}
                             setNewMov={setNewMov}
                             blancasAbajo={true}
-                            arena={arena}
+                            arena={"MADERA"}
                             userInfo={userInfo}
                         />
                     ))}
