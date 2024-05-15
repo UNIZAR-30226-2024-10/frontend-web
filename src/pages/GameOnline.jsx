@@ -100,7 +100,7 @@ function GameOnline({ gameMode, userInfo }) {
         arena : 'ESMERALDA',
       }))
     }
-    else if (userArenas.elo > 2400) {
+    else if (userArenas.elo >= 2400) {
       setUserArenas(prevState => ({
         ...prevState,
         arena : 'DIAMANTE',
@@ -111,7 +111,6 @@ function GameOnline({ gameMode, userInfo }) {
   useEffect(() => {
     /* El oponente ha movido pieza */
     socket.on("movido", (data)=>{
-      console.log(data);
       setTableroUpdate(AMatriz({jsonData: JSON.parse(data)}));
     })
     socket.on("has_perdido", (data)=>{

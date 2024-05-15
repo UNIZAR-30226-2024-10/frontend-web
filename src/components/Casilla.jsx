@@ -9,8 +9,8 @@ const Casilla = (args) => {
     let BLANCO, NEGRO;
     switch (args.arena) {
         case 'MADERA':
-            BLANCO = '#8B4513';
-            NEGRO = '#D2B48C';
+            BLANCO = '#D2B48C';
+            NEGRO = '#8B4513';
             break; 
         case 'MARMOL':
             BLANCO = '#f5f5f5';
@@ -25,10 +25,11 @@ const Casilla = (args) => {
             NEGRO = '#38A869';
             break;
         case 'DIAMANTE':
-        default:
             BLANCO = '#F0F0F0';
             NEGRO = '#B0E0E6';
             break;
+        default:
+          break;
     }
 
     const mFila = args.rowIndex
@@ -132,18 +133,26 @@ const Casilla = (args) => {
         
         //Si soy una casilla con una pieza seleccionable y me seleccionan cambio piezaSel
         if ('['+mFila+'-'+mCol+']' in args.movsPosibles){
-            console.log('piezaSel: ', mFila, ',', mCol)
             args.setPiezaSel({fila: mFila, col: mCol})
         } else { //Si me han clickado y no soy una pieza seleccionable (entre las q tienen movs posibles)
           if (args.piezaSel!==null){ //Si hay una pieza seleccionada
               //Se comprueba si esta casilla esta entre movs posibles de la pieza seleccionada, si lo esta setNewMov
               const filaSel = args.piezaSel.fila
               const colSel = args.piezaSel.col
-              const soyMovPosible = args.movsPosibles['['+filaSel+'-'+colSel+']'].some(
-                  (element) => element[0] === mFila && element[1] === mCol
-              );
-              if (soyMovPosible) {
-                  args.setNewMov({fila: mFila, col: mCol})
+              // const soyMovPosible = args.movsPosibles['['+filaSel+'-'+colSel+']'].some(
+              //     (element) => element[0] === mFila && element[1] === mCol
+              // );
+              // if (soyMovPosible) {
+              //     args.setNewMov({fila: mFila, col: mCol})
+              // }
+              const movPosiblesKey = '[' + filaSel + '-' + colSel + ']';
+              if (movPosiblesKey in args.movsPosibles) {
+                  const soyMovPosible = args.movsPosibles[movPosiblesKey].some(
+                      (element) => element[0] === mFila && element[1] === mCol
+                  );
+                  if (soyMovPosible) {
+                      args.setNewMov({ fila: mFila, col: mCol });
+                  }
               }
             }  
         }

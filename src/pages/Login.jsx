@@ -60,7 +60,6 @@ function Login({ updateUserInfo }) {
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleLogin();
-      console.log("entra aqui")
     }
   };
 

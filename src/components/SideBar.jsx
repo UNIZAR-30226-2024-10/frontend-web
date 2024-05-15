@@ -123,10 +123,10 @@ function SideBar(args) {
     args.updateMode('Blitz');
     navigate('/game');
   }
-  const handleClickJugarIA = () => {
+/*   const handleClickJugarIA = () => {
     // args.updateMode('');
     navigate('/gameIA');
-  }
+  } */
 
   const LocalMode = () => {
     return (
@@ -145,10 +145,10 @@ function SideBar(args) {
             |
           </div>
           <button className='popUp-modes' onClick={handleClickJugarBL}>BLITZ</button>
-          <div>
+{/*           <div>
             |
-          </div>
-          <button className='popUp-modes' onClick={handleClickJugarIA}>IA</button>
+          </div> */}
+         {/*  <button className='popUp-modes' onClick={handleClickJugarIA}>IA</button> */}
         </div>
       </div>
     );
