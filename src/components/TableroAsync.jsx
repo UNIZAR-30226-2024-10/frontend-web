@@ -127,16 +127,16 @@ const TableroAsync = ({ arena, setGameState, tableroNuevo, id_partida, blancasAb
             }
         );
         // Eliminar los movimientos que no sean de piezas del color que le toca jugar
-        for (const key in movsPosiblesNew) {
-          const [x, y] = key.slice(1, -1).split('-');
-          const piece = tablero[x][y];
+        // for (const key in movsPosiblesNew) {
+        //   const [x, y] = key.slice(1, -1).split('-');
+        //   const piece = tablero[x][y];
           
-          if ((blancasAbajo && piece === piece.toLowerCase()) || // Si es el tablero de blancas y la pieza es negra
-          (!blancasAbajo && piece === piece.toUpperCase())) { // o si es el tablero de blancas y la pieza es negra
-            delete movsPosiblesNew[key];
-          }
+        //   if ((blancasAbajo && piece === piece.toLowerCase()) || // Si es el tablero de blancas y la pieza es negra
+        //   (!blancasAbajo && piece === piece.toUpperCase())) { // o si es el tablero de blancas y la pieza es negra
+        //     delete movsPosiblesNew[key];
+        //   }
           
-        }
+        // }
         return movsPosiblesNew;
     }
 
@@ -166,6 +166,25 @@ const TableroAsync = ({ arena, setGameState, tableroNuevo, id_partida, blancasAb
           submitMov(tableroNuevo, turno)
         }
     }, [tableroNuevo, turno])
+
+
+
+    useEffect(()=>{
+      if(movsPosibles && tablero){
+        let aux = movsPosibles;
+        for (const key in aux) {
+            const [x, y] = key.slice(1, -1).split('-');
+            const piece = tablero[x][y];
+            if ((turno === 0 && piece === piece.toLowerCase()) || // Si le tocara a las blancas y la pieza es negra
+                (turno === 1 && piece === piece.toUpperCase())) { // o si le tocara a las negras y la pieza es blanca
+                delete aux[key];
+            }
+            
+        }
+        setMovsPosibles(aux)
+      }
+
+    }, [tablero, movsPosibles])
     // Funcion que envia tablero al servidor
     // Si el movimiento es legal: actualiza los movimientos posibles dado el nuevo tablero y devuelve true
     // Si el movimiento no es legal: devuelve false y no actualiza los movimientos posibles
