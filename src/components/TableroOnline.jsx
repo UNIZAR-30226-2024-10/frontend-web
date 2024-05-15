@@ -211,7 +211,7 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
     // Que color esta jugando. 0: blancas, 1: negras
     const [turno, setTurno] = useState(0) 
     //BORRAR si es necesario
-        useEffect(()=>{
+    useEffect(()=>{
       if(movsPosibles && tablero){
         let aux = movsPosibles;
         for (const key in aux) {

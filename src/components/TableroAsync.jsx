@@ -127,16 +127,16 @@ const TableroAsync = ({ arena, setGameState, tableroNuevo, id_partida, blancasAb
             }
         );
         // Eliminar los movimientos que no sean de piezas del color que le toca jugar
-        // for (const key in movsPosiblesNew) {
-        //   const [x, y] = key.slice(1, -1).split('-');
-        //   const piece = tablero[x][y];
+        for (const key in movsPosiblesNew) {
+          const [x, y] = key.slice(1, -1).split('-');
+          const piece = tablero[x][y];
           
-        //   if ((blancasAbajo && piece === piece.toLowerCase()) || // Si es el tablero de blancas y la pieza es negra
-        //   (!blancasAbajo && piece === piece.toUpperCase())) { // o si es el tablero de blancas y la pieza es negra
-        //     delete movsPosiblesNew[key];
-        //   }
+          if ((blancasAbajo && piece === piece.toLowerCase()) || // Si es el tablero de blancas y la pieza es negra
+          (!blancasAbajo && piece === piece.toUpperCase())) { // o si es el tablero de blancas y la pieza es negra
+            delete movsPosiblesNew[key];
+          }
           
-        // }
+        }
         return movsPosiblesNew;
     }
 
