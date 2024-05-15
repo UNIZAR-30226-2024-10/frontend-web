@@ -139,11 +139,20 @@ const Casilla = (args) => {
               //Se comprueba si esta casilla esta entre movs posibles de la pieza seleccionada, si lo esta setNewMov
               const filaSel = args.piezaSel.fila
               const colSel = args.piezaSel.col
-              const soyMovPosible = args.movsPosibles['['+filaSel+'-'+colSel+']'].some(
-                  (element) => element[0] === mFila && element[1] === mCol
-              );
-              if (soyMovPosible) {
-                  args.setNewMov({fila: mFila, col: mCol})
+              // const soyMovPosible = args.movsPosibles['['+filaSel+'-'+colSel+']'].some(
+              //     (element) => element[0] === mFila && element[1] === mCol
+              // );
+              // if (soyMovPosible) {
+              //     args.setNewMov({fila: mFila, col: mCol})
+              // }
+              const movPosiblesKey = '[' + filaSel + '-' + colSel + ']';
+              if (movPosiblesKey in args.movsPosibles) {
+                  const soyMovPosible = args.movsPosibles[movPosiblesKey].some(
+                      (element) => element[0] === mFila && element[1] === mCol
+                  );
+                  if (soyMovPosible) {
+                      args.setNewMov({ fila: mFila, col: mCol });
+                  }
               }
             }  
         }
