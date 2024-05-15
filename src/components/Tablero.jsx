@@ -10,6 +10,8 @@ import alfilNegra from '../images/pieces/cburnett/bB.svg'
 import alfilBlanca from '../images/pieces/cburnett/wB.svg'
 import torreNegra from '../images/pieces/cburnett/bR.svg'
 import torreBlanca from '../images/pieces/cburnett/wR.svg'
+import { json } from 'react-router-dom';
+import { tab } from '@testing-library/user-event/dist/tab';
 
 
 const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
@@ -127,19 +129,18 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
         );
 
         // Eliminar los movimientos que no sean de piezas del color que le toca jugar
-        for (const key in movsPosiblesNew) {
-            const [x, y] = key.slice(1, -1).split('-');
-            const piece = tablero[x][y];
+        // for (const key in movsPosiblesNew) {
+        //     const [x, y] = key.slice(1, -1).split('-');
+        //     const piece = tablero[x][y];
+        //     if ((turno === 1 && piece === piece.toLowerCase()) || // Si le tocara a las blancas y la pieza es negra
+        //         (turno === 0 && piece === piece.toUpperCase())) { // o si le tocara a las negras y la pieza es blanca
+        //         delete movsPosiblesNew[key];
+        //     }
             
-            if ((turno === 1 && piece === piece.toLowerCase()) || // Si le tocara a las blancas y la pieza es negra
-                (turno === 0 && piece === piece.toUpperCase())) { // o si le tocara a las negras y la pieza es blanca
-                delete movsPosiblesNew[key];
-            }
-            
-        }
-
+        // }
         return movsPosiblesNew;
     }
+
 
 
     //cjto de movimientos posibles con la conf. de tablero actual
@@ -191,13 +192,31 @@ const Tablero = ({pauseTimer1, pauseTimer2, arena, setVictory, userInfo}) => {
 
     // Que color esta jugando. 0: blancas, 1: negras
     const [turno, setTurno] = useState(0) 
-    
+
+
+    //BORRAR si es necesario
+        useEffect(()=>{
+      if(movsPosibles && tablero){
+        let aux = movsPosibles;
+        for (const key in aux) {
+            const [x, y] = key.slice(1, -1).split('-');
+            const piece = tablero[x][y];
+            if ((turno === 0 && piece === piece.toLowerCase()) || // Si le tocara a las blancas y la pieza es negra
+                (turno === 1 && piece === piece.toUpperCase())) { // o si le tocara a las negras y la pieza es blanca
+                delete aux[key];
+            }
+            
+        }
+        setMovsPosibles(aux)
+      }
+
+    }, [tablero])
     // Funcion que envia tablero al servidor
     // Si el movimiento es legal: actualiza los movimientos posibles dado el nuevo tablero y devuelve true
     // Si el movimiento no es legal: devuelve false y no actualiza los movimientos posibles
     const submitMov = async(nuevoTablero)=>{
       try {
-            const jsonMatriz = traducirTableroAJSON(nuevoTablero); // Convertir el nuevo tablero en una cadena JSON
+        const jsonMatriz = traducirTableroAJSON(nuevoTablero); // Convertir el nuevo tablero en una cadena JSON
             // Se envia el tablero al back para que valide si el movimiento es legal y devuelva los movimientos posibles
             // const response = await fetch('http://13.51.136.199:3001/play', {
             const response = await fetch(`${apiUrl}/play`, {

@@ -32,7 +32,7 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
 
 
     // Función que transforma la matriz del tablero en un objeto JSON para usar la api
-    function traducirTableroAJSON(matrizAux) {
+    function traducirTableroAJSON(matrizAux, turnopar) {
         const piezas = {
             'p': 'peon',
             'n': 'caballo',
@@ -42,7 +42,7 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
             'k': 'rey',
         };
         const json = {
-            turno: turno === 1 ? 'blancas' : 'negras', // Añadir el turno al principio del JSON
+            turno: turnopar === 0 ? 'blancas' : 'negras', // Añadir el turno al principio del JSON
             ha_movido_rey_blanco: reyBlancoMovido,
             ha_movido_rey_negro: reyNegroMovido,
             ha_movido_torre_blanca_dcha: torreBlancaDchaMovida,
@@ -71,6 +71,7 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
                 }
             });
         });
+        console.log("envio", json)
         return json;
     }
 
@@ -130,16 +131,16 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
         );
 
         // Eliminar los movimientos que no sean de piezas del color que le toca jugar
-        for (const key in movsPosiblesNew) {
-          const [x, y] = key.slice(1, -1).split('-');
-          const piece = tablero[x][y];
+        // for (const key in movsPosiblesNew) {
+        //   const [x, y] = key.slice(1, -1).split('-');
+        //   const piece = tablero[x][y];
           
-          if ((turno === 1 && piece === piece.toLowerCase()) || // Si le tocara a las blancas y la pieza es negra
-              (turno === 0 && piece === piece.toUpperCase())) { // o si le tocara a las negras y la pieza es blanca
-              delete movsPosiblesNew[key];
-          }
+        //   if ((turno === 1 && piece === piece.toLowerCase()) || // Si le tocara a las blancas y la pieza es negra
+        //       (turno === 0 && piece === piece.toUpperCase())) { // o si le tocara a las negras y la pieza es blanca
+        //       delete movsPosiblesNew[key];
+        //   }
           
-        }
+        // }
       
         return movsPosiblesNew;
     }
@@ -196,7 +197,7 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
         setTablero(tableroUpdate)
         setTurno((turno === 0)? 1:0) //Cambia el color que tiene el turno
         pauseTimer1()
-        submitMov(tableroUpdate)
+        submitMov(tableroUpdate, (turno === 0)? 1:0)
       }
     },[tableroUpdate])
 
@@ -209,13 +210,29 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
 
     // Que color esta jugando. 0: blancas, 1: negras
     const [turno, setTurno] = useState(0) 
+    //BORRAR si es necesario
+        useEffect(()=>{
+      if(movsPosibles && tablero){
+        let aux = movsPosibles;
+        for (const key in aux) {
+            const [x, y] = key.slice(1, -1).split('-');
+            const piece = tablero[x][y];
+            if ((turno === 0 && piece === piece.toLowerCase()) || // Si le tocara a las blancas y la pieza es negra
+                (turno === 1 && piece === piece.toUpperCase())) { // o si le tocara a las negras y la pieza es blanca
+                delete aux[key];
+            }
+            
+        }
+        setMovsPosibles(aux)
+      }
 
+    }, [tablero, movsPosibles])
     // Funcion que envia tablero al servidor
     // Si el movimiento es legal: actualiza los movimientos posibles dado el nuevo tablero y devuelve true
     // Si el movimiento no es legal: devuelve false y no actualiza los movimientos posibles
-    const submitMov = async(nuevoTablero)=>{
+    const submitMov = async(nuevoTablero, turnoPar)=>{
       try {
-        const jsonMatriz = traducirTableroAJSON(nuevoTablero); // Convertir el nuevo tablero en una cadena JSON
+        const jsonMatriz = traducirTableroAJSON(nuevoTablero, turnoPar); // Convertir el nuevo tablero en una cadena JSON
             // Se envia el tablero al back para que valide si el movimiento es legal y devuelva los movimientos posibles
             // const response = await fetch('http://13.51.136.199:3001/play', {
             const response = await fetch(`${apiUrl}/play`, {
@@ -345,7 +362,7 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
                 return
             }
 
-            submitMov(newTablero)
+            submitMov(newTablero, (turno === 0)? 1:0)
             .then(isLegal => {
               if (isLegal) {
                 setTablero(newTablero); // Se cambia el tablero
@@ -376,7 +393,7 @@ const TableroOnline = ({blancasAbajo, tableroUpdate,setTableroEnviar ,pauseTimer
           // newTablero[turno === 0 ? X+1 : X-1][Y] = ''
                     newTablero[oldX][oldY] = ''
 
-         submitMov(newTablero)
+         submitMov(newTablero, (turno === 0)? 1:0)
             .then(isLegal => {
               if (isLegal) {
                 setTablero(newTablero); // Se cambia el tablero
